@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 2.11.0
 kubeVersion: ">=1.26.0-0"
 name: ntfy
-version: 0.3.1
+version: 0.3.2
 description: ntfy lets you send push notifications to your phone or desktop via scripts from any computer, using simple HTTP PUT or POST requests
 home: https://github.com/binwiederhier/ntfy
 icon: https://raw.githubusercontent.com/binwiederhier/ntfy/9d3fc20e583564e40af5afb90233f4714fdfcb4c/web/public/static/images/pwa-512x512.png

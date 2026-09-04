@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 4.8.0
 kubeVersion: ">=1.26.0-0"
 name: linkstack
-version: 0.3.1
+version: 0.3.2
 description: LinkStack is a highly customizable link sharing platform with an intuitive, easy to use user interface
 home: https://github.com/LinkStackOrg/LinkStack
 icon: https://raw.githubusercontent.com/LinkStackOrg/branding/c22886d7585246836d5e4e597484b92b51c76f0c/logo/png/logo.png

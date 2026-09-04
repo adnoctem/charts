@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 1.30.5
 kubeVersion: ">=1.26.0-0"
 name: vaultwarden
-version: 0.3.1
+version: 0.3.2
 description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible server written in Rust
 home: https://github.com/dani-garcia/vaultwarden
 icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png

@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 0.21.3
 kubeVersion: ">=1.26.0-0"
 name: popeye
-version: 0.2.1
+version: 0.2.2
 description: Popeye is a utility that scans live Kubernetes clusters and reports potential issues with deployed resources and configurations
 home: https://popeyecli.io/
 icon: https://github.com/derailed/popeye/blob/d09ec25f3834d2c6a171486b9726b0a91793e3f0/assets/popeye_logo.png?raw=true

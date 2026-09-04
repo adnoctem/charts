@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 26.0.6
 kubeVersion: ">=1.26.0-0"
 name: keycloak-operator
-version: 0.2.1
+version: 0.2.2
 description: Keycloak is an open source software product to allow single sign-on with identity and access management
 home: https://github.com/keycloak/keycloak
 icon: https://raw.githubusercontent.com/keycloak/keycloak-misc/main/logo/logo.png

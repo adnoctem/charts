@@ -128,7 +128,7 @@ cachet:
     host: ""
     ## @param cachet.database.port [string] The database port, ignored in case of `sqlite`
     ##
-    port: 5432
+    port: "5432"
     ## @param cachet.database.name [string] The database name
     ##
     name: cachet
@@ -180,7 +180,7 @@ cachet:
     host: ""
     ## @param cachet.redis.port [string] The Redis port, ignored in case of `sqlite`
     ##
-    port: 5432
+    port: "6379"
     ## @param cachet.redis.database [string] The Redis database name
     ##
     database: ""

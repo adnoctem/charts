@@ -4,7 +4,7 @@
 apiVersion: v2
 kubeVersion: ">=1.26.0-0"
 name: kubenav
-version: 0.2.1
+version: 0.2.2
 description: "kubenav is the navigator for your Kubernetes clusters in your pocket: a mobile app to manage clusters and get an overview of the status of your resources"
 home: https://kubenav.io/
 icon: https://raw.githubusercontent.com/kubenav/kubenav/290f1776b03c359b8115125fa37a4b8dd73b6464/utils/images/app-icons/android.png
