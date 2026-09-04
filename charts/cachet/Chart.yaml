@@ -26,7 +26,7 @@ keywords:
   - uptime-kuma
   - cachet
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -44,9 +44,9 @@ annotations:
       image: docker.io/cachethq/docker:2.3.15
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Cachet Homepage
       url: https://cachethq.io/
     - name: Cachet Documentation

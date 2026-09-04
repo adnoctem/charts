@@ -16,7 +16,7 @@ keywords:
   - kubeconfig
   - rbac
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -31,9 +31,9 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Kubenav Homepage
       url: https://kubenav.io/
   org.opencontainers.image.vendor: "Ad Noctem Collective"

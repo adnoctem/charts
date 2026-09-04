@@ -22,7 +22,7 @@ keywords:
   - linkace
   - archivebox
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -40,9 +40,9 @@ annotations:
       image: ghcr.io/linkwarden/linkwarden:v2.5.3
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Linkwarden Homepage
       url: https://linkwarden.app/
     - name: Linkwarden Documentation

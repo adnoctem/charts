@@ -30,14 +30,14 @@ the [GitHub Container Registry](https://github.com/linkwarden/linkwarden/pkgs/co
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install linkwarden adnoctem/linkwarden --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/linkwarden:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/linkwarden:X.Y.Z
 ```
 
 ## Introduction

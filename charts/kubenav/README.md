@@ -16,14 +16,14 @@ through our [contribution guidelines](https://github.com/kubenav/kubenav/blob/ma
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install kubenav adnoctem/kubenav --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/kubenav:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/kubenav:X.Y.Z
 ```
 
 ## Introduction

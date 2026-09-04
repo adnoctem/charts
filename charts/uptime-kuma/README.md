@@ -19,14 +19,14 @@ on [Docker Hub](https://hub.docker.com/r/louislam/uptime-kuma).
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install uptime-kuma adnoctem/uptime-kuma --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/uptime-kuma:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/uptime-kuma:X.Y.Z
 ```
 
 ## Introduction

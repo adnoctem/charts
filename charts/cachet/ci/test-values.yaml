@@ -1,5 +1,5 @@
 cachet:
-  url: "cachet.helm.internal"
+  url: "cachet.charts.internal"
   env: production
   debug: false
   emoji: false
@@ -39,7 +39,7 @@ ingress:
   tls:
     - secretName: cachet-ingress-tls
       hosts:
-        - "cachet.helm.internal"
+        - "cachet.charts.internal"
 
 livenessProbe:
   enabled: true

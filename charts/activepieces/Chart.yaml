@@ -25,7 +25,7 @@ keywords:
   - zapier
   - n8n
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -43,9 +43,9 @@ annotations:
       image: docker.io/activepieces/activepieces:0.28.0
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Activepieces Homepage
       url: https://www.activepieces.com/
     - name: Activepieces Documentation

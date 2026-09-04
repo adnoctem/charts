@@ -20,7 +20,7 @@ dependencies:
     condition: tika.enabled
     version: ~2.9
   - name: gotenberg
-    repository: oci://ghcr.io/adnoctem/helm
+    repository: oci://ghcr.io/adnoctem/charts
     condition: gotenberg.enabled
     version: ~0.3.0
 description: Paperless-NGX is a community-supported supercharged version of paperless - scan, index and archive all your physical documents
@@ -34,7 +34,7 @@ keywords:
   - paper
   - paperless
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -52,9 +52,9 @@ annotations:
       image: ghcr.io/paperless-ngx/paperless-ngx:2.4.0
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Paperless-NGX GitHub Repository
       url: https://github.com/paperless-ngx/paperless-ngx
     - name: Paperless-NGX Documentation

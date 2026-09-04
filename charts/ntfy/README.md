@@ -15,14 +15,14 @@ on [Docker Hub](https://hub.docker.com/r/binwiederhier/ntfy).
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install ntfy adnoctem/ntfy --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/ntfy:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/ntfy:X.Y.Z
 ```
 
 ## Introduction

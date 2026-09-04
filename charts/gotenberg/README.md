@@ -14,14 +14,14 @@ on [Docker Hub](https://hub.docker.com/r/gotenberg/gotenberg).
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install gotenberg adnoctem/gotenberg --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/gotenberg:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/gotenberg:X.Y.Z
 ```
 
 ## Introduction

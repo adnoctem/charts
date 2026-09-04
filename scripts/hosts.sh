@@ -23,25 +23,25 @@ HOST_CONFIGS=(
 	'/etc/hosts'
 )
 
-CONFIG_START="# HELM MANAGED START"
-CONFIG_END="# HELM MANAGED END"
+CONFIG_START="# CHARTS MANAGED START"
+CONFIG_END="# CHARTS MANAGED END"
 
 CONFIG=$(
 	cat <<EOF
 ${CONFIG_START}
-# This file is managed by Ad Noctem Collective's Helm - do not modify!
+# This file is managed by Ad Noctem Collective's Helm Charts - do not modify!
 
 # adnoctem/helm - Ad Noctem Collective Helm Charts
-127.0.0.1               linkwarden.helm.internal         # Linkwarden
-127.0.0.1               vaultwarden.helm.internal        # Vaultwarden
-127.0.0.1               uptime-kuma.helm.internal        # Uptime-Kuma
-127.0.0.1               paperless.helm.internal          # Paperless-NGX
-127.0.0.1               gotenberg.helm.internal          # Gotenberg
-127.0.0.1               linkstack.helm.internal          # Linkstack
-127.0.0.1               ntfy.helm.internal               # ntfy
-127.0.0.1               cachet.helm.internal             # Cachet
-127.0.0.1               gobackup.helm.internal           # GoBackup
-127.0.0.1               activepieces.helm.internal       # Activepieces
+127.0.0.1               linkwarden.charts.internal         # Linkwarden
+127.0.0.1               vaultwarden.charts.internal        # Vaultwarden
+127.0.0.1               uptime-kuma.charts.internal        # Uptime-Kuma
+127.0.0.1               paperless.charts.internal          # Paperless-NGX
+127.0.0.1               gotenberg.charts.internal          # Gotenberg
+127.0.0.1               linkstack.charts.internal          # Linkstack
+127.0.0.1               ntfy.charts.internal               # ntfy
+127.0.0.1               cachet.charts.internal             # Cachet
+127.0.0.1               gobackup.charts.internal           # GoBackup
+127.0.0.1               activepieces.charts.internal       # Activepieces
 
 ${CONFIG_END}
 EOF
