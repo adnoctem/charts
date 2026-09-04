@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: gotenberg/gotenberg
-  tag: 8.7.0
+  tag: 8.36.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -74,12 +74,36 @@ gotenberg:
     ## @param gotenberg.api.rootPath [default: "/"] Set the root path of the API
     ##
     rootPath: /
-    ## @param gotenberg.api.traceHeader [string] Set the header name to use for identifying requests
+    ## @param gotenberg.api.correlationIdHeader [string] Set the header name to use for identifying requests
+    ## Renamed from `traceHeader` in Gotenberg 8.29 (`--api-trace-header` -> `--api-correlation-id-header`)
     ##
-    traceHeader: ""
-    ## @param gotenberg.api.disableHealthCheckLogging [default: false] Disable health check logging
+    correlationIdHeader: ""
+    ## @param gotenberg.api.disableHealthCheckLogging [default: false] Disable health check route telemetry
+    ## Renamed from `--api-disable-health-check-logging` in Gotenberg 8.29
     ##
     disableHealthCheckLogging: false
+    ## @param gotenberg.api.disableRootRouteTelemetry [default: false] Disable telemetry for the root ("/") route
+    ##
+    disableRootRouteTelemetry: false
+    ## @param gotenberg.api.disableDebugRouteTelemetry [default: false] Disable telemetry for the /debug route
+    ##
+    disableDebugRouteTelemetry: false
+    ## @param gotenberg.api.disableVersionRouteTelemetry [default: false] Disable telemetry for the /version route
+    ##
+    disableVersionRouteTelemetry: false
+    ## @param gotenberg.api.bodyLimit [string] Set a cap on multipart/form-data request size, e.g. "5MB"
+    ##
+    bodyLimit: ""
+    ## @param gotenberg.api.bindIp [default: 0.0.0.0] Bind the API to a specific IP address
+    ##
+    bindIp: ""
+    ## @param gotenberg.api.enableDebugRoute [default: false] Expose the /debug route with full instance configuration
+    ##
+    enableDebugRoute: false
+    ## @param gotenberg.api.enableOidcAuth [default: false] Enable OIDC bearer token authentication (mutually exclusive with basicAuth)
+    ## See https://gotenberg.dev/docs/configuration for the full OIDC issuer/audience configuration required alongside this flag
+    ##
+    enableOidcAuth: false
 
   ## BasicAuth configuration
   ##
@@ -133,9 +157,6 @@ gotenberg:
     ## @param gotenberg.chromium.disableWebSecurity [default: false] Don't enforce the same-origin policy
     ##
     disableWebSecurity: false
-    ## @param gotenberg.chromium.incognito [default: false] Start Chromium with incognito mode
-    ##
-    incognito: false
     ## @param gotenberg.chromium.hostResolverRules [string] Set custom mappings to the host resolver
     ##
     hostResolverRules: ""
@@ -154,6 +175,25 @@ gotenberg:
     ## @param gotenberg.chromium.disableRoutes [default: false] Disable the routes
     ##
     disableRoutes: false
+    ## @param gotenberg.chromium.maxConcurrency [default: 6] Maximum number of simultaneous Chromium conversions
+    ##
+    maxConcurrency: 6
+    ## @param gotenberg.chromium.idleShutdownTimeout [default: "0s"] Auto-stop Chromium after this idle period; set to "0s" to disable
+    ##
+    idleShutdownTimeout: "0s"
+    ## @param gotenberg.chromium.clearStorage [default: false] Clear browser storage between each conversion
+    ##
+    clearStorage: false
+    ## @param gotenberg.chromium.denyPrivateIps [default: false] Reject Chromium navigations/sub-resources resolving to a non-public IP
+    ##
+    denyPrivateIps: false
+    ## @param gotenberg.chromium.denyPublicIps [default: false] Reject Chromium navigations/sub-resources resolving to a public IP
+    ##
+    denyPublicIps: false
+    ## @param gotenberg.chromium.enableEnvironmentProxy [default: false] Route outbound Chromium traffic through HTTP_PROXY/HTTPS_PROXY/NO_PROXY
+    ## Since Gotenberg 8.35, the outbound client no longer inherits these env vars implicitly - this must be opted into explicitly
+    ##
+    enableEnvironmentProxy: false
 
   ## LibreOffice configuration
   ##
@@ -176,13 +216,38 @@ gotenberg:
     ## @param gotenberg.libreOffice.disableRoutes [default: false] Disable the route
     ##
     disableRoutes: false
+    ## @param gotenberg.libreOffice.idleShutdownTimeout [default: "0s"] Auto-stop LibreOffice after this idle period; set to "0s" to disable
+    ##
+    idleShutdownTimeout: "0s"
+    ## @param gotenberg.libreOffice.allowList [string] Set the allowed URLs for LibreOffice's outbound fetches using a regular expression
+    ##
+    allowList: ""
+    ## @param gotenberg.libreOffice.denyList [string] Set the denied URLs for LibreOffice's outbound fetches using a regular expression
+    ##
+    denyList: ""
+    ## @param gotenberg.libreOffice.denyPrivateIps [default: false] Reject LibreOffice outbound fetches resolving to a non-public IP
+    ##
+    denyPrivateIps: false
+    ## @param gotenberg.libreOffice.denyPublicIps [default: false] Reject LibreOffice outbound fetches resolving to a public IP
+    ##
+    denyPublicIps: false
+    ## @param gotenberg.libreOffice.enableEnvironmentProxy [default: false] Route outbound LibreOffice traffic through HTTP_PROXY/HTTPS_PROXY/NO_PROXY
+    ##
+    enableEnvironmentProxy: false
 
   ## PDF Engines configuration
   ##
   pdf:
-    ## @param gotenberg.pdf.engines [string] Set the PDF engines and their order - defaults to 'All'
+    ## @param gotenberg.pdf.convertEngines [default: libreoffice-pdfengine] Set the PDF conversion engines and their order
+    ## Replaces the single `engines` key removed in Gotenberg 8.13 (`--pdfengines-engines` -> `--pdfengines-convert-engines`)
     ##
-    engines: ""
+    convertEngines: ""
+    ## @param gotenberg.pdf.readMetadataEngines [default: exiftool] Set the PDF metadata-reading engines and their order
+    ##
+    readMetadataEngines: ""
+    ## @param gotenberg.pdf.writeMetadataEngines [default: exiftool] Set the PDF metadata-writing engines and their order
+    ##
+    writeMetadataEngines: ""
     ## @param gotenberg.pdf.disableRoutes [default: false] Disable the routes
     ##
     disableRoutes: false
@@ -221,8 +286,18 @@ gotenberg:
     ## @param gotenberg.webhook.disable [default: false] Disable the webhook feature
     ##
     disable: false
+    ## @param gotenberg.webhook.denyPrivateIps [default: false] Reject webhook URLs (success, error, events) resolving to a non-public IP
+    ##
+    denyPrivateIps: false
+    ## @param gotenberg.webhook.denyPublicIps [default: false] Reject webhook URLs resolving to a public IP
+    ##
+    denyPublicIps: false
+    ## @param gotenberg.webhook.enableEnvironmentProxy [default: false] Route outbound webhook traffic through HTTP_PROXY/HTTPS_PROXY/NO_PROXY
+    ##
+    enableEnvironmentProxy: false
 
   ## Prometheus configuration
+  ## Note: as of Gotenberg 8.29, Prometheus is complemented by full OpenTelemetry support - see gotenberg.openTelemetry below
   ##
   prometheus:
     ## @param gotenberg.prometheus.collectInterval [default: 1s] Set the interval for collecting modules' metrics
@@ -234,24 +309,58 @@ gotenberg:
     ## @param gotenberg.prometheus.disableCollect [default: false] Disable the collect of metrics
     ##
     disableCollect: false
-    ## @param gotenberg.prometheus.disableRouteLogging [default: false] Disable the route logging
+    ## @param gotenberg.prometheus.disableRouteTelemetry [default: false] Disable telemetry for the /prometheus route
+    ## Renamed from `disableRouteLogging` in Gotenberg 8.29 (`--prometheus-disable-route-logging` -> `--prometheus-disable-route-telemetry`)
     ##
-    disableRouteLogging: false
+    disableRouteTelemetry: false
+    ## @param gotenberg.prometheus.metricsPath [string] Customise the Prometheus scrape endpoint path
+    ##
+    metricsPath: ""
+
+  ## OpenTelemetry configuration (Gotenberg 8.29+)
+  ## Gotenberg reads standard OTEL_* environment variables - ref: https://gotenberg.dev/docs/configuration
+  ##
+  openTelemetry:
+    ## @param gotenberg.openTelemetry.enabled [default: false] Enable OpenTelemetry tracing/metrics/logging env vars below
+    ##
+    enabled: false
+    ## @param gotenberg.openTelemetry.tracesExporter [string] Sets OTEL_TRACES_EXPORTER
+    ##
+    tracesExporter: ""
+    ## @param gotenberg.openTelemetry.metricsExporter [string] Sets OTEL_METRICS_EXPORTER
+    ##
+    metricsExporter: ""
+    ## @param gotenberg.openTelemetry.logsExporter [string] Sets OTEL_LOGS_EXPORTER
+    ##
+    logsExporter: ""
+    ## @param gotenberg.openTelemetry.exporterOtlpEndpoint [string] Sets OTEL_EXPORTER_OTLP_ENDPOINT
+    ##
+    exporterOtlpEndpoint: ""
+    ## @param gotenberg.openTelemetry.extraEnv [object] Extra OTEL_* environment variables not covered above
+    ##
+    extraEnv: {}
 
   ## Logging configuration
   ##
   logging:
     ## @param gotenberg.logging.format [default: auto] Specify the format of logging
-    ## Options include auto, json, or text
+    ## Options include auto, json, or text. Renamed from `--log-format` to `--log-std-format` in Gotenberg 8.29
     ##
     format: auto
     ## @param gotenberg.logging.level [default: info] Choose the level of logging detail
     ## Options include error, warn, info, or debug
     ##
     level: info
+    ## @param gotenberg.logging.levelCase [default: lower] Set the level field casing in standard output
+    ## Options include lower or upper
+    ##
+    levelCase: lower
     ## @param gotenberg.logging.fieldsPrefix [string] Prepend a specified prefix to each field in the logs
     ##
     fieldsPrefix: ""
+    ## @param gotenberg.logging.enableGcpFields [default: false] Use GCP Cloud Run-compatible structured log field names
+    ##
+    enableGcpFields: false
 
   ## Shutdown configuration
   ##
@@ -521,6 +630,13 @@ resources: {}
 # requests:
 #   cpu: 100m
 #   memory: 128Mi
+
+## @param extraEnvVars Extra environment variables for the Gotenberg pod, e.g. for TZ
+## extraEnvVars:
+##   - name: TZ
+##     value: "Europe/Berlin"
+##
+extraEnvVars: []
 
 ## ref: https://kubernetes.io/docs/concepts/storage/volumes/
 ## @param volumes Define volumes for the Gotenberg pod

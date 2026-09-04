@@ -55,11 +55,32 @@ spec:
           {{- if ne .Values.gotenberg.api.rootPath "/" }}
             - --api-root-path={{ .Values.gotenberg.api.rootPath }}
           {{- end }}
-          {{- if .Values.gotenberg.api.traceHeader }}
-            - --api-trace-header={{ .Values.gotenberg.api.traceHeader }}
+          {{- if .Values.gotenberg.api.correlationIdHeader }}
+            - --api-correlation-id-header={{ .Values.gotenberg.api.correlationIdHeader }}
           {{- end }}
           {{- if .Values.gotenberg.api.disableHealthCheckLogging }}
-            - --api-disable-health-check-logging={{ .Values.gotenberg.api.disableHealthCheckLogging }}
+            - --api-disable-health-check-route-telemetry={{ .Values.gotenberg.api.disableHealthCheckLogging }}
+          {{- end }}
+          {{- if .Values.gotenberg.api.disableRootRouteTelemetry }}
+            - --api-disable-root-route-telemetry={{ .Values.gotenberg.api.disableRootRouteTelemetry }}
+          {{- end }}
+          {{- if .Values.gotenberg.api.disableDebugRouteTelemetry }}
+            - --api-disable-debug-route-telemetry={{ .Values.gotenberg.api.disableDebugRouteTelemetry }}
+          {{- end }}
+          {{- if .Values.gotenberg.api.disableVersionRouteTelemetry }}
+            - --api-disable-version-route-telemetry={{ .Values.gotenberg.api.disableVersionRouteTelemetry }}
+          {{- end }}
+          {{- if .Values.gotenberg.api.bodyLimit }}
+            - --api-body-limit={{ .Values.gotenberg.api.bodyLimit }}
+          {{- end }}
+          {{- if .Values.gotenberg.api.bindIp }}
+            - --api-bind-ip={{ .Values.gotenberg.api.bindIp }}
+          {{- end }}
+          {{- if .Values.gotenberg.api.enableDebugRoute }}
+            - --api-enable-debug-route={{ .Values.gotenberg.api.enableDebugRoute }}
+          {{- end }}
+          {{- if .Values.gotenberg.api.enableOidcAuth }}
+            - --api-enable-oidc-auth={{ .Values.gotenberg.api.enableOidcAuth }}
           {{- end }}
           {{- /*
             HTTP BasicAuth settings
@@ -100,9 +121,6 @@ spec:
           {{- if .Values.gotenberg.chromium.disableWebSecurity }}
             - --chromium-disable-web-security={{ .Values.gotenberg.chromium.disableWebSecurity }}
           {{- end }}
-          {{- if .Values.gotenberg.chromium.incognito }}
-            - --chromium-incognito={{ .Values.gotenberg.chromium.incognito }}
-          {{- end }}
           {{- if .Values.gotenberg.chromium.hostResolverRules }}
             - --chromium-host-resolver-rules={{ .Values.gotenberg.chromium.hostResolverRules }}
           {{- end }}
@@ -120,6 +138,24 @@ spec:
           {{- end }}
           {{- if .Values.gotenberg.chromium.disableRoutes }}
             - --chromium-disable-routes={{ .Values.gotenberg.chromium.disableRoutes }}
+          {{- end }}
+          {{- if ne (.Values.gotenberg.chromium.maxConcurrency | toString) "6" }}
+            - --chromium-max-concurrency={{ .Values.gotenberg.chromium.maxConcurrency }}
+          {{- end }}
+          {{- if ne .Values.gotenberg.chromium.idleShutdownTimeout "0s" }}
+            - --chromium-idle-shutdown-timeout={{ .Values.gotenberg.chromium.idleShutdownTimeout }}
+          {{- end }}
+          {{- if .Values.gotenberg.chromium.clearStorage }}
+            - --chromium-clear-storage={{ .Values.gotenberg.chromium.clearStorage }}
+          {{- end }}
+          {{- if .Values.gotenberg.chromium.denyPrivateIps }}
+            - --chromium-deny-private-ips={{ .Values.gotenberg.chromium.denyPrivateIps }}
+          {{- end }}
+          {{- if .Values.gotenberg.chromium.denyPublicIps }}
+            - --chromium-deny-public-ips={{ .Values.gotenberg.chromium.denyPublicIps }}
+          {{- end }}
+          {{- if .Values.gotenberg.chromium.enableEnvironmentProxy }}
+            - --chromium-enable-environment-proxy={{ .Values.gotenberg.chromium.enableEnvironmentProxy }}
           {{- end }}
           {{- /*
             LibreOffice settings
@@ -139,11 +175,35 @@ spec:
           {{- if .Values.gotenberg.libreOffice.disableRoutes }}
             - --libreoffice-disable-routes={{ .Values.gotenberg.libreOffice.disableRoutes }}
           {{- end }}
+          {{- if ne .Values.gotenberg.libreOffice.idleShutdownTimeout "0s" }}
+            - --libreoffice-idle-shutdown-timeout={{ .Values.gotenberg.libreOffice.idleShutdownTimeout }}
+          {{- end }}
+          {{- if .Values.gotenberg.libreOffice.allowList }}
+            - --libreoffice-allow-list={{ .Values.gotenberg.libreOffice.allowList }}
+          {{- end }}
+          {{- if .Values.gotenberg.libreOffice.denyList }}
+            - --libreoffice-deny-list={{ .Values.gotenberg.libreOffice.denyList }}
+          {{- end }}
+          {{- if .Values.gotenberg.libreOffice.denyPrivateIps }}
+            - --libreoffice-deny-private-ips={{ .Values.gotenberg.libreOffice.denyPrivateIps }}
+          {{- end }}
+          {{- if .Values.gotenberg.libreOffice.denyPublicIps }}
+            - --libreoffice-deny-public-ips={{ .Values.gotenberg.libreOffice.denyPublicIps }}
+          {{- end }}
+          {{- if .Values.gotenberg.libreOffice.enableEnvironmentProxy }}
+            - --libreoffice-enable-environment-proxy={{ .Values.gotenberg.libreOffice.enableEnvironmentProxy }}
+          {{- end }}
           {{- /*
             PDF settings
           */}}
-          {{- if .Values.gotenberg.pdf.engines }}
-            - --pdfengines-engines={{ .Values.gotenberg.pdf.engines }}
+          {{- if .Values.gotenberg.pdf.convertEngines }}
+            - --pdfengines-convert-engines={{ .Values.gotenberg.pdf.convertEngines }}
+          {{- end }}
+          {{- if .Values.gotenberg.pdf.readMetadataEngines }}
+            - --pdfengines-read-metadata-engines={{ .Values.gotenberg.pdf.readMetadataEngines }}
+          {{- end }}
+          {{- if .Values.gotenberg.pdf.writeMetadataEngines }}
+            - --pdfengines-write-metadata-engines={{ .Values.gotenberg.pdf.writeMetadataEngines }}
           {{- end }}
           {{- if .Values.gotenberg.pdf.disableRoutes }}
             - --pdfengines-disable-routes={{ .Values.gotenberg.pdf.disableRoutes }}
@@ -178,6 +238,15 @@ spec:
           {{- if .Values.gotenberg.webhook.disable }}
             - --webhook-disable={{ .Values.gotenberg.webhook.disable }}
           {{- end }}
+          {{- if .Values.gotenberg.webhook.denyPrivateIps }}
+            - --webhook-deny-private-ips={{ .Values.gotenberg.webhook.denyPrivateIps }}
+          {{- end }}
+          {{- if .Values.gotenberg.webhook.denyPublicIps }}
+            - --webhook-deny-public-ips={{ .Values.gotenberg.webhook.denyPublicIps }}
+          {{- end }}
+          {{- if .Values.gotenberg.webhook.enableEnvironmentProxy }}
+            - --webhook-enable-environment-proxy={{ .Values.gotenberg.webhook.enableEnvironmentProxy }}
+          {{- end }}
           {{- /*
             Prometheus settings
           */}}
@@ -190,20 +259,29 @@ spec:
           {{- if .Values.gotenberg.prometheus.disableCollect }}
             - --prometheus-disable-collect={{ .Values.gotenberg.prometheus.disableCollect }}
           {{- end }}
-          {{- if .Values.gotenberg.prometheus.disableRouteLogging }}
-            - --prometheus-disable-route-logging={{ .Values.gotenberg.prometheus.disableRouteLogging }}
+          {{- if .Values.gotenberg.prometheus.disableRouteTelemetry }}
+            - --prometheus-disable-route-telemetry={{ .Values.gotenberg.prometheus.disableRouteTelemetry }}
+          {{- end }}
+          {{- if .Values.gotenberg.prometheus.metricsPath }}
+            - --prometheus-metrics-path={{ .Values.gotenberg.prometheus.metricsPath }}
           {{- end }}
           {{- /*
             Logging settings
           */}}
           {{- if .Values.gotenberg.logging.format }}
-            - --log-format={{ .Values.gotenberg.logging.format }}
+            - --log-std-format={{ .Values.gotenberg.logging.format }}
           {{- end }}
           {{- if .Values.gotenberg.logging.level }}
             - --log-level={{ .Values.gotenberg.logging.level }}
           {{- end }}
+          {{- if ne .Values.gotenberg.logging.levelCase "lower" }}
+            - --log-std-level-case={{ .Values.gotenberg.logging.levelCase }}
+          {{- end }}
           {{- if .Values.gotenberg.logging.fieldsPrefix }}
             - --log-fields-prefix={{ .Values.gotenberg.logging.fieldsPrefix }}
+          {{- end }}
+          {{- if .Values.gotenberg.logging.enableGcpFields }}
+            - --log-std-enable-gcp-fields={{ .Values.gotenberg.logging.enableGcpFields }}
           {{- end }}
           {{- /*
             Shutdown settings
@@ -223,6 +301,31 @@ spec:
                 secretKeyRef:
                   name: {{ default (include "gotenberg.secret.auth" .) .Values.gotenberg.basicAuth.existingSecret }}
                   key: password
+            {{- end }}
+            {{- if .Values.gotenberg.openTelemetry.enabled }}
+            {{- if .Values.gotenberg.openTelemetry.tracesExporter }}
+            - name: OTEL_TRACES_EXPORTER
+              value: {{ .Values.gotenberg.openTelemetry.tracesExporter | quote }}
+            {{- end }}
+            {{- if .Values.gotenberg.openTelemetry.metricsExporter }}
+            - name: OTEL_METRICS_EXPORTER
+              value: {{ .Values.gotenberg.openTelemetry.metricsExporter | quote }}
+            {{- end }}
+            {{- if .Values.gotenberg.openTelemetry.logsExporter }}
+            - name: OTEL_LOGS_EXPORTER
+              value: {{ .Values.gotenberg.openTelemetry.logsExporter | quote }}
+            {{- end }}
+            {{- if .Values.gotenberg.openTelemetry.exporterOtlpEndpoint }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ .Values.gotenberg.openTelemetry.exporterOtlpEndpoint | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.gotenberg.openTelemetry.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.extraEnvVars }}
+            {{- toYaml .Values.extraEnvVars | nindent 12 }}
             {{- end }}
           ports:
             - name: http
@@ -252,7 +355,7 @@ spec:
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           {{- end }}
           {{- if .Values.readinessProbe.enabled }}
-          livenessProbe:
+          readinessProbe:
             httpGet:
               path: /
               port: http
@@ -263,7 +366,7 @@ spec:
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- end }}
           {{- if .Values.startupProbe.enabled }}
-          livenessProbe:
+          startupProbe:
             httpGet:
               path: /
               port: http
