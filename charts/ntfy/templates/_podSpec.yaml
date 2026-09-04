@@ -40,6 +40,10 @@ template:
       - name: {{ .Chart.Name }}
         image: {{ include "ntfy.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        args:
+          - serve
+          - --config
+          - /etc/ntfy/config.yml
         env:
             {{- if (or .Values.ntfy.smtp.senderUser .Values.ntfy.smtp.existingSecret) }}
           - name: NTFY_SMTP_SENDER_USER
@@ -102,7 +106,7 @@ template:
             {{- end }}
         volumeMounts:
           - name: {{ printf "%s-config" (include "ntfy.fullname" .) }}
-            mountPath: /var/lib/ntfy
+            mountPath: /etc/ntfy
             {{- if (or .Values.ntfy.cache.file .Values.ntfy.auth.file .Values.ntfy.attachment.cacheDir) }}
           - name: {{ include "ntfy.pv" . }}
             mountPath: {{ .Values.ntfy.data.rootPath }}

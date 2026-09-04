@@ -9,11 +9,9 @@ paperless:
     adminPassword: "admin-pass"
 
   redis:
-    host: paperless-redis-master
     password: "paperless"
 
   postgresql:
-    host: "paperless-postgresql"
     port: 5432
     name: "paperless"
     user: "paperless"
