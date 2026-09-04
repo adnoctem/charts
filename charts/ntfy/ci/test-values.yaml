@@ -1,5 +1,5 @@
 ntfy:
-  baseURL: ntfy.charts.internal
+  baseURL: https://ntfy.charts.internal
   listenHTTP: ":8080"
   listenHTTPS: ""
   keyFile: ""
