@@ -6247,6 +6247,63 @@ entries:
       artifacthub.io/category: monitoring-logging
       artifacthub.io/changes: |
         - kind: changed
+          description: "bumped appVersion from 1.23.13 to 2.5.3 (v1 -> v2 major upgrade, see the chart's Upgrading notes)"
+        - kind: fixed
+          description: the readinessProbe and startupProbe blocks both incorrectly rendered as a second/third livenessProbe, so only one of the three ever actually applied to the container
+        - kind: fixed
+          description: all three probes checked a `/alive` path that has never existed in Uptime Kuma's HTTP server (v1 or v2) - switched to `/`, matching the redirect the bundled Docker healthcheck itself checks for
+        - kind: fixed
+          description: correct the ConfigMap key rendered for `uptimeKuma.node.tlsRejectUnauthorized` from `NODE_EXTRA_CA_CERTS` (a duplicate of the unrelated CA-bundle setting) to `NODE_TLS_REJECT_UNAUTHORIZED`
+      artifacthub.io/images: |
+        - name: uptime-kuma
+          image: docker.io/louislam/uptime-kuma:2.5.3
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Uptime-Kuma Homepage
+          url: https://uptime.kuma.pet/
+        - name: Uptime-Kuma Documentation
+          url: https://github.com/louislam/uptime-kuma/wiki
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 2.5.3
+    created: "2026-09-05T15:42:47.060299383Z"
+    description: Uptime-Kuma is an open-source, self-hosted fancy uptime monitoring
+      tool
+    digest: 1f3197e808ee2926d90264a6550264c5232ad3d902b230c4cad516d19f4a7fe5
+    home: https://uptime.kuma.pet/
+    icon: https://raw.githubusercontent.com/louislam/uptime-kuma/953058c6a5047c82a58606e442c6e572e215e3ff/public/icon-512x512.png
+    keywords:
+    - uptime
+    - monitoring
+    - website
+    - database
+    - tls
+    - uptime-robot
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: uptime-kuma
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.4.0/uptime-kuma-0.4.0.tgz
+    version: 0.4.0
+  - annotations:
+      artifacthub.io/category: monitoring-logging
+      artifacthub.io/changes: |
+        - kind: changed
           description: repository owner changed from fmjstudios to adnoctem
         - kind: fixed
           description: verify rotation of expired GPG key
@@ -7289,4 +7346,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T15:37:34.169748941Z"
+generated: "2026-09-05T15:42:47.060578556Z"
