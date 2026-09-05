@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 4.8.0
+appVersion: 4.8.6
 kubeVersion: ">=1.26.0-0"
 name: linkstack
-version: 0.3.2
+version: 0.4.0
 description: LinkStack is a highly customizable link sharing platform with an intuitive, easy to use user interface
 home: https://github.com/LinkStackOrg/LinkStack
 icon: https://raw.githubusercontent.com/LinkStackOrg/branding/c22886d7585246836d5e4e597484b92b51c76f0c/logo/png/logo.png
@@ -26,14 +26,14 @@ maintainers:
     email: info@mvprowess.com
 annotations:
   artifacthub.io/category: storage
-  artifacthub.io/license: MIT
+  artifacthub.io/license: AGPL-3.0
   artifacthub.io/signKey: |
     fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
     url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: linkstack
-      image: docker.io/linkstackorg/linkstack:latest@sha256:abd691b4293b020a317de8794737671e0315159efcb868e8a4124d6f0611f7ae
+      image: docker.io/linkstackorg/linkstack:latest@sha256:1c8b05399ee459ac601bac3eede7fbe765d1b6b7be725663b57f3220610958bf
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -51,3 +51,7 @@ annotations:
       description: repository owner changed from fmjstudios to adnoctem
     - kind: fixed
       description: verify rotation of expired GPG key
+    - kind: fixed
+      description: corrected the artifacthub.io/license annotation - LinkStack is AGPL-3.0, not MIT
+    - kind: changed
+      description: bump appVersion to 4.8.6 (from 4.8.0) and update the pinned image digest accordingly - LinkStack does not publish semver image tags, only "latest"

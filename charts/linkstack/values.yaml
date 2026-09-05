@@ -20,7 +20,7 @@ image:
   registry: docker.io
   repository: linkstackorg/linkstack
   tag: latest
-  digest: sha256:abd691b4293b020a317de8794737671e0315159efcb868e8a4124d6f0611f7ae
+  digest: sha256:1c8b05399ee459ac601bac3eede7fbe765d1b6b7be725663b57f3220610958bf
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images

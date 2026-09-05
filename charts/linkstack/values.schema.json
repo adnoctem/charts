@@ -23,7 +23,7 @@
         "digest": {
           "type": "string",
           "description": "The image digest to pull",
-          "default": "sha256:abd691b4293b020a317de8794737671e0315159efcb868e8a4124d6f0611f7ae"
+          "default": "sha256:1c8b05399ee459ac601bac3eede7fbe765d1b6b7be725663b57f3220610958bf"
         },
         "pullPolicy": {
           "type": "string",
