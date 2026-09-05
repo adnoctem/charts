@@ -1,316 +1,316 @@
 {
-    "title": "Chart Values",
-    "type": "object",
-    "properties": {
-        "image": {
-            "type": "object",
-            "properties": {
-                "registry": {
-                    "type": "string",
-                    "description": "The Docker registry to pull the image from",
-                    "default": "docker.io"
-                },
-                "repository": {
-                    "type": "string",
-                    "description": "The registry repository to pull the image from",
-                    "default": "derailed/popeye"
-                },
-                "tag": {
-                    "type": "string",
-                    "description": "The image tag to pull",
-                    "default": "v0.22.1"
-                },
-                "digest": {
-                    "type": "string",
-                    "description": "The image digest to pull",
-                    "default": ""
-                },
-                "pullPolicy": {
-                    "type": "string",
-                    "description": "The Kubernetes image pull policy",
-                    "default": "IfNotPresent"
-                },
-                "pullSecrets": {
-                    "type": "array",
-                    "description": "A list of secrets to use for pulling images from private registries",
-                    "default": [],
-                    "items": {}
-                }
-            }
+  "title": "Chart Values",
+  "type": "object",
+  "properties": {
+    "image": {
+      "type": "object",
+      "properties": {
+        "registry": {
+          "type": "string",
+          "description": "The Docker registry to pull the image from",
+          "default": "docker.io"
         },
-        "nameOverride": {
-            "type": "string",
-            "description": "String to partially override popeye.fullname",
-            "default": ""
+        "repository": {
+          "type": "string",
+          "description": "The registry repository to pull the image from",
+          "default": "derailed/popeye"
         },
-        "fullnameOverride": {
-            "type": "string",
-            "description": "String to fully override popeye.fullname",
-            "default": ""
+        "tag": {
+          "type": "string",
+          "description": "The image tag to pull",
+          "default": "v0.22.1"
         },
-        "cronjob": {
-            "type": "object",
-            "properties": {
-                "labels": {
-                    "type": "object",
-                    "description": "Labels to attach to the CronJob manifest",
-                    "default": {}
-                },
-                "annotations": {
-                    "type": "object",
-                    "description": "Annotations to attach to the CronJob manifest",
-                    "default": {}
-                },
-                "schedule": {
-                    "type": "string",
-                    "description": "The schedule to for the CronJob. Once an hour per default.",
-                    "default": "* */1 * * *"
-                },
-                "concurrencyPolicy": {
-                    "type": "string",
-                    "description": "Concurrency is disabled for Popeye by default.",
-                    "default": "Forbid"
-                },
-                "restartPolicy": {
-                    "type": "string",
-                    "description": "Popeye containers should exit and never be auto-recreated",
-                    "default": "Never"
-                }
-            }
+        "digest": {
+          "type": "string",
+          "description": "The image digest to pull",
+          "default": ""
         },
-        "popeye": {
-            "type": "object",
-            "properties": {
-                "config": {
-                    "type": "string",
-                    "description": "The SpinachYAML configuration for popeye",
-                    "default": ""
-                },
-                "args": {
-                    "type": "object",
-                    "properties": {
-                        "force-exit-zero": {
-                            "type": "boolean",
-                            "description": "Exit 0 on lint findings instead of leaving the CronJob's Job in an Error state",
-                            "default": "true"
-                        }
-                    }
-                },
-                "scans": {
-                    "type": "object",
-                    "properties": {
-                        "destinations": {
-                            "type": "array",
-                            "description": "Set Scan destinations for Popeye. Valid keys are `s3` and `push-gtwy`.",
-                            "default": "[]",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "pushGateway": {
-                            "type": "object",
-                            "properties": {
-                                "url": {
-                                    "type": "string",
-                                    "description": "Set the URL for the Push Gateway service",
-                                    "default": "\"\""
-                                },
-                                "user": {
-                                    "type": "string",
-                                    "description": "Set the HTTP Basic Auth username for the Push Gateway service",
-                                    "default": "\"\""
-                                },
-                                "password": {
-                                    "type": "string",
-                                    "description": "Set the HTTP Basic Auth password for the Push Gateway service",
-                                    "default": "\"\""
-                                },
-                                "existingSecret": {
-                                    "type": "string",
-                                    "description": "Provide an existing `basic-auth` Secret to use as a credential source for the Push Gateway service",
-                                    "default": "\"\""
-                                }
-                            }
-                        },
-                        "s3": {
-                            "type": "object",
-                            "properties": {
-                                "bucket": {
-                                    "type": "string",
-                                    "description": "Set the S3 bucket name",
-                                    "default": "\"\""
-                                },
-                                "region": {
-                                    "type": "string",
-                                    "description": "Set the S3 region to use",
-                                    "default": "\"\""
-                                },
-                                "endpoint": {
-                                    "type": "string",
-                                    "description": "Set a custom S3 endpoint to use instead of the AWS one",
-                                    "default": "\"\""
-                                },
-                                "accessKey": {
-                                    "type": "string",
-                                    "description": "Set the S3 Access Key",
-                                    "default": "\"\""
-                                },
-                                "secretKey": {
-                                    "type": "string",
-                                    "description": "Set the S3 Secret Key",
-                                    "default": "\"\""
-                                },
-                                "existingSecret": {
-                                    "type": "string",
-                                    "description": "Provide an existing Secret to with `accessKey` and `secretKey` keys to use as a credential source",
-                                    "default": "\"\""
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        "pullPolicy": {
+          "type": "string",
+          "description": "The Kubernetes image pull policy",
+          "default": "IfNotPresent"
         },
-        "configMap": {
-            "type": "object",
-            "properties": {
-                "annotations": {
-                    "type": "object",
-                    "description": "Annotations for the ConfigMap resource",
-                    "default": {}
-                },
-                "labels": {
-                    "type": "object",
-                    "description": "Extra Labels for the ConfigMap resource",
-                    "default": {}
-                }
-            }
-        },
-        "secret": {
-            "type": "object",
-            "properties": {
-                "annotations": {
-                    "type": "object",
-                    "description": "Common annotations for the S3 secret",
-                    "default": {}
-                },
-                "labels": {
-                    "type": "object",
-                    "description": "Common extra labels for the S3 secret",
-                    "default": {}
-                }
-            }
-        },
-        "rbac": {
-            "type": "object",
-            "properties": {
-                "create": {
-                    "type": "boolean",
-                    "description": "Whether to create RBAC resources",
-                    "default": true
-                },
-                "rules": {
-                    "type": "array",
-                    "description": "Extra rules to add to the Role",
-                    "default": [],
-                    "items": {}
-                }
-            }
-        },
-        "serviceAccount": {
-            "type": "object",
-            "properties": {
-                "create": {
-                    "type": "boolean",
-                    "description": "Whether a service account should be created",
-                    "default": true
-                },
-                "automount": {
-                    "type": "boolean",
-                    "description": "Whether to automount the service account token",
-                    "default": false
-                },
-                "annotations": {
-                    "type": "object",
-                    "description": "Annotations to add to the service account",
-                    "default": {}
-                },
-                "name": {
-                    "type": "string",
-                    "description": "A custom name for the service account, otherwise gobackup.fullname is used",
-                    "default": ""
-                },
-                "secrets": {
-                    "type": "array",
-                    "description": "A list of secrets mountable by this service account",
-                    "default": [],
-                    "items": {}
-                }
-            }
-        },
-        "resources": {
-            "type": "object",
-            "description": "The resource limits/requests for the Popeye pod",
-            "default": {}
-        },
-        "volumes": {
-            "type": "array",
-            "description": "Define volumes for the Popeye pod",
-            "default": [],
-            "items": {}
-        },
-        "volumeMounts": {
-            "type": "array",
-            "description": "Define volumeMounts for the Popeye pod",
-            "default": [],
-            "items": {}
-        },
-        "initContainers": {
-            "type": "array",
-            "description": "Define initContainers for the main Popeye server",
-            "default": [],
-            "items": {}
-        },
-        "nodeSelector": {
-            "type": "object",
-            "description": "Node labels for pod assignment",
-            "default": {}
-        },
-        "tolerations": {
-            "type": "array",
-            "description": "Tolerations for pod assignment",
-            "default": [],
-            "items": {}
-        },
-        "affinity": {
-            "type": "object",
-            "description": "Affinity for pod assignment",
-            "default": {}
-        },
-        "podAnnotations": {
-            "type": "object",
-            "description": "Extra annotations for the Popeye pod",
-            "default": {}
-        },
-        "podLabels": {
-            "type": "object",
-            "description": "Extra labels for the Popeye pod",
-            "default": {}
-        },
-        "priorityClassName": {
-            "type": "string",
-            "description": "The name of an existing PriorityClass",
-            "default": ""
-        },
-        "podSecurityContext": {
-            "type": "object",
-            "description": "Security context settings for the Popeye pod",
-            "default": {}
-        },
-        "securityContext": {
-            "type": "object",
-            "description": "General security context settings for",
-            "default": {}
+        "pullSecrets": {
+          "type": "array",
+          "description": "A list of secrets to use for pulling images from private registries",
+          "default": [],
+          "items": {}
         }
+      }
+    },
+    "nameOverride": {
+      "type": "string",
+      "description": "String to partially override popeye.fullname",
+      "default": ""
+    },
+    "fullnameOverride": {
+      "type": "string",
+      "description": "String to fully override popeye.fullname",
+      "default": ""
+    },
+    "cronjob": {
+      "type": "object",
+      "properties": {
+        "labels": {
+          "type": "object",
+          "description": "Labels to attach to the CronJob manifest",
+          "default": {}
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Annotations to attach to the CronJob manifest",
+          "default": {}
+        },
+        "schedule": {
+          "type": "string",
+          "description": "The schedule to for the CronJob. Once an hour per default.",
+          "default": "* */1 * * *"
+        },
+        "concurrencyPolicy": {
+          "type": "string",
+          "description": "Concurrency is disabled for Popeye by default.",
+          "default": "Forbid"
+        },
+        "restartPolicy": {
+          "type": "string",
+          "description": "Popeye containers should exit and never be auto-recreated",
+          "default": "Never"
+        }
+      }
+    },
+    "popeye": {
+      "type": "object",
+      "properties": {
+        "config": {
+          "type": "string",
+          "description": "The SpinachYAML configuration for popeye",
+          "default": ""
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "force-exit-zero": {
+              "type": "boolean",
+              "description": "Exit 0 on lint findings instead of leaving the CronJob's Job in an Error state",
+              "default": "true"
+            }
+          }
+        },
+        "scans": {
+          "type": "object",
+          "properties": {
+            "destinations": {
+              "type": "array",
+              "description": "Set Scan destinations for Popeye. Valid keys are `s3` and `push-gtwy`.",
+              "default": "[]",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pushGateway": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "Set the URL for the Push Gateway service",
+                  "default": "\"\""
+                },
+                "user": {
+                  "type": "string",
+                  "description": "Set the HTTP Basic Auth username for the Push Gateway service",
+                  "default": "\"\""
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Set the HTTP Basic Auth password for the Push Gateway service",
+                  "default": "\"\""
+                },
+                "existingSecret": {
+                  "type": "string",
+                  "description": "Provide an existing `basic-auth` Secret to use as a credential source for the Push Gateway service",
+                  "default": "\"\""
+                }
+              }
+            },
+            "s3": {
+              "type": "object",
+              "properties": {
+                "bucket": {
+                  "type": "string",
+                  "description": "Set the S3 bucket name",
+                  "default": "\"\""
+                },
+                "region": {
+                  "type": "string",
+                  "description": "Set the S3 region to use",
+                  "default": "\"\""
+                },
+                "endpoint": {
+                  "type": "string",
+                  "description": "Set a custom S3 endpoint to use instead of the AWS one",
+                  "default": "\"\""
+                },
+                "accessKey": {
+                  "type": "string",
+                  "description": "Set the S3 Access Key",
+                  "default": "\"\""
+                },
+                "secretKey": {
+                  "type": "string",
+                  "description": "Set the S3 Secret Key",
+                  "default": "\"\""
+                },
+                "existingSecret": {
+                  "type": "string",
+                  "description": "Provide an existing Secret to with `accessKey` and `secretKey` keys to use as a credential source",
+                  "default": "\"\""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "configMap": {
+      "type": "object",
+      "properties": {
+        "annotations": {
+          "type": "object",
+          "description": "Annotations for the ConfigMap resource",
+          "default": {}
+        },
+        "labels": {
+          "type": "object",
+          "description": "Extra Labels for the ConfigMap resource",
+          "default": {}
+        }
+      }
+    },
+    "secret": {
+      "type": "object",
+      "properties": {
+        "annotations": {
+          "type": "object",
+          "description": "Common annotations for the S3 secret",
+          "default": {}
+        },
+        "labels": {
+          "type": "object",
+          "description": "Common extra labels for the S3 secret",
+          "default": {}
+        }
+      }
+    },
+    "rbac": {
+      "type": "object",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "Whether to create RBAC resources",
+          "default": true
+        },
+        "rules": {
+          "type": "array",
+          "description": "Extra rules to add to the Role",
+          "default": [],
+          "items": {}
+        }
+      }
+    },
+    "serviceAccount": {
+      "type": "object",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "Whether a service account should be created",
+          "default": true
+        },
+        "automount": {
+          "type": "boolean",
+          "description": "Whether to automount the service account token",
+          "default": false
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Annotations to add to the service account",
+          "default": {}
+        },
+        "name": {
+          "type": "string",
+          "description": "A custom name for the service account, otherwise gobackup.fullname is used",
+          "default": ""
+        },
+        "secrets": {
+          "type": "array",
+          "description": "A list of secrets mountable by this service account",
+          "default": [],
+          "items": {}
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "description": "The resource limits/requests for the Popeye pod",
+      "default": {}
+    },
+    "volumes": {
+      "type": "array",
+      "description": "Define volumes for the Popeye pod",
+      "default": [],
+      "items": {}
+    },
+    "volumeMounts": {
+      "type": "array",
+      "description": "Define volumeMounts for the Popeye pod",
+      "default": [],
+      "items": {}
+    },
+    "initContainers": {
+      "type": "array",
+      "description": "Define initContainers for the main Popeye server",
+      "default": [],
+      "items": {}
+    },
+    "nodeSelector": {
+      "type": "object",
+      "description": "Node labels for pod assignment",
+      "default": {}
+    },
+    "tolerations": {
+      "type": "array",
+      "description": "Tolerations for pod assignment",
+      "default": [],
+      "items": {}
+    },
+    "affinity": {
+      "type": "object",
+      "description": "Affinity for pod assignment",
+      "default": {}
+    },
+    "podAnnotations": {
+      "type": "object",
+      "description": "Extra annotations for the Popeye pod",
+      "default": {}
+    },
+    "podLabels": {
+      "type": "object",
+      "description": "Extra labels for the Popeye pod",
+      "default": {}
+    },
+    "priorityClassName": {
+      "type": "string",
+      "description": "The name of an existing PriorityClass",
+      "default": ""
+    },
+    "podSecurityContext": {
+      "type": "object",
+      "description": "Security context settings for the Popeye pod",
+      "default": {}
+    },
+    "securityContext": {
+      "type": "object",
+      "description": "General security context settings for",
+      "default": {}
     }
+  }
 }
