@@ -35,7 +35,7 @@ repos:
           - ".github/linters/zizmor.yaml"
 
   - repo: https://github.com/crate-ci/typos
-    rev: v1.24.6
+    rev: v1.50.1
     hooks:
       - id: typos
         # pre-commit passes staged files to `typos` as explicit CLI arguments, which bypasses the
