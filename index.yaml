@@ -1033,6 +1033,67 @@ entries:
           description: repository owner changed from fmjstudios to adnoctem
         - kind: fixed
           description: verify rotation of expired GPG key
+        - kind: changed
+          description: bump appVersion to 3.1.1 (from 2.11.2) - see README Upgrading section for the config keys this affects
+        - kind: added
+          description: support the firebird database type and googlechat notifier type added upstream since 2.16.0/2.13.0
+        - kind: added
+          description: gobackup.web.enabled lets the bundled Web UI be turned off entirely
+        - kind: fixed
+          description: corrected internal validation helpers that checked for the wrong model key (dead code, never had a behavioral effect since these checks are not yet wired into any template)
+      artifacthub.io/images: |
+        - name: gobackup
+          image: docker.io/huacnlee/gobackup:v3.1.1
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: GoBackup Documentation
+          url: https://gobackup.github.io/
+        - name: GoBackup GitHub Repository
+          url: https://github.com/gobackup/gobackup
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 3.1.1
+    created: "2026-09-05T10:30:11.046559389Z"
+    description: GoBackup is a CLI and Web UI for database backups to local, cloud
+      or remote storage with notification support
+    digest: 3ba495305554b08adbc93a033121a7524c9682b40b1a30858a433cba054ab337
+    home: https://gobackup.github.io/
+    icon: https://user-images.githubusercontent.com/5518/205909959-12b92929-4ac5-4bb5-9111-6f9a3ed76cf6.png
+    keywords:
+    - cli
+    - web-ui
+    - backup
+    - database
+    - cloud-storage
+    - s3
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: gobackup
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.4.0/gobackup-0.4.0.tgz
+    version: 0.4.0
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
       artifacthub.io/images: |
         - name: gobackup
           image: docker.io/huacnlee/gobackup:v2.11.2
@@ -6706,4 +6767,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T10:09:06.901297812Z"
+generated: "2026-09-05T10:30:11.046787748Z"
