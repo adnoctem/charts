@@ -53,6 +53,30 @@ via the `cachet` key in Helm's _values_ and makes use of the official Docker Hub
 configurable via the Image
 Parameters.
 
+> [!NOTE]
+> Cachet ships under a custom license (see
+> [the upstream LICENSE](https://github.com/cachethq/cachet/blob/2.4/LICENSE.md)), not a common OSS license like MIT
+> or Apache-2.0 - review it before redistributing this chart or the underlying image as a standalone product.
+>
+> Cachet's own GitHub releases go up to `v2.4.1`, but
+> [no Docker image has been published for `2.4.x`](https://github.com/CachetHQ/Docker/issues/267) - the last image
+> on Docker Hub is `2.3.18`. **This chart intentionally stays pinned to `2.3.15`** rather than that last image: every
+> image from `2.3.16` through `2.3.18` fails on a fresh install with `Command "cachet:install" is not defined`
+> ([cachethq/Docker#379](https://github.com/cachethq/Docker/issues/379)) - the packaging repo's entrypoint script
+> was updated to call an artisan command that doesn't exist in the application code actually shipped in those same
+> image tags. There's no known workaround, and the issue is still open upstream. Upstream is also rebuilding Cachet
+> as a new `3.x` release on Laravel/Tailwind/Filament (currently the repository's default branch), but it has no
+> tagged releases or images yet and isn't production-ready - worth knowing about, not something to chase in this
+> chart today.
+
+## Upgrading
+
+### To 0.3.3 (no appVersion change)
+
+- Corrected the `artifacthub.io/license` annotation: Cachet ships under its own custom license, not MIT as
+  previously listed.
+- No `appVersion` change - see the note above on why `2.3.16`-`2.3.18` aren't usable.
+
 ## Parameters
 
 ### Image parameters

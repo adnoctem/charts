@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 2.3.15
 kubeVersion: ">=1.26.0-0"
 name: cachet
-version: 0.3.2
+version: 0.3.3
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -34,7 +34,7 @@ maintainers:
     email: info@mvprowess.com
 annotations:
   artifacthub.io/category: monitoring-logging
-  artifacthub.io/license: MIT
+  artifacthub.io/license: LicenseRef-Cachet
   artifacthub.io/signKey: |
     fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
     url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
@@ -52,10 +52,14 @@ annotations:
     - name: Cachet Documentation
       url: https://docs.cachethq.io/introduction.html
   org.opencontainers.image.vendor: "Ad Noctem Collective"
-  org.opencontainers.image.licenses: "MIT"
+  org.opencontainers.image.licenses: "LicenseRef-Cachet"
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
       description: repository owner changed from fmjstudios to adnoctem
     - kind: fixed
       description: verify rotation of expired GPG key
+    - kind: fixed
+      description: corrected the license annotation - Cachet ships under a custom "Cachet license", not MIT
+    - kind: fixed
+      description: keep appVersion pinned at 2.3.15 - every later image cachethq has published (2.3.16 through 2.3.18) fails on a fresh install with "Command cachet:install is not defined" (cachethq/Docker#379), an upstream packaging defect with no known workaround
