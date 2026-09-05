@@ -44,7 +44,7 @@ annotations:
     - name: Linkstack Documentation
       url: https://docs.linkstack.org/
   org.opencontainers.image.vendor: "Ad Noctem Collective"
-  org.opencontainers.image.licenses: "MIT"
+  org.opencontainers.image.licenses: "AGPL-3.0"
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
