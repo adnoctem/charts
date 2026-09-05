@@ -28,7 +28,7 @@
 {{- $modelsLength := len .Values.gobackup.models }}
   {{- if (gt $modelsLength 0) }}
   {{- range $_, $v := .Values.gobackup.models }}
-  {{- if (hasKey $v "databases") }}
+  {{- if (hasKey $v "storages") }}
     {{- range $_, $val := $v.storages }}
     {{- if not has $allowedList $val.type }}
       {{- $errMsg := printf "Invalid storage type %s" $val.type }}
@@ -50,7 +50,7 @@
 {{- $modelsLength := len .Values.gobackup.models }}
   {{- if (gt $modelsLength 0) }}
   {{- range $_, $v := .Values.gobackup.models }}
-  {{- if (hasKey $v "databases") }}
+  {{- if (hasKey $v "notifiers") }}
     {{- range $_, $val := $v.notifiers }}
     {{- if not has $allowedList $val.type }}
       {{- $errMsg := printf "Invalid notifier type %s" $val.type }}

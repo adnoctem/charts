@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: huacnlee/gobackup
-  tag: v2.11.2
+  tag: v3.1.1
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -59,6 +59,9 @@ gobackup:
   ## Web UI configuration
   ##
   web:
+    ## @param gobackup.web.enabled [default: true] Whether to enable the built-in Web UI at all
+    ##
+    enabled: true
     ## @param gobackup.web.host [string] The host the network socket should bind to. You will most likely never change this.
     ##
     host: 0.0.0.0
@@ -129,6 +132,11 @@ gobackup:
       ##   user: root
       ##   password: root
       ##   ...
+      ##
+      ## NOTE: as of GoBackup 3.0.0, MSSQL config keys are snake_case (e.g. `trust_server_certificate`,
+      ##        `all_databases`, `skip_databases`), not the camelCase shown in older docs. `firebird` (`type: firebird`)
+      ##        is supported as a database type since 2.16.0 - see https://gobackup.github.io/configuration/databases/
+      ##        for the full set of config keys per database type, all of which can be set under `config` above.
       ##
       databases: []
       ##  - name: postgresql
@@ -209,6 +217,9 @@ gobackup:
       ##   to: to@example.com
       ##   region: us-east-1
       ##   ...
+      ##
+      ## NOTE: `googlechat` (`type: googlechat`, config key `url` for the webhook URL) is supported since 2.13.0 - see
+      ##        https://gobackup.github.io/configuration/notifiers/ for the full set of config keys per notifier type.
       ##
       notifiers: []
       ##  - name: mail

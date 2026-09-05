@@ -2,7 +2,7 @@
   Define capabilities - reused in _checks.tpl
 */}}
 {{- define "gobackup.config.databases" -}}
-  {{- $list := list "mysql" "postgresql" "mongodb" "mssql" "redis" "sqlite" "influxdb2" "mariadb" "etcd" }}
+  {{- $list := list "mysql" "postgresql" "mongodb" "mssql" "redis" "sqlite" "influxdb2" "mariadb" "etcd" "firebird" }}
   {{- $list | toJson }}
 {{- end }}
 
@@ -30,7 +30,7 @@
 {{- end }}
 
 {{- define "gobackup.config.notifiers" -}}
-  {{- $list := list "mail" "webhook" "discord" "slack" "telegram" "dingtalk" "feishu" "ses" "postmark" "sendgrid" }}
+  {{- $list := list "mail" "webhook" "discord" "slack" "telegram" "dingtalk" "feishu" "ses" "postmark" "sendgrid" "github" "googlechat" }}
   {{- $list | toJson }}
 {{- end }}
 
