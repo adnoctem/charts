@@ -276,11 +276,11 @@ data:
   {{- if .Values.paperless.ocr.additionalLanguages }}
   PAPERLESS_OCR_LANGUAGES: {{ .Values.paperless.ocr.additionalLanguages | quote }}
   {{- end }}
-  {{- if ne .Values.paperless.ocr.mode "skip" }}
+  {{- if ne .Values.paperless.ocr.mode "auto" }}
   PAPERLESS_OCR_MODE: {{ .Values.paperless.ocr.mode | quote }}
   {{- end }}
-  {{- if ne .Values.paperless.ocr.skipArchiveFile "never" }}
-  PAPERLESS_OCR_SKIP_ARCHIVE_FILE: {{ .Values.paperless.ocr.skipArchiveFile | quote }}
+  {{- if ne .Values.paperless.ocr.archiveFileGeneration "always" }}
+  PAPERLESS_ARCHIVE_FILE_GENERATION: {{ .Values.paperless.ocr.archiveFileGeneration | quote }}
   {{- end }}
   {{- if ne .Values.paperless.ocr.clean "clean" }}
   PAPERLESS_OCR_CLEAN: {{ .Values.paperless.ocr.clean | quote }}
@@ -335,9 +335,6 @@ data:
   {{- end }}
   {{- if .Values.paperless.consume.ignorePatterns }}
   PAPERLESS_CONSUMER_IGNORE_PATTERNS: {{ .Values.paperless.consume.ignorePatterns | quote }}
-  {{- end }}
-  {{- if ne .Values.paperless.consume.barcodeScanner "PYZBAR" }}
-  PAPERLESS_CONSUMER_BARCODE_SCANNER: {{ .Values.paperless.consume.barcodeScanner | quote }}
   {{- end }}
   {{- if .Values.paperless.consume.preConsumeScript }}
   PAPERLESS_PRE_CONSUME_SCRIPT: {{ .Values.paperless.consume.preConsumeScript | quote }}

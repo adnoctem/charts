@@ -98,6 +98,9 @@ spec:
                   name: {{ default (include "paperless.secrets.allauth" .) .Values.paperless.auth.social.existingSecret }}
                   key: accountProviders
             {{- end }}
+            {{- if .Values.extraEnvVars }}
+            {{- toYaml .Values.extraEnvVars | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.paperless.port }}

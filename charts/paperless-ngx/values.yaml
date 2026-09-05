@@ -19,7 +19,7 @@
 image:
   registry: ghcr.io
   repository: paperless-ngx/paperless-ngx
-  tag: "2.10.1"
+  tag: "3.1.3"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -453,12 +453,15 @@ paperless:
     ## @param paperless.ocr.additionalLanguages [string] Additional languages that paperless will attempt to use when parsing documents
     ##
     additionalLanguages: ""
-    ## @param paperless.ocr.mode [default: skip] Tell paperless when and how to perform ocr on your documents: `skip`, `redo` and `force`
+    ## @param paperless.ocr.mode [default: auto] Tell paperless when and how to perform ocr on your documents: `auto`, `force`, `redo` or `off`
     ##
-    mode: skip
-    ## @param paperless.ocr.skipArchiveFile [default: never] Specify when you would like paperless to skip creating an archived version of your documents
+    mode: auto
+    ## @param paperless.ocr.archiveFileGeneration [default: always] Controls when paperless generates an archived version of your documents: `auto`, `always` or `never`
+    ## NOTE: as of Paperless-ngx 3.0, this replaces the removed `PAPERLESS_OCR_SKIP_ARCHIVE_FILE` setting - the default
+    ##       here (`always`) preserves this chart's previous behavior (which always generated an archive); set to
+    ##       `auto` to switch to the current upstream default instead
     ##
-    skipArchiveFile: never
+    archiveFileGeneration: always
     ## @param paperless.ocr.clean [default: true] Tells paperless to use unpaper to clean any input document before sending it to tesseract
     ## The following modes are available: `clean`, `clean-final`
     ##
@@ -504,7 +507,10 @@ paperless:
   ## Consumption configuration
   ##
   consume:
-    ## @param paperless.consume.deleteDuplicates [default: false] When the consumer detects a duplicate document, it will not touch the original document
+    ## @param paperless.consume.deleteDuplicates [default: false] Reject and delete duplicate documents on consumption. As of Paperless-ngx 3.0 this is the only thing that
+    ## controls duplicate rejection at all - previously duplicates were always rejected and this only controlled
+    ## whether the duplicate file itself got deleted afterwards; now leaving this `false` means duplicates are
+    ## consumed and simply flagged as duplicates in the UI instead of being rejected
     ##
     deleteDuplicates: false
     ## @param paperless.consume.recursive [default: false] Enable recursive watching of the consumption directory
@@ -514,10 +520,12 @@ paperless:
     ##
     subdirsAsTags: false
     ## @param paperless.consume.ignorePatterns [string] By default, paperless ignores certain files and folders in the consumption directory
+    ## NOTE: as of Paperless-ngx 3.0, this is matched as a regex, not fnmatch/glob syntax as before - review any
+    ##       existing patterns before upgrading
     ## ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_CONSUMER_IGNORE_PATTERNS
     ##
     ignorePatterns: ""
-    ## @param paperless.consume.barcodeScanner [default: PYZBAR] Sets the barcode scanner used for barcode functionality
+    ## @param paperless.consume.barcodeScanner [default: PYZBAR] Deprecated and has no effect as of Paperless-ngx 3.0 - zxing-cpp is now the only backend
     ##
     barcodeScanner: PYZBAR
     ## @param paperless.consume.preConsumeScript [string] After some initial validation, Paperless can trigger an arbitrary script if you like before beginning consumption
@@ -892,6 +900,16 @@ resources: {}
 # requests:
 #   cpu: 100m
 #   memory: 128Mi
+
+## @param extraEnvVars Extra environment variables for the Paperless pod - use this for any of Paperless-ngx's many
+## environment variables that don't have a dedicated value below (e.g. PAPERLESS_TRUSTED_PROXIES and related
+## reverse-proxy settings, PAPERLESS_DB_OPTIONS, PAPERLESS_CONSUMER_POLLING_INTERVAL/STABILITY_DELAY/IGNORE_DIRS,
+## PAPERLESS_TRAIN_TASK_CRON) - see https://docs.paperless-ngx.com/configuration/ for the full list
+## extraEnvVars:
+##   - name: PAPERLESS_TRUSTED_PROXIES
+##     value: "10.0.0.0/8"
+##
+extraEnvVars: []
 
 ## ref: https://kubernetes.io/docs/concepts/storage/volumes/
 ## @param volumes Define volumes for the Paperless pod
