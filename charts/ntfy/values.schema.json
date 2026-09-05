@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "v2.11.0"
+          "default": "v2.28.0"
         },
         "digest": {
           "type": "string",
@@ -101,6 +101,16 @@
           "description": "Whether or not ntfy is hosted behind a proxy",
           "default": "false"
         },
+        "proxyForwardedHeader": {
+          "type": "string",
+          "description": "The header used to identify visitors when ntfy.behindProxy is set (e.g. \"X-Forwarded-For\")",
+          "default": "\"\""
+        },
+        "proxyTrustedHosts": {
+          "type": "string",
+          "description": "A comma-separated list of IP addresses, hostnames or CIDRs to remove from the forwarded",
+          "default": "\"\""
+        },
         "keepaliveInterval": {
           "type": "string",
           "description": "Interval in which keepalive messages are sent to the client",
@@ -139,10 +149,25 @@
           "description": "Allow users to reserve topics",
           "default": "false"
         },
+        "requireLogin": {
+          "type": "boolean",
+          "description": "Redirect users to the login page if they are not logged in, disallowing web app access without login",
+          "default": "false"
+        },
         "globalTopicLimit": {
           "type": "number",
           "description": "The total number of topics before the server rejects new topics",
           "default": "15000"
+        },
+        "database": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "A PostgreSQL connection string (e.g. \"postgres://user:pass@host:5432/ntfy\")",
+              "default": "\"\""
+            }
+          }
         },
         "data": {
           "type": "object",
@@ -226,6 +251,11 @@
               "type": "string",
               "description": "SQLite queries to run on database initialization (e.g. to enable WAL mode)",
               "default": "\"\""
+            },
+            "accessCache": {
+              "type": "boolean",
+              "description": "Cache ACL/authorization decisions in memory to reduce database load",
+              "default": "false"
             }
           }
         },
@@ -281,6 +311,11 @@
               "type": "string",
               "description": "An existing secret with a `username` and `password` key",
               "default": "\"\""
+            },
+            "senderVerify": {
+              "type": "boolean",
+              "description": "Require e-mail recipient verification before an X-Email header may be used",
+              "default": "false"
             },
             "incoming": {
               "type": "object",
@@ -456,6 +491,44 @@
               "type": "boolean",
               "description": "Whether to enable subscriber-based rate limiting",
               "default": "false"
+            },
+            "topicCreationLimitBurst": {
+              "type": "number",
+              "description": "The initial bucket of new-topic tokens per visitor (0 disables the limit)",
+              "default": "100"
+            },
+            "topicCreationLimitReplenish": {
+              "type": "string",
+              "description": "The rate at which the new-topic token bucket is refilled (e.g. \"1m\")",
+              "default": "1m"
+            }
+          }
+        },
+        "ban": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "The file abusive IPs are appended to - leave empty to disable; its directory must exist and be writable",
+              "default": "\"\""
+            },
+            "window": {
+              "type": "string",
+              "description": "The rolling window over which weighted strikes are counted, per visitor (e.g. \"1m\")",
+              "default": "\"\""
+            },
+            "threshold": {
+              "type": "number",
+              "description": "The number of weighted strikes per window before a visitor is banned",
+              "default": "0"
+            },
+            "weights": {
+              "type": "array",
+              "description": "Strike weights per matcher KEY:WEIGHT (e.g. an ntfy code \"42909:10\", a prefix family \"429*:5\", or \"*:1\") -",
+              "default": "[]",
+              "items": {
+                "type": "string"
+              }
             }
           }
         },

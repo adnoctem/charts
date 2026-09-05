@@ -34,6 +34,12 @@ data:
     {{- if .Values.ntfy.behindProxy }}
     behind-proxy: {{ .Values.ntfy.behindProxy }}
     {{- end }}
+    {{- if .Values.ntfy.proxyForwardedHeader }}
+    proxy-forwarded-header: {{ .Values.ntfy.proxyForwardedHeader }}
+    {{- end }}
+    {{- if .Values.ntfy.proxyTrustedHosts }}
+    proxy-trusted-hosts: {{ .Values.ntfy.proxyTrustedHosts }}
+    {{- end }}
     {{- if .Values.ntfy.keepaliveInterval }}
     keepalive-interval: {{ .Values.ntfy.keepaliveInterval }}
     {{- end }}
@@ -54,6 +60,15 @@ data:
     {{- end }}
     {{- if .Values.ntfy.enableReservations }}
     enable-reservations: {{ .Values.ntfy.enableReservations }}
+    {{- end }}
+    {{- if .Values.ntfy.requireLogin }}
+    require-login: {{ .Values.ntfy.requireLogin }}
+    {{- end }}
+    {{- /*
+      DATABASE SETTINGS
+    */}}
+    {{- if .Values.ntfy.database.url }}
+    database-url: {{ .Values.ntfy.database.url }}
     {{- end }}
     {{- /*
       CACHE SETTINGS
@@ -85,6 +100,9 @@ data:
     {{- if .Values.ntfy.auth.startupQueries }}
     auth-startup-queries: {{ .Values.ntfy.auth.startupQueries }}
     {{- end }}
+    {{- if .Values.ntfy.auth.accessCache }}
+    auth-access-cache: {{ .Values.ntfy.auth.accessCache }}
+    {{- end }}
     {{- /*
       ATTACHMENT SETTINGS
     */}}
@@ -108,6 +126,9 @@ data:
     {{- end }}
     {{- if .Values.ntfy.smtp.senderFrom }}
     smtp-sender-from: {{ .Values.ntfy.smtp.senderFrom }}
+    {{- end }}
+    {{- if .Values.ntfy.smtp.senderVerify }}
+    smtp-sender-verify: {{ .Values.ntfy.smtp.senderVerify }}
     {{- end }}
     {{- if .Values.ntfy.smtp.incoming.listen }}
     smtp-server-listen: {{ .Values.ntfy.smtp.incoming.listen }}
@@ -152,7 +173,7 @@ data:
     message-size-limit: {{ .Values.ntfy.message.sizeLimit }}
     {{- end }}
     {{- if .Values.ntfy.message.delayLimit }}
-    message-size-limit: {{ .Values.ntfy.message.delayLimit }}
+    message-delay-limit: {{ .Values.ntfy.message.delayLimit }}
     {{- end }}
     {{- /*
       VISITOR SETTINGS
@@ -186,6 +207,28 @@ data:
     {{- end }}
     {{- if .Values.ntfy.visitor.subscriberRateLimiting }}
     visitor-subscriber-rate-limiting: {{ .Values.ntfy.visitor.subscriberRateLimiting }}
+    {{- end }}
+    {{- if .Values.ntfy.visitor.topicCreationLimitBurst }}
+    visitor-topic-creation-limit-burst: {{ .Values.ntfy.visitor.topicCreationLimitBurst }}
+    {{- end }}
+    {{- if .Values.ntfy.visitor.topicCreationLimitReplenish }}
+    visitor-topic-creation-limit-replenish: {{ .Values.ntfy.visitor.topicCreationLimitReplenish }}
+    {{- end }}
+    {{- /*
+      BAN SETTINGS
+    */}}
+    {{- if .Values.ntfy.ban.file }}
+    ban-file: {{ .Values.ntfy.ban.file }}
+    {{- end }}
+    {{- if .Values.ntfy.ban.window }}
+    ban-window: {{ .Values.ntfy.ban.window }}
+    {{- end }}
+    {{- if .Values.ntfy.ban.threshold }}
+    ban-threshold: {{ .Values.ntfy.ban.threshold }}
+    {{- end }}
+    {{- if .Values.ntfy.ban.weights }}
+    ban-weights:
+      {{- toYaml .Values.ntfy.ban.weights | nindent 6 }}
     {{- end }}
     {{- /*
       STRIPE SETTINGS

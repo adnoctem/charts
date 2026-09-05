@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: binwiederhier/ntfy
-  tag: v2.11.0
+  tag: v2.28.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -96,6 +96,15 @@ ntfy:
   ##
   behindProxy: false
 
+  ## @param ntfy.proxyForwardedHeader [string] The header used to identify visitors when ntfy.behindProxy is set (e.g. "X-Forwarded-For")
+  ##
+  proxyForwardedHeader: ""
+
+  ## @param ntfy.proxyTrustedHosts [string] A comma-separated list of IP addresses, hostnames or CIDRs to remove from the forwarded
+  ## header when determining the real visitor IP - only useful with multiple chained proxies
+  ##
+  proxyTrustedHosts: ""
+
   ## @param ntfy.keepaliveInterval [string] Interval in which keepalive messages are sent to the client
   ##
   keepaliveInterval: ""
@@ -124,9 +133,23 @@ ntfy:
   ##
   enableReservations: false
 
+  ## @param ntfy.requireLogin [default: false] Redirect users to the login page if they are not logged in, disallowing web app access without login
+  ##
+  requireLogin: false
+
   ## @param ntfy.globalTopicLimit [default: 15000] The total number of topics before the server rejects new topics
   ##
   globalTopicLimit: 15000
+
+  ## Database configuration
+  ## NOTE: setting ntfy.database.url switches message cache, user management, and web push subscriptions to
+  ##       PostgreSQL - ntfy.cache.file, ntfy.auth.file, and ntfy.web.file must be left unset in that case, and
+  ##       authentication/access control is implicitly enabled (default access "read-write")
+  ##
+  database:
+    ## @param ntfy.database.url [string] A PostgreSQL connection string (e.g. "postgres://user:pass@host:5432/ntfy")
+    ##
+    url: ""
 
   ## Data configuration
   ##
@@ -205,6 +228,10 @@ ntfy:
     ##
     startupQueries: ""
 
+    ## @param ntfy.auth.accessCache [default: false] Cache ACL/authorization decisions in memory to reduce database load
+    ##
+    accessCache: false
+
   ## Attachment configuration
   ##
   attachment:
@@ -239,6 +266,9 @@ ntfy:
     ## @param ntfy.smtp.existingSecret [string] An existing secret with a `username` and `password` key
     ##
     existingSecret: ""
+    ## @param ntfy.smtp.senderVerify [default: false] Require e-mail recipient verification before an X-Email header may be used
+    ##
+    senderVerify: false
 
     ## Incoming SMTP server configuration
     ##
@@ -354,6 +384,36 @@ ntfy:
     ## @param ntfy.visitor.subscriberRateLimiting [default: false] Whether to enable subscriber-based rate limiting
     ##
     subscriberRateLimiting: false
+    ## @param ntfy.visitor.topicCreationLimitBurst [default: 100] The initial bucket of new-topic tokens per visitor (0 disables the limit)
+    ##
+    topicCreationLimitBurst: 100
+    ## @param ntfy.visitor.topicCreationLimitReplenish [default: 1m] The rate at which the new-topic token bucket is refilled (e.g. "1m")
+    ##
+    topicCreationLimitReplenish: "1m"
+
+  ## Ban configuration
+  ## Counts HTTP response statuses per visitor and appends abusive IPs to a file that fail2ban (or similar) can
+  ## tail and ban on sight - captures ntfy-layer rejections (e.g. ACL 403s, ntfy's own 429s) that fail2ban would
+  ## otherwise have to regex-parse out of the full access log
+  ##
+  ban:
+    ## @param ntfy.ban.file [string] The file abusive IPs are appended to - leave empty to disable; its directory must exist and be writable
+    ##
+    file: ""
+    ## @param ntfy.ban.window [string] The rolling window over which weighted strikes are counted, per visitor (e.g. "1m")
+    ##
+    window: ""
+    ## @param ntfy.ban.threshold [default: 0] The number of weighted strikes per window before a visitor is banned
+    ##
+    threshold: 0
+    ## @param ntfy.ban.weights [array] Strike weights per matcher KEY:WEIGHT (e.g. an ntfy code "42909:10", a prefix family "429*:5", or "*:1") -
+    ## a weight of 0 exempts a code from ever contributing to a ban
+    ## e.g.
+    ## weights:
+    ##   - "42909:10"
+    ##   - "42908:0"
+    ##
+    weights: []
 
   ## Stripe configuration
   ##
