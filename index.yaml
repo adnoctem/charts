@@ -4677,6 +4677,86 @@ entries:
           description: repository owner changed from fmjstudios to adnoctem
         - kind: fixed
           description: verify rotation of expired GPG key
+        - kind: fixed
+          description: corrected the license annotation (Paperless-ngx is GPL-3.0, not MIT) and a stale image tag annotation (2.4.0, though appVersion was already 2.10.1)
+        - kind: changed
+          description: bump appVersion to 3.1.3 (from 2.10.1), a major version upgrade - see README Upgrading section, upgrading in-place requires passing through 2.20.15 first
+        - kind: fixed
+          description: the generated Paperless secret key rotated on every helm upgrade, invalidating all active sessions - it's now preserved across upgrades
+        - kind: fixed
+          description: point the gotenberg subchart dependency at its current ghcr.io/adnoctem/charts location, replacing the stale pre-rename path
+        - kind: added
+          description: extraEnvVars for the many Paperless-ngx settings without a dedicated value (PAPERLESS_TRUSTED_PROXIES, PAPERLESS_DB_OPTIONS, consumer polling/stability settings, etc.)
+      artifacthub.io/images: |
+        - name: paperless-ngx
+          image: ghcr.io/paperless-ngx/paperless-ngx:3.1.3
+      artifacthub.io/license: GPL-3.0
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Paperless-NGX GitHub Repository
+          url: https://github.com/paperless-ngx/paperless-ngx
+        - name: Paperless-NGX Documentation
+          url: https://docs.paperless-ngx.com/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: GPL-3.0
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 3.1.3
+    created: "2026-09-05T14:36:47.538766971Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    - condition: tika.enabled
+      name: tika
+      repository: https://apache.jfrog.io/artifactory/tika
+      version: ~2.9
+    - condition: gotenberg.enabled
+      name: gotenberg
+      repository: oci://ghcr.io/adnoctem/charts
+      version: ~0.4.0
+    description: Paperless-NGX is a community-supported supercharged version of paperless
+      - scan, index and archive all your physical documents
+    digest: 09710740c50e78baf87762d859365e698fe667babab3ef6032801d6e481dee0e
+    home: https://github.com/paperless-ngx/paperless-ngx
+    icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    keywords:
+    - documents
+    - archival
+    - ocr
+    - conversion
+    - paper
+    - paperless
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: paperless-ngx
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.4.0/paperless-ngx-0.4.0.tgz
+    version: 0.4.0
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
       artifacthub.io/images: |
         - name: paperless-ngx
           image: ghcr.io/paperless-ngx/paperless-ngx:2.4.0
@@ -7016,4 +7096,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T12:42:17.822620457Z"
+generated: "2026-09-05T14:36:47.538919933Z"
