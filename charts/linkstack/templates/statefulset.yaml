@@ -129,6 +129,9 @@ spec:
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh"]
           args: ["-c", "cp -r /htdocs/. /data && chown -R {{ default "100" .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }} /data"]
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: {{ include "linkstack.pv.name" . }}
               mountPath: "/data"
