@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "v2.5.3"
+          "default": "v2.16.2"
         },
         "digest": {
           "type": "string",
@@ -619,6 +619,12 @@
       "type": "object",
       "description": "The resource limits/requests for the Linkwarden pod",
       "default": {}
+    },
+    "extraEnvVars": {
+      "type": "array",
+      "description": "Extra environment variables for the Linkwarden pod - use this for any of the many",
+      "default": [],
+      "items": {}
     },
     "volumes": {
       "type": "array",

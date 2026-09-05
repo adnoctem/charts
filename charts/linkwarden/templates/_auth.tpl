@@ -2,12 +2,17 @@
   SSO Authentication providers
 */}}
 {{- define "linkwarden.auth.providers" -}}
-  {{- $list := list "fortytwo" "apple" "atlassian" "auth0" "authentik" "battleNet" "box" "bungie" "cognito" "coinbase" "discord" "dropbox" "duende_ids6" "eveOnline" "facebook" "faceit" "foursquare" "freshbooks" "fusionauth" "freshbooks" "github" "gitlab" "google" "hubspot" "ids4" "kakao" "keycloak" "line" "linkedin" "mailchimp" "mailru" "naver" "netlify" "okta" "onelogin" "osso" "osu!" "patreon" "pinterest" "pipedrive" "reddit" "salesforce" "slack" "spotify" "strava" "todoist" "twitch" "unitedEffects" "vk" "wikimedia" "wordpress" "yandex" "zitadel" "zoho" "zoom" }}
+  {{- $list := list "fortytwo" "apple" "atlassian" "auth0" "authelia" "authentik" "azure_ad" "azure_ad_b2c" "battleNet" "box" "bungie" "cognito" "coinbase" "discord" "dropbox" "duende_ids6" "eveOnline" "facebook" "faceit" "foursquare" "freshbooks" "fusionauth" "github" "gitlab" "google" "hubspot" "ids4" "kakao" "keycloak" "line" "linkedin" "mailchimp" "mailru" "naver" "netlify" "oidc" "okta" "onelogin" "osso" "osu!" "patreon" "pinterest" "pipedrive" "reddit" "salesforce" "slack" "spotify" "strava" "synology" "todoist" "twitch" "unitedEffects" "vk" "wikimedia" "wordpress" "yandex" "zitadel" "zoho" "zoom" }}
   {{- $list | toJson }}
 {{- end }}
 
 {{- define "linkwarden.auth.providers.withIssuers" }}
   {{- $list := list "auth0" "authentik" "battleNet" "box" "cognito" "ids6" "fusionauth" "ids4" "keycloak" "okta" "onelogin" "osso" "unitedEffects" "zitadel" }}
+  {{- $list | toJson }}
+{{- end }}
+
+{{- define "linkwarden.auth.providers.withWellKnown" }}
+  {{- $list := list "authelia" "oidc" "synology" }}
   {{- $list | toJson }}
 {{- end }}
 
@@ -32,6 +37,10 @@
 
 {{- define "linkwarden.auth.envs.issuer" -}}
 {{ printf "%s_ISSUER" .provider | upper }}
+{{- end }}
+
+{{- define "linkwarden.auth.envs.wellKnownUrl" -}}
+{{ printf "%s_WELLKNOWN_URL" .provider | upper }}
 {{- end }}
 
 {{/*
