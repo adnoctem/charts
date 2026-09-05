@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: activepieces/activepieces
-  tag: 0.28.0
+  tag: 0.90.2
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -148,7 +148,9 @@ activepieces:
   ## Queue configuration
   ##
   queue:
-    ## @param activepieces.queue.mode The queue mode to use. Valid values are `memory` and `redis`.
+    ## @param activepieces.queue.mode The queue mode to use. Valid values are `memory` and `redis` - rendered as the
+    ## `AP_REDIS_TYPE` environment variable (`MEMORY`/`STANDALONE`) as of Activepieces 0.70.0, replacing the removed
+    ## `AP_QUEUE_MODE`
     ##
     mode: memory
     ## @param activepieces.queue.enableUI Enable the queue UI (only works with redis)
@@ -167,34 +169,39 @@ activepieces:
   ## Pieces configuration
   ##
   pieces:
-    ## @param activepieces.pieces.source Define the source for pieces: `FILE` for local development, `DB` for database.
-    ## ref: https://www.activepieces.com/docs/install/configurations/environment-variables#setting-piece-source
+    ## @param activepieces.pieces.source [string] Deprecated and no longer rendered - pieces are self-contained bundles as of
+    ## Activepieces 0.86.0 and no longer have a configurable source. Left empty for backward compatibility.
     ##
-    source: CLOUD_AND_DB
+    source: ""
     ## @param activepieces.pieces.syncMode Define the syncing method for Activepieces to download and use pieces.
     ## `NONE` for no metadata syncing / ‘OFFICIAL_AUTO’ for automatic syncing for pieces metadata from cloud
     ##
     syncMode: OFFICIAL_AUTO
 
   ## CoPilot configuration
+  ## NOTE: Code Copilot itself was deprecated upstream in Activepieces 0.71.0 ("will be reintroduced in a different,
+  ## more powerful form in the future"), and `instanceType`/`openAI.endpoint`/`openAI.apiVersion` (Azure OpenAI-specific
+  ## settings) are no longer rendered as a result. `openAI.apiKey` is still rendered as `AP_OPENAI_API_KEY`, which
+  ## upstream has since repurposed to fund Tool Search's semantic embeddings (MCP `ap_search_actions`/`ap_search_triggers`)
+  ## rather than Copilot - it still works, just for a different feature than this section's name suggests
   ##
   copilot:
-    ## @param activepieces.copilot.instanceType Define the instance type. Possible values are `AZURE_OPENAI`, `OPENAI`.
+    ## @param activepieces.copilot.instanceType [string] Deprecated and no longer rendered - see the note above
     ##
-    instanceType: OPENAI
+    instanceType: ""
     ## OpenAI configuration
     ##
     openAI:
-      ## @param activepieces.copilot.openAI.apiKey Define the OpenAI API key. This is required only if you want to enable code copilot
+      ## @param activepieces.copilot.openAI.apiKey [string] Rendered as `AP_OPENAI_API_KEY`, which now funds Tool Search's embeddings rather than Copilot - see the note above
       ##
       apiKey: ""
-      ## @param activepieces.copilot.openAI.endpoint Define the OpenAI Endpoint. This is required only if you want to enable code copilot
+      ## @param activepieces.copilot.openAI.endpoint [string] Deprecated and no longer rendered - see the note above
       ##
       endpoint: ""
-      ## @param activepieces.copilot.openAI.apiVersion Define the OpenAI API version. This is required only if you want to enable code copilot
+      ## @param activepieces.copilot.openAI.apiVersion [string] Deprecated and no longer rendered - see the note above
       ##
       apiVersion: ""
-      ## @param activepieces.copilot.openAI.existingSecret The name of an existing Secret containing a `apiKey`
+      ## @param activepieces.copilot.openAI.existingSecret [string] The name of an existing Secret containing an `apiKey` key, for `AP_OPENAI_API_KEY` - see the note above
       ##
       existingSecret: ""
 
@@ -214,12 +221,14 @@ activepieces:
   ## Sandbox configuration
   ##
   sandbox:
-    ## @param activepieces.sandbox.executionMode Define the execution mode. Valid values are `UNSANDBOXED` and `SANDBOXED`
+    ## @param activepieces.sandbox.executionMode Define the execution mode. Valid values are `UNSANDBOXED`, `SANDBOX_PROCESS`,
+    ## `SANDBOX_CODE_ONLY` or `SANDBOX_CODE_AND_PROCESS` - `SANDBOXED` was renamed to `SANDBOX_PROCESS` in Activepieces 0.71.0
     ##
     executionMode: UNSANDBOXED
-    ## @param activepieces.sandbox.runTimeSeconds Maximum allowed runtime for a flow
+    ## @param activepieces.sandbox.flowTimeoutSeconds Maximum allowed runtime for a flow, in seconds - rendered as
+    ## `AP_FLOW_TIMEOUT_SECONDS` as of Activepieces 0.30.0, replacing the removed `AP_SANDBOX_RUN_TIME_SECONDS`
     ##
-    runTimeSeconds: false
+    flowTimeoutSeconds: false
     ## @param activepieces.sandbox.propagatedEnvVars Environment variables that will be propagated to the sandboxed code.
     ## If you are using it for pieces, we strongly suggests keeping everything in the authentication object to make sure it works across AP instances
     ##
@@ -228,7 +237,8 @@ activepieces:
   ## @param activepieces.dataRetentionDays The number of days to retain execution data, logs and events
   ##
   dataRetentionDays: ""
-  ## @param activepieces.workerConcurrency The number of flows to be processed at the same time
+  ## @param activepieces.workerConcurrency The number of flows to be processed at the same time - rendered as
+  ## `AP_WORKER_CONCURRENCY` as of Activepieces 0.69.0, replacing the removed `AP_FLOW_WORKER_CONCURRENCY`
   ##
   workerConcurrency: 10
   ## @param activepieces.triggerPollInterval The polling interval determines how frequently the system checks for new data updates for pieces with scheduled triggers
@@ -240,9 +250,10 @@ activepieces:
   ## @param activepieces.telemetry Enable the collection of telemetry information
   ##
   telemetry: false
-  ## @param activepieces.templateSourceURL The endpoint which is queried for templates, remove this and templates will be removed from the UI.
+  ## @param activepieces.templateSourceURL [string] Deprecated and no longer rendered - the templates API moved from
+  ## `/flow-templates` to `/templates` in Activepieces 0.77.0 and is no longer configurable via an environment variable
   ##
-  templateSourceURL: "https://cloud.activepieces.com/api/v1/flow-templates"
+  templateSourceURL: ""
   ## @param activepieces.webhookTimeoutSeconds The default timeout for webhooks
   ##
   webhookTimeoutSeconds: 30
@@ -513,6 +524,16 @@ resources: {}
 # requests:
 #   cpu: 100m
 #   memory: 128Mi
+
+## @param extraEnvVars Extra environment variables for the Activepieces pod - use this for any of Activepieces' many
+## environment variables that don't have a dedicated value below (e.g. AP_SSRF_ALLOW_LIST, AP_ALLOWED_EMBED_ORIGINS,
+## AP_PREWARM_CACHE_ON_STARTUP, AP_DEFAULT_CONCURRENT_JOBS_LIMIT, AP_SMTP_* for outgoing email) - see
+## https://www.activepieces.com/docs/install/reference/environment-variables for the full list
+## extraEnvVars:
+##   - name: AP_SSRF_ALLOW_LIST
+##     value: "10.0.0.0/8"
+##
+extraEnvVars: []
 
 ## ref: https://kubernetes.io/docs/concepts/storage/volumes/
 ## @param volumes Define volumes for the Activepieces pod

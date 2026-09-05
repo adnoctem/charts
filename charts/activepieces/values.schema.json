@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "0.28.0"
+          "default": "0.90.2"
         },
         "digest": {
           "type": "string",
@@ -196,7 +196,7 @@
           "properties": {
             "mode": {
               "type": "string",
-              "description": "The queue mode to use. Valid values are `memory` and `redis`.",
+              "description": "The queue mode to use. Valid values are `memory` and `redis` - rendered as the",
               "default": "memory"
             },
             "enableUI": {
@@ -226,8 +226,8 @@
           "properties": {
             "source": {
               "type": "string",
-              "description": "Define the source for pieces: `FILE` for local development, `DB` for database.",
-              "default": "CLOUD_AND_DB"
+              "description": "Deprecated and no longer rendered - pieces are self-contained bundles as of",
+              "default": "\"\""
             },
             "syncMode": {
               "type": "string",
@@ -241,31 +241,31 @@
           "properties": {
             "instanceType": {
               "type": "string",
-              "description": "Define the instance type. Possible values are `AZURE_OPENAI`, `OPENAI`.",
-              "default": "OPENAI"
+              "description": "Deprecated and no longer rendered - see the note above",
+              "default": "\"\""
             },
             "openAI": {
               "type": "object",
               "properties": {
                 "apiKey": {
                   "type": "string",
-                  "description": "Define the OpenAI API key. This is required only if you want to enable code copilot",
-                  "default": ""
+                  "description": "Rendered as `AP_OPENAI_API_KEY`, which now funds Tool Search's embeddings rather than Copilot - see the note above",
+                  "default": "\"\""
                 },
                 "endpoint": {
                   "type": "string",
-                  "description": "Define the OpenAI Endpoint. This is required only if you want to enable code copilot",
-                  "default": ""
+                  "description": "Deprecated and no longer rendered - see the note above",
+                  "default": "\"\""
                 },
                 "apiVersion": {
                   "type": "string",
-                  "description": "Define the OpenAI API version. This is required only if you want to enable code copilot",
-                  "default": ""
+                  "description": "Deprecated and no longer rendered - see the note above",
+                  "default": "\"\""
                 },
                 "existingSecret": {
                   "type": "string",
-                  "description": "The name of an existing Secret containing a `apiKey`",
-                  "default": ""
+                  "description": "The name of an existing Secret containing an `apiKey` key, for `AP_OPENAI_API_KEY` - see the note above",
+                  "default": "\"\""
                 }
               }
             }
@@ -296,12 +296,12 @@
           "properties": {
             "executionMode": {
               "type": "string",
-              "description": "Define the execution mode. Valid values are `UNSANDBOXED` and `SANDBOXED`",
+              "description": "Define the execution mode. Valid values are `UNSANDBOXED`, `SANDBOX_PROCESS`,",
               "default": "UNSANDBOXED"
             },
-            "runTimeSeconds": {
+            "flowTimeoutSeconds": {
               "type": "boolean",
-              "description": "Maximum allowed runtime for a flow",
+              "description": "Maximum allowed runtime for a flow, in seconds - rendered as",
               "default": false
             },
             "propagatedEnvVars": {
@@ -318,7 +318,7 @@
         },
         "workerConcurrency": {
           "type": "number",
-          "description": "The number of flows to be processed at the same time",
+          "description": "The number of flows to be processed at the same time - rendered as",
           "default": 10
         },
         "triggerPollInterval": {
@@ -338,8 +338,8 @@
         },
         "templateSourceURL": {
           "type": "string",
-          "description": "The endpoint which is queried for templates, remove this and templates will be removed from the UI.",
-          "default": "https://cloud.activepieces.com/api/v1/flow-templates"
+          "description": "Deprecated and no longer rendered - the templates API moved from",
+          "default": "\"\""
         },
         "webhookTimeoutSeconds": {
           "type": "number",
@@ -659,6 +659,12 @@
       "type": "object",
       "description": "The resource limits/requests for the Activepieces pod",
       "default": {}
+    },
+    "extraEnvVars": {
+      "type": "array",
+      "description": "Extra environment variables for the Activepieces pod - use this for any of Activepieces' many",
+      "default": [],
+      "items": {}
     },
     "volumes": {
       "type": "array",

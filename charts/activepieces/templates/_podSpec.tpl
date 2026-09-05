@@ -97,6 +97,9 @@ template:
                 name: {{ default (include "activepieces.secrets.openai" .) .Values.activepieces.copilot.openAI.existingSecret }}
                 key: apiKey
           {{- end }}
+          {{- if .Values.extraEnvVars }}
+          {{- toYaml .Values.extraEnvVars | nindent 10 }}
+          {{- end }}
         ports:
           - name: http
             containerPort: 80

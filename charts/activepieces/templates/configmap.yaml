@@ -59,32 +59,19 @@ data:
   {{- /*
     QUEUE SETTINGS
   */}}
-  {{- if .Values.activepieces.queue.mode }}
-  AP_QUEUE_MODE: {{ .Values.activepieces.queue.mode | upper | quote }}
+  {{- if eq .Values.activepieces.queue.mode "redis" }}
+  AP_REDIS_TYPE: "STANDALONE"
+  {{- else if .Values.activepieces.queue.mode }}
+  AP_REDIS_TYPE: {{ .Values.activepieces.queue.mode | upper | quote }}
   {{- end }}
-  {{- if and .Values.activepieces.queue.enableUI (eq .Values.activepieces.queue.mode "REDIS") }}
+  {{- if and .Values.activepieces.queue.enableUI (eq .Values.activepieces.queue.mode "redis") }}
   AP_QUEUE_UI_ENABLED: {{ .Values.activepieces.queue.enableUI | quote }}
   {{- end }}
   {{- /*
     PIECES SETTINGS
   */}}
-  {{- if .Values.activepieces.pieces.source }}
-  AP_PIECES_SOURCE: {{ .Values.activepieces.pieces.source | upper | quote }}
-  {{- end }}
   {{- if .Values.activepieces.pieces.syncMode }}
   AP_PIECES_SYNC_MODE: {{ .Values.activepieces.pieces.syncMode | upper | quote }}
-  {{- end }}
-  {{- /*
-    COPILOT SETTINGS
-  */}}
-  {{- if .Values.activepieces.copilot.instanceType }}
-  AP_COPILOT_INSTANCE_TYPE: {{ .Values.activepieces.copilot.instanceType | upper | quote }}
-  {{- end }}
-  {{- if .Values.activepieces.copilot.openAI.endpoint }}
-  AP_AZURE_OPENAI_ENDPOINT: {{ .Values.activepieces.copilot.openAI.endpoint | quote }}
-  {{- end }}
-  {{- if .Values.activepieces.copilot.openAI.apiVersion }}
-  AP_AZURE_OPENAI_API_VERSION: {{ .Values.activepieces.copilot.openAI.apiVersion | quote }}
   {{- end }}
   {{- /*
     SANDBOX SETTINGS
@@ -92,8 +79,8 @@ data:
   {{- if .Values.activepieces.sandbox.executionMode }}
   AP_EXECUTION_MODE: {{ .Values.activepieces.sandbox.executionMode | upper | quote }}
   {{- end }}
-  {{- if .Values.activepieces.sandbox.runTimeSeconds }}
-  AP_SANDBOX_RUN_TIME_SECONDS: {{ .Values.activepieces.sandbox.runTimeSeconds | quote }}
+  {{- if .Values.activepieces.sandbox.flowTimeoutSeconds }}
+  AP_FLOW_TIMEOUT_SECONDS: {{ .Values.activepieces.sandbox.flowTimeoutSeconds | quote }}
   {{- end }}
   {{- if .Values.activepieces.sandbox.propagatedEnvVars }}
   AP_SANDBOX_PROPAGATED_ENV_VARS: {{ .Values.activepieces.sandbox.propagatedEnvVars | quote }}
@@ -102,7 +89,7 @@ data:
     GENERAL SETTINGS
   */}}
   {{- if .Values.activepieces.workerConcurrency }}
-  AP_FLOW_WORKER_CONCURRENCY: {{ .Values.activepieces.workerConcurrency | quote }}
+  AP_WORKER_CONCURRENCY: {{ .Values.activepieces.workerConcurrency | quote }}
   {{- end }}
   {{- if .Values.activepieces.dataRetentionDays }}
   AP_EXECUTION_DATA_RETENTION_DAYS: {{ .Values.activepieces.dataRetentionDays | quote }}
@@ -115,9 +102,6 @@ data:
   {{- end }}
   {{- if .Values.activepieces.telemetry }}
   AP_TELEMETRY_ENABLED: {{ .Values.activepieces.telemetry | quote }}
-  {{- end }}
-  {{- if .Values.activepieces.templateSourceURL }}
-  AP_TEMPLATES_SOURCE_URL: {{ .Values.activepieces.templateSourceURL | quote }}
   {{- end }}
   {{- if .Values.activepieces.webhookTimeoutSeconds }}
   AP_WEBHOOK_TIMEOUT_SECONDS: {{ .Values.activepieces.webhookTimeoutSeconds | quote }}
