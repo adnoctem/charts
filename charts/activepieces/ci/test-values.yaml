@@ -1,7 +1,7 @@
 kind: StatefulSet
 
 activepieces:
-  domain: activepieces.helm.internal
+  domain: activepieces.charts.internal
   configPath: ""
   database: postgres
 
@@ -76,7 +76,7 @@ ingress:
   tls:
     - secretName: activepieces-ingress-tls
       hosts:
-        - activepieces.helm.internal
+        - activepieces.charts.internal
 
 postgresql:
   enabled: true

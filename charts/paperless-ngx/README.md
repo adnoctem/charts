@@ -30,14 +30,14 @@ on [GitHub Container Registry](https://github.com/paperless-ngx/paperless-ngx/pk
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install paperless-ngx adnoctem/paperless-ngx --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/paperless-ngx:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/paperless-ngx:X.Y.Z
 ```
 
 ## Introduction

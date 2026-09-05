@@ -23,8 +23,9 @@ data:
     Database settings
   */}}
   DB_DRIVER: {{ .Values.cachet.database.driver | quote }}
-  {{- if .Values.cachet.database.host }}
-  DB_HOST: {{ .Values.cachet.database.host | quote }}
+  {{- $dbHost := include "cachet.database.host" . }}
+  {{- if $dbHost }}
+  DB_HOST: {{ $dbHost | quote }}
   {{- end }}
   {{- if .Values.cachet.database.port }}
   DB_PORT: {{ .Values.cachet.database.port | quote }}
@@ -74,8 +75,9 @@ data:
   {{- /*
     Redis settings
   */}}
-  {{- if .Values.cachet.redis.host }}
-  REDIS_HOST: {{ .Values.cachet.redis.host | quote }}
+  {{- $redisHost := include "cachet.redis.host" . }}
+  {{- if $redisHost }}
+  REDIS_HOST: {{ $redisHost | quote }}
   {{- end }}
   {{- if .Values.cachet.redis.database }}
   REDIS_DATABASE: {{ .Values.cachet.redis.database | quote }}

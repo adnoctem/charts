@@ -4,14 +4,14 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: mkcert-development-issuer
   hosts:
-    - host: gotenberg.helm.internal
+    - host: gotenberg.charts.internal
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: gotenberg-ingress-tls
       hosts:
-        - gotenberg.helm.internal
+        - gotenberg.charts.internal
 
 livenessProbe:
   enabled: true

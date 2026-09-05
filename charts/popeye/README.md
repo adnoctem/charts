@@ -21,14 +21,14 @@ on [Docker Hub](https://hub.docker.com/r/derailed/popeye).
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install ntfy adnoctem/popeye --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/popeye:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/popeye:X.Y.Z
 ```
 
 ## Introduction

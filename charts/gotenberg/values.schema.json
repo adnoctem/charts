@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "8.7.0"
+          "default": "8.36.0"
         },
         "digest": {
           "type": "string",
@@ -84,14 +84,49 @@
               "description": "Set the root path of the API",
               "default": "\"/\""
             },
-            "traceHeader": {
+            "correlationIdHeader": {
               "type": "string",
               "description": "Set the header name to use for identifying requests",
               "default": "\"\""
             },
             "disableHealthCheckLogging": {
               "type": "boolean",
-              "description": "Disable health check logging",
+              "description": "Disable health check route telemetry",
+              "default": "false"
+            },
+            "disableRootRouteTelemetry": {
+              "type": "boolean",
+              "description": "Disable telemetry for the root (\"/\") route",
+              "default": "false"
+            },
+            "disableDebugRouteTelemetry": {
+              "type": "boolean",
+              "description": "Disable telemetry for the /debug route",
+              "default": "false"
+            },
+            "disableVersionRouteTelemetry": {
+              "type": "boolean",
+              "description": "Disable telemetry for the /version route",
+              "default": "false"
+            },
+            "bodyLimit": {
+              "type": "string",
+              "description": "Set a cap on multipart/form-data request size, e.g. \"5MB\"",
+              "default": "\"\""
+            },
+            "bindIp": {
+              "type": "string",
+              "description": "Bind the API to a specific IP address",
+              "default": "0.0.0.0"
+            },
+            "enableDebugRoute": {
+              "type": "boolean",
+              "description": "Expose the /debug route with full instance configuration",
+              "default": "false"
+            },
+            "enableOidcAuth": {
+              "type": "boolean",
+              "description": "Enable OIDC bearer token authentication (mutually exclusive with basicAuth)",
               "default": "false"
             }
           }
@@ -174,11 +209,6 @@
               "description": "Don't enforce the same-origin policy",
               "default": "false"
             },
-            "incognito": {
-              "type": "boolean",
-              "description": "Start Chromium with incognito mode",
-              "default": "false"
-            },
             "hostResolverRules": {
               "type": "string",
               "description": "Set custom mappings to the host resolver",
@@ -207,6 +237,36 @@
             "disableRoutes": {
               "type": "boolean",
               "description": "Disable the routes",
+              "default": "false"
+            },
+            "maxConcurrency": {
+              "type": "number",
+              "description": "Maximum number of simultaneous Chromium conversions",
+              "default": "6"
+            },
+            "idleShutdownTimeout": {
+              "type": "string",
+              "description": "Auto-stop Chromium after this idle period; set to \"0s\" to disable",
+              "default": "\"0s\""
+            },
+            "clearStorage": {
+              "type": "boolean",
+              "description": "Clear browser storage between each conversion",
+              "default": "false"
+            },
+            "denyPrivateIps": {
+              "type": "boolean",
+              "description": "Reject Chromium navigations/sub-resources resolving to a non-public IP",
+              "default": "false"
+            },
+            "denyPublicIps": {
+              "type": "boolean",
+              "description": "Reject Chromium navigations/sub-resources resolving to a public IP",
+              "default": "false"
+            },
+            "enableEnvironmentProxy": {
+              "type": "boolean",
+              "description": "Route outbound Chromium traffic through HTTP_PROXY/HTTPS_PROXY/NO_PROXY",
               "default": "false"
             }
           }
@@ -238,16 +298,56 @@
               "type": "boolean",
               "description": "Disable the route",
               "default": "false"
+            },
+            "idleShutdownTimeout": {
+              "type": "string",
+              "description": "Auto-stop LibreOffice after this idle period; set to \"0s\" to disable",
+              "default": "\"0s\""
+            },
+            "allowList": {
+              "type": "string",
+              "description": "Set the allowed URLs for LibreOffice's outbound fetches using a regular expression",
+              "default": "\"\""
+            },
+            "denyList": {
+              "type": "string",
+              "description": "Set the denied URLs for LibreOffice's outbound fetches using a regular expression",
+              "default": "\"\""
+            },
+            "denyPrivateIps": {
+              "type": "boolean",
+              "description": "Reject LibreOffice outbound fetches resolving to a non-public IP",
+              "default": "false"
+            },
+            "denyPublicIps": {
+              "type": "boolean",
+              "description": "Reject LibreOffice outbound fetches resolving to a public IP",
+              "default": "false"
+            },
+            "enableEnvironmentProxy": {
+              "type": "boolean",
+              "description": "Route outbound LibreOffice traffic through HTTP_PROXY/HTTPS_PROXY/NO_PROXY",
+              "default": "false"
             }
           }
         },
         "pdf": {
           "type": "object",
           "properties": {
-            "engines": {
+            "convertEngines": {
               "type": "string",
-              "description": "Set the PDF engines and their order - defaults to 'All'",
-              "default": "\"\""
+              "description": "Set the PDF conversion engines and their order",
+              "default": "libreoffice-pdfengine"
+            },
+            "readMetadataEngines": {
+              "type": "string",
+              "description": "Set the PDF metadata-reading engines and their order",
+              "default": "exiftool"
+            },
+            "writeMetadataEngines": {
+              "type": "string",
+              "description": "Set the PDF metadata-writing engines and their order",
+              "default": "exiftool"
             },
             "disableRoutes": {
               "type": "boolean",
@@ -303,6 +403,21 @@
               "type": "boolean",
               "description": "Disable the webhook feature",
               "default": "false"
+            },
+            "denyPrivateIps": {
+              "type": "boolean",
+              "description": "Reject webhook URLs (success, error, events) resolving to a non-public IP",
+              "default": "false"
+            },
+            "denyPublicIps": {
+              "type": "boolean",
+              "description": "Reject webhook URLs resolving to a public IP",
+              "default": "false"
+            },
+            "enableEnvironmentProxy": {
+              "type": "boolean",
+              "description": "Route outbound webhook traffic through HTTP_PROXY/HTTPS_PROXY/NO_PROXY",
+              "default": "false"
             }
           }
         },
@@ -324,10 +439,45 @@
               "description": "Disable the collect of metrics",
               "default": "false"
             },
-            "disableRouteLogging": {
+            "disableRouteTelemetry": {
               "type": "boolean",
-              "description": "Disable the route logging",
+              "description": "Disable telemetry for the /prometheus route",
               "default": "false"
+            },
+            "metricsPath": {
+              "type": "string",
+              "description": "Customise the Prometheus scrape endpoint path",
+              "default": "\"\""
+            }
+          }
+        },
+        "openTelemetry": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable OpenTelemetry tracing/metrics/logging env vars below",
+              "default": "false"
+            },
+            "tracesExporter": {
+              "type": "string",
+              "description": "Sets OTEL_TRACES_EXPORTER",
+              "default": "\"\""
+            },
+            "metricsExporter": {
+              "type": "string",
+              "description": "Sets OTEL_METRICS_EXPORTER",
+              "default": "\"\""
+            },
+            "logsExporter": {
+              "type": "string",
+              "description": "Sets OTEL_LOGS_EXPORTER",
+              "default": "\"\""
+            },
+            "exporterOtlpEndpoint": {
+              "type": "string",
+              "description": "Sets OTEL_EXPORTER_OTLP_ENDPOINT",
+              "default": "\"\""
             }
           }
         },
@@ -344,10 +494,20 @@
               "description": "Choose the level of logging detail",
               "default": "info"
             },
+            "levelCase": {
+              "type": "string",
+              "description": "Set the level field casing in standard output",
+              "default": "lower"
+            },
             "fieldsPrefix": {
               "type": "string",
               "description": "Prepend a specified prefix to each field in the logs",
               "default": "\"\""
+            },
+            "enableGcpFields": {
+              "type": "boolean",
+              "description": "Use GCP Cloud Run-compatible structured log field names",
+              "default": "false"
             }
           }
         },
@@ -664,6 +824,12 @@
       "type": "object",
       "description": "The resource limits/requests for the Gotenberg pod",
       "default": {}
+    },
+    "extraEnvVars": {
+      "type": "array",
+      "description": "Extra environment variables for the Gotenberg pod, e.g. for TZ",
+      "default": [],
+      "items": {}
     },
     "volumes": {
       "type": "array",

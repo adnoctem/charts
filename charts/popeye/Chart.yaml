@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 0.21.3
 kubeVersion: ">=1.26.0-0"
 name: popeye
-version: 0.2.1
+version: 0.2.2
 description: Popeye is a utility that scans live Kubernetes clusters and reports potential issues with deployed resources and configurations
 home: https://popeyecli.io/
 icon: https://github.com/derailed/popeye/blob/d09ec25f3834d2c6a171486b9726b0a91793e3f0/assets/popeye_logo.png?raw=true
@@ -17,7 +17,7 @@ keywords:
   - push-gateway
   - popeye
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -35,9 +35,9 @@ annotations:
       image: docker.io/derailed/popeye:v0.21.3
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: ntfy GitHub Repository
       url: https://github.com/derailed/popeye
     - name: ntfy Documentation

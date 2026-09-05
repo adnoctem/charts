@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 2.10.1
 kubeVersion: ">=1.26.0-0"
 name: paperless-ngx
-version: 0.3.1
+version: 0.3.2
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -20,6 +20,7 @@ dependencies:
     condition: tika.enabled
     version: ~2.9
   - name: gotenberg
+    # TODO: switch to oci://ghcr.io/adnoctem/charts once gotenberg is published there (nothing pushed yet post-rename)
     repository: oci://ghcr.io/adnoctem/helm
     condition: gotenberg.enabled
     version: ~0.3.0
@@ -34,7 +35,7 @@ keywords:
   - paper
   - paperless
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -52,9 +53,9 @@ annotations:
       image: ghcr.io/paperless-ngx/paperless-ngx:2.4.0
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Paperless-NGX GitHub Repository
       url: https://github.com/paperless-ngx/paperless-ngx
     - name: Paperless-NGX Documentation

@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 1.30.5
 kubeVersion: ">=1.26.0-0"
 name: vaultwarden
-version: 0.3.1
+version: 0.3.2
 description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible server written in Rust
 home: https://github.com/dani-garcia/vaultwarden
 icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
@@ -16,7 +16,7 @@ keywords:
   - keepass
   - vaultwarden
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -34,9 +34,9 @@ annotations:
       image: docker.io/vaultwarden/server:1.30.5-alpine
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Vaultwarden GitHub Repository
       url: https://github.com/dani-garcia/vaultwarden
     - name: Vaultwarden Documentation

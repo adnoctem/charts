@@ -1,8 +1,8 @@
 # Helm Charts <img src="https://raw.githubusercontent.com/cncf/artwork/892ce913bbce895ddbd99f981917fcf93050a8ca/projects/helm/icon/color/helm-icon-color.svg" alt="Helm Logo" align="right" width="225"/>
 
-[![License](https://img.shields.io/github/license/adnoctem/helm?label=License)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/github/license/adnoctem/charts?label=License)](https://opensource.org/licenses/MIT)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/adnoctem)](https://artifacthub.io/packages/search?repo=adnoctem&sort=relevance)
-[![CI Status](https://github.com/adnoctem/helm/actions/workflows/release.yaml/badge.svg)](https://github.com/adnoctem/helm/blob/main/.github/workflows/ci-pipeline.yml)
+[![CI Status](https://github.com/adnoctem/charts/actions/workflows/release.yaml/badge.svg)](https://github.com/adnoctem/charts/blob/main/.github/workflows/ci-pipeline.yml)
 [![Renovate](https://img.shields.io/badge/Renovate-enabled-brightgreen?logo=renovatebot&logoColor=1DDEDD)](https://renovatebot.com/)
 
 A collection of open-source [MIT][license]-licensed [_Helm Charts_][helm] written and maintained by `Ad Noctem Collective` for
@@ -19,14 +19,14 @@ information.
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install <RELEASE_NAME> adnoctem/<CHART_NAME>
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/<CHART_NAME>:<VERSION>
+helm install oci://ghcr.io/adnoctem/charts/<CHART_NAME>:<VERSION>
 ```
 
 ## 📖 Overview

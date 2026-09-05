@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 4.8.0
 kubeVersion: ">=1.26.0-0"
 name: linkstack
-version: 0.3.1
+version: 0.3.2
 description: LinkStack is a highly customizable link sharing platform with an intuitive, easy to use user interface
 home: https://github.com/LinkStackOrg/LinkStack
 icon: https://raw.githubusercontent.com/LinkStackOrg/branding/c22886d7585246836d5e4e597484b92b51c76f0c/logo/png/logo.png
@@ -18,7 +18,7 @@ keywords:
   - linktree
   - linkstack
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -36,9 +36,9 @@ annotations:
       image: docker.io/linkstackorg/linkstack:latest@sha256:abd691b4293b020a317de8794737671e0315159efcb868e8a4124d6f0611f7ae
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Linkstack GitHub Repository
       url: https://github.com/LinkStackOrg/LinkStack
     - name: Linkstack Documentation

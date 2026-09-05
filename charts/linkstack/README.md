@@ -16,14 +16,14 @@ single Docker image available on [Docker Hub](https://hub.docker.com/r/linkstack
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install linkstack adnoctem/linkstack --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/linkstack:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/linkstack:X.Y.Z
 ```
 
 ## Introduction

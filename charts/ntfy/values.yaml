@@ -1,5 +1,5 @@
 # Default Helm values for adnoctem/ntfy.
-# Reference: https://github.com/adnoctem/helm
+# Reference: https://github.com/adnoctem/charts
 
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -435,7 +435,7 @@ secret:
 ## @param ingress.whitelist A comma-separated list of IP addresses to whitelist
 ## @param ingress.annotations Annotations for the Ingress resource
 ## @param ingress.tls A list of hostnames and secret names to use for TLS
-## @param ingress.extraHosts A list of extra hosts for the Ingress resource (with ntfy.baseURL)
+## @param ingress.hosts A list of hosts for the Ingress resource
 
 ingress:
   enabled: false
@@ -448,7 +448,7 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-  extraHosts: []
+  hosts: []
   # - host: domain.tld
   #   paths:
   #     - path: /

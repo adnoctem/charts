@@ -102,6 +102,30 @@ Define the Secret names
 {{- end -}}
 
 {{/*
+Resolve the PostgreSQL host: explicit value wins, otherwise fall back to the
+bundled subchart's generated service name (only when it's actually enabled).
+*/}}
+{{- define "cachet.database.host" -}}
+{{- if .Values.cachet.database.host -}}
+{{- printf "%s" .Values.cachet.database.host }}
+{{- else if .Values.postgresql.enabled -}}
+{{- printf "%s-%s" .Release.Name "postgresql" }}
+{{- end -}}
+{{- end }}
+
+{{/*
+Resolve the Redis host: explicit value wins, otherwise fall back to the
+bundled subchart's generated service name (only when it's actually enabled).
+*/}}
+{{- define "cachet.redis.host" -}}
+{{- if .Values.cachet.redis.host -}}
+{{- printf "%s" .Values.cachet.redis.host }}
+{{- else if .Values.redis.enabled -}}
+{{- printf "%s-%s" .Release.Name "redis-master" }}
+{{- end -}}
+{{- end }}
+
+{{/*
 Obtain the API version for the Pod Disruption Budget
 */}}
 {{- define "cachet.pdb.apiVersion" -}}

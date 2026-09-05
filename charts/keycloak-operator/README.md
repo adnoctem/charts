@@ -21,14 +21,14 @@ on [quay.io](https://quay.io/repository/keycloak/keycloak-operator).
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install vaultwarden adnoctem/keycloak-operator --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/keycloak-operator:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/keycloak-operator:X.Y.Z
 ```
 
 ## Introduction

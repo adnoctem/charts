@@ -1,8 +1,8 @@
 <!--
-Thank you for contributing to adnoctem/helm.
+Thank you for contributing to adnoctem/charts.
 Before you submit this pull request we'd like to make sure you are aware of our technical requirements and best practices:
 
-* https://github.com/adnoctem/helm/blob/main/docs/CONTRIBUTING.md
+* https://github.com/adnoctem/charts/blob/main/docs/CONTRIBUTING.md
 * https://helm.sh/docs/chart_best_practices/
 
 For a quick overview across what we will look at reviewing your PR, please read our review guidelines:

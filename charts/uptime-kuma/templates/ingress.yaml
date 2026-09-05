@@ -40,22 +40,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    - host: {{ .Values.uptimeKuma.host | quote }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: {{ include "uptimeKuma.fullname" $ }}
-                port:
-                  number: {{ $.Values.uptimeKuma.port }}
-              {{- else }}
-              serviceName: {{ include "uptimeKuma.fullname" $ }}
-              servicePort: {{ $.Values.uptimeKuma.port }}
-              {{- end }}
-  {{- range .Values.ingress.extraHosts }}
+    {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:

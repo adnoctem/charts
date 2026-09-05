@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 26.0.6
 kubeVersion: ">=1.26.0-0"
 name: keycloak-operator
-version: 0.2.1
+version: 0.2.2
 description: Keycloak is an open source software product to allow single sign-on with identity and access management
 home: https://github.com/keycloak/keycloak
 icon: https://raw.githubusercontent.com/keycloak/keycloak-misc/main/logo/logo.png
@@ -20,7 +20,7 @@ keywords:
   - federation
   - keycloak
 sources:
-  - "https://github.com/adnoctem/helm"
+  - "https://github.com/adnoctem/charts"
 maintainers:
   - name: adnoctem
     email: info@adnoctem.co
@@ -38,9 +38,9 @@ annotations:
       image: quay.io/keycloak/keycloak-operator:26.0.6
   artifacthub.io/links: |
     - name: Source
-      url: https://github.com/adnoctem/helm
+      url: https://github.com/adnoctem/charts
     - name: Support
-      url: https://github.com/adnoctem/helm/issues
+      url: https://github.com/adnoctem/charts/issues
     - name: Keycloak GitHub Repository
       url: https://github.com/keycloak/keycloak
     - name: Keycloak Documentation

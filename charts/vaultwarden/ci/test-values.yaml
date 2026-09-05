@@ -1,5 +1,5 @@
 vaultwarden:
-  domain: "vaultwarden.helm.internal"
+  domain: "vaultwarden.charts.internal"
   adminToken:
     value: "PretendThisIsAnAdminToken"
 
@@ -12,7 +12,7 @@ vaultwarden:
       username: ""
       password: ""
       auth: "Plain"
-      helloName: "vaultwarden.helm.internal"
+      helloName: "vaultwarden.charts.internal"
       acceptInvalidHostnames: true
       acceptInvalidCertificates: true
 
@@ -37,7 +37,7 @@ ingress:
   tls:
     - secretName: vaultwarden-ingress-tls
       hosts:
-        - "vaultwarden.helm.internal"
+        - "vaultwarden.charts.internal"
 
 rbac:
   create: true

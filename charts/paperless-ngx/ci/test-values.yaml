@@ -1,5 +1,5 @@
 paperless:
-  domain: paperless.helm.internal
+  domain: paperless.charts.internal
   secretKey:
     value: "PretendThisIsASecretKey"
 
@@ -9,11 +9,9 @@ paperless:
     adminPassword: "admin-pass"
 
   redis:
-    host: paperless-redis-master
     password: "paperless"
 
   postgresql:
-    host: "paperless-postgresql"
     port: 5432
     name: "paperless"
     user: "paperless"
@@ -34,9 +32,9 @@ ingress:
   tls:
     - secretName: domain-tld-tls
       hosts:
-        - paperless.helm.internal
+        - paperless.charts.internal
   extraHosts:
-    - host: paperless.helm.internal
+    - host: paperless.charts.internal
       paths:
         - path: /
           pathType: ImplementationSpecific

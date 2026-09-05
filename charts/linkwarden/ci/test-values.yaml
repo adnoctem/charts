@@ -1,5 +1,5 @@
 linkwarden:
-  domain: "linkwarden.helm.internal"
+  domain: "linkwarden.charts.internal"
   nextAuthSecret:
     value: "PretendThisIsARandomString"
   ignoreUnauthorizedCA: true
@@ -33,7 +33,7 @@ ingress:
   tls:
     - secretName: linkwarden-ingress-tls
       hosts:
-        - "linkwarden.helm.internal"
+        - "linkwarden.charts.internal"
 
 livenessProbe:
   enabled: true

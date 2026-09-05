@@ -1,5 +1,5 @@
 cachet:
-  url: "cachet.helm.internal"
+  url: "cachet.charts.internal"
   env: production
   debug: false
   emoji: false
@@ -19,7 +19,6 @@ cachet:
 
   database:
     driver: pgsql
-    host: cachet-postgresql
     port: "5432"
     name: cachet
     user: cachet
@@ -28,7 +27,7 @@ cachet:
 
   redis:
     host: ""
-    port: "5432"
+    port: "6379"
     database: ""
 
 ingress:
@@ -39,7 +38,7 @@ ingress:
   tls:
     - secretName: cachet-ingress-tls
       hosts:
-        - "cachet.helm.internal"
+        - "cachet.charts.internal"
 
 livenessProbe:
   enabled: true

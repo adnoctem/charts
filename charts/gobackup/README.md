@@ -15,14 +15,14 @@ on [Docker Hub](https://hub.docker.com/r/huacnlee/gobackup).
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install gobackup adnoctem/gobackup --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/gobackup:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/gobackup:X.Y.Z
 ```
 
 ## Introduction

@@ -32,14 +32,14 @@ on [Docker Hub](https://hub.docker.com/r/activepieces/activepieces).
 ### Helm Repository Installation
 
 ```shell
-helm repo add adnoctem https://adnoctem.github.io/helm
+helm repo add adnoctem https://adnoctem.github.io/charts
 helm install activepieces adnoctem/activepieces --version X.Y.Z
 ```
 
 ### OCI Installation
 
 ```shell
-helm install oci://ghcr.io/adnoctem/helm/activepieces:X.Y.Z
+helm install oci://ghcr.io/adnoctem/charts/activepieces:X.Y.Z
 ```
 
 ## Introduction
