@@ -16,6 +16,9 @@ metadata:
 data:
   gobackup.yml: |
     web:
+      {{- if not .Values.gobackup.web.enabled }}
+      enabled: false
+      {{- end }}
       port: {{ .Values.gobackup.web.port }}
       {{- if .Values.gobackup.web.host }}
       host: {{ .Values.gobackup.web.host }}
