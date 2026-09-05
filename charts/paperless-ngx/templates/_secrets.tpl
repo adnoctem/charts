@@ -73,12 +73,20 @@ Build connection URI's
 {{- end }}
 
 {{/*
-  Detect or generate a secret key for the installation
+  Detect or generate a secret key for the installation. If neither an explicit value nor an
+  existing Secret is configured, reuse whatever was already persisted in the cluster rather than
+  generating a fresh one on every render - otherwise the key (and therefore every active session
+  and other signed token) would rotate on every single `helm upgrade`.
 */}}
 {{- define "paperless.secretkey" -}}
 {{- if .Values.paperless.secretKey.value }}
 {{- printf "%s" .Values.paperless.secretKey.value }}
-{{ else }}
-{{- randAlphaNum 32 -}}
+{{- else }}
+{{- $existing := lookup "v1" "Secret" .Release.Namespace (include "paperless.secrets.general" .) }}
+{{- if $existing }}
+{{- index $existing.data "secretKey" | b64dec }}
+{{- else }}
+{{- randAlphaNum 32 }}
+{{- end }}
 {{- end }}
 {{- end }}

@@ -56,6 +56,66 @@ all [Paperless-NGX environment variables](https://docs.paperless-ngx.com/configu
 Helm's _values_ and makes use of the official Docker Hub container image, although this is configurable via the Image
 Parameters.
 
+## Upgrading
+
+### To 0.4.0 (Paperless-ngx 2.10.1 -> 3.1.3)
+
+> [!WARNING]
+> **Upgrading to v3 can only be performed from v2.20.15** - this is an upstream requirement, not a chart limitation.
+> If you're running an existing installation older than `2.20.15`, first upgrade this chart's `appVersion` to
+> `2.20.15`, let it run its migrations, and only then upgrade further to `3.1.3`. Skipping this step is unsupported
+> by upstream and may leave your database in an inconsistent state.
+>
+> If you have any documents with encryption enabled (deprecated since `paperless-ng 0.9.3`), decrypt them with the
+> `decrypt_documents` management command **before** upgrading - encryption support is removed entirely in v3.
+
+This is a major version upgrade with many breaking changes - the full details are in
+[upstream's v3 migration guide](https://docs.paperless-ngx.com/migration-v3/). The items below cover what's
+relevant to this chart specifically.
+
+- **Fixed a bug where the generated Paperless secret key rotated on every `helm upgrade`** (when
+  `paperless.secretKey.value`/`.existingSecret` weren't set), invalidating every active session and other signed
+  token each time the chart was upgraded, completely independent of this version bump. The generated key is now
+  preserved across upgrades.
+- `PAPERLESS_SECRET_KEY` is now a required setting upstream; this chart has always generated one automatically if
+  you don't set `paperless.secretKey.value` yourself, so no action is needed on that front.
+- **Duplicate handling behavior changed by default:** v3 no longer rejects duplicate documents outright - they're
+  consumed and flagged as duplicates in the UI instead. `paperless.consume.deleteDuplicates` (default `false`,
+  unchanged) now controls this rejection behavior itself, not just whether the duplicate file gets cleaned up
+  afterwards as it did in v2. Set it to `true` if you want the old reject-on-duplicate behavior back.
+- `paperless.ocr.mode`'s `skip` value is gone, replaced by the new default `auto` - if you had `mode: skip`
+  explicitly set, change it to `auto`.
+- `paperless.ocr.skipArchiveFile` has been renamed to `paperless.ocr.archiveFileGeneration` (the old
+  `PAPERLESS_OCR_SKIP_ARCHIVE_FILE` setting is removed upstream). The new default (`always`) preserves this
+  chart's previous archiving behavior exactly - **the value `never` means the opposite thing in the new setting**
+  (never skip archiving vs. never generate one), so if you had `skipArchiveFile` set to anything, don't carry the
+  literal value over - see the mapping in `values.yaml`'s comments or the upstream migration guide.
+- `paperless.consume.barcodeScanner` is deprecated and no longer has any effect - zxing-cpp is the only barcode
+  backend now. The value is left in `values.yaml` for backward compatibility but is no longer rendered as an
+  environment variable regardless of what it's set to.
+- `paperless.consume.ignorePatterns` is now matched as a regex, not the previous fnmatch/glob syntax - review any
+  existing patterns before upgrading.
+- If you're running behind a reverse proxy (which includes anyone using this chart's Ingress), allauth's login
+  rate limiting now determines the client IP differently and **may reject logins with `403 Forbidden`** until you
+  set `PAPERLESS_TRUSTED_PROXIES`, `PAPERLESS_ALLAUTH_TRUSTED_PROXY_COUNT`, and/or
+  `PAPERLESS_ALLAUTH_TRUSTED_CLIENT_IP_HEADER` via the new `extraEnvVars` - see the
+  [migration guide's section on this](https://docs.paperless-ngx.com/migration-v3/#reverse-proxy-and-login-rate-limiting).
+- Added `extraEnvVars` for the many settings above and others without a dedicated value (`PAPERLESS_DB_OPTIONS`,
+  the renamed `PAPERLESS_CONSUMER_POLLING_INTERVAL`/`STABILITY_DELAY`, `PAPERLESS_TRAIN_TASK_CRON`, etc.).
+- The full-text search backend changed from Whoosh to Tantivy - the index is rebuilt automatically on first
+  startup, no action needed. If you have saved views with a plain search term that happened to match note or
+  custom field content, review them - unqualified queries aren't migrated the way `note:`/`custom_field:`-prefixed
+  ones are (now `notes.note:`/`custom_fields.value:`).
+- If you're on unusually old x86_64 hardware (roughly pre-2008 Intel / pre-2011 AMD, lacking SSE4.2), the document
+  classifier can crash the Celery worker with `SIGILL` due to a NumPy 2.4.0 CPU baseline requirement - if you hit
+  this, set `PAPERLESS_TRAIN_TASK_CRON=disable` via `extraEnvVars`.
+- All task history is cleared during the upgrade (the task tracking system was redesigned) - no action needed.
+- Fixed a stale `artifacthub.io/images` annotation that still referenced `2.4.0` even though `appVersion` was
+  already `2.10.1`, and corrected the license annotation - Paperless-ngx is GPL-3.0, not MIT.
+- The `gotenberg` subchart dependency now points at its current location
+  (`oci://ghcr.io/adnoctem/charts/gotenberg`) - it previously referenced a path from before this repository was
+  renamed, which had never been updated since.
+
 ## Parameters
 
 ### Image parameters
@@ -64,7 +124,7 @@ Parameters.
 | ------------------- | ------------------------------------------------------------------- | ----------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`                     |
 | `image.repository`  | The registry repository to pull the image from                      | `paperless-ngx/paperless-ngx` |
-| `image.tag`         | The image tag to pull                                               | `2.10.1`                      |
+| `image.tag`         | The image tag to pull                                               | `3.1.3`                       |
 | `image.digest`      | The image digest to pull                                            | `""`                          |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`                |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                          |
@@ -184,8 +244,8 @@ Parameters.
 | `paperless.logging.logrotateMaxBackups`            | The number of rotated log files to keep                                                                                                                                                                       | `""`             |
 | `paperless.ocr.language`                           | Customize the language that paperless will attempt to use when parsing documents                                                                                                                              | `eng`            |
 | `paperless.ocr.additionalLanguages`                | Additional languages that paperless will attempt to use when parsing documents                                                                                                                                | `""`             |
-| `paperless.ocr.mode`                               | Tell paperless when and how to perform ocr on your documents: `skip`, `redo` and `force`                                                                                                                      | `skip`           |
-| `paperless.ocr.skipArchiveFile`                    | Specify when you would like paperless to skip creating an archived version of your documents                                                                                                                  | `never`          |
+| `paperless.ocr.mode`                               | Tell paperless when and how to perform ocr on your documents: `auto`, `force`, `redo` or `off`                                                                                                                | `auto`           |
+| `paperless.ocr.archiveFileGeneration`              | Controls when paperless generates an archived version of your documents: `auto`, `always` or `never`                                                                                                          | `always`         |
 | `paperless.ocr.clean`                              | Tells paperless to use unpaper to clean any input document before sending it to tesseract                                                                                                                     | `true`           |
 | `paperless.ocr.deskew`                             | Tells paperless to correct skewing (slight rotation of input images mainly due to improper scanning)                                                                                                          | `true`           |
 | `paperless.ocr.rotatePages`                        | Tells paperless to correct page rotation (90°, 180° and 270° rotation)                                                                                                                                        | `true`           |
@@ -198,11 +258,11 @@ Parameters.
 | `paperless.ocr.userArgs`                           | OCRmyPDF offers many more options. Use this parameter to specify any additional arguments you wish to pass to OCRmyPDF                                                                                        | `""`             |
 | `paperless.conversion.memoryLimit`                 | On smaller systems, or even in the case of Very Large Documents, the consumer may explode, complaining about how it's "unable to extend pixel cache"                                                          | `""`             |
 | `paperless.conversion.tmpDir`                      | Similar to the memory limit, if you've got a small system and your OS mounts /tmp as tmpfs, you should set this to a path that's on a physical disk                                                           | `""`             |
-| `paperless.consume.deleteDuplicates`               | When the consumer detects a duplicate document, it will not touch the original document                                                                                                                       | `false`          |
+| `paperless.consume.deleteDuplicates`               | Reject and delete duplicate documents on consumption. As of Paperless-ngx 3.0 this is the only thing that                                                                                                     | `false`          |
 | `paperless.consume.recursive`                      | Enable recursive watching of the consumption directory                                                                                                                                                        | `false`          |
 | `paperless.consume.subdirsAsTags`                  | Set the names of subdirectories as tags for consumed files. E.g. <CONSUMPTION_DIR>/foo/bar/file.pdf will add the tags "foo"                                                                                   | `false`          |
 | `paperless.consume.ignorePatterns`                 | By default, paperless ignores certain files and folders in the consumption directory                                                                                                                          | `""`             |
-| `paperless.consume.barcodeScanner`                 | Sets the barcode scanner used for barcode functionality                                                                                                                                                       | `PYZBAR`         |
+| `paperless.consume.barcodeScanner`                 | Deprecated and has no effect as of Paperless-ngx 3.0 - zxing-cpp is now the only backend                                                                                                                      | `PYZBAR`         |
 | `paperless.consume.preConsumeScript`               | After some initial validation, Paperless can trigger an arbitrary script if you like before beginning consumption                                                                                             | `""`             |
 | `paperless.consume.postConsumeScript`              | After a document is consumed, Paperless can trigger an arbitrary script if you like                                                                                                                           | `""`             |
 | `paperless.consume.filenameDateOrder`              | Paperless will check the document text for document date information                                                                                                                                          | `""`             |
@@ -334,19 +394,20 @@ Parameters.
 
 ### Pod settings
 
-| Name                | Description                                         | Value |
-| ------------------- | --------------------------------------------------- | ----- |
-| `resources`         | The resource limits/requests for the Paperless pod  | `{}`  |
-| `volumes`           | Define volumes for the Paperless pod                | `[]`  |
-| `volumeMounts`      | Define volumeMounts for the Paperless pod           | `[]`  |
-| `initContainers`    | Define initContainers for the main Paperless server | `[]`  |
-| `nodeSelector`      | Node labels for pod assignment                      | `{}`  |
-| `tolerations`       | Tolerations for pod assignment                      | `[]`  |
-| `affinity`          | Affinity for pod assignment                         | `{}`  |
-| `strategy`          | Specify a deployment strategy for the Paperless pod | `{}`  |
-| `podAnnotations`    | Extra annotations for the Paperless pod             | `{}`  |
-| `podLabels`         | Extra labels for the Paperless pod                  | `{}`  |
-| `priorityClassName` | The name of an existing PriorityClass               | `""`  |
+| Name                | Description                                                                                  | Value |
+| ------------------- | -------------------------------------------------------------------------------------------- | ----- |
+| `resources`         | The resource limits/requests for the Paperless pod                                           | `{}`  |
+| `extraEnvVars`      | Extra environment variables for the Paperless pod - use this for any of Paperless-ngx's many | `[]`  |
+| `volumes`           | Define volumes for the Paperless pod                                                         | `[]`  |
+| `volumeMounts`      | Define volumeMounts for the Paperless pod                                                    | `[]`  |
+| `initContainers`    | Define initContainers for the main Paperless server                                          | `[]`  |
+| `nodeSelector`      | Node labels for pod assignment                                                               | `{}`  |
+| `tolerations`       | Tolerations for pod assignment                                                               | `[]`  |
+| `affinity`          | Affinity for pod assignment                                                                  | `{}`  |
+| `strategy`          | Specify a deployment strategy for the Paperless pod                                          | `{}`  |
+| `podAnnotations`    | Extra annotations for the Paperless pod                                                      | `{}`  |
+| `podLabels`         | Extra labels for the Paperless pod                                                           | `{}`  |
+| `priorityClassName` | The name of an existing PriorityClass                                                        | `""`  |
 
 ### Security context settings
 
