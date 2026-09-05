@@ -3,7 +3,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ include "kubenav.fullname" . }}
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "kubenav.labels" . | nindent 4 }}
     app.kubernetes.io/component: kubenav
@@ -19,7 +18,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: {{ include "kubenav.fullname" . }}
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "kubenav.labels" . | nindent 4 }}
     app.kubernetes.io/component: kubenav

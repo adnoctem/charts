@@ -28,21 +28,36 @@ helm install oci://ghcr.io/adnoctem/charts/kubenav:X.Y.Z
 
 ## Introduction
 
-This chart bootstraps the [RBAC manifests](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) required to
-run Kubenav. It creates
+> **This chart does not deploy Kubenav itself, and there is no server, dashboard, or web UI to visit afterwards.**
+> Since [Kubenav v4](https://github.com/kubenav/kubenav/releases), the project is a mobile-only app for
+> [iOS](https://apps.apple.com/app/kubenav/id1494512160) and
+> [Android](https://play.google.com/store/apps/details?id=io.kubenav.kubenav); there is no Docker image or web
+> version to run in your cluster. What this chart provides instead is the credentials the mobile app needs to
+> authenticate against your cluster's API server directly from your device.
+
+This chart bootstraps the [RBAC manifests](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) needed for
+the Kubenav mobile app to connect to your cluster. It creates
 a [ServiceAccount](https://kubernetes.io/docs/reference/kubernetes-api/authentication-resources/service-account-v1/)
 (including the required `kubernetes.io/service-account-token` Secret)
 alongside a [ClusterRole](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-v1/)
 and [ClusterRoleBinding](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-binding-v1/).
+By default the ClusterRole only grants enough access to read back its own ServiceAccount token (via `rbac.rules` you
+can grant it whatever additional access - read-only, namespace-scoped, full admin - you want the app to have; see the
+[NOTES.txt](templates/NOTES.txt) output after installing for the exact commands to build a kubeconfig from the
+resulting token).
+
+If you're looking for a self-hosted, web-accessible Kubernetes dashboard instead, this chart isn't it - consider the
+official [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) or [Headlamp](https://headlamp.dev/), both
+of which have their own actively maintained Helm charts.
 
 ## Parameters
 
 ### Name overrides
 
-| Name               | Description                                     | Value |
-| ------------------ | ----------------------------------------------- | ----- |
-| `nameOverride`     | String to partially override linkstack.fullname | `""`  |
-| `fullnameOverride` | String to fully override linkstack.fullname     | `""`  |
+| Name               | Description                                   | Value |
+| ------------------ | --------------------------------------------- | ----- |
+| `nameOverride`     | String to partially override kubenav.fullname | `""`  |
+| `fullnameOverride` | String to fully override kubenav.fullname     | `""`  |
 
 ### Secret parameters
 
@@ -53,10 +68,10 @@ and [ClusterRoleBinding](https://kubernetes.io/docs/reference/kubernetes-api/aut
 
 ### RBAC parameters
 
-| Name          | Description                      | Value  |
-| ------------- | -------------------------------- | ------ |
-| `rbac.create` | Whether to create RBAC resources | `true` |
-| `rbac.rules`  | Extra rules to add to the Role   | `[]`   |
+| Name          | Description                           | Value  |
+| ------------- | ------------------------------------- | ------ |
+| `rbac.create` | Whether to create RBAC resources      | `true` |
+| `rbac.rules`  | Extra rules to add to the ClusterRole | `[]`   |
 
 ### Service Account parameters
 

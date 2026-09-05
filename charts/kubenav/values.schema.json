@@ -4,12 +4,12 @@
   "properties": {
     "nameOverride": {
       "type": "string",
-      "description": "String to partially override linkstack.fullname",
+      "description": "String to partially override kubenav.fullname",
       "default": ""
     },
     "fullnameOverride": {
       "type": "string",
-      "description": "String to fully override linkstack.fullname",
+      "description": "String to fully override kubenav.fullname",
       "default": ""
     },
     "secret": {
@@ -37,7 +37,7 @@
         },
         "rules": {
           "type": "array",
-          "description": "Extra rules to add to the Role",
+          "description": "Extra rules to add to the ClusterRole",
           "default": [],
           "items": {}
         }

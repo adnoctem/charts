@@ -7,11 +7,11 @@
 ## @section Name overrides
 ##
 
-## @param nameOverride String to partially override linkstack.fullname
+## @param nameOverride String to partially override kubenav.fullname
 ##
 nameOverride: ""
 
-## @param fullnameOverride String to fully override linkstack.fullname
+## @param fullnameOverride String to fully override kubenav.fullname
 ##
 fullnameOverride: ""
 
@@ -31,7 +31,10 @@ secret:
 
 ## Kubenav RBAC settings
 ## @param rbac.create Whether to create RBAC resources
-## @param rbac.rules Extra rules to add to the Role
+## @param rbac.rules Extra rules to add to the ClusterRole
+## NOTE: the default ClusterRole only grants `get` on secrets, which is just enough to read back the ServiceAccount
+##        token below - it does not grant the mobile app any access to your workloads. Populate this with whatever
+##        read/write access you want the app to have (see https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 ##
 rbac:
   create: true
