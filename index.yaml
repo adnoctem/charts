@@ -2231,6 +2231,59 @@ entries:
           description: repository owner changed from fmjstudios to adnoctem
         - kind: fixed
           description: verify rotation of expired GPG key
+        - kind: fixed
+          description: removed an invalid namespace field from the cluster-scoped ClusterRole/ClusterRoleBinding metadata (copy-pasted from a namespaced-resource template, silently ignored by Kubernetes but incorrect)
+        - kind: fixed
+          description: corrected nameOverride/fullnameOverride parameter descriptions copy-pasted from the linkstack chart
+        - kind: changed
+          description: clarified in the README that this chart only provisions RBAC credentials for the Kubenav mobile app - it does not deploy any server, dashboard, or web UI, since Kubenav has been mobile-only since v4
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Kubenav Homepage
+          url: https://kubenav.io/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    created: "2026-09-05T10:09:06.901150523Z"
+    description: 'kubenav is the navigator for your Kubernetes clusters in your pocket:
+      a mobile app to manage clusters and get an overview of the status of your resources'
+    digest: 3071ff4cd18c73ead7299c31357b32243e4fc38d8cd4c68f8022aceff2674100
+    home: https://kubenav.io/
+    icon: https://raw.githubusercontent.com/kubenav/kubenav/290f1776b03c359b8115125fa37a4b8dd73b6464/utils/images/app-icons/android.png
+    keywords:
+    - dashboard
+    - android
+    - ios
+    - mobile
+    - kubeconfig
+    - rbac
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: kubenav
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/kubenav-0.2.3/kubenav-0.2.3.tgz
+    version: 0.2.3
+  - annotations:
+      artifacthub.io/category: monitoring-logging
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
@@ -6653,4 +6706,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T06:54:29.089548377Z"
+generated: "2026-09-05T10:09:06.901297812Z"
