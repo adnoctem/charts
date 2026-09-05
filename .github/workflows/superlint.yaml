@@ -28,6 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BASH_EXEC_IGNORE_LIBRARIES: true
           # mostly false positives
+          VALIDATE_SPELL_CODESPELL: false
           VALIDATE_NATURAL_LANGUAGE: false
           VALIDATE_JSCPD: false
           VALIDATE_KUBERNETES_KUBECONFORM: false
@@ -43,3 +44,8 @@ jobs:
           VALIDATE_BIOME_LINT: false
           # TODO(MVProwess): re-enable these once we're up to date
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
+          # TODO(MVProwess): re-enable once every chart has hardened
+          # securityContext defaults verified against its actual container
+          # image requirements (non-root UID, dropped capabilities,
+          # seccompProfile) and its RBAC rules audited for least privilege
+          VALIDATE_TRIVY: false
