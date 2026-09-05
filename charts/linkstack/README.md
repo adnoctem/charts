@@ -52,6 +52,9 @@ configurable via the Image Parameters.
   security/dependency patches and UI additions (new social buttons, a modular blocks system) - no environment
   variables or container behavior relevant to this chart changed.
 - Corrected the `artifacthub.io/license` annotation: LinkStack is licensed AGPL-3.0, not MIT as previously listed.
+- Fixed the data-seeding init container, which crashed (`chown: /data: Operation not permitted`) against the new
+  image build - the image now runs as `apache` by default instead of `root`, so the init container needs an
+  explicit `runAsUser: 0`/`runAsGroup: 0` to retain permission to `chown` the PVC on first install.
 - If your LinkStack instance was ever upgraded via its own in-app updater while running `4.8.0`-`4.8.3`, be aware
   that a since-fixed bug in that updater could corrupt or delete the contents of the themes directory - see
   [the 4.8.4 release notes](https://github.com/LinkStackOrg/LinkStack/releases/tag/v4.8.4) if that applies to your
