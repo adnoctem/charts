@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 0.90.2
 kubeVersion: ">=1.26.0-0"
 name: activepieces
-version: 0.4.0
+version: 0.4.1
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -17,7 +17,7 @@ dependencies:
     version: ~19.5
 description: Activepieces is an open source all-in-one automation tool with 100+ integrations
 home: https://www.activepieces.com/
-icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
+icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
 keywords:
   - automation
   - workflow
@@ -66,3 +66,5 @@ annotations:
       description: the queue UI enablement check compared the queue mode against the wrong case ("REDIS" instead of "redis"), so it could never actually enable regardless of configuration
     - kind: added
       description: extraEnvVars for the many Activepieces settings without a dedicated value (AP_SSRF_ALLOW_LIST, AP_ALLOWED_EMBED_ORIGINS, AP_PREWARM_CACHE_ON_STARTUP, AP_SMTP_* for outgoing email, etc.)
+    - kind: fixed
+      description: the icon annotation pointed at a GitHub `blob` URL, which serves an HTML page rather than the raw image - ArtifactHub failed to fetch it as a logo. Switched to raw.githubusercontent.com

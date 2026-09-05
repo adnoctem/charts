@@ -5,10 +5,10 @@ apiVersion: v2
 appVersion: 1.37.2
 kubeVersion: ">=1.26.0-0"
 name: vaultwarden
-version: 0.4.0
+version: 0.4.1
 description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible server written in Rust
 home: https://github.com/dani-garcia/vaultwarden
-icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
 keywords:
   - passwords
   - password-manager
@@ -55,3 +55,5 @@ annotations:
       description: removed a broken Ingress rule that routed /notifications/hub to a Service port that was never actually defined
     - kind: added
       description: added SSO (OpenID Connect) login support via the new vaultwarden.sso values block
+    - kind: fixed
+      description: the icon annotation pointed at a GitHub `blob` URL, which serves an HTML page rather than the raw image - ArtifactHub failed to fetch it as a logo. Switched to raw.githubusercontent.com
