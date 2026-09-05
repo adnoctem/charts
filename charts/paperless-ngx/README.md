@@ -1,4 +1,4 @@
-# Ad Noctem Collective - Paperless-NGX Helm Chart <img src="https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png" alt="Paperless-NGX Logo" width="175" height="175" align="right" loading="lazy"/>
+# Ad Noctem Collective - Paperless-NGX Helm Chart <img src="https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png" alt="Paperless-NGX Logo" width="175" height="175" align="right" loading="lazy"/>
 
 > [!IMPORTANT]
 > This Helm chart relies on the open-source _Bitnami_ Helm chart `postgresql`. Beginning on August 28th, 2025, _Bitnami_

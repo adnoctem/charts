@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 3.1.3
 kubeVersion: ">=1.26.0-0"
 name: paperless-ngx
-version: 0.4.1
+version: 0.4.2
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -79,3 +79,5 @@ annotations:
       description: extraEnvVars for the many Paperless-ngx settings without a dedicated value (PAPERLESS_TRUSTED_PROXIES, PAPERLESS_DB_OPTIONS, consumer polling/stability settings, etc.)
     - kind: fixed
       description: the icon annotation pointed at a GitHub `blob` URL, which serves an HTML page rather than the raw image - ArtifactHub failed to fetch it as a logo. Switched to raw.githubusercontent.com
+    - kind: fixed
+      description: the README's own header banner image had the same GitHub `blob` URL problem

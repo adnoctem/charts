@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 0.90.2
 kubeVersion: ">=1.26.0-0"
 name: activepieces
-version: 0.4.1
+version: 0.4.2
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -68,3 +68,5 @@ annotations:
       description: extraEnvVars for the many Activepieces settings without a dedicated value (AP_SSRF_ALLOW_LIST, AP_ALLOWED_EMBED_ORIGINS, AP_PREWARM_CACHE_ON_STARTUP, AP_SMTP_* for outgoing email, etc.)
     - kind: fixed
       description: the icon annotation pointed at a GitHub `blob` URL, which serves an HTML page rather than the raw image - ArtifactHub failed to fetch it as a logo. Switched to raw.githubusercontent.com
+    - kind: fixed
+      description: the README's own header banner image had the same GitHub `blob` URL problem, plus the top-level repo README pinned this chart's icon to a commit that no longer exists in the artwork repository

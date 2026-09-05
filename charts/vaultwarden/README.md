@@ -1,4 +1,4 @@
-# Ad Noctem Collective - Vaultwarden Helm Chart <img src="https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png" alt="Vaultwarden Logo" width="175" height="175" align="right" loading="lazy"/>
+# Ad Noctem Collective - Vaultwarden Helm Chart <img src="https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png" alt="Vaultwarden Logo" width="175" height="175" align="right" loading="lazy"/>
 
 Vaultwarden is an unofficial Bitwarden server implementation written in Rust. It is compatible with
 the [official Bitwarden clients](https://bitwarden.com/download/), and is ideal for self-hosted deployments where
