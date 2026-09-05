@@ -10,8 +10,8 @@
 ## Uptime-Kuma Server Image
 ## ref: https://hub.docker.com/r/louislam/uptime-kuma
 ## @param image.registry [default: docker.io] The Docker registry to pull the image from
-## @param image.repository [default: louislam/uptimeKuma] The registry repository to pull the image from
-## @param image.tag [string, default: '1.23.11'] The image tag to pull
+## @param image.repository [default: louislam/uptime-kuma] The registry repository to pull the image from
+## @param image.tag The image tag to pull
 ## @param image.digest [string] The image digest to pull
 ## @param image.pullPolicy [string, default: IfNotPresent] The Kubernetes image pull policy
 ## @param image.pullSecrets [array] A list of secrets to use for pulling images from private registries
@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: louislam/uptime-kuma
-  tag: 1.23.13
+  tag: 2.5.3
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
