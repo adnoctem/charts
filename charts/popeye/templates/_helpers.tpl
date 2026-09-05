@@ -79,7 +79,7 @@ Define ConfigMap names
 Define Secret names
 */}}
 {{- define "popeye.secret.scans" -}}
-{{- printf "%s-%s-config" .type (include "popeye.fullname" .) }}
+{{- printf "%s-%s-config" .type (include "popeye.fullname" .root) }}
 {{- end -}}
 
 {{/*
@@ -96,13 +96,14 @@ Define Popeye args
 {{- end -}}
 
 {{- define "popeye.arg.scans" -}}
-{{- if has "push-gtwy" .Values.popeye.scans.destinations -}}
+{{- if has "push-gtwy" .Values.popeye.scans.destinations }}
 - --push-gtwy-url {{ .Values.popeye.scans.pushGateway.url | quote }}
 {{- if .Values.popeye.scans.pushGateway.user }}
 - --push-gtwy-user {{ .Values.popeye.scans.pushGateway.user }}
 {{- end }}
 {{- if .Values.popeye.scans.pushGateway.password }}
 - --push-gtwy-password {{ .Values.popeye.scans.pushGateway.password }}
+{{- end }}
 {{- end }}
 {{- if has "s3" .Values.popeye.scans.destinations }}
 - --s3-bucket {{ .Values.popeye.scans.s3.bucket }}
@@ -113,16 +114,21 @@ Define Popeye args
 - --s3-endpoint {{ .Values.popeye.scans.s3.endpoint }}
 {{- end }}
 {{- end }}
-{{- end }}
 {{- end -}}
 
 {{- define "popeye.args" -}}
+{{- $lines := list }}
 {{- range $k, $v := (include "popeye.arg.filter" . | fromYaml) }}
-{{- if eq (toString $v) "true" -}}
-- {{ printf "--%s" (lower $k) }}
+{{- if eq (toString $v) "true" }}
+{{- $lines = append $lines (printf "- --%s" (lower $k)) }}
 {{- else }}
-- {{ printf "--%s %s" (lower $k) (lower $v) }}
+{{- $lines = append $lines (printf "- --%s %s" (lower $k) (lower $v)) }}
 {{- end }}
-{{- end -}}
-{{- include "popeye.arg.scans" . | nindent 0 }}
+{{- end }}
+{{- range (splitList "\n" (include "popeye.arg.scans" .)) }}
+{{- if . }}
+{{- $lines = append $lines . }}
+{{- end }}
+{{- end }}
+{{- join "\n" $lines }}
 {{- end -}}

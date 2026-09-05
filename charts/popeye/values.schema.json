@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "v0.21.3"
+          "default": "v0.22.1"
         },
         "digest": {
           "type": "string",
@@ -88,8 +88,13 @@
         },
         "args": {
           "type": "object",
-          "description": "Define the CLI arguments and flags that the container's entrypoint will execute",
-          "default": {}
+          "properties": {
+            "force-exit-zero": {
+              "type": "boolean",
+              "description": "Exit 0 on lint findings instead of leaving the CronJob's Job in an Error state",
+              "default": "true"
+            }
+          }
         },
         "scans": {
           "type": "object",
