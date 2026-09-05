@@ -6718,6 +6718,64 @@ entries:
   - annotations:
       artifacthub.io/category: security
       artifacthub.io/changes: |
+        - kind: fixed
+          description: corrected the license annotation (Vaultwarden is AGPL-3.0, not MIT)
+        - kind: changed
+          description: "bumped appVersion from 1.30.5 to 1.37.2"
+        - kind: changed
+          description: renamed WEBSOCKET_ENABLED to ENABLE_WEBSOCKET; the separate WebSocket port was removed upstream in 1.31.0 and traffic is now served on the main port, so vaultwarden.websocket.port is deprecated and no longer rendered
+        - kind: fixed
+          description: removed a broken Ingress rule that routed /notifications/hub to a Service port that was never actually defined
+        - kind: added
+          description: added SSO (OpenID Connect) login support via the new vaultwarden.sso values block
+      artifacthub.io/images: |
+        - name: vaultwarden
+          image: docker.io/vaultwarden/server:1.37.2-alpine
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Vaultwarden GitHub Repository
+          url: https://github.com/dani-garcia/vaultwarden
+        - name: Vaultwarden Documentation
+          url: https://github.com/dani-garcia/vaultwarden/wiki
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: AGPL-3.0
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 1.37.2
+    created: "2026-09-05T15:37:34.169583333Z"
+    description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible
+      server written in Rust
+    digest: c7930eefff6ad029a615a0f3d2fca2f800792d9dc6fa15b8c6faf6e2a6e7a467
+    home: https://github.com/dani-garcia/vaultwarden
+    icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    keywords:
+    - passwords
+    - password-manager
+    - bitwarden
+    - keepass
+    - vaultwarden
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: vaultwarden
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.4.0/vaultwarden-0.4.0.tgz
+    version: 0.4.0
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/changes: |
         - kind: changed
           description: repository owner changed from fmjstudios to adnoctem
         - kind: fixed
@@ -7231,4 +7289,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T15:03:08.517528093Z"
+generated: "2026-09-05T15:37:34.169748941Z"
