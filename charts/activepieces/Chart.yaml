@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 0.28.0
+appVersion: 0.90.2
 kubeVersion: ">=1.26.0-0"
 name: activepieces
-version: 0.3.2
+version: 0.4.0
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -40,7 +40,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: activepieces
-      image: docker.io/activepieces/activepieces:0.28.0
+      image: docker.io/activepieces/activepieces:0.90.2
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -58,3 +58,11 @@ annotations:
       description: repository owner changed from fmjstudios to adnoctem
     - kind: fixed
       description: verify rotation of expired GPG key
+    - kind: changed
+      description: bump appVersion to 0.90.2 (from 0.28.0), a large multi-year range - see README Upgrading section
+    - kind: fixed
+      description: every install was sending three removed/renamed environment variables unconditionally (AP_QUEUE_MODE, AP_FLOW_WORKER_CONCURRENCY, AP_PIECES_SOURCE) plus a dead template-source URL and Copilot Azure OpenAI settings for a feature deprecated upstream since 0.71.0 - renamed or removed as appropriate
+    - kind: fixed
+      description: the queue UI enablement check compared the queue mode against the wrong case ("REDIS" instead of "redis"), so it could never actually enable regardless of configuration
+    - kind: added
+      description: extraEnvVars for the many Activepieces settings without a dedicated value (AP_SSRF_ALLOW_LIST, AP_ALLOWED_EMBED_ORIGINS, AP_PREWARM_CACHE_ON_STARTUP, AP_SMTP_* for outgoing email, etc.)
