@@ -1,10 +1,15 @@
 # Markdownlint configuration file
 # ref: https://github.com/DavidAnson/markdownlint/blob/b2305efafb034b1f328845aec9928b5363ffd646/schema/.markdownlint.yaml
 
+# MD012/no-multiple-blanks : Multiple consecutive blank lines : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md012.md
+MD012:
+  # Consecutive blank lines
+  maximum: 3
+
 # MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md013.md
 MD013:
   # Number of characters
-  line_length: 240
+  line_length: 400
   # Number of characters for headings
   heading_line_length: 300
   # Number of characters for code blocks
@@ -19,13 +24,16 @@ MD013:
 # MD033/no-inline-html : Inline HTML : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md033.md
 MD033:
   # Allowed elements
-  allowed_elements: ['img', 'a', 'div']
+  allowed_elements: ["img", "a", "p", "picture", "source", "h1", "div"]
 
 # MD034/no-bare-urls : Bare URL used : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md034.md
-# NOTE: disabled because the tables in the READMEs might contain chart values which are bare URLs
+# NOTE: disabled because tables and reference-style links may contain bare URLs
 MD034: false
 
 # MD036/no-emphasis-as-heading : Emphasis used instead of a heading : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md036.md
 MD036:
   # Punctuation characters
-  punctuation: ".,;:!?。，；：！？"
+  punctuation: ".,;:!?。，；：！？*"
+
+# MD041/first-line-heading : First line in file should be a top level heading : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md041.md
+MD041: false

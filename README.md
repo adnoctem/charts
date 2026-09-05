@@ -1,9 +1,20 @@
-# Helm Charts <img src="https://raw.githubusercontent.com/cncf/artwork/892ce913bbce895ddbd99f981917fcf93050a8ca/projects/helm/icon/color/helm-icon-color.svg" alt="Helm Logo" align="right" width="225"/>
+<p align="center">
+    <!-- PowerShell -->
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/cncf/artwork/892ce913bbce895ddbd99f981917fcf93050a8ca/projects/helm/icon/color/helm-icon-color.svg">
+      <img src="https://raw.githubusercontent.com/cncf/artwork/892ce913bbce895ddbd99f981917fcf93050a8ca/projects/helm/icon/color/helm-icon-color.svg" alt="Helm Logo" width="225">
+    </picture>
+    <h1 align="center">Helm Charts</h1>
+</p>
 
-[![License](https://img.shields.io/github/license/adnoctem/charts?label=License)](https://opensource.org/licenses/MIT)
+[![GitHub top language](https://img.shields.io/github/languages/top/adnoctem/charts)](https://helm.sh/)
+[![GitHub License](https://img.shields.io/github/license/adnoctem/charts?label=License)](https://opensource.org/license/mit)
+[![Latest GitHub Tag](https://img.shields.io/github/v/tag/adnoctem/charts?label=Latest)](https://github.com/adnoctem/charts/releases)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/adnoctem)](https://artifacthub.io/packages/search?repo=adnoctem&sort=relevance)
 [![CI Status](https://github.com/adnoctem/charts/actions/workflows/release.yaml/badge.svg)](https://github.com/adnoctem/charts/blob/main/.github/workflows/ci-pipeline.yml)
+[![GitHub Activity](https://img.shields.io/github/last-commit/adnoctem/charts?label=Activity)](https://github.com/adnoctem/charts/commits/main/)
 [![Renovate](https://img.shields.io/badge/Renovate-enabled-brightgreen?logo=renovatebot&logoColor=1DDEDD)](https://renovatebot.com/)
+[![PreCommit](https://img.shields.io/badge/PreCommit-enabled-brightgreen?logo=precommit&logoColor=FAB040)](https://pre-commit.com/)
 
 A collection of open-source [MIT][license]-licensed [_Helm Charts_][helm] written and maintained by `Ad Noctem Collective` for
 use with [Kubernetes][kubernetes] `v1.26` and above. Have a look [at the table below](#-overview) to get a list of the

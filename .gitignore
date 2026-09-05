@@ -1,42 +1,43 @@
-#######################################
-# EDITORS
-#######################################
+# .gitignore - Helm Charts
+
+###> general/editors ###
 
 # IntelliJ IDEA
 .idea/*
-!.idea/dataSources.xml
-
-# JetBrains Fleet
-.fleet/*
 
 # VS Code
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+###>
 
-# Secret files
-secrets
+###> general/secret ###
 
-#######################################
-# MISCELLANEOUS
-#######################################
-
-# Helm Subcharts
-*.tgz
-Chart.lock
-
-# Distribution folder
-dist/*
-build/*
-
-# Tests
-*.test
+# secrets
+secrets/*
 
 # Vault data
 data/*
 !data/.gitkeep
+###>
+
+###> source/helm-charts ###
+
+# Helm Subcharts
+*.tgz
+Chart.lock
+###>
+
+###> source/tests ###
+
+# Tests
+*.test
 
 # Coverage tool output
 *.out
+###>
+
+###> source/temp ###
+
+# distribution
+dist/*
+build/*
+###>

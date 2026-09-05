@@ -8,28 +8,72 @@ repos:
         exclude: (^charts/.*/templates/|^charts/.*/crds/)
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/markdownlint/markdownlint
-    rev: v0.13.0
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.49.1
     hooks:
       - id: markdownlint
+        exclude: ^CHANGELOG\.md$
         args:
-          - "-r ~MD013"
+          - "-c"
+          - ".github/linters/.markdown-lint.yml"
+
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.2
     hooks:
       - id: actionlint
+
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.29.0
+    hooks:
+      # Run the linter.
+      - id: zizmor
+        args:
+          - "-c"
+          - ".github/linters/zizmor.yaml"
+
   - repo: https://github.com/crate-ci/typos
     rev: v1.24.6
     hooks:
       - id: typos
+        exclude: (.*\.yaml|^CHANGELOG.md$)
+        args:
+          - "--config"
+          - ".github/linters/.typos.toml"
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+        name: "Scan for potentially leaked secret values using 'gitleaks'"
+
+  # Shell sources
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        name: "Lint Shell files with 'shellcheck'"
+        args: ["-x"]
+
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.11.0-1
+    hooks:
+      - id: shfmt
+        name: "Format Shell files with 'shfmt'"
 
   # Local hooks
   - repo: local
     hooks:
-      - id: prettier_fmt
-        name: "Format Markdown and JSON files with Prettier"
+      - id: prettier-format
+        name: Prettier format
+        entry: bun x prettier --write
         language: system
-        files: .*\.(md|json)$
-        exclude: "charts/[^/]+$"
-        entry: |
-          bash -c 'prettier --write **/*.{md,json}'
+        files: \.(md|json)$
+        # Without this, pre-commit can batch matched files across several
+        # parallel invocations; concurrent 'bun x' processes then race to
+        # resolve/install the same 'prettier' package into a cold cache,
+        # which fails with "could not determine executable to run for
+        # package prettier" on the losing side.
+        require_serial: true

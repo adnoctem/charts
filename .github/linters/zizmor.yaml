@@ -1,0 +1,5 @@
+# Findings that only apply to a specific line are suppressed inline via
+# `# zizmor: ignore[rule]` comments at the exact span, with a justification
+# comment above - see .github/workflows/release.yaml. Nothing needs a
+# blanket per-file ignore here right now.
+rules: {}

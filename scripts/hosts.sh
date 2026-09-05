@@ -69,7 +69,7 @@ function hosts::add() {
 	y | Y)
 		log::green "Confirmed modification to host configuration files. Installing..."
 		for cfg in "${HOST_CONFIGS[@]}"; do
-			if [[ -w "${cfg}" ]]; then
+			if [[ -w ${cfg} ]]; then
 				log::green "Adding hosts to $cfg as $(whoami)!"
 				echo "$CONFIG" | tee -a "${cfg}" >/dev/null
 			else
@@ -97,7 +97,7 @@ function hosts::remove() {
 	y | Y)
 		log::green "Confirmed modification to host configuration files. Removing..."
 		for cfg in "${HOST_CONFIGS[@]}"; do
-			if [[ -w "${cfg}" ]]; then
+			if [[ -w ${cfg} ]]; then
 				log::green "Removing hosts from $cfg as $(whoami)!"
 				sed_result=$(sed "/${CONFIG_START}/,/${CONFIG_END}/d" "${cfg}")
 				echo "${sed_result}" >"${cfg}"
@@ -126,7 +126,7 @@ function main() {
 	fi
 
 	# add custom environment variable
-	if [[ -n "${EXTRA_HOSTS_PATH}" ]]; then
+	if [[ -n ${EXTRA_HOSTS_PATH} ]]; then
 		HOST_CONFIGS+=("${EXTRA_HOSTS_PATH}")
 	fi
 
