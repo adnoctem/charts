@@ -89,7 +89,29 @@ spec:
                 secretKeyRef:
                   name: {{ $v.existingSecret | default (printf "%s-%s" (include "linkwarden.auth.secrets.base" $) $v.provider) }}
                   key: clientSecret
-            {{- end -}}
+            {{- if eq $v.provider "bungie" }}
+            - name: BUNGIE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $v.existingSecret | default (printf "%s-%s" (include "linkwarden.auth.secrets.base" $) $v.provider) }}
+                  key: apiKey
+            {{- else if eq $v.provider "fusionauth" }}
+            - name: FUSIONAUTH_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $v.existingSecret | default (printf "%s-%s" (include "linkwarden.auth.secrets.base" $) $v.provider) }}
+                  key: tenantId
+            {{- else if eq $v.provider "azure_ad" }}
+            - name: AZURE_AD_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $v.existingSecret | default (printf "%s-%s" (include "linkwarden.auth.secrets.base" $) $v.provider) }}
+                  key: tenantId
+            {{- end }}
+            {{ end -}}
+            {{- if .Values.extraEnvVars }}
+            {{- toYaml .Values.extraEnvVars | nindent 12 }}
+            {{- end }}
           {{/* Container settings */}}
           ports:
             - name: http

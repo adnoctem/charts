@@ -57,6 +57,52 @@ via the `linkwarden` key in Helm's _values_ and makes use of the official Docker
 configurable via the Image
 Parameters.
 
+## Upgrading
+
+### To 0.5.0 (Linkwarden 2.5.3 -> 2.16.2)
+
+> [!WARNING]
+> If you're upgrading from `2.6.0` or earlier (which includes every install of this chart prior to `0.5.0`, since the
+> previous default was `2.5.3`), you **must** run a one-time migration script after the new pod is up, or some
+> preserved formats may become inaccessible:
+>
+> ```shell
+> kubectl exec -n <namespace> \
+>   "$(kubectl get pods -n <namespace> \
+>      -l app.kubernetes.io/name=linkwarden,app.kubernetes.io/instance=<release-name> \
+>      -o jsonpath='{.items[0].metadata.name}')" \
+>   -- node scripts/migration/v2.6.1/index.js
+> ```
+>
+> This only needs to run once, regardless of how many versions you're skipping.
+
+This is a large range covering many Linkwarden releases. The items below cover what's relevant to this chart and its
+configuration - review the [full release history](https://github.com/linkwarden/linkwarden/releases) for anything
+affecting your own usage.
+
+- **CVE-2026-42455 (High, stored XSS via archive upload)** affects `<= 2.14.0`. There's no single release explicitly
+  tagged as the fix, but `2.15.0`'s "we strongly recommend updating" security-hardening release is the effective
+  remediation point - the target version is well past it.
+- Fixed a bug where configuring more than one `linkwarden.auth.sso` provider at the same time broke the chart
+  outright (a Helm template whitespace-trimming issue caused two providers' rendered YAML to run together into one
+  invalid line) - this has likely never worked correctly for any multi-provider SSO setup.
+- Fixed the `bungie` and `fusionauth` SSO providers, which have never actually received their required
+  `apiKey`/`tenantId` value - the Kubernetes Secret held it, but the Deployment never wired it through as an
+  environment variable.
+- Added support for the `authelia`, `azure_ad`, `azure_ad_b2c`, and `synology` SSO providers, and for Linkwarden's
+  generic OIDC provider (`oidc`) added upstream in `2.15.0` - see the commented examples in `values.yaml` for the
+  extra fields each of these needs (`wellKnownUrl`, `tenantId`, `tenantName`/`primaryUserFlow`, `scopes`).
+- Added `extraEnvVars` for setting any of Linkwarden's many other environment variables that don't have a dedicated
+  value - most notably the AI tagging providers added across this range (local tagging via Ollama in `2.9.0`,
+  external providers - OpenAI, Azure, Anthropic, OpenRouter, Perplexity - in `2.10.0`+), the memory-tuning knobs
+  added in `2.15.0` (`DISABLE_BROWSER`, `MALLOC_ARENA_MAX`, `NODE_OPTIONS`, `ARCHIVE_TAKE_COUNT`), and the
+  user-content-domain isolation feature added in `2.14.1` (`NEXT_PUBLIC_USER_CONTENT_DOMAIN`, combined with
+  `ingress.extraHosts` if you want it on a separate hostname).
+- The image can now run as a non-root user (`2.16.1`) - set `podSecurityContext.fsGroup` and
+  `securityContext.runAsUser` to the same UID (see the commented example in `values.yaml`) to take advantage of
+  this; existing PVC data must have its ownership updated to match if you enable this after an initial install.
+- Corrected the `artifacthub.io/license` annotation: Linkwarden is licensed AGPL-3.0, not MIT as previously listed.
+
 ## Parameters
 
 ### Image parameters
@@ -65,7 +111,7 @@ Parameters.
 | ------------------- | ------------------------------------------------------------------- | ----------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`               |
 | `image.repository`  | The registry repository to pull the image from                      | `linkwarden/linkwarden` |
-| `image.tag`         | The image tag to pull                                               | `v2.5.3`                |
+| `image.tag`         | The image tag to pull                                               | `v2.16.2`               |
 | `image.digest`      | The image digest to pull                                            | `""`                    |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`          |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                    |
@@ -229,19 +275,20 @@ Parameters.
 
 ### Pod settings
 
-| Name                | Description                                          | Value |
-| ------------------- | ---------------------------------------------------- | ----- |
-| `resources`         | The resource limits/requests for the Linkwarden pod  | `{}`  |
-| `volumes`           | Define volumes for the Linkwarden pod                | `[]`  |
-| `volumeMounts`      | Define volumeMounts for the Linkwarden pod           | `[]`  |
-| `initContainers`    | Define initContainers for the main Linkwarden server | `[]`  |
-| `nodeSelector`      | Node labels for pod assignment                       | `{}`  |
-| `tolerations`       | Tolerations for pod assignment                       | `[]`  |
-| `affinity`          | Affinity for pod assignment                          | `{}`  |
-| `strategy`          | Specify a deployment strategy for the Linkwarden pod | `{}`  |
-| `podAnnotations`    | Extra annotations for the Linkwarden pod             | `{}`  |
-| `podLabels`         | Extra labels for the Linkwarden pod                  | `{}`  |
-| `priorityClassName` | The name of an existing PriorityClass                | `""`  |
+| Name                | Description                                                                       | Value |
+| ------------------- | --------------------------------------------------------------------------------- | ----- |
+| `resources`         | The resource limits/requests for the Linkwarden pod                               | `{}`  |
+| `extraEnvVars`      | Extra environment variables for the Linkwarden pod - use this for any of the many | `[]`  |
+| `volumes`           | Define volumes for the Linkwarden pod                                             | `[]`  |
+| `volumeMounts`      | Define volumeMounts for the Linkwarden pod                                        | `[]`  |
+| `initContainers`    | Define initContainers for the main Linkwarden server                              | `[]`  |
+| `nodeSelector`      | Node labels for pod assignment                                                    | `{}`  |
+| `tolerations`       | Tolerations for pod assignment                                                    | `[]`  |
+| `affinity`          | Affinity for pod assignment                                                       | `{}`  |
+| `strategy`          | Specify a deployment strategy for the Linkwarden pod                              | `{}`  |
+| `podAnnotations`    | Extra annotations for the Linkwarden pod                                          | `{}`  |
+| `podLabels`         | Extra labels for the Linkwarden pod                                               | `{}`  |
+| `priorityClassName` | The name of an existing PriorityClass                                             | `""`  |
 
 ### Security context settings
 

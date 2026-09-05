@@ -19,7 +19,7 @@
 image:
   registry: ghcr.io
   repository: linkwarden/linkwarden
-  tag: "v2.5.3"
+  tag: "v2.16.2"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -50,7 +50,7 @@ fullnameOverride: ""
 ##
 
 ## Linkwarden configuration
-## ref: https://github.com/dani-garcia/linkwarden/wiki/Configuration-overview
+## ref: https://docs.linkwarden.app/self-hosting/environment-variables
 
 linkwarden:
   ## @param linkwarden.replicas [default: 1] The number of Linkwarden replicas (pods) to deploy
@@ -217,6 +217,12 @@ linkwarden:
     #   customName: "keycloak-custom"
     #   issuer: "keycloak"
     #   existingSecret: "keycloak-creds"
+    # - provider: "oidc"
+    #   customName: "My SSO"
+    #   wellKnownUrl: "https://idp.example.com/.well-known/openid-configuration"
+    #   scopes: "openid profile email"
+    #   clientId: "someId"
+    #   clientSecret: "someSecret"
 
   ## SMTP settings
   ##
@@ -501,6 +507,18 @@ resources: {}
 # requests:
 #   cpu: 100m
 #   memory: 128Mi
+
+## @param extraEnvVars Extra environment variables for the Linkwarden pod - use this for any of the many
+## environment variables Linkwarden supports that don't have a dedicated value below (e.g. AI tagging provider
+## settings, memory-tuning knobs, proxy settings) - see https://docs.linkwarden.app/self-hosting/environment-variables
+## for the full list
+## extraEnvVars:
+##   - name: NEXT_PUBLIC_OLLAMA_ENDPOINT_URL
+##     value: "http://ollama:11434"
+##   - name: OLLAMA_MODEL
+##     value: "llama3.2"
+##
+extraEnvVars: []
 
 ## ref: https://kubernetes.io/docs/concepts/storage/volumes/
 ## @param volumes Define volumes for the Linkwarden pod

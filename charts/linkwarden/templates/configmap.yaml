@@ -57,6 +57,7 @@ data:
 {{- $provider := $v.provider }}
 {{- $issuer := $v.issuer }}
 {{- $issuerList := include "linkwarden.auth.providers.withIssuers" $ | fromJsonArray }}
+{{- $wellKnownList := include "linkwarden.auth.providers.withWellKnown" $ | fromJsonArray }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -82,6 +83,11 @@ data:
   {{ include "linkwarden.auth.envs.issuer" $providerArg }}: {{ $issuer }}
   {{- end }}
   {{- end }}
+  {{- if has $provider $wellKnownList }}
+  {{- if $v.wellKnownUrl }}
+  {{ include "linkwarden.auth.envs.wellKnownUrl" $providerArg }}: {{ $v.wellKnownUrl }}
+  {{- end }}
+  {{- end }}
   {{- if (eq $provider "atlassian") }}
   {{- if $v.scope }}
   {{ printf "%s_SCOPE" $provider | upper }}: {{ $v.scope }}
@@ -90,6 +96,19 @@ data:
   {{- if (eq $provider "foursquare") }}
   {{- if $v.apiVersion }}
   {{ printf "%s_APIVERSION" $provider | upper }}: {{ $v.apiVersion }}
+  {{- end }}
+  {{- end }}
+  {{- if (eq $provider "oidc") }}
+  {{- if $v.scopes }}
+  OIDC_SCOPES: {{ $v.scopes }}
+  {{- end }}
+  {{- end }}
+  {{- if (eq $provider "azure_ad_b2c") }}
+  {{- if $v.tenantName }}
+  AZURE_AD_B2C_TENANT_NAME: {{ $v.tenantName }}
+  {{- end }}
+  {{- if $v.primaryUserFlow }}
+  AZURE_AD_B2C_PRIMARY_USER_FLOW: {{ $v.primaryUserFlow }}
   {{- end }}
   {{- end }}
 ---
