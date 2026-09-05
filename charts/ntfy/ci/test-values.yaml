@@ -44,6 +44,11 @@ ingress:
   className: nginx
   annotations:
     cert-manager.io/cluster-issuer: development-issuer
+  hosts:
+    - host: ntfy.charts.internal
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   tls:
     - secretName: ntfy-ingress-tls
       hosts:

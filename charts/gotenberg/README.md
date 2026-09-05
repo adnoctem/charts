@@ -172,7 +172,7 @@ This is a breaking chart release. Review the following before upgrading:
 | `gotenberg.openTelemetry.metricsExporter`      | Sets OTEL_METRICS_EXPORTER                                                         | `""`                    |
 | `gotenberg.openTelemetry.logsExporter`         | Sets OTEL_LOGS_EXPORTER                                                            | `""`                    |
 | `gotenberg.openTelemetry.exporterOtlpEndpoint` | Sets OTEL_EXPORTER_OTLP_ENDPOINT                                                   | `""`                    |
-| `gotenberg.openTelemetry.extraEnv`             | Extra OTEL_* environment variables not covered above                               | `{}`                    |
+| `gotenberg.openTelemetry.extraEnv`             | Extra OTEL\_\* environment variables not covered above                             | `{}`                    |
 | `gotenberg.logging.format`                     | Specify the format of logging                                                      | `auto`                  |
 | `gotenberg.logging.level`                      | Choose the level of logging detail                                                 | `info`                  |
 | `gotenberg.logging.levelCase`                  | Set the level field casing in standard output                                      | `lower`                 |

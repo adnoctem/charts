@@ -168,14 +168,14 @@ Parameters.
 
 ### Ingress parameters
 
-| Name                  | Description                                                        | Value   |
-| --------------------- | ------------------------------------------------------------------ | ------- |
-| `ingress.enabled`     | Whether to enable Ingress                                          | `false` |
-| `ingress.className`   | The IngressClass to use for the pod's ingress                      | `""`    |
-| `ingress.whitelist`   | A comma-separated list of IP addresses to whitelist                | `""`    |
-| `ingress.annotations` | Annotations for the Ingress resource                               | `{}`    |
-| `ingress.tls`         | A list of hostnames and secret names to use for TLS                | `[]`    |
-| `ingress.extraHosts`  | A list of extra hosts for the Ingress resource (with ntfy.baseURL) | `[]`    |
+| Name                  | Description                                         | Value   |
+| --------------------- | --------------------------------------------------- | ------- |
+| `ingress.enabled`     | Whether to enable Ingress                           | `false` |
+| `ingress.className`   | The IngressClass to use for the pod's ingress       | `""`    |
+| `ingress.whitelist`   | A comma-separated list of IP addresses to whitelist | `""`    |
+| `ingress.annotations` | Annotations for the Ingress resource                | `{}`    |
+| `ingress.tls`         | A list of hostnames and secret names to use for TLS | `[]`    |
+| `ingress.hosts`       | A list of hosts for the Ingress resource            | `[]`    |
 
 ### Service parameters
 
