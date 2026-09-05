@@ -22,7 +22,7 @@ on [Docker Hub](https://hub.docker.com/r/derailed/popeye).
 
 ```shell
 helm repo add adnoctem https://adnoctem.github.io/charts
-helm install ntfy adnoctem/popeye --version X.Y.Z
+helm install popeye adnoctem/popeye --version X.Y.Z
 ```
 
 ### OCI Installation
@@ -43,6 +43,25 @@ all Popeye CLI arguments and [configuration files](https://popeyecli.io/#spinach
 Helm's _values_ and makes use of the official Docker Hub container image, although this is configurable via the Image
 Parameters.
 
+## Upgrading
+
+### To 0.3.0
+
+- Corrected metadata copy-pasted from the `ntfy` chart: the ArtifactHub image name, GitHub/documentation link
+  labels, and license (this chart is Apache-2.0, not MIT, as previously listed).
+- `popeye.args.force-exit-zero` now defaults to `true`. Popeye's CronJob previously left its Job in an `Error`
+  state whenever lint findings were reported, since Popeye's own exit code reflects the scan result. The Job now
+  always exits `0` regardless of findings. Set `popeye.args.force-exit-zero: false` to restore the old behavior.
+- `appVersion` bumped from `0.21.3` to `0.22.1`, skipping `0.21.6` and `0.22.0`, both of which have known upstream
+  scanning regressions.
+- Fixed a template bug where CLI arguments could render as malformed YAML (two flags concatenated onto one line)
+  depending on which flags were combined - the CLI arguments actually applied by the CronJob may change if you
+  were relying on this.
+- Fixed the S3 scan destination's auto-created Secret, which previously failed outright when no
+  `popeye.scans.s3.existingSecret` was provided (the only case where the Secret is actually needed).
+- Fixed the S3 scan destination's CLI arguments (`--s3-bucket`, `--s3-region`, `--s3-endpoint`), which previously
+  were silently dropped unless `push-gtwy` was also configured as a destination.
+
 ## Parameters
 
 ### Popeye Image parameters
@@ -51,7 +70,7 @@ Parameters.
 | ------------------- | ------------------------------------------------------------------- | ----------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`       |
 | `image.repository`  | The registry repository to pull the image from                      | `derailed/popeye` |
-| `image.tag`         | The image tag to pull                                               | `v0.21.3`         |
+| `image.tag`         | The image tag to pull                                               | `v0.22.1`         |
 | `image.digest`      | The image digest to pull                                            | `""`              |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`    |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`              |
@@ -75,23 +94,24 @@ Parameters.
 
 ### Popeye Configuration parameters
 
-| Name                                      | Description                                                                                        | Value |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------- | ----- |
-| `popeye.config`                           | The SpinachYAML configuration for popeye                                                           | `""`  |
-| `popeye.args`                             | Define the CLI arguments and flags that the container's entrypoint will execute                    | `{}`  |
-| `popeye.scans.destinations`               | Set Scan destinations for Popeye. Valid keys are `s3` and `push-gtwy`.                             | `[]`  |
-| `popeye.scans.pushGateway.url`            | Set the URL for the Push Gateway service                                                           | `""`  |
-| `popeye.scans.pushGateway.user`           | Set the HTTP Basic Auth username for the Push Gateway service                                      | `""`  |
-| `popeye.scans.pushGateway.password`       | Set the HTTP Basic Auth password for the Push Gateway service                                      | `""`  |
-| `popeye.scans.pushGateway.existingSecret` | Provide an existing `basic-auth` Secret to use as a credential source for the Push Gateway service | `""`  |
-| `popeye.scans.s3.bucket`                  | Set the S3 bucket name                                                                             | `""`  |
-| `popeye.scans.s3.region`                  | Set the S3 region to use                                                                           | `""`  |
-| `popeye.scans.s3.endpoint`                | Set a custom S3 endpoint to use instead of the AWS one                                             | `""`  |
-| `popeye.scans.s3.accessKey`               | Set the S3 Access Key                                                                              | `""`  |
-| `popeye.scans.s3.secretKey`               | Set the S3 Secret Key                                                                              | `""`  |
-| `popeye.scans.s3.existingSecret`          | Provide an existing Secret to with `accessKey` and `secretKey` keys to use as a credential source  | `""`  |
-| `configMap.annotations`                   | Annotations for the ConfigMap resource                                                             | `{}`  |
-| `configMap.labels`                        | Extra Labels for the ConfigMap resource                                                            | `{}`  |
+| Name                                      | Description                                                                                        | Value  |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------- | ------ |
+| `popeye.config`                           | The SpinachYAML configuration for popeye                                                           | `""`   |
+| `popeye.args`                             | Define the CLI arguments and flags that the container's entrypoint will execute                    | `{}`   |
+| `popeye.args.force-exit-zero`             | Exit 0 on lint findings instead of leaving the CronJob's Job in an Error state                     | `true` |
+| `popeye.scans.destinations`               | Set Scan destinations for Popeye. Valid keys are `s3` and `push-gtwy`.                             | `[]`   |
+| `popeye.scans.pushGateway.url`            | Set the URL for the Push Gateway service                                                           | `""`   |
+| `popeye.scans.pushGateway.user`           | Set the HTTP Basic Auth username for the Push Gateway service                                      | `""`   |
+| `popeye.scans.pushGateway.password`       | Set the HTTP Basic Auth password for the Push Gateway service                                      | `""`   |
+| `popeye.scans.pushGateway.existingSecret` | Provide an existing `basic-auth` Secret to use as a credential source for the Push Gateway service | `""`   |
+| `popeye.scans.s3.bucket`                  | Set the S3 bucket name                                                                             | `""`   |
+| `popeye.scans.s3.region`                  | Set the S3 region to use                                                                           | `""`   |
+| `popeye.scans.s3.endpoint`                | Set a custom S3 endpoint to use instead of the AWS one                                             | `""`   |
+| `popeye.scans.s3.accessKey`               | Set the S3 Access Key                                                                              | `""`   |
+| `popeye.scans.s3.secretKey`               | Set the S3 Secret Key                                                                              | `""`   |
+| `popeye.scans.s3.existingSecret`          | Provide an existing Secret to with `accessKey` and `secretKey` keys to use as a credential source  | `""`   |
+| `configMap.annotations`                   | Annotations for the ConfigMap resource                                                             | `{}`   |
+| `configMap.labels`                        | Extra Labels for the ConfigMap resource                                                            | `{}`   |
 
 ### Common Secret parameters
 

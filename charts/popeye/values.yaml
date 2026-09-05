@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: derailed/popeye
-  tag: v0.21.3
+  tag: v0.22.1
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -116,9 +116,27 @@ popeye:
   #          cpu:    80
   #          memory: 75
   #
-  #    # [New!] overrides code severity
+  #    # Exclude resources from being scanned entirely
+  #    excludes:
+  #      # Global excludes apply across all linters
+  #      global:
+  #        fqns: [rx:^kube-] # Regex or literal fully-qualified names to exclude
+  #        labels:
+  #          app: [bozo, bono] # Exclude resources matching these label values
+  #        annotations:
+  #          fred: [blee, duh] # Exclude resources matching these annotation values
+  #        codes: ["300", "206", "rx:^41"] # Exclude specific lint codes globally
+  #      # Per-linter excludes override/extend the global ones for a specific linter
+  #      linters:
+  #        namespaces:
+  #          codes: ["100", "rx:^22"]
+  #          instances:
+  #            - fqns: [kube-public, kube-system]
+  #            - fqns: [blee-ns]
+  #              codes: [106]
+  #
+  #    # Code specifies a custom severity level ie critical=3, warn=2, info=1
   #    overrides:
-  #      # Code specifies a custom severity level ie critical=3, warn=2, info=1
   #      - code: "rx:^20"
   #        severity: 1
   #
@@ -129,12 +147,15 @@ popeye:
   #      - docker.io
   #      - ghcr.io
 
-  ## @param popeye.args Define the CLI arguments and flags that the container's entrypoint will execute
+  ## @param popeye.args [object] Define the CLI arguments and flags that the container's entrypoint will execute
   ## NOTE: Boolean flags such as `save` are to be set to `true` to be appended. Arguments for the Push Gateway or S3
   ##        integration are configured later in the `scans` section and as such are not to be configured here as they
   ##        will not be used
+  ## @param popeye.args.force-exit-zero [default: true] Exit 0 on lint findings instead of leaving the CronJob's Job in an Error state
+  ## Set to false if you want the Job to reflect lint failures via its exit code
   ##
-  args: {}
+  args:
+    force-exit-zero: true
   # file: /etc/popeye/spinach.yaml
   # all-namespaces: true
 
