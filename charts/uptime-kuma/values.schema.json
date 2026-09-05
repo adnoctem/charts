@@ -13,12 +13,12 @@
         "repository": {
           "type": "string",
           "description": "The registry repository to pull the image from",
-          "default": "louislam/uptimeKuma"
+          "default": "louislam/uptime-kuma"
         },
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "'1.23.11'"
+          "default": "2.5.3"
         },
         "digest": {
           "type": "string",

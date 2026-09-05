@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 1.23.13
+appVersion: 2.5.3
 kubeVersion: ">=1.26.0-0"
 name: uptime-kuma
-version: 0.3.2
+version: 0.4.0
 description: Uptime-Kuma is an open-source, self-hosted fancy uptime monitoring tool
 home: https://uptime.kuma.pet/
 icon: https://raw.githubusercontent.com/louislam/uptime-kuma/953058c6a5047c82a58606e442c6e572e215e3ff/public/icon-512x512.png
@@ -32,7 +32,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: uptime-kuma
-      image: docker.io/louislam/uptime-kuma:1.23.13
+      image: docker.io/louislam/uptime-kuma:2.5.3
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -47,6 +47,10 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: repository owner changed from fmjstudios to adnoctem
+      description: "bumped appVersion from 1.23.13 to 2.5.3 (v1 -> v2 major upgrade, see the chart's Upgrading notes)"
     - kind: fixed
-      description: verify rotation of expired GPG key
+      description: the readinessProbe and startupProbe blocks both incorrectly rendered as a second/third livenessProbe, so only one of the three ever actually applied to the container
+    - kind: fixed
+      description: all three probes checked a `/alive` path that has never existed in Uptime Kuma's HTTP server (v1 or v2) - switched to `/`, matching the redirect the bundled Docker healthcheck itself checks for
+    - kind: fixed
+      description: correct the ConfigMap key rendered for `uptimeKuma.node.tlsRejectUnauthorized` from `NODE_EXTRA_CA_CERTS` (a duplicate of the unrelated CA-bundle setting) to `NODE_TLS_REJECT_UNAUTHORIZED`

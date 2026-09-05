@@ -29,7 +29,7 @@ data:
   NODE_EXTRA_CA_CERTS: {{ .Values.uptimeKuma.node.extraCaCerts }}
   {{- end }}
   {{- if not (eq .Values.uptimeKuma.node.tlsRejectUnauthorized "0") }}
-  NODE_EXTRA_CA_CERTS: {{ .Values.uptimeKuma.node.tlsRejectUnauthorized | quote }}
+  NODE_TLS_REJECT_UNAUTHORIZED: {{ .Values.uptimeKuma.node.tlsRejectUnauthorized | quote }}
   {{- end }}
   {{- if gt (len .Values.uptimeKuma.node.options) 0 }}
   {{- if eq (len .Values.uptimeKuma.node.options) 1 }}
