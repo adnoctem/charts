@@ -14,6 +14,67 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Activepieces Homepage
+          url: https://www.activepieces.com/
+        - name: Activepieces Documentation
+          url: https://www.activepieces.com/docs/getting-started/introduction
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 0.28.0
+    created: "2026-09-05T05:30:54.705504456Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    description: Activepieces is an open source all-in-one automation tool with 100+
+      integrations
+    digest: f1f74ea3bf43c79186f5c4d913e7c2a7716fa3b25497d6be531584cdb2d3f7ac
+    home: https://www.activepieces.com/
+    icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
+    keywords:
+    - automation
+    - workflow
+    - activepieces
+    - zapier
+    - n8n
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: activepieces
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.3.2/activepieces-0.3.2.tgz
+    version: 0.3.2
+  - annotations:
+      artifacthub.io/category: integration-delivery
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: activepieces
+          image: docker.io/activepieces/activepieces:0.28.0
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
           url: https://github.com/adnoctem/helm
         - name: Support
           url: https://github.com/adnoctem/helm/issues
@@ -349,6 +410,68 @@ entries:
     - https://github.com/fmjstudios/helm/releases/download/activepieces-0.1.0/activepieces-0.1.0.tgz
     version: 0.1.0
   cachet:
+  - annotations:
+      artifacthub.io/category: monitoring-logging
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: cachet
+          image: docker.io/cachethq/docker:2.3.15
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Cachet Homepage
+          url: https://cachethq.io/
+        - name: Cachet Documentation
+          url: https://docs.cachethq.io/introduction.html
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 2.3.15
+    created: "2026-09-05T05:30:54.905452166Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    description: Cachet is an open-source status page system designed to help you
+      keep track of your system status and share it with your user base
+    digest: eb78c3f7fcac6b73f34debddd8176ef07e70822894015fa1b541a84f83ba11d4
+    home: https://cachethq.io/
+    icon: https://raw.githubusercontent.com/cachethq/art/1a545d3ae52df6ee4d22677acfcc6ab4a90ef231/logo-mark/cachet-logomark-green.png
+    keywords:
+    - status
+    - status-page
+    - uptime
+    - monitoring
+    - uptime-kuma
+    - cachet
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: cachet
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.3.2/cachet-0.3.2.tgz
+    version: 0.3.2
   - annotations:
       artifacthub.io/category: monitoring-logging
       artifacthub.io/changes: |
@@ -916,6 +1039,59 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: GoBackup Documentation
+          url: https://gobackup.github.io/
+        - name: GoBackup GitHub Repository
+          url: https://github.com/gobackup/gobackup
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 2.11.2
+    created: "2026-09-05T05:30:55.121917953Z"
+    description: GoBackup is a CLI and Web UI for database backups to local, cloud
+      or remote storage with notification support
+    digest: 88d5a6c257710cf309a6e192d5ae1b48a4df3cb92e6cb1a603cbb1a6e2dd73e2
+    home: https://gobackup.github.io/
+    icon: https://user-images.githubusercontent.com/5518/205909959-12b92929-4ac5-4bb5-9111-6f9a3ed76cf6.png
+    keywords:
+    - cli
+    - web-ui
+    - backup
+    - database
+    - cloud-storage
+    - s3
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: gobackup
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.3.2/gobackup-0.3.2.tgz
+    version: 0.3.2
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: gobackup
+          image: docker.io/huacnlee/gobackup:v2.11.2
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
           url: https://github.com/adnoctem/helm
         - name: Support
           url: https://github.com/adnoctem/helm/issues
@@ -1302,6 +1478,68 @@ entries:
     - https://github.com/fmjstudios/helm/releases/download/gobackup-0.0.0/gobackup-0.0.0.tgz
     version: 0.0.0
   gotenberg:
+  - annotations:
+      artifacthub.io/category: streaming-messaging
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+        - kind: changed
+          description: bump appVersion to 8.36.0 (from 8.7.0) - see README Upgrading section for breaking changes
+        - kind: added
+          description: expose OpenTelemetry, LibreOffice outbound-filtering, Chromium/webhook IP-class filtering, environment-proxy opt-in, and route-telemetry controls introduced in Gotenberg 8.11-8.36
+        - kind: removed
+          description: chromium.incognito removed (silently ignored upstream since 8.25)
+        - kind: changed
+          description: gotenberg.pdf.engines replaced by convertEngines/readMetadataEngines/writeMetadataEngines (upstream 8.13)
+        - kind: fixed
+          description: readinessProbe and startupProbe templates no longer incorrectly render as livenessProbe
+      artifacthub.io/images: |
+        - name: gotenberg
+          image: docker.io/gotenberg/gotenberg:8.36.0
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Gotenberg Homepage
+          url: https://gotenberg.dev/
+        - name: Gotenberg Documentation
+          url: https://gotenberg.dev/docs/getting-started/introduction
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 8.36.0
+    created: "2026-09-05T05:30:55.326435689Z"
+    description: Gotenberg is a Docker-powered stateless API for PDF files.
+    digest: 20897e3622f5687eaa25a8153d94ee8bae560744bdb74f4f0e16b53152942936
+    home: https://gotenberg.dev/
+    icon: https://user-images.githubusercontent.com/8983173/130322857-185831e2-f041-46eb-a17f-0a69d066c4e5.png
+    keywords:
+    - documents
+    - conversion
+    - pdf
+    - office
+    - html
+    - markdown
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: gotenberg
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.4.0/gotenberg-0.4.0.tgz
+    version: 0.4.0
   - annotations:
       artifacthub.io/category: streaming-messaging
       artifacthub.io/changes: |
@@ -1726,6 +1964,62 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Keycloak GitHub Repository
+          url: https://github.com/keycloak/keycloak
+        - name: Keycloak Documentation
+          url: https://www.keycloak.org/guides
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 26.0.6
+    created: "2026-09-05T05:30:55.566151647Z"
+    description: Keycloak is an open source software product to allow single sign-on
+      with identity and access management
+    digest: 17aac1d2fec368fc7947ea9f275c357f9799ed8ee548fa1df733692068e149d1
+    home: https://github.com/keycloak/keycloak
+    icon: https://raw.githubusercontent.com/keycloak/keycloak-misc/main/logo/logo.png
+    keywords:
+    - identity
+    - identity-provider
+    - single-sign-on
+    - sso
+    - ldap
+    - oauth
+    - saml
+    - federation
+    - keycloak
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: keycloak-operator
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/keycloak-operator-0.2.2/keycloak-operator-0.2.2.tgz
+    version: 0.2.2
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: keycloak-operator
+          image: quay.io/keycloak/keycloak-operator:26.0.6
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
           url: https://github.com/adnoctem/helm
         - name: Support
           url: https://github.com/adnoctem/helm/issues
@@ -1940,6 +2234,53 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Kubenav Homepage
+          url: https://kubenav.io/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    created: "2026-09-05T05:30:55.728890727Z"
+    description: 'kubenav is the navigator for your Kubernetes clusters in your pocket:
+      a mobile app to manage clusters and get an overview of the status of your resources'
+    digest: 25170e323c9852d344a2280a942f86e6805b69efd245802bad1db991320c8b74
+    home: https://kubenav.io/
+    icon: https://raw.githubusercontent.com/kubenav/kubenav/290f1776b03c359b8115125fa37a4b8dd73b6464/utils/images/app-icons/android.png
+    keywords:
+    - dashboard
+    - android
+    - ios
+    - mobile
+    - kubeconfig
+    - rbac
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: kubenav
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/kubenav-0.2.2/kubenav-0.2.2.tgz
+    version: 0.2.2
+  - annotations:
+      artifacthub.io/category: monitoring-logging
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
           url: https://github.com/adnoctem/helm
         - name: Support
           url: https://github.com/adnoctem/helm/issues
@@ -2104,6 +2445,60 @@ entries:
     - https://github.com/fmjstudios/helm/releases/download/kubenav-0.1.0/kubenav-0.1.0.tgz
     version: 0.1.0
   linkstack:
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: linkstack
+          image: docker.io/linkstackorg/linkstack:latest@sha256:abd691b4293b020a317de8794737671e0315159efcb868e8a4124d6f0611f7ae
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Linkstack GitHub Repository
+          url: https://github.com/LinkStackOrg/LinkStack
+        - name: Linkstack Documentation
+          url: https://docs.linkstack.org/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 4.8.0
+    created: "2026-09-05T05:30:55.917700624Z"
+    description: LinkStack is a highly customizable link sharing platform with an
+      intuitive, easy to use user interface
+    digest: b7508e5b64696088fef59133254baeb7635844433c0e69c9d99c02777fcda8aa
+    home: https://github.com/LinkStackOrg/LinkStack
+    icon: https://raw.githubusercontent.com/LinkStackOrg/branding/c22886d7585246836d5e4e597484b92b51c76f0c/logo/png/logo.png
+    keywords:
+    - personal-website
+    - profile
+    - social
+    - social-accounts
+    - littlelink
+    - linktree
+    - linkstack
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: linkstack
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.3.2/linkstack-0.3.2.tgz
+    version: 0.3.2
   - annotations:
       artifacthub.io/category: storage
       artifacthub.io/changes: |
@@ -2531,6 +2926,64 @@ entries:
     - https://github.com/fmjstudios/helm/releases/download/linkstack-0.1.0/linkstack-0.1.0.tgz
     version: 0.1.0
   linkwarden:
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: linkwarden
+          image: ghcr.io/linkwarden/linkwarden:v2.5.3
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Linkwarden Homepage
+          url: https://linkwarden.app/
+        - name: Linkwarden Documentation
+          url: https://docs.linkwarden.app/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 2.5.3
+    created: "2026-09-05T05:30:56.350137404Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    description: Linkwarden is an open-source collaborative bookmark manager to collect,
+      organize and preserve webpages
+    digest: 87fd55ce164534e0b52caffd48a33c3111a0eb4db7734556612d522826b4f622
+    home: https://linkwarden.app/
+    icon: https://raw.githubusercontent.com/linkwarden/linkwarden/4640c1c966d37b7fc22e4ebfcb244d03da1d6d82/assets/logo.png
+    keywords:
+    - bookmarks
+    - archival
+    - collaboration
+    - linkding
+    - linkace
+    - archivebox
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: linkwarden
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.4.2/linkwarden-0.4.2.tgz
+    version: 0.4.2
   - annotations:
       artifacthub.io/category: storage
       artifacthub.io/changes: |
@@ -3395,6 +3848,59 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: ntfy GitHub Repository
+          url: https://github.com/binwiederhier/ntfy
+        - name: ntfy Documentation
+          url: https://docs.ntfy.sh/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 2.11.0
+    created: "2026-09-05T05:30:56.536454114Z"
+    description: ntfy lets you send push notifications to your phone or desktop via
+      scripts from any computer, using simple HTTP PUT or POST requests
+    digest: 55e5beb1590bad09773877ab16b5ea3e0bbcf2714e89317e82bf8b2380cb4014
+    home: https://github.com/binwiederhier/ntfy
+    icon: https://raw.githubusercontent.com/binwiederhier/ntfy/9d3fc20e583564e40af5afb90233f4714fdfcb4c/web/public/static/images/pwa-512x512.png
+    keywords:
+    - pubsub
+    - messaging
+    - notification
+    - desktop
+    - mobile
+    - ntfy
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: ntfy
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.3.2/ntfy-0.3.2.tgz
+    version: 0.3.2
+  - annotations:
+      artifacthub.io/category: streaming-messaging
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: ntfy
+          image: docker.io/binwiederhier/ntfy:v2.11.0
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
           url: https://github.com/adnoctem/helm
         - name: Support
           url: https://github.com/adnoctem/helm/issues
@@ -3801,6 +4307,76 @@ entries:
     - https://github.com/fmjstudios/helm/releases/download/ntfy-0.1.0/ntfy-0.1.0.tgz
     version: 0.1.0
   paperless-ngx:
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: paperless-ngx
+          image: ghcr.io/paperless-ngx/paperless-ngx:2.4.0
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Paperless-NGX GitHub Repository
+          url: https://github.com/paperless-ngx/paperless-ngx
+        - name: Paperless-NGX Documentation
+          url: https://docs.paperless-ngx.com/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 2.10.1
+    created: "2026-09-05T05:30:56.814222343Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    - condition: tika.enabled
+      name: tika
+      repository: https://apache.jfrog.io/artifactory/tika
+      version: ~2.9
+    - condition: gotenberg.enabled
+      name: gotenberg
+      repository: oci://ghcr.io/adnoctem/helm
+      version: ~0.3.0
+    description: Paperless-NGX is a community-supported supercharged version of paperless
+      - scan, index and archive all your physical documents
+    digest: 3b2462f3b0eb148fc84831f62155873c29ce00cbd6776dbbbb0202095ecddfac
+    home: https://github.com/paperless-ngx/paperless-ngx
+    icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    keywords:
+    - documents
+    - archival
+    - ocr
+    - conversion
+    - paper
+    - paperless
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: paperless-ngx
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.3.2/paperless-ngx-0.3.2.tgz
+    version: 0.3.2
   - annotations:
       artifacthub.io/category: storage
       artifacthub.io/changes: |
@@ -4792,6 +5368,59 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: ntfy GitHub Repository
+          url: https://github.com/derailed/popeye
+        - name: ntfy Documentation
+          url: https://popeyecli.io/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 0.21.3
+    created: "2026-09-05T05:30:56.987682027Z"
+    description: Popeye is a utility that scans live Kubernetes clusters and reports
+      potential issues with deployed resources and configurations
+    digest: 5b16ed8d8b89c5a459c25a8c7dc55da0b45a2da6603889c69a39da4830c857ed
+    home: https://popeyecli.io/
+    icon: https://github.com/derailed/popeye/blob/d09ec25f3834d2c6a171486b9726b0a91793e3f0/assets/popeye_logo.png?raw=true
+    keywords:
+    - monitoring
+    - linter
+    - scan
+    - read-only
+    - push-gateway
+    - popeye
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: popeye
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/popeye-0.2.2/popeye-0.2.2.tgz
+    version: 0.2.2
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: ntfy
+          image: docker.io/derailed/popeye:v0.21.3
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
           url: https://github.com/adnoctem/helm
         - name: Support
           url: https://github.com/adnoctem/helm/issues
@@ -4977,6 +5606,59 @@ entries:
     - https://github.com/fmjstudios/helm/releases/download/popeye-0.1.0/popeye-0.1.0.tgz
     version: 0.1.0
   uptime-kuma:
+  - annotations:
+      artifacthub.io/category: monitoring-logging
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: uptime-kuma
+          image: docker.io/louislam/uptime-kuma:1.23.13
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Uptime-Kuma Homepage
+          url: https://uptime.kuma.pet/
+        - name: Uptime-Kuma Documentation
+          url: https://github.com/louislam/uptime-kuma/wiki
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 1.23.13
+    created: "2026-09-05T05:30:57.242603094Z"
+    description: Uptime-Kuma is an open-source, self-hosted fancy uptime monitoring
+      tool
+    digest: 8ff224adcae56657b5b0769a264c351eb6cf53170b613572966888cae9b4a347
+    home: https://uptime.kuma.pet/
+    icon: https://raw.githubusercontent.com/louislam/uptime-kuma/953058c6a5047c82a58606e442c6e572e215e3ff/public/icon-512x512.png
+    keywords:
+    - uptime
+    - monitoring
+    - website
+    - database
+    - tls
+    - uptime-robot
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: uptime-kuma
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.3.2/uptime-kuma-0.3.2.tgz
+    version: 0.3.2
   - annotations:
       artifacthub.io/category: monitoring-logging
       artifacthub.io/changes: |
@@ -5396,6 +6078,58 @@ entries:
     - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.1.0/uptime-kuma-0.1.0.tgz
     version: 0.1.0
   vaultwarden:
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+      artifacthub.io/images: |
+        - name: vaultwarden
+          image: docker.io/vaultwarden/server:1.30.5-alpine
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Vaultwarden GitHub Repository
+          url: https://github.com/dani-garcia/vaultwarden
+        - name: Vaultwarden Documentation
+          url: https://github.com/dani-garcia/vaultwarden/wiki
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 1.30.5
+    created: "2026-09-05T05:30:57.479278616Z"
+    description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible
+      server written in Rust
+    digest: 92d2b79e4d3808eab3e8d63a0b0e26925a1f3829bb47f0e7b9505ae2d799a90c
+    home: https://github.com/dani-garcia/vaultwarden
+    icon: https://github.com/adnoctem/artwork/blob/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    keywords:
+    - passwords
+    - password-manager
+    - bitwarden
+    - keepass
+    - vaultwarden
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: vaultwarden
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.3.2/vaultwarden-0.3.2.tgz
+    version: 0.3.2
   - annotations:
       artifacthub.io/category: security
       artifacthub.io/changes: |
@@ -5860,4 +6594,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-06T22:53:39.957961409Z"
+generated: "2026-09-05T05:30:57.4797651Z"
