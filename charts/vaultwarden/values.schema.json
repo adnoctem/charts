@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "1.30.5-alpine"
+          "default": "1.37.2-alpine"
         },
         "digest": {
           "type": "string",
@@ -370,9 +370,89 @@
               "default": "true"
             },
             "port": {
-              "type": "number",
-              "description": "The port websocket should bind to",
-              "default": "3012"
+              "type": "string",
+              "description": "Deprecated and no longer used - WebSocket traffic is served on the main port as of Vaultwarden 1.31.0",
+              "default": "\"\""
+            }
+          }
+        },
+        "sso": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Whether users can log in using an OpenID Connect identity provider",
+              "default": "false"
+            },
+            "only": {
+              "type": "boolean",
+              "description": "Prevent users from logging in directly without going through SSO",
+              "default": "false"
+            },
+            "signupsMatchEmail": {
+              "type": "boolean",
+              "description": "On SSO signup, associate with an existing user if the email matches",
+              "default": "true"
+            },
+            "allowUnknownEmailVerification": {
+              "type": "boolean",
+              "description": "Allow unknown email verification status - combined with signupsMatchEmail this can allow account takeover, only enable if you understand the risk",
+              "default": "false"
+            },
+            "authority": {
+              "type": "string",
+              "description": "Base URL of the OIDC server (auto-discovery is used) - must not include `/.well-known/openid-configuration` or a trailing slash",
+              "default": "\"\""
+            },
+            "scopes": {
+              "type": "string",
+              "description": "Additional authorization request scopes (`openid` is always implicit) - defaults to \"email profile\" if unset",
+              "default": "\"\""
+            },
+            "authorizeExtraParams": {
+              "type": "string",
+              "description": "Additional authorization URL parameters, e.g. to obtain a refresh_token with Google Auth",
+              "default": "\"\""
+            },
+            "pkce": {
+              "type": "boolean",
+              "description": "Use PKCE for the Auth Code flow",
+              "default": "true"
+            },
+            "audienceTrusted": {
+              "type": "string",
+              "description": "Regex for additional trusted ID token audiences - by default only the client ID is trusted",
+              "default": "\"\""
+            },
+            "clientId": {
+              "type": "string",
+              "description": "The OIDC client ID - ignored if `existingSecret.name` is set",
+              "default": "\"\""
+            },
+            "clientSecret": {
+              "type": "string",
+              "description": "The OIDC client secret - ignored if `existingSecret.name` is set",
+              "default": "\"\""
+            },
+            "existingSecret": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of an existing Secret containing `clientId` and `clientSecret` keys",
+                  "default": "\"\""
+                }
+              }
+            },
+            "masterPasswordPolicy": {
+              "type": "string",
+              "description": "Optional master password policy JSON, e.g. '{\"enforceOnLogin\":false,\"minComplexity\":3,\"minLength\":12}'",
+              "default": "\"\""
+            },
+            "authOnlyNotSession": {
+              "type": "boolean",
+              "description": "Use SSO only for authentication, not for the session lifecycle",
+              "default": "false"
             }
           }
         },

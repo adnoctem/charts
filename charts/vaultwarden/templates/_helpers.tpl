@@ -81,6 +81,10 @@ Set the names of the secrets
 {{- printf "%s-hibp" (include "vaultwarden.fullname" .) }}
 {{- end }}
 
+{{- define "vaultwarden.secrets.sso" -}}
+{{- printf "%s-sso" (include "vaultwarden.fullname" .) }}
+{{- end }}
+
 {{/*
 Define the PV name
 */}}

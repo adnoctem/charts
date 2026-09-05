@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: vaultwarden/server
-  tag: "1.30.5-alpine"
+  tag: "1.37.2-alpine"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -311,14 +311,66 @@ vaultwarden:
       autoFallback: false
 
   ## Websocket configuration for push notifications
+  ## NOTE: as of Vaultwarden 1.31.0, WebSocket notifications are served on the main HTTP port - the separate
+  ##       port 3012 no longer exists
   ##
   websocket:
     ## @param vaultwarden.websocket.enabled [default: true] Whether to enable Websocket push notifications
     ##
     enabled: true
-    ## @param vaultwarden.websocket.port [default: 3012] The port websocket should bind to
+    ## @param vaultwarden.websocket.port [string] Deprecated and no longer used - WebSocket traffic is served on the main port as of Vaultwarden 1.31.0
     ##
-    port: 3012
+    port: ""
+
+  ## SSO (OpenID Connect) configuration, added upstream since this chart's previous target version
+  ## ref: https://github.com/dani-garcia/vaultwarden/wiki/Enabling-SSO-support-using-OpenId-Connect
+  ##
+  sso:
+    ## @param vaultwarden.sso.enabled [default: false] Whether users can log in using an OpenID Connect identity provider
+    ##
+    enabled: false
+    ## @param vaultwarden.sso.only [default: false] Prevent users from logging in directly without going through SSO
+    ##
+    only: false
+    ## @param vaultwarden.sso.signupsMatchEmail [default: true] On SSO signup, associate with an existing user if the email matches
+    ##
+    signupsMatchEmail: true
+    ## @param vaultwarden.sso.allowUnknownEmailVerification [default: false] Allow unknown email verification status - combined with signupsMatchEmail this can allow account takeover, only enable if you understand the risk
+    ##
+    allowUnknownEmailVerification: false
+    ## @param vaultwarden.sso.authority [string] Base URL of the OIDC server (auto-discovery is used) - must not include `/.well-known/openid-configuration` or a trailing slash
+    ##
+    authority: ""
+    ## @param vaultwarden.sso.scopes [string] Additional authorization request scopes (`openid` is always implicit) - defaults to "email profile" if unset
+    ##
+    scopes: ""
+    ## @param vaultwarden.sso.authorizeExtraParams [string] Additional authorization URL parameters, e.g. to obtain a refresh_token with Google Auth
+    ##
+    authorizeExtraParams: ""
+    ## @param vaultwarden.sso.pkce [default: true] Use PKCE for the Auth Code flow
+    ##
+    pkce: true
+    ## @param vaultwarden.sso.audienceTrusted [string] Regex for additional trusted ID token audiences - by default only the client ID is trusted
+    ##
+    audienceTrusted: ""
+    ## @param vaultwarden.sso.clientId [string] The OIDC client ID - ignored if `existingSecret.name` is set
+    ##
+    clientId: ""
+    ## @param vaultwarden.sso.clientSecret [string] The OIDC client secret - ignored if `existingSecret.name` is set
+    ##
+    clientSecret: ""
+    ## An existing Secret containing `clientId` and `clientSecret` keys
+    ##
+    existingSecret:
+      ## @param vaultwarden.sso.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+      ##
+      name: ""
+    ## @param vaultwarden.sso.masterPasswordPolicy [string] Optional master password policy JSON, e.g. '{"enforceOnLogin":false,"minComplexity":3,"minLength":12}'
+    ##
+    masterPasswordPolicy: ""
+    ## @param vaultwarden.sso.authOnlyNotSession [default: false] Use SSO only for authentication, not for the session lifecycle
+    ##
+    authOnlyNotSession: false
 
   ## Database settings
   ##
