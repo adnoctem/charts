@@ -19,7 +19,7 @@
 image:
   registry: quay.io
   repository: keycloak/keycloak-operator
-  tag: "26.0.6"
+  tag: "26.7.3"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'

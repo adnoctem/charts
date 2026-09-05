@@ -38,7 +38,10 @@ repos:
     rev: v1.24.6
     hooks:
       - id: typos
-        exclude: (.*\.yaml|^CHANGELOG.md$)
+        # pre-commit passes staged files to `typos` as explicit CLI arguments, which bypasses the
+        # ignore-glob-based `[files] extend-exclude` in .typos.toml (that only prunes directory
+        # walking, not explicit paths) - vendored upstream CRDs must be excluded here instead.
+        exclude: (.*\.yaml|^CHANGELOG.md$|charts/[^/]+/crds/.*\.yml$)
         args:
           - "--config"
           - ".github/linters/.typos.toml"

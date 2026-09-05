@@ -65,9 +65,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Common annotations
 */}}
 {{- define "kcOperator.annotations" -}}
-app.quarkus.io/quarkus-version: 3.8.5
-app.quarkus.io/vcs-uri: https://github.com/stianst/keycloak.git
-app.quarkus.io/build-timestamp: 2024-07-18 - 07:20:41 +0000
+app.quarkus.io/quarkus-version: 3.33.3.1
+app.quarkus.io/vcs-uri: https://github.com/keycloak/keycloak.git
+app.quarkus.io/build-timestamp: 2026-08-31 - 09:35:27 +0000
 {{- end }}
 
 {{/*
@@ -86,10 +86,6 @@ Templates to build the names for RBAC manifests
 */}}
 {{- define "kcOperator.rbac.template.clusterrole" -}}
 {{- printf "%s-cluster-role" .name }}
-{{- end }}
-
-{{- define "kcOperator.rbac.template.role" -}}
-{{- printf "%s-role" .name }}
 {{- end }}
 
 {{- define "kcOperator.rbac.template.crbinding" -}}
@@ -120,16 +116,16 @@ Build the names for RBAC manifests
 {{- include "kcOperator.rbac.template.clusterrole" (dict "name" "keycloakcontroller") }}
 {{- end }}
 
+{{- define "kcOperator.rbac.clusterrole.kcoidcclientcontroller" -}}
+{{- include "kcOperator.rbac.template.clusterrole" (dict "name" "keycloakoidcclientcontroller") }}
+{{- end }}
+
+{{- define "kcOperator.rbac.clusterrole.kcsamlclientcontroller" -}}
+{{- include "kcOperator.rbac.template.clusterrole" (dict "name" "keycloaksamlclientcontroller") }}
+{{- end }}
+
 {{- define "kcOperator.rbac.crbinding.kcOperator" -}}
 {{- include "kcOperator.rbac.template.crbinding" (dict "name" "keycloak-operator") }}
-{{- end }}
-
-{{- define "kcOperator.rbac.role.kcOperator" -}}
-{{- include "kcOperator.rbac.template.role" (dict "name" "keycloak-operator") }}
-{{- end }}
-
-{{- define "kcOperator.rbac.rbinding.kcOperator" -}}
-{{- include "kcOperator.rbac.template.rbinding" (dict "name" "keycloak-operator") }}
 {{- end }}
 
 {{- define "kcOperator.rbac.rbinding.kcrealmimportcontroller" -}}
@@ -138,6 +134,14 @@ Build the names for RBAC manifests
 
 {{- define "kcOperator.rbac.rbinding.kccontroller" -}}
 {{- include "kcOperator.rbac.template.rbinding" (dict "name" "keycloakcontroller") }}
+{{- end }}
+
+{{- define "kcOperator.rbac.rbinding.kcoidcclientcontroller" -}}
+{{- include "kcOperator.rbac.template.rbinding" (dict "name" "keycloakoidcclientcontroller") }}
+{{- end }}
+
+{{- define "kcOperator.rbac.rbinding.kcsamlclientcontroller" -}}
+{{- include "kcOperator.rbac.template.rbinding" (dict "name" "keycloaksamlclientcontroller") }}
 {{- end }}
 
 {{- define "kcOperator.rbac.rbview.kcOperator" -}}

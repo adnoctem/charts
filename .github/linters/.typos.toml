@@ -1,5 +1,7 @@
 [files]
-extend-exclude = []
+# Vendored upstream CRDs (e.g. charts/keycloak-operator/crds/) are not ours to fix - their content,
+# including any typos in schema field names, must match what the operator actually accepts.
+extend-exclude = ["charts/*/crds/**"]
 
 # [default]
 # extend-ignore-identifiers-re = [".*FO*", ".*PnP.*"]
