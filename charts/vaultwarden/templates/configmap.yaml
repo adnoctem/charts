@@ -103,7 +103,43 @@ data:
     Websocket configuration
   */}}
   {{- if .Values.vaultwarden.websocket.enabled }}
-  WEBSOCKET_ENABLED: {{ .Values.vaultwarden.websocket.enabled | quote }}
+  ENABLE_WEBSOCKET: {{ .Values.vaultwarden.websocket.enabled | quote }}
+  {{- end }}
+  {{- /*
+    SSO (OpenID Connect) configuration
+  */}}
+  {{- if .Values.vaultwarden.sso.enabled }}
+  SSO_ENABLED: {{ .Values.vaultwarden.sso.enabled | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.only }}
+  SSO_ONLY: {{ .Values.vaultwarden.sso.only | quote }}
+  {{- end }}
+  {{- if not .Values.vaultwarden.sso.signupsMatchEmail }}
+  SSO_SIGNUPS_MATCH_EMAIL: {{ .Values.vaultwarden.sso.signupsMatchEmail | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.allowUnknownEmailVerification }}
+  SSO_ALLOW_UNKNOWN_EMAIL_VERIFICATION: {{ .Values.vaultwarden.sso.allowUnknownEmailVerification | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.authority }}
+  SSO_AUTHORITY: {{ .Values.vaultwarden.sso.authority | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.scopes }}
+  SSO_SCOPES: {{ .Values.vaultwarden.sso.scopes | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.authorizeExtraParams }}
+  SSO_AUTHORIZE_EXTRA_PARAMS: {{ .Values.vaultwarden.sso.authorizeExtraParams | quote }}
+  {{- end }}
+  {{- if not .Values.vaultwarden.sso.pkce }}
+  SSO_PKCE: {{ .Values.vaultwarden.sso.pkce | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.audienceTrusted }}
+  SSO_AUDIENCE_TRUSTED: {{ .Values.vaultwarden.sso.audienceTrusted | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.masterPasswordPolicy }}
+  SSO_MASTER_PASSWORD_POLICY: {{ .Values.vaultwarden.sso.masterPasswordPolicy | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.sso.authOnlyNotSession }}
+  SSO_AUTH_ONLY_NOT_SESSION: {{ .Values.vaultwarden.sso.authOnlyNotSession | quote }}
   {{- end }}
   {{- /*
     Rate limits configuration

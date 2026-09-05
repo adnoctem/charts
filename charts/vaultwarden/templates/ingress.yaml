@@ -70,20 +70,6 @@ spec:
               serviceName: {{ include "vaultwarden.fullname" $ }}
               servicePort: {{ $.Values.vaultwarden.rocket.port }}
               {{- end }}
-          {{- if $.Values.vaultwarden.websocket.enabled }}
-          - path: /notifications/hub
-            pathType: Exact
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: {{ include "vaultwarden.fullname" $ }}
-                port:
-                  number: {{ $.Values.vaultwarden.websocket.port }}
-              {{- else }}
-              serviceName: {{ include "vaultwarden.fullname" $ }}
-              servicePort: {{ $.Values.vaultwarden.websocket.port }}
-              {{- end }}
-          {{- end }}
   {{- range .Values.ingress.extraHosts }}
     - host: {{ .host | quote }}
       http:

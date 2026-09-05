@@ -80,15 +80,22 @@ template:
                 name: {{ .Values.vaultwarden.hibpApiKey.existingSecret.name | default (include "vaultwarden.secrets.hibp" .) }}
                 key: {{ .Values.vaultwarden.hibpApiKey.existingSecret.key | default "apiKey" }}
           {{- end }}
+          {{- if .Values.vaultwarden.sso.enabled }}
+          - name: SSO_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.vaultwarden.sso.existingSecret.name | default (include "vaultwarden.secrets.sso" .) }}
+                key: "clientId"
+          - name: SSO_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.vaultwarden.sso.existingSecret.name | default (include "vaultwarden.secrets.sso" .) }}
+                key: "clientSecret"
+          {{- end }}
         ports:
           - name: http
             containerPort: {{ .Values.vaultwarden.rocket.port }}
             protocol: TCP
-          {{- if .Values.vaultwarden.websocket.enabled }}
-          - name: websocket
-            containerPort: {{ .Values.vaultwarden.websocket.port }}
-            protocol: TCP
-          {{- end }}
         volumeMounts:
           - name: {{ include "vaultwarden.pv.name" . }}
             mountPath: {{ .Values.vaultwarden.data.rootPath | default "/data" }}
