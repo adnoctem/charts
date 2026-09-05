@@ -16,6 +16,77 @@ entries:
           description: the queue UI enablement check compared the queue mode against the wrong case ("REDIS" instead of "redis"), so it could never actually enable regardless of configuration
         - kind: added
           description: extraEnvVars for the many Activepieces settings without a dedicated value (AP_SSRF_ALLOW_LIST, AP_ALLOWED_EMBED_ORIGINS, AP_PREWARM_CACHE_ON_STARTUP, AP_SMTP_* for outgoing email, etc.)
+        - kind: fixed
+          description: the icon annotation pointed at a GitHub `blob` URL, which serves an HTML page rather than the raw image - ArtifactHub failed to fetch it as a logo. Switched to raw.githubusercontent.com
+      artifacthub.io/images: |
+        - name: activepieces
+          image: docker.io/activepieces/activepieces:0.90.2
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Activepieces Homepage
+          url: https://www.activepieces.com/
+        - name: Activepieces Documentation
+          url: https://www.activepieces.com/docs/getting-started/introduction
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 0.90.2
+    created: "2026-09-05T15:50:13.640369063Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    description: Activepieces is an open source all-in-one automation tool with 100+
+      integrations
+    digest: d7d4d5221eb95f4299e0c14dbf61898e3c52e28cc79c51fa0b9f3f9ac3ce0029
+    home: https://www.activepieces.com/
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
+    keywords:
+    - automation
+    - workflow
+    - activepieces
+    - zapier
+    - n8n
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: activepieces
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.4.1/activepieces-0.4.1.tgz
+    version: 0.4.1
+  - annotations:
+      artifacthub.io/category: integration-delivery
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+        - kind: changed
+          description: bump appVersion to 0.90.2 (from 0.28.0), a large multi-year range - see README Upgrading section
+        - kind: fixed
+          description: every install was sending three removed/renamed environment variables unconditionally (AP_QUEUE_MODE, AP_FLOW_WORKER_CONCURRENCY, AP_PIECES_SOURCE) plus a dead template-source URL and Copilot Azure OpenAI settings for a feature deprecated upstream since 0.71.0 - renamed or removed as appropriate
+        - kind: fixed
+          description: the queue UI enablement check compared the queue mode against the wrong case ("REDIS" instead of "redis"), so it could never actually enable regardless of configuration
+        - kind: added
+          description: extraEnvVars for the many Activepieces settings without a dedicated value (AP_SSRF_ALLOW_LIST, AP_ALLOWED_EMBED_ORIGINS, AP_PREWARM_CACHE_ON_STARTUP, AP_SMTP_* for outgoing email, etc.)
       artifacthub.io/images: |
         - name: activepieces
           image: docker.io/activepieces/activepieces:0.90.2
@@ -4822,6 +4893,88 @@ entries:
           description: point the gotenberg subchart dependency at its current ghcr.io/adnoctem/charts location, replacing the stale pre-rename path
         - kind: added
           description: extraEnvVars for the many Paperless-ngx settings without a dedicated value (PAPERLESS_TRUSTED_PROXIES, PAPERLESS_DB_OPTIONS, consumer polling/stability settings, etc.)
+        - kind: fixed
+          description: the icon annotation pointed at a GitHub `blob` URL, which serves an HTML page rather than the raw image - ArtifactHub failed to fetch it as a logo. Switched to raw.githubusercontent.com
+      artifacthub.io/images: |
+        - name: paperless-ngx
+          image: ghcr.io/paperless-ngx/paperless-ngx:3.1.3
+      artifacthub.io/license: GPL-3.0
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Paperless-NGX GitHub Repository
+          url: https://github.com/paperless-ngx/paperless-ngx
+        - name: Paperless-NGX Documentation
+          url: https://docs.paperless-ngx.com/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: GPL-3.0
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 3.1.3
+    created: "2026-09-05T15:50:13.817137719Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    - condition: tika.enabled
+      name: tika
+      repository: https://apache.jfrog.io/artifactory/tika
+      version: ~2.9
+    - condition: gotenberg.enabled
+      name: gotenberg
+      repository: oci://ghcr.io/adnoctem/charts
+      version: ~0.4.0
+    description: Paperless-NGX is a community-supported supercharged version of paperless
+      - scan, index and archive all your physical documents
+    digest: 3014a06d98fb18cc7ccdd723e150401c3127988497a4fba6f8ff85637c733666
+    home: https://github.com/paperless-ngx/paperless-ngx
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    keywords:
+    - documents
+    - archival
+    - ocr
+    - conversion
+    - paper
+    - paperless
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: paperless-ngx
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.4.1/paperless-ngx-0.4.1.tgz
+    version: 0.4.1
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |
+        - kind: changed
+          description: repository owner changed from fmjstudios to adnoctem
+        - kind: fixed
+          description: verify rotation of expired GPG key
+        - kind: fixed
+          description: corrected the license annotation (Paperless-ngx is GPL-3.0, not MIT) and a stale image tag annotation (2.4.0, though appVersion was already 2.10.1)
+        - kind: changed
+          description: bump appVersion to 3.1.3 (from 2.10.1), a major version upgrade - see README Upgrading section, upgrading in-place requires passing through 2.20.15 first
+        - kind: fixed
+          description: the generated Paperless secret key rotated on every helm upgrade, invalidating all active sessions - it's now preserved across upgrades
+        - kind: fixed
+          description: point the gotenberg subchart dependency at its current ghcr.io/adnoctem/charts location, replacing the stale pre-rename path
+        - kind: added
+          description: extraEnvVars for the many Paperless-ngx settings without a dedicated value (PAPERLESS_TRUSTED_PROXIES, PAPERLESS_DB_OPTIONS, consumer polling/stability settings, etc.)
       artifacthub.io/images: |
         - name: paperless-ngx
           image: ghcr.io/paperless-ngx/paperless-ngx:3.1.3
@@ -6785,6 +6938,66 @@ entries:
           description: removed a broken Ingress rule that routed /notifications/hub to a Service port that was never actually defined
         - kind: added
           description: added SSO (OpenID Connect) login support via the new vaultwarden.sso values block
+        - kind: fixed
+          description: the icon annotation pointed at a GitHub `blob` URL, which serves an HTML page rather than the raw image - ArtifactHub failed to fetch it as a logo. Switched to raw.githubusercontent.com
+      artifacthub.io/images: |
+        - name: vaultwarden
+          image: docker.io/vaultwarden/server:1.37.2-alpine
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Vaultwarden GitHub Repository
+          url: https://github.com/dani-garcia/vaultwarden
+        - name: Vaultwarden Documentation
+          url: https://github.com/dani-garcia/vaultwarden/wiki
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: AGPL-3.0
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 1.37.2
+    created: "2026-09-05T15:50:13.993823873Z"
+    description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible
+      server written in Rust
+    digest: 812a7b3af88910d686fa560d11eb316c8f6adc2e0c6e1b247cdb742db08610e6
+    home: https://github.com/dani-garcia/vaultwarden
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    keywords:
+    - passwords
+    - password-manager
+    - bitwarden
+    - keepass
+    - vaultwarden
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: vaultwarden
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.4.1/vaultwarden-0.4.1.tgz
+    version: 0.4.1
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: corrected the license annotation (Vaultwarden is AGPL-3.0, not MIT)
+        - kind: changed
+          description: "bumped appVersion from 1.30.5 to 1.37.2"
+        - kind: changed
+          description: renamed WEBSOCKET_ENABLED to ENABLE_WEBSOCKET; the separate WebSocket port was removed upstream in 1.31.0 and traffic is now served on the main port, so vaultwarden.websocket.port is deprecated and no longer rendered
+        - kind: fixed
+          description: removed a broken Ingress rule that routed /notifications/hub to a Service port that was never actually defined
+        - kind: added
+          description: added SSO (OpenID Connect) login support via the new vaultwarden.sso values block
       artifacthub.io/images: |
         - name: vaultwarden
           image: docker.io/vaultwarden/server:1.37.2-alpine
@@ -7346,4 +7559,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T15:42:47.060578556Z"
+generated: "2026-09-05T15:50:13.994014561Z"
