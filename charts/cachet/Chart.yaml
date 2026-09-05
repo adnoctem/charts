@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 2.3.18
+appVersion: 2.3.15
 kubeVersion: ">=1.26.0-0"
 name: cachet
-version: 0.4.0
+version: 0.3.3
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -41,7 +41,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: cachet
-      image: docker.io/cachethq/docker:2.3.18
+      image: docker.io/cachethq/docker:2.3.15
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -61,5 +61,5 @@ annotations:
       description: verify rotation of expired GPG key
     - kind: fixed
       description: corrected the license annotation - Cachet ships under a custom "Cachet license", not MIT
-    - kind: changed
-      description: bump appVersion to 2.3.18 (from 2.3.15) - the last image cachethq has published to Docker Hub; see README for details
+    - kind: fixed
+      description: keep appVersion pinned at 2.3.15 - every later image cachethq has published (2.3.16 through 2.3.18) fails on a fresh install with "Command cachet:install is not defined" (cachethq/Docker#379), an upstream packaging defect with no known workaround
