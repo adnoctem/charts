@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 26.0.6
+appVersion: 26.7.3
 kubeVersion: ">=1.26.0-0"
 name: keycloak-operator
-version: 0.2.2
+version: 0.3.0
 description: Keycloak is an open source software product to allow single sign-on with identity and access management
 home: https://github.com/keycloak/keycloak
 icon: https://raw.githubusercontent.com/keycloak/keycloak-misc/main/logo/logo.png
@@ -35,7 +35,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: keycloak-operator
-      image: quay.io/keycloak/keycloak-operator:26.0.6
+      image: quay.io/keycloak/keycloak-operator:26.7.3
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -53,3 +53,11 @@ annotations:
       description: repository owner changed from fmjstudios to adnoctem
     - kind: fixed
       description: verify rotation of expired GPG key
+    - kind: changed
+      description: bump appVersion to 26.7.3 (from 26.0.6), a large security-patch range - see README Upgrading section
+    - kind: added
+      description: bundle the new KeycloakOIDCClient and KeycloakSAMLClient CRDs and their controller RBAC, added upstream for declarative client management
+    - kind: changed
+      description: consolidate the operator's namespaced Role into the keycloakcontroller ClusterRole (bound namespace-scoped, same effective permissions) and add ServiceMonitor/NetworkPolicy/pod-log support, matching upstream's new RBAC layout
+    - kind: fixed
+      description: pod annotations no longer reference an unrelated personal fork as the build source

@@ -9,7 +9,7 @@ instances of Keycloak at will using the newly registered
 Unfortunately the [Keycloak Project](https://www.keycloak.org/) does not provide a way to [install
 the Operator via a Helm Chart](https://www.keycloak.org/operator/installation#_installing_by_using_kubectl_without_operator_lifecycle_manager),
 thus making it challenging to manage. This Helm Chart is built from the
-official [upstream sources](https://github.com/keycloak/keycloak-k8s-resources/blob/26.0.6/kubernetes/kubernetes.yml)
+official [upstream sources](https://github.com/keycloak/keycloak-k8s-resources/blob/26.7.3/kubernetes/kubernetes.yml)
 and closely tracks these for changes. It delivers all of these features within a single Docker image available
 on [quay.io](https://quay.io/repository/keycloak/keycloak-operator).
 
@@ -22,7 +22,7 @@ on [quay.io](https://quay.io/repository/keycloak/keycloak-operator).
 
 ```shell
 helm repo add adnoctem https://adnoctem.github.io/charts
-helm install vaultwarden adnoctem/keycloak-operator --version X.Y.Z
+helm install keycloak-operator adnoctem/keycloak-operator --version X.Y.Z
 ```
 
 ### OCI Installation
@@ -38,8 +38,17 @@ Keycloak Operator [Deployment](https://kubernetes.io/docs/concepts/workloads/con
 a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh/) package manager. For cluster networking
 a [Service](https://kubernetes.io/docs/concepts/services-networking/service/) manifest is also created.
 The chart creates the [RBAC roles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) (ClusterRoles)
-`keycloakrealmimportcontroller-cluster-role`, `keycloakcontroller-cluster-role` and (Roles) `keycloak-operator-role`.
-These are enabled by default.
+`keycloakrealmimportcontroller-cluster-role`, `keycloakcontroller-cluster-role`, `keycloakoidcclientcontroller-cluster-role`
+and `keycloaksamlclientcontroller-cluster-role`, each bound to the operator's ServiceAccount via a namespace-scoped
+RoleBinding. These are enabled by default.
+
+> [!IMPORTANT]
+> Helm does not upgrade or delete CRDs on `helm upgrade` (see the
+> [Helm documentation](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)) - after upgrading this
+> chart, you must apply the CRDs under `crds/` to your cluster yourself (`kubectl apply -f crds/`, or via
+> `kubectl apply -f` against the raw files in this chart's GitHub repository) for the new operator version to work
+> correctly. This matters most between major CRD schema changes, and whenever new CRDs are added (see the Upgrading
+> notes below).
 
 The chart supports configuring the Kubernetes manifests created for the Operator, however modifications are somewhat
 discouraged, since the official release for vanilla Kubernetes uses static manifests. The Operator itself does not offer
@@ -75,6 +84,34 @@ spec:
 EOF
 ```
 
+## Upgrading
+
+### To 0.3.0 (Keycloak Operator 26.0.6 -> 26.7.3)
+
+This is a large range covering multiple Keycloak minor releases, including a heavy security-patch release
+(26.7.3 alone fixes over a dozen CVEs). Review the
+[upstream upgrading guide](https://www.keycloak.org/docs/latest/upgrading/) for anything affecting your own
+`Keycloak`/`KeycloakRealmImport` resources - the items below cover what changed in this chart specifically.
+
+- **Apply the updated CRDs manually after upgrading** (see the note above) - `keycloaks.k8s.keycloak.org` and
+  `keycloakrealmimports.k8s.keycloak.org` both gained substantial new schema (nearly 400 new fields combined,
+  across the Identity Brokering V2 API, workflows, and other 26.x features), and two entirely new CRDs are now
+  bundled: `keycloakoidcclients.k8s.keycloak.org` and `keycloaksamlclients.k8s.keycloak.org`, for declarative
+  OIDC/SAML client management. The operator's new controllers for these two CRDs will not start correctly if the
+  CRDs aren't present in your cluster.
+- RBAC was restructured to match upstream: the operator's namespaced `Role` (`keycloak-operator-role`) has been
+  removed and its permissions folded into the `keycloakcontroller-cluster-role` ClusterRole (still bound only via
+  a namespace-scoped RoleBinding, so the effective access granted is unchanged). Two new ClusterRoles were added
+  for the OIDC/SAML client controllers, and the existing ClusterRoles gained permissions for `ServiceMonitor`,
+  `NetworkPolicy`, and pod log access - all new in this operator version.
+- Four new environment variables (one per controller) set each controller to watch only its own namespace
+  (`QUARKUS_OPERATOR_SDK_CONTROLLERS_*_NAMESPACES: JOSDK_WATCH_CURRENT`) - required for the operator to start
+  correctly with this chart's namespace-scoped RBAC; releases before 26.7.x didn't need this set explicitly.
+- Fixed the pod annotations referencing an unrelated personal fork (`stianst/keycloak.git`) as the build source,
+  and a stale Quarkus version/build timestamp - now reflect the actual 26.7.3 build.
+- Fixed a copy-pasted `helm install vaultwarden ...` example in this README, and a stray reference to the
+  `keycloak-operator-role` Role that no longer exists.
+
 ## Parameters
 
 ### Image parameters
@@ -83,7 +120,7 @@ EOF
 | ------------------- | ------------------------------------------------------------------- | ---------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `quay.io`                    |
 | `image.repository`  | The registry repository to pull the image from                      | `keycloak/keycloak-operator` |
-| `image.tag`         | The image tag to pull                                               | `26.0.6`                     |
+| `image.tag`         | The image tag to pull                                               | `26.7.3`                     |
 | `image.digest`      | The image digest to pull                                            | `""`                         |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`               |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                         |
