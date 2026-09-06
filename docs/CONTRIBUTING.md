@@ -195,6 +195,43 @@ The content of the commit message body should contain:
 - information about the SHA of the commit being reverted in the following format: `This reverts commit <SHA>`,
 - a clear description of the reason for reverting the commit message.
 
+## 🏗️ Chart Design Principles
+
+These apply to new charts going forward. Existing charts that don't yet follow them will be brought in line
+individually, in their own PRs — don't retrofit them as a side effect of unrelated work.
+
+### One resource per file
+
+Each `templates/*.yaml` file should render exactly one Kubernetes resource, named after that resource's kind in
+`camelCase` (`configmap.yaml`, `deployment.yaml`, `statefulset.yaml`, `pvc.yaml`, `svc.yaml`, `ingress.yaml`, `pdb.yaml`,
+`rbac.yaml`, `serviceaccount.yaml`). The one exception is when a chart genuinely needs to render **more than one
+resource of the same kind** — in that case, combine them into a single file and pluralize the filename
+(`secrets.yaml` for multiple `Secret` resources, for example), separated by `---` document markers. Don't create
+`secret-admin.yaml`, `secret-smtp.yaml`, etc. as separate files for the same resource kind.
+
+Shared template logic that isn't a resource on its own (label helpers, a reusable pod spec included by both
+`deployment.yaml` and `statefulset.yaml`, name-generation helpers) goes in a `_`-prefixed partial
+(`_helpers.tpl`, `_podSpec.tpl`) — the leading underscore keeps Helm from attempting to render it as its own
+manifest.
+
+### Prefer dedicated `values.yaml` fields over `extraEnvVars`
+
+An `extraEnvVars`-style generic passthrough field is a valid escape hatch, but it isn't a substitute for actually
+modeling a chart's configuration surface. For a new chart, the goal is to expose **every environment variable the
+upstream application supports** as its own documented, typed `values.yaml` field, grouped sensibly (`database.*`,
+`redis.*`, `smtp.*`, `auth.<provider>.*`, and so on) — not to reach for `extraEnvVars` as a shortcut past the
+less-common settings.
+
+This matters because these charts are meant to be genuinely high-quality references, not thin wrappers that punt
+config modeling to the end user. A dedicated field gets a `## @param` description, a sensible default, schema
+validation, and shows up in the generated README's parameter tables — none of which `extraEnvVars` gets you.
+
+If a small number of settings genuinely can't reasonably get a dedicated field in a chart's first version (an
+upstream integration so obscure it isn't worth a whole values section yet, for example), `extraEnvVars` is fine as
+a deliberate, documented exception — not a default. Note explicitly in the chart's README which upstream settings
+are only reachable that way, and why, so a future pass has a clear list of what's left to model properly rather
+than an unexplained gap.
+
 ## ✅ How to Contribute
 
 1. Fork this repository, develop, and test your changes
