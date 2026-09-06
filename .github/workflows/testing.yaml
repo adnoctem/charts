@@ -168,3 +168,31 @@ jobs:
         if: ${{ needs.changes.outputs.changed == 'true' || github.event.inputs.forceTest }}
         run: |
           ct install --config config/ct-config.yaml
+
+  dispatch:
+    name: Dispatch a release workflow run
+    runs-on: ubuntu-latest
+    needs: [test]
+    permissions:
+      contents: write
+    steps:
+      - name: Dispatch a release workflow run
+        if: ${{ github.event_name == 'push' && always() && !contains(join(needs.*.result, ','), 'failure') }}
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const payload = {
+              run_id: "${{ github.run_id }}",
+              sha: "${{ github.sha }}"
+            }
+
+            console.log("Sending event payload", JSON.stringify(payload, null, 2));
+
+            const { owner, repo } = context.repo;
+            await github.rest.repos.createDispatchEvent({
+              owner,
+              repo,
+              event_type: 'release',
+              client_payload: payload
+            });

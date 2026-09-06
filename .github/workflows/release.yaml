@@ -1,15 +1,13 @@
 name: 'Release'
 
-# workflow_run is scoped to branches: ['main'] below, so this never fires for
-# untrusted fork PRs - Testing must complete on a trusted push to main before
-# Release can run at all. GitHub has no native "run after that workflow
-# succeeds on push" trigger, so workflow_run is the correct mechanism here.
-on: # zizmor: ignore[dangerous-triggers]
+# Dispatched only by Testing's own final `dispatch` job, which itself only runs once every required job in that
+# workflow has succeeded (see .github/workflows/testing.yaml). repository_dispatch can only be triggered by an
+# authenticated API call from an identity with write access to this repository - it has no attacker-controlled
+# trigger surface the way pull_request_target/workflow_run can, so this needs no dangerous-triggers suppression.
+on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['Testing']
-    types: ['completed']
-    branches: ['main']
+  repository_dispatch:
+    types: [release]
 
 permissions: {}
 
