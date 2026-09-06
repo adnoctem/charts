@@ -17,7 +17,7 @@ dependencies:
     version: ~19.5
 description: Outline is a fast, collaborative, open-source knowledge base for your team
 home: https://www.getoutline.com/
-icon: https://placehold.co/512x512.png?text=Outline
+icon: https://www.getoutline.com/images/logo.svg
 keywords:
   - wiki
   - knowledge-base
