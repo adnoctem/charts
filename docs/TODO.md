@@ -12,7 +12,7 @@
 - [ ] [AnonAddy](https://addy.io/) chart
 - [ ] [OpenGist](https://github.com/thomiceli/opengist) chart
 - [ ] [FreshRSS](https://freshrss.org/index.html) chart
-- [ ] [Outline](https://www.getoutline.com/) chart
+- [x] [Outline](https://www.getoutline.com/) chart
 - [ ] [Metabase](https://metabase.com) chart
 - [ ] [DBGate](https://github.com/dbgate/dbgate) chart
 - [ ] [Statping-ng](https://github.com/statping-ng/statping-ng/wiki) chart
@@ -25,6 +25,13 @@
 
 - [ ] Add [Pod/ServiceMonitor and PrometheusRule manifests](https://prometheus-operator.dev/docs/operator/api/) for each
       chart
+- [ ] `outline` chart: add an `existingSecret` option for `outline.ssl.key` - currently value-only since this chart
+      terminates TLS at the Ingress by default and the setting is a narrow, rarely-used escape hatch, but a real
+      private key deserves the same existingSecret pattern every other credential in this chart gets
+- [ ] `outline` chart: `outline.redis.collaborationUrl` can't currently be combined with `outline.redis.existingSecret` -
+      when an existingSecret is set for the main Redis connection, the chart's own combined Redis Secret (which is
+      where `REDIS_COLLABORATION_URL` currently lives) is never created. Needs its own independent existingSecret
+      or to be decoupled from the main Redis secret entirely
 
 ## 💡 Ideas
 

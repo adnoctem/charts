@@ -179,6 +179,9 @@ outline:
       ## @param outline.redis.existingSecret.key [default: REDIS_URL] The key within the previously named existingSecret
       ##
       key: REDIS_URL
+    ## TODO: this can't currently be combined with outline.redis.existingSecret.name, since this value is only
+    ## ever rendered into the chart's own generated Redis Secret, which isn't created when existingSecret is set -
+    ## see docs/TODO.md
     ## @param outline.redis.collaborationUrl [string] A separate Redis URL for the collaboration service, to enable horizontal scaling - leave empty to reuse the main Redis connection
     ##
     collaborationUrl: ""
@@ -270,6 +273,7 @@ outline:
     ## @param outline.ssl.forceHttps [default: true] Auto-redirect to HTTPS - set to `false` if SSL is terminated at an external load balancer/Ingress
     ##
     forceHttps: true
+    ## TODO: add an existingSecret option for this field, matching every other credential in this chart - see docs/TODO.md
     ## @param outline.ssl.key [string] Base64-encoded private key for HTTPS termination inside the container - not needed when SSL is terminated at the Ingress, as is the default for this chart
     ##
     key: ""

@@ -62,6 +62,7 @@ template:
               secretKeyRef:
                 name: {{ .Values.outline.redis.existingSecret.name | default (include "outline.secrets.redis" .) }}
                 key: {{ .Values.outline.redis.existingSecret.key | default "REDIS_URL" }}
+          {{- /* TODO: doesn't work when outline.redis.existingSecret.name is set - see docs/TODO.md */}}
           {{- if and .Values.outline.redis.collaborationUrl (not .Values.outline.redis.existingSecret.name) }}
           - name: REDIS_COLLABORATION_URL
             valueFrom:
