@@ -5012,7 +5012,7 @@ entries:
     - https://github.com/adnoctem/charts/releases/download/outline-0.1.1/outline-0.1.1.tgz
     version: 0.1.1
   - annotations:
-      artifacthub.io/category: collaboration-and-content-management
+      artifacthub.io/category: integration-delivery
       artifacthub.io/changes: |
         - kind: added
           description: initial chart release, targeting Outline appVersion 1.10.0
@@ -5049,7 +5049,7 @@ entries:
       version: ~19.5
     description: Outline is a fast, collaborative, open-source knowledge base for
       your team
-    digest: 4341ed59106895a48c26ef81d5e918e8497f99c2cf51d573cc6702d07085b2e0
+    digest: af9ae5ec9280b92295b9a8abd41a14b40c44bd9e2413a061f02b021c7d2261f2
     home: https://www.getoutline.com/
     icon: https://www.getoutline.com/images/logo.svg
     keywords:
