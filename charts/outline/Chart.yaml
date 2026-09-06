@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 1.10.0
 kubeVersion: ">=1.26.0-0"
 name: outline
-version: 0.1.0
+version: 0.1.1
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -33,7 +33,8 @@ maintainers:
   - name: MVProwess
     email: info@mvprowess.com
 annotations:
-  artifacthub.io/category: collaboration-and-content-management
+  # see: https://artifacthub.io/docs/topics/annotations/helm/
+  artifacthub.io/category: integration-delivery
   artifacthub.io/license: BUSL-1.1
   artifacthub.io/signKey: |
     fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
@@ -53,7 +54,8 @@ annotations:
       url: https://docs.getoutline.com/
   org.opencontainers.image.vendor: "Ad Noctem Collective"
   org.opencontainers.image.licenses: "BUSL-1.1"
-  # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: added
       description: initial chart release, targeting Outline appVersion 1.10.0
+    - kind: fixed
+      description: corrected the artifacthub.io/category annotation - `collaboration-and-content-management` is not a valid ArtifactHub category, which failed the `ah lint` CI check. Valid categories are `ai-machine-learning`, `database`, `integration-delivery`, `monitoring-logging`, `networking`, `security`, `storage` or `streaming-messaging`
