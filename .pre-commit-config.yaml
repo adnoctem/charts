@@ -1,7 +1,7 @@
 exclude: (.*.mod|.*.sum|.*.lock|.*.?bazel.*)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.5.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
         args: ["--allow-multiple-documents"]
@@ -26,7 +26,7 @@ repos:
       - id: actionlint
 
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
-    rev: v1.29.0
+    rev: v1.30.0
     hooks:
       # Run the linter.
       - id: zizmor
@@ -47,21 +47,21 @@ repos:
           - ".github/linters/.typos.toml"
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.30.1
+    rev: v8.30.0
     hooks:
       - id: gitleaks
         name: "Scan for potentially leaked secret values using 'gitleaks'"
 
   # Shell sources
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: v0.11.0.1-1
     hooks:
       - id: shellcheck
         name: "Lint Shell files with 'shellcheck'"
         args: ["-x"]
 
   - repo: https://github.com/scop/pre-commit-shfmt
-    rev: v3.11.0-1
+    rev: v3.13.1-1
     hooks:
       - id: shfmt
         name: "Format Shell files with 'shfmt'"

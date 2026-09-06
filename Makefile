@@ -41,7 +41,7 @@ CHARTS := $(shell find $(ROOT_DIR)/charts $(FIND_FLAGS))
 SOURCES := $(CHARTS)
 
 # Only export variables from here since we do not want to mix the top-level
-# Makfile's notion of 'SOURCES' with the different sub-makes
+# Makefile's notion of 'SOURCES' with the different sub-makes
 export
 
 # ---------------------------
