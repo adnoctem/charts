@@ -1,0 +1,1108 @@
+# Default Helm values for adnoctem/outline.
+# Reference: https://github.com/adnoctem/charts
+
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## @section Outline Image parameters
+##
+
+## Outline Server Image
+## ref: https://hub.docker.com/r/outlinewiki/outline
+## @param image.registry The Docker registry to pull the image from
+## @param image.repository The registry repository to pull the image from
+## @param image.tag The image tag to pull
+## @param image.digest The image digest to pull
+## @param image.pullPolicy The Kubernetes image pull policy
+## @param image.pullSecrets A list of secrets to use for pulling images from private registries
+
+image:
+  registry: docker.io
+  repository: outlinewiki/outline
+  tag: 1.10.0
+  digest: ""
+  ## Specify a imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## e.g:
+  ## pullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  pullSecrets: []
+
+## @section Name overrides
+##
+
+## @param nameOverride String to partially override outline.fullname
+##
+nameOverride: ""
+
+## @param fullnameOverride String to fully override outline.fullname
+##
+fullnameOverride: ""
+
+## @section Workload overrides
+##
+
+## @param kind The kind of workload to deploy Outline as (`StatefulSet` or `Deployment`)
+##
+kind: StatefulSet
+
+## @section Outline Configuration parameters
+##
+
+## Outline configuration
+## ref: https://github.com/outline/outline/blob/main/.env.sample
+##
+outline:
+  ## @param outline.url [string] The fully qualified, publicly accessible URL Outline is served on - if using a proxy this is the proxy's URL
+  ##
+  url: ""
+  ## @param outline.port [default: 3000] The port for Outline to listen on, also used as the container port and health check target
+  ##
+  port: 3000
+  ## @param outline.collaborationUrl [string] The URL of a separately-run collaboration server - only needed for horizontal scaling, see https://docs.getoutline.com/s/hosting/doc/horizontal-scaling-hkfU5Stao7
+  ##
+  collaborationUrl: ""
+  ## @param outline.cdnUrl [string] A CDN (e.g. CloudFront/Cloudflare) URL to serve static assets (javascript/stylesheets/images) from - the CDN origin should point back at `outline.url`
+  ##
+  cdnUrl: ""
+  ## @param outline.webConcurrency [default: 1] How many processes should be spawned. Roughly: available memory / 512
+  ##
+  webConcurrency: 1
+  ## @param outline.defaultLanguage [default: en_US] The default interface language - see translate.getoutline.com for available codes
+  ##
+  defaultLanguage: en_US
+
+  ## Secret key configuration - both are required for a working installation
+  ## ref: https://docs.getoutline.com/s/hosting/doc/environment-variables
+  ##
+  secretKey:
+    ## @param outline.secretKey.value [string] A hex-encoded 32-byte random key, e.g. generated with `openssl rand -hex 32` - ignored if `existingSecret.name` is set, auto-generated if left empty
+    ##
+    value: ""
+    ## Specify an existing secret to grab the secret key from
+    ##
+    existingSecret:
+      ## @param outline.secretKey.existingSecret.name [string] The name of an existing Secret containing the secret key
+      ##
+      name: ""
+      ## @param outline.secretKey.existingSecret.key [default: SECRET_KEY] The key name within the previously named existingSecret
+      ##
+      key: SECRET_KEY
+  utilsSecret:
+    ## @param outline.utilsSecret.value [string] A unique random key used to protect utility endpoints - ignored if `existingSecret.name` is set, auto-generated if left empty
+    ##
+    value: ""
+    ## Specify an existing secret to grab the utils secret from
+    ##
+    existingSecret:
+      ## @param outline.utilsSecret.existingSecret.name [string] The name of an existing Secret containing the utils secret
+      ##
+      name: ""
+      ## @param outline.utilsSecret.existingSecret.key [default: UTILS_SECRET] The key name within the previously named existingSecret
+      ##
+      key: UTILS_SECRET
+
+  ## Database configuration - a PostgreSQL database is required
+  ## ref: https://docs.getoutline.com/s/hosting/doc/environment-variables
+  ##
+  database:
+    ## @param outline.database.host [default: outline-postgresql] The hostname or IP address of the PostgreSQL server
+    ##
+    host: outline-postgresql
+    ## @param outline.database.port [default: 5432] The port number for the PostgreSQL server
+    ##
+    port: 5432
+    ## @param outline.database.name [default: outline] The name of the PostgreSQL database
+    ##
+    name: outline
+    ## @param outline.database.username [default: outline] The username for the PostgreSQL user
+    ##
+    username: outline
+    ## @param outline.database.password [string] The password for the PostgreSQL user - ignored if `existingSecret.name` is set
+    ##
+    password: ""
+    ## @param outline.database.connectionPoolMin [string] The in-memory database pool minimum size per process
+    ##
+    connectionPoolMin: ""
+    ## @param outline.database.connectionPoolMax [string] The in-memory database pool maximum size per process - ensure this does not exceed your database's maximum connections
+    ##
+    connectionPoolMax: ""
+    ## @param outline.database.sslMode [string] Set to `disable` if not using SSL to connect to Postgres (acceptable if the database and application are co-located)
+    ##
+    sslMode: ""
+    ## Specify an existing secret to grab the already-composed `DATABASE_URL` connection string from - takes
+    ## precedence over the individual fields above, which cannot be recombined with a live Secret's contents
+    ## at template time
+    ##
+    existingSecret:
+      ## @param outline.database.existingSecret.name [string] The name of an existing Secret containing the full `DATABASE_URL` connection string
+      ##
+      name: ""
+      ## @param outline.database.existingSecret.key [default: DATABASE_URL] The key within the previously named existingSecret
+      ##
+      key: DATABASE_URL
+
+  ## Redis configuration - a Redis server is required
+  ## ref: https://docs.getoutline.com/s/hosting/doc/redis-LGM4BFXYp4
+  ##
+  redis:
+    ## @param outline.redis.host [default: outline-redis-master] The hostname or IP address of the Redis server
+    ##
+    host: outline-redis-master
+    ## @param outline.redis.port [default: 6379] The port number for the Redis server
+    ##
+    port: 6379
+    ## @param outline.redis.username [string] The username for the Redis user, if using Redis ACLs
+    ##
+    username: ""
+    ## @param outline.redis.password [string] The password for the Redis server - ignored if `existingSecret.name` is set
+    ##
+    password: ""
+    ## @param outline.redis.useTLS [default: false] Use a `rediss://` (TLS) URL to connect to Redis
+    ##
+    useTLS: false
+    ## Specify an existing secret to grab the already-composed `REDIS_URL` connection string from - takes
+    ## precedence over the individual fields above, which cannot be recombined with a live Secret's contents
+    ## at template time
+    ##
+    existingSecret:
+      ## @param outline.redis.existingSecret.name [string] The name of an existing Secret containing the full `REDIS_URL` connection string
+      ##
+      name: ""
+      ## @param outline.redis.existingSecret.key [default: REDIS_URL] The key within the previously named existingSecret
+      ##
+      key: REDIS_URL
+    ## @param outline.redis.collaborationUrl [string] A separate Redis URL for the collaboration service, to enable horizontal scaling - leave empty to reuse the main Redis connection
+    ##
+    collaborationUrl: ""
+
+  ## File storage configuration
+  ## ref: https://docs.getoutline.com/s/hosting/doc/file-storage-N4M0T6Ypu7
+  ##
+  fileStorage:
+    ## @param outline.fileStorage.type [default: local] The storage backend for images and attachments. Valid values are `local` or `s3`
+    ##
+    type: local
+    ## @param outline.fileStorage.uploadMaxSize [default: 262144000] The maximum allowed size, in bytes, for an uploaded attachment
+    ##
+    uploadMaxSize: 262144000
+    ## @param outline.fileStorage.importMaxSize [string] Override the maximum size, in bytes, of document imports - generally lower than the attachment maximum
+    ##
+    importMaxSize: ""
+    ## @param outline.fileStorage.workspaceImportMaxSize [string] Override the maximum size, in bytes, of workspace imports - these are temporary and auto-deleted after a period of time
+    ##
+    workspaceImportMaxSize: ""
+
+    ## Local storage settings - only used when `outline.fileStorage.type` is `local`
+    ##
+    local:
+      ## @param outline.fileStorage.local.rootDir [default: /var/lib/outline/data] The parent directory under which all attachments/images are stored - also used as the PVC mount path
+      ##
+      rootDir: /var/lib/outline/data
+
+    ## S3-compatible storage settings - only used when `outline.fileStorage.type` is `s3`
+    ##
+    s3:
+      ## @param outline.fileStorage.s3.accessKeyId [string] The S3 access key ID - ignored if `existingSecret.name` is set
+      ##
+      accessKeyId: ""
+      ## @param outline.fileStorage.s3.secretAccessKey [string] The S3 secret access key - ignored if `existingSecret.name` is set
+      ##
+      secretAccessKey: ""
+      ## Specify an existing secret to grab the S3 credentials from
+      ##
+      existingSecret:
+        ## @param outline.fileStorage.s3.existingSecret.name [string] The name of an existing Secret containing `accessKeyId` and `secretAccessKey` keys
+        ##
+        name: ""
+      ## @param outline.fileStorage.s3.region [string] The AWS (or S3-compatible provider) region, e.g. `us-east-1`
+      ##
+      region: ""
+      ## @param outline.fileStorage.s3.accelerateUrl [string] An S3 Transfer Acceleration URL, if using a Cloudfront/Cloudflare distribution or similar
+      ##
+      accelerateUrl: ""
+      ## @param outline.fileStorage.s3.uploadBucketUrl [string] The S3-compatible endpoint URL, e.g. `https://s3.amazonaws.com` or a MinIO/R2 endpoint
+      ##
+      uploadBucketUrl: ""
+      ## @param outline.fileStorage.s3.uploadBucketName [string] The S3 bucket name
+      ##
+      uploadBucketName: ""
+      ## @param outline.fileStorage.s3.forcePathStyle [default: true] Use path-style S3 URLs rather than virtual-hosted-style - required for most S3-compatible providers (MinIO, etc.)
+      ##
+      forcePathStyle: true
+      ## @param outline.fileStorage.s3.acl [default: private] The S3 ACL applied to uploaded objects
+      ##
+      acl: private
+      ## @param outline.fileStorage.s3.uploadMethod [default: post] The HTTP method used for presigned uploads. `post` uses a presigned POST with multipart form data, `put` uses a single presigned PUT request - set to `put` for providers like Cloudflare R2 that don't support presigned POST
+      ##
+      uploadMethod: post
+
+      ## Optional CloudFront CDN for attachment downloads (uploads stay on S3)
+      ##
+      cloudfront:
+        ## @param outline.fileStorage.s3.cloudfront.url [string] The CloudFront distribution URL
+        ##
+        url: ""
+        ## @param outline.fileStorage.s3.cloudfront.keyPairId [string] The CloudFront key pair ID, used for generating signed URLs
+        ##
+        keyPairId: ""
+        ## @param outline.fileStorage.s3.cloudfront.privateKey [string] The CloudFront private key, used for generating signed URLs - ignored if `existingSecret.name` is set
+        ##
+        privateKey: ""
+        ## Specify an existing secret to grab the CloudFront private key from
+        ##
+        existingSecret:
+          ## @param outline.fileStorage.s3.cloudfront.existingSecret.name [string] The name of an existing Secret containing a `privateKey` key
+          ##
+          name: ""
+
+  ## SSL and reverse proxy configuration
+  ## ref: https://docs.getoutline.com/s/hosting/doc/ssl-pzk7WO8d1n
+  ##
+  ssl:
+    ## @param outline.ssl.forceHttps [default: true] Auto-redirect to HTTPS - set to `false` if SSL is terminated at an external load balancer/Ingress
+    ##
+    forceHttps: true
+    ## @param outline.ssl.key [string] Base64-encoded private key for HTTPS termination inside the container - not needed when SSL is terminated at the Ingress, as is the default for this chart
+    ##
+    key: ""
+    ## @param outline.ssl.cert [string] Base64-encoded certificate for HTTPS termination inside the container - not needed when SSL is terminated at the Ingress, as is the default for this chart
+    ##
+    cert: ""
+
+  ## Reverse proxy header trust configuration
+  ##
+  proxy:
+    ## @param outline.proxy.headersTrusted [default: true] Whether to trust `X-Forwarded-*` headers set by an upstream proxy - this chart always runs behind the cluster's Ingress, so this defaults to `true`
+    ##
+    headersTrusted: true
+    ## @param outline.proxy.ipHeader [string] The header used to identify the client IP when behind a proxy, e.g. `X-Real-IP` or `X-Client-IP` - defaults to `X-Forwarded-For` upstream if left empty
+    ##
+    ipHeader: ""
+
+  ## SMTP configuration for outgoing transactional email
+  ## ref: https://docs.getoutline.com/s/hosting/doc/smtp-cqCJyZGMIB
+  ##
+  smtp:
+    ## @param outline.smtp.service [string] A well-known Nodemailer service name (see https://community.nodemailer.com/2-0-0-beta/setup-smtp/well-known-services/) - leave empty to configure a generic SMTP server via `extraEnvVars`
+    ##
+    service: ""
+    ## @param outline.smtp.username [string] The SMTP authentication username - ignored if `existingSecret.name` is set
+    ##
+    username: ""
+    ## @param outline.smtp.password [string] The SMTP authentication password - ignored if `existingSecret.name` is set
+    ##
+    password: ""
+    ## @param outline.smtp.fromEmail [string] The from-address for emails sent by Outline
+    ##
+    fromEmail: ""
+    ## Specify an existing secret to grab the SMTP credentials from
+    ##
+    existingSecret:
+      ## @param outline.smtp.existingSecret.name [string] The name of an existing Secret containing `username` and `password` keys
+      ##
+      name: ""
+
+  ## Rate limiter configuration
+  ##
+  rateLimiter:
+    ## @param outline.rateLimiter.enabled [default: true] Whether the rate limiter is enabled
+    ##
+    enabled: true
+    ## @param outline.rateLimiter.requests [default: 1000] The number of requests allowed within the duration window, across all requests
+    ##
+    requests: 1000
+    ## @param outline.rateLimiter.durationWindow [default: 60] The rate limiter duration window, in seconds
+    ##
+    durationWindow: 60
+    ## @param outline.rateLimiter.multiplier [default: 1] Multiplier applied to the hardcoded per-endpoint API rate limits - greater than 1 is more lenient, less than 1 is stricter
+    ##
+    multiplier: 1
+
+  ## Authentication provider configuration - at least one sign-in provider is required for a working installation
+  ##
+  auth:
+    ## Generic OpenID Connect provider
+    ## ref: https://docs.getoutline.com/s/hosting/doc/oidc-8CPBm6uC0I
+    ##
+    oidc:
+      ## @param outline.auth.oidc.clientId [string] The OIDC client ID
+      ##
+      clientId: ""
+      ## @param outline.auth.oidc.clientSecret [string] The OIDC client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the OIDC client credentials from
+      ##
+      existingSecret:
+        ## @param outline.auth.oidc.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+      ## @param outline.auth.oidc.authUri [string] The OIDC provider's authorization endpoint URI
+      ##
+      authUri: ""
+      ## @param outline.auth.oidc.tokenUri [string] The OIDC provider's token endpoint URI
+      ##
+      tokenUri: ""
+      ## @param outline.auth.oidc.userinfoUri [string] The OIDC provider's userinfo endpoint URI
+      ##
+      userinfoUri: ""
+      ## @param outline.auth.oidc.logoutUri [string] The OIDC provider's logout endpoint URI
+      ##
+      logoutUri: ""
+      ## @param outline.auth.oidc.usernameClaim [default: preferred_username] The claim to derive the username from - supports any valid JSON path within the JWT payload
+      ##
+      usernameClaim: preferred_username
+      ## @param outline.auth.oidc.displayName [default: OpenID Connect] The display name shown for OIDC authentication on the sign-in page
+      ##
+      displayName: OpenID Connect
+      ## @param outline.auth.oidc.scopes [default: "openid profile email"] Space-separated OIDC auth scopes
+      ##
+      scopes: "openid profile email"
+    ## Google sign-in provider
+    ## ref: https://docs.getoutline.com/s/hosting/doc/google-hOuvtCmTqQ
+    ##
+    google:
+      ## @param outline.auth.google.clientId [string] The Google OAuth client ID
+      ##
+      clientId: ""
+      ## @param outline.auth.google.clientSecret [string] The Google OAuth client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the Google OAuth client credentials from
+      ##
+      existingSecret:
+        ## @param outline.auth.google.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+    ## Slack sign-in provider
+    ## ref: https://docs.getoutline.com/s/hosting/doc/slack-sgMujR8J9J
+    ##
+    slack:
+      ## @param outline.auth.slack.clientId [string] The Slack OAuth client ID
+      ##
+      clientId: ""
+      ## @param outline.auth.slack.clientSecret [string] The Slack OAuth client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the Slack OAuth client credentials from
+      ##
+      existingSecret:
+        ## @param outline.auth.slack.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+    ## Microsoft Entra / Azure AD sign-in provider
+    ## ref: https://docs.getoutline.com/s/hosting/doc/microsoft-entra-UVz6jsIOcv
+    ##
+    azure:
+      ## @param outline.auth.azure.clientId [string] The Azure AD application (client) ID
+      ##
+      clientId: ""
+      ## @param outline.auth.azure.clientSecret [string] The Azure AD client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the Azure AD client credentials from
+      ##
+      existingSecret:
+        ## @param outline.auth.azure.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+      ## @param outline.auth.azure.resourceAppId [string] The Azure AD resource application ID
+      ##
+      resourceAppId: ""
+    ## Discord sign-in provider
+    ## ref: https://docs.getoutline.com/s/hosting/doc/discord-g4JdWFFub6
+    ##
+    discord:
+      ## @param outline.auth.discord.clientId [string] The Discord OAuth client ID
+      ##
+      clientId: ""
+      ## @param outline.auth.discord.clientSecret [string] The Discord OAuth client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the Discord OAuth client credentials from
+      ##
+      existingSecret:
+        ## @param outline.auth.discord.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+      ## @param outline.auth.discord.serverId [string] Restrict sign-in to members of this Discord server ID
+      ##
+      serverId: ""
+      ## @param outline.auth.discord.serverRoles [string] Comma-separated Discord role IDs allowed to sign in, when `serverId` is set
+      ##
+      serverRoles: ""
+
+  ## Third-party integrations
+  ##
+  integrations:
+    ## GitHub integration - issue/PR link previews, and the GitHub App for richer embeds
+    ## ref: https://docs.getoutline.com/s/hosting/doc/github-GchT3NNxI9
+    ##
+    github:
+      ## @param outline.integrations.github.clientId [string] The GitHub OAuth app client ID
+      ##
+      clientId: ""
+      ## @param outline.integrations.github.clientSecret [string] The GitHub OAuth app client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## @param outline.integrations.github.webhookSecret [string] The GitHub webhook secret - ignored if `existingSecret.name` is set
+      ##
+      webhookSecret: ""
+      ## Specify an existing secret to grab the GitHub credentials from
+      ##
+      existingSecret:
+        ## @param outline.integrations.github.existingSecret.name [string] The name of an existing Secret containing `clientId`, `clientSecret`, `webhookSecret` and `appPrivateKey` keys
+        ##
+        name: ""
+      ## @param outline.integrations.github.appName [string] The GitHub App name
+      ##
+      appName: ""
+      ## @param outline.integrations.github.appId [string] The GitHub App ID
+      ##
+      appId: ""
+      ## @param outline.integrations.github.appPrivateKey [string] The GitHub App private key - ignored if `existingSecret.name` is set
+      ##
+      appPrivateKey: ""
+    ## GitLab integration - issue/merge request link previews
+    ##
+    gitlab:
+      ## @param outline.integrations.gitlab.clientId [string] The GitLab OAuth application ID
+      ##
+      clientId: ""
+      ## @param outline.integrations.gitlab.clientSecret [string] The GitLab OAuth application secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the GitLab OAuth credentials from
+      ##
+      existingSecret:
+        ## @param outline.integrations.gitlab.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+    ## Linear integration - issue link previews
+    ##
+    linear:
+      ## @param outline.integrations.linear.clientId [string] The Linear OAuth application client ID
+      ##
+      clientId: ""
+      ## @param outline.integrations.linear.clientSecret [string] The Linear OAuth application client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the Linear OAuth credentials from
+      ##
+      existingSecret:
+        ## @param outline.integrations.linear.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+    ## Full Slack integration (search, posting to channels) - in addition to `outline.auth.slack` above
+    ## ref: https://docs.getoutline.com/s/hosting/doc/slack-G2mc8DOJHk
+    ##
+    slack:
+      ## @param outline.integrations.slack.verificationToken [string] The Slack app verification token - ignored if `existingSecret.name` is set
+      ##
+      verificationToken: ""
+      ## Specify an existing secret to grab the Slack verification token from
+      ##
+      existingSecret:
+        ## @param outline.integrations.slack.existingSecret.name [string] The name of an existing Secret containing a `verificationToken` key
+        ##
+        name: ""
+      ## @param outline.integrations.slack.appId [string] The Slack App ID (distinct from the OAuth client ID configured under `outline.auth.slack`)
+      ##
+      appId: ""
+      ## @param outline.integrations.slack.messageActions [default: true] Whether to enable Slack message actions
+      ##
+      messageActions: true
+    ## Figma integration - design file link previews
+    ##
+    figma:
+      ## @param outline.integrations.figma.clientId [string] The Figma OAuth application client ID
+      ##
+      clientId: ""
+      ## @param outline.integrations.figma.clientSecret [string] The Figma OAuth application client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the Figma OAuth credentials from
+      ##
+      existingSecret:
+        ## @param outline.integrations.figma.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+    ## Dropbox integration - embed previews
+    ## ref: https://www.dropbox.com/developers/embedder#setup
+    ##
+    dropbox:
+      ## @param outline.integrations.dropbox.appKey [string] The Dropbox app key - remember to also whitelist your domain in the Dropbox app settings
+      ##
+      appKey: ""
+    ## Notion integration - importing pages from a Notion workspace
+    ## ref: https://docs.getoutline.com/s/hosting/doc/notion-2v6g7WY3l3
+    ##
+    notion:
+      ## @param outline.integrations.notion.clientId [string] The Notion OAuth application client ID
+      ##
+      clientId: ""
+      ## @param outline.integrations.notion.clientSecret [string] The Notion OAuth application client secret - ignored if `existingSecret.name` is set
+      ##
+      clientSecret: ""
+      ## Specify an existing secret to grab the Notion OAuth credentials from
+      ##
+      existingSecret:
+        ## @param outline.integrations.notion.existingSecret.name [string] The name of an existing Secret containing `clientId` and `clientSecret` keys
+        ##
+        name: ""
+    ## Iframely integration - rich previews of third-party content within documents
+    ## ref: https://docs.getoutline.com/s/hosting/doc/iframely-HwLF1EZ9mo
+    ##
+    iframely:
+      ## @param outline.integrations.iframely.url [string] The Iframely instance URL
+      ##
+      url: ""
+      ## @param outline.integrations.iframely.apiKey [string] The Iframely API key - ignored if `existingSecret.name` is set
+      ##
+      apiKey: ""
+      ## Specify an existing secret to grab the Iframely API key from
+      ##
+      existingSecret:
+        ## @param outline.integrations.iframely.existingSecret.name [string] The name of an existing Secret containing an `apiKey` key
+        ##
+        name: ""
+    ## Sentry integration - error and performance tracking
+    ## ref: https://docs.getoutline.com/s/hosting/doc/sentry-jxcFttcDl5
+    ##
+    sentry:
+      ## @param outline.integrations.sentry.dsn [string] The Sentry DSN
+      ##
+      dsn: ""
+      ## @param outline.integrations.sentry.tunnel [string] An optional Sentry tunnel URL, to proxy events through your own domain
+      ##
+      tunnel: ""
+
+  ## Debugging and diagnostics
+  ##
+  debug:
+    ## @param outline.debug.enableUpdates [default: true] Whether the installation checks for updates by sending anonymized statistics to the maintainers
+    ##
+    enableUpdates: true
+    ## @param outline.debug.categories [default: http] Debugging categories to enable - remove the default `http` value if your Ingress already logs incoming requests
+    ##
+    categories: http
+    ## @param outline.debug.logLevel [default: info] The lowest severity level for server logs. One of `error`, `warn`, `info`, `http`, `verbose`, `debug` or `silly`
+    ##
+    logLevel: info
+
+  ## Data configuration - only used when `outline.fileStorage.type` is `local`
+  ##
+  data:
+    ## Kubernetes PVC settings
+    ##
+    pvc:
+      ## @param outline.data.pvc.size [default: 10Gi] The size given to the new PVC
+      ##
+      size: 10Gi
+      ## @param outline.data.pvc.storageClass [default: standard] The storageClass given to the new PVC
+      ##
+      storageClass: standard
+      ## @param outline.data.pvc.reclaimPolicy [default: Retain] The resourcePolicy given to the new PVC
+      ##
+      reclaimPolicy: Retain
+      ## @param outline.data.pvc.existingClaim [string] Provide the name of an existing PVC
+      ##
+      existingClaim: ""
+
+## @section ConfigMap parameters
+##
+
+## Outline ConfigMap settings
+## @param configMap.annotations Annotations for the ConfigMap resource
+## @param configMap.labels Extra Labels for the ConfigMap resource
+
+configMap:
+  annotations: {}
+  labels: {}
+
+## @section Common Secret parameters
+##
+
+## Outline Common Secret settings
+## @param secret.annotations Common annotations for the Outline secrets
+## @param secret.labels Common extra labels for the Outline secrets
+
+secret:
+  annotations: {}
+  labels: {}
+
+## @section Ingress parameters
+##
+
+## Outline Ingress settings
+## @param ingress.enabled Whether to enable Ingress
+## @param ingress.className The IngressClass to use for the pod's ingress
+## @param ingress.whitelist A comma-separated list of IP addresses to whitelist
+## @param ingress.annotations Annotations for the Ingress resource
+## @param ingress.tls A list of hostnames and secret names to use for TLS
+## @param ingress.extraHosts A list of extra hosts for the Ingress resource
+
+ingress:
+  enabled: false
+  className: ""
+  whitelist: ""
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+  extraHosts: []
+  # - host: domain.tld
+  #   paths:
+  #     - path: /
+  #       pathType: ImplementationSpecific
+
+## @section Service parameters
+##
+
+## Outline Service settings
+service:
+  ## @param service.type [default: ClusterIP] The type of service to create
+  ##
+  type: ClusterIP
+  ## @param service.port [default: 80] The port to use on the service
+  ##
+  port: 80
+  ## @param service.nodePort [default: 30080] The Node port to use on the service
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+  ## NOTE: choose port between <30000-32767>
+  ##
+  nodePort: 30080
+  ## @param service.extraPorts Extra ports to add to the service
+  ## https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services
+  ## e.g.
+  ## extraPorts:
+  ##   - name: https
+  ##     protocol: TCP
+  ##     port: 443
+  ##     targetPort: 9377
+  ##
+  extraPorts: []
+  ## @param service.annotations [object] Annotations for the service resource
+  ##
+  annotations: {}
+  ## @param service.labels [object] Labels for the service resource
+  ##
+  labels: {}
+  ## @param service.externalTrafficPolicy [default: Cluster] The external traffic policy for the service
+  ## ref: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  ##
+  externalTrafficPolicy: Cluster
+  ## @param service.internalTrafficPolicy [default: Cluster] The internal traffic policy for the service
+  ## ref: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  ##
+  internalTrafficPolicy: Cluster
+  ## @param service.clusterIP [string] Define a static cluster IP for the service
+  ##
+  clusterIP: ""
+  ## @param service.loadBalancerIP Set the Load Balancer IP
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+  ##
+  loadBalancerIP: ""
+  ## @param service.loadBalancerClass Define Load Balancer class if service type is `LoadBalancer` (optional, cloud specific)
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer
+  ##
+  loadBalancerClass: ""
+  ## @param service.loadBalancerSourceRanges Service Load Balancer source ranges
+  ## https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
+  ## e.g.
+  ## loadBalancerSourceRanges:
+  ##   - 10.10.10.0/24
+  ##
+  loadBalancerSourceRanges: []
+  ## @param service.externalIPs Service External IPs
+  ## https://kubernetes.io/docs/concepts/services-networking/service/#external-ips
+  ## e.g.
+  ## externalIPs:
+  ##   - 10.10.10.1
+  ##   - 201.22.30.1
+  ##
+  externalIPs: []
+  ## @param service.sessionAffinity Session Affinity for Kubernetes service, can be "None" or "ClientIP"
+  ## If "ClientIP", consecutive client requests will be directed to the same Pod
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
+  ##
+  sessionAffinity: None
+  ## @param service.sessionAffinityConfig Additional settings for the sessionAffinity
+  ## sessionAffinityConfig:
+  ##   clientIP:
+  ##     timeoutSeconds: 300
+  ##
+  sessionAffinityConfig: {}
+  ## @param service.ipFamilyPolicy [object] The ipFamilyPolicy
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/dual-stack/
+  ##
+  ipFamilyPolicy: ""
+
+## @section RBAC parameters
+##
+
+## Outline RBAC settings
+## @param rbac.create Whether to create RBAC resources
+## @param rbac.rules Extra rules to add to the Role
+##
+rbac:
+  create: true
+  rules: []
+
+## @section Service Account parameters
+##
+
+## Outline Service Account settings
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+## @param serviceAccount.create Whether a service account should be created
+## @param serviceAccount.automount Whether to automount the service account token
+## @param serviceAccount.annotations Annotations to add to the service account
+## @param serviceAccount.name A custom name for the service account, otherwise outline.fullname is used
+## @param serviceAccount.secrets A list of secrets mountable by this service account
+##
+serviceAccount:
+  create: true
+  automount: false
+  annotations: {}
+  name: ""
+  secrets: []
+
+## @section Liveness Probe parameters
+##
+
+## Outline Liveness Probe
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+##
+livenessProbe:
+  ## @param livenessProbe.enabled Enable or disable the use of liveness probes
+  ##
+  enabled: false
+  ## @param livenessProbe.initialDelaySeconds Configure the initial delay seconds for the liveness probe
+  ##
+  initialDelaySeconds: 5
+  ## @param livenessProbe.timeoutSeconds Configure the initial delay seconds for the liveness probe
+  ##
+  timeoutSeconds: 1
+  ## @param livenessProbe.periodSeconds Configure the seconds for each period of the liveness probe
+  ##
+  periodSeconds: 10
+  ## @param livenessProbe.successThreshold Configure the success threshold for the liveness probe
+  ##
+  successThreshold: 1
+  ## @param livenessProbe.failureThreshold Configure the failure threshold for the liveness probe
+  ##
+  failureThreshold: 10
+
+## @section Readiness Probe parameters
+##
+
+## Outline Readiness Probe
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+##
+readinessProbe:
+  ## @param readinessProbe.enabled Enable or disable the use of readiness probes
+  ##
+  enabled: false
+  ## @param readinessProbe.initialDelaySeconds Configure the initial delay seconds for the readiness probe
+  ##
+  initialDelaySeconds: 5
+  ## @param readinessProbe.timeoutSeconds Configure the initial delay seconds for the readiness probe
+  ##
+  timeoutSeconds: 1
+  ## @param readinessProbe.periodSeconds Configure the seconds for each period of the readiness probe
+  ##
+  periodSeconds: 10
+  ## @param readinessProbe.successThreshold Configure the success threshold for the readiness probe
+  ##
+  successThreshold: 1
+  ## @param readinessProbe.failureThreshold Configure the failure threshold for the readiness probe
+  ##
+  failureThreshold: 3
+
+## @section Startup Probe parameters
+##
+
+## Outline Startup Probe
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+##
+startupProbe:
+  ## @param startupProbe.enabled Enable or disable the use of startup probes
+  ##
+  enabled: false
+  ## @param startupProbe.initialDelaySeconds Configure the initial delay seconds for the startup probe
+  ##
+  initialDelaySeconds: 5
+  ## @param startupProbe.timeoutSeconds Configure the initial delay seconds for the startup probe
+  ##
+  timeoutSeconds: 1
+  ## @param startupProbe.periodSeconds Configure the seconds for each period of the startup probe
+  ##
+  periodSeconds: 10
+  ## @param startupProbe.successThreshold Configure the success threshold for the startup probe
+  ##
+  successThreshold: 1
+  ## @param startupProbe.failureThreshold Configure the failure threshold for the startup probe
+  ##
+  failureThreshold: 10
+
+## @section PodDisruptionBudget parameters
+##
+
+## Outline pod disruption budget settings
+## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+## @param podDisruptionBudget.enabled [default: true] Enable the pod disruption budget
+## @param podDisruptionBudget.minAvailable [default: 1] The minimum amount of pods which need to be available
+##
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+  # maxUnavailable:
+
+## @section Pod settings
+##
+
+## Outline resource settings
+## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+## @param resources The resource limits/requests for the Outline pod
+##
+resources: {}
+# limits:
+#   cpu: 100m
+#   memory: 512Mi
+# requests:
+#   cpu: 100m
+#   memory: 512Mi
+
+## @param extraEnvVars Extra environment variables for the Outline pod - this chart models every setting in
+## Outline's own `.env.sample` as a dedicated value above; only reach for this if a future upstream release adds
+## a new setting this chart doesn't have a field for yet
+## extraEnvVars:
+##   - name: SOME_NEW_UPSTREAM_SETTING
+##     value: "some-value"
+##
+extraEnvVars: []
+
+## ref: https://kubernetes.io/docs/concepts/storage/volumes/
+## @param volumes Define volumes for the Outline pod
+##
+volumes: []
+
+## ref: https://kubernetes.io/docs/concepts/storage/volumes/
+## @param volumeMounts Define volumeMounts for the Outline pod
+##
+volumeMounts: []
+
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+## @param initContainers Define initContainers for the main Outline server
+##
+initContainers: []
+
+## @param nodeSelector Node labels for pod assignment
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+##
+nodeSelector: {}
+
+## @param tolerations Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+## @param affinity Affinity for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+affinity: {}
+
+## @param strategy Specify a deployment strategy for the Outline pod
+##
+strategy: {}
+#  type: RollingUpdate
+#  rollingUpdate:
+#    maxUnavailable: 1
+
+## @param podAnnotations Extra annotations for the Outline pod
+##
+podAnnotations: {}
+
+## @param podLabels Extra labels for the Outline pod
+##
+podLabels: {}
+#  pod-security.kubernetes.io/warn: privileged
+#  pod-security.kubernetes.io/audit: privileged
+#  pod-security.kubernetes.io/enforce: baseline
+
+## @param priorityClassName The name of an existing PriorityClass
+## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/
+##
+priorityClassName: ""
+
+## @section Security context settings
+##
+
+## @param podSecurityContext Security context settings for the Outline pod
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+##
+podSecurityContext: {}
+# fsGroup: 1001
+# supplementalGroups:
+#   - 1001
+
+## @param securityContext General security context settings for the Outline container
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+##
+securityContext: {}
+# allowPrivilegeEscalation: false
+# privileged: false
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsGroup: 1001
+# runAsUser: 1001
+# capabilities:
+#   drop:
+#     - ALL
+
+## @section Bitnami&reg; PostgreSQL parameters
+##
+
+## NOTE: Beginning on August 28th, 2025, Bitnami (VMware/Broadcom) has changed their public offering and will require a commercial license for the use of their charts and images (BSI). The only images available to the public as of now are a small set of hardened images which are only available at the 'latest' tag and meant for testing and development purposes. As such, the PostgreSQL subchart included in this Helm chart is provided for convenience, but users are encouraged to use their own PostgreSQL instance, another PostgreSQL Helm chart or (preferably) an Operator-managed PostgreSQL instance like CloudnativePG, if they do not wish to obtain a Bitnami license.
+## ref: https://github.com/bitnami/charts/issues/35164
+
+## PostgreSQL configuration
+## ref: https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
+postgresql:
+  ## @section PostgreSQL Global parameters
+  ## Please, note that this will override the parameters, including dependencies, configured to use the global value. Required due to BSI.
+  ##
+  global:
+    ## @param postgresql.global.imageRegistry Global Docker image registry. Force 'docker.io' - required due to BSI.
+    ##
+    imageRegistry: docker.io
+    ## Security parameters
+    ##
+    security:
+      ## @param postgresql.global.security.allowInsecureImages Allows skipping image verification. 'bitnamisecure' images meet the charts' security requirements. Others will require 'true'.
+      allowInsecureImages: false
+
+  ## Bitnami PostgreSQL image version
+  ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
+  ## @param postgresql.image.registry [default: REGISTRY_NAME] PostgreSQL image registry
+  ## @param postgresql.image.repository [default: REPOSITORY_NAME/postgresql] PostgreSQL image repository. 'bitnamisecure' is recommended.
+  ## @param postgresql.image.tag PostgreSQL image tag. As of August 28th, 2025, only 'latest' is available publicly due to BSI.
+  image:
+    registry: docker.io
+    repository: bitnamisecure/postgresql
+    tag: latest
+
+  ## @param postgresql.enabled Enable or disable the PostgreSQL subchart
+  ##
+  enabled: false
+  ## Authentication parameters
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#setting-the-root-password-on-first-run
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#creating-a-database-on-first-run
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#creating-a-database-user-on-first-run
+  ##
+  auth:
+    ## @param postgresql.auth.enablePostgresUser Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user
+    ##
+    enablePostgresUser: true
+    ## @param postgresql.auth.postgresPassword Password for the "postgres" admin user. Ignored if `auth.existingSecret` is provided
+    ##
+    postgresPassword: outline
+    ## @param postgresql.auth.username Name for a custom user to create
+    ##
+    username: outline
+    ## @param postgresql.auth.password Password for the custom user to create. Ignored if `auth.existingSecret` is provided
+    ##
+    password: outline
+    ## @param postgresql.auth.database Name for a custom database to create
+    ##
+    database: outline
+    ## @param postgresql.auth.usePasswordFiles Mount credentials as a files instead of using an environment variable
+    ##
+    usePasswordFiles: false
+  ## PostgreSQL Primary parameters
+  ##
+  primary:
+    ## @param postgresql.primary.name Name of the primary database (eg primary, master, leader, ...)
+    ##
+    name: primary
+    ## PostgreSQL Primary persistence configuration
+    ##
+    persistence:
+      ## @param postgresql.primary.persistence.enabled Enable PostgreSQL Primary data persistence using PVC
+      ##
+      enabled: true
+      ## @param postgresql.primary.persistence.existingClaim Name of an existing PVC to use
+      ##
+      existingClaim: ""
+      ## @param postgresql.primary.persistence.storageClass PVC Storage Class for PostgreSQL Primary data volume
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      ##
+      storageClass: ""
+      ## @param postgresql.primary.persistence.accessModes PVC Access Mode for PostgreSQL volume
+      ##
+      accessModes:
+        - ReadWriteOnce
+      ## @param postgresql.primary.persistence.size PVC Storage Request for PostgreSQL volume
+      ##
+      size: 5Gi
+
+## @section Bitnami&reg; Redis parameters
+##
+
+## Redis configuration
+## ref: https://github.com/bitnami/charts/blob/main/bitnami/redis/values.yaml
+redis:
+  ## @section Redis Global parameters
+  ## Please, note that this will override the parameters, including dependencies, configured to use the global value. Required due to BSI.
+  ##
+  global:
+    ## @param redis.global.imageRegistry Global Docker image registry. Force 'docker.io' - required due to BSI.
+    ##
+    imageRegistry: docker.io
+    ## Security parameters
+    ##
+    security:
+      ## @param redis.global.security.allowInsecureImages Allows skipping image verification. 'bitnamisecure' images meet the charts' security requirements. Others will require 'true'.
+      allowInsecureImages: false
+
+  ## Bitnami Redis image version
+  ## ref: https://hub.docker.com/r/bitnami/redis/tags/
+  ## @param redis.image.registry [default: REGISTRY_NAME] Redis image registry
+  ## @param redis.image.repository [default: REPOSITORY_NAME/redis] Redis image repository. 'bitnamisecure' is recommended.
+  ## @param redis.image.tag Redis image tag. As of August 28th, 2025, only 'latest' is available publicly due to BSI.
+  image:
+    registry: docker.io
+    repository: bitnamisecure/redis
+    tag: latest
+
+  ## @param redis.enabled Enable or disable the Redis&reg; subchart
+  ##
+  enabled: false
+  ## @param redis.architecture Redis&reg; architecture. Allowed values: `standalone` or `replication`
+  ##
+  architecture: standalone
+
+  ## Redis&reg; Authentication parameters
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/redis#setting-the-server-password-on-first-run
+  ##
+  auth:
+    ## @param redis.auth.password Redis&reg; password
+    password: "outline"
+    ## @param redis.auth.usePasswordFiles Mount credentials as files instead of using an environment variable
+    ##
+    usePasswordFiles: true

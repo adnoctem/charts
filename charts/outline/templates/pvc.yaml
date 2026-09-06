@@ -1,0 +1,22 @@
+{{- if and (eq .Values.outline.fileStorage.type "local") (not .Values.outline.data.pvc.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "outline.pvc" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "outline.labels" . | nindent 4 }}
+  annotations:
+    meta.helm.sh/release-name: {{ $.Release.Name | quote }}
+    meta.helm.sh/release-namespace: {{ $.Release.Namespace | quote }}
+    {{- if (eq .Values.outline.data.pvc.reclaimPolicy "Retain") }}
+    helm.sh/resource-policy: keep
+    {{- end }}
+spec:
+  storageClassName: {{ .Values.outline.data.pvc.storageClass | default "standard" }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.outline.data.pvc.size }}
+{{- end }}

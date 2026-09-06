@@ -1,0 +1,72 @@
+kind: StatefulSet
+
+outline:
+  url: "https://outline.charts.internal"
+
+  secretKey:
+    value: "0000000000000000000000000000000000000000000000000000000000000000"
+  utilsSecret:
+    value: "0000000000000000000000000000000000000000000000000000000000000000"
+
+  database:
+    host: outline-postgresql
+    name: outline
+    username: outline
+    password: outline
+
+  redis:
+    host: outline-redis-master
+    password: outline
+
+  fileStorage:
+    type: local
+
+  auth:
+    oidc:
+      clientId: "test-client-id"
+      clientSecret: "test-client-secret"
+      authUri: "https://idp.charts.internal/authorize"
+      tokenUri: "https://idp.charts.internal/token"
+      userinfoUri: "https://idp.charts.internal/userinfo"
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: development-issuer
+  tls:
+    - secretName: outline-ingress-tls
+      hosts:
+        - "outline.charts.internal"
+
+rbac:
+  create: true
+
+livenessProbe:
+  enabled: true
+
+readinessProbe:
+  enabled: true
+
+startupProbe:
+  enabled: true
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+postgresql:
+  enabled: true
+  auth:
+    enablePostgresUser: true
+    postgresPassword: outline
+    username: outline
+    password: outline
+    database: outline
+    usePasswordFiles: false
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    password: outline

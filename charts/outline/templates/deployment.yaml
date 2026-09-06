@@ -1,0 +1,11 @@
+{{- if eq .Values.kind "Deployment" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "outline.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "outline.labels" . | nindent 4 }}
+spec:
+  {{- include "outline.podSpec" . | nindent 2 }}
+{{- end }}

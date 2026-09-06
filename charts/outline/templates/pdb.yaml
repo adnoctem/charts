@@ -1,0 +1,19 @@
+{{- if .Values.podDisruptionBudget.enabled -}}
+apiVersion: {{ include "outline.pdb.apiVersion" . }}
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "outline.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "outline.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+  {{- end }}
+  {{- if .Values.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "outline.selectorLabels" . | nindent 6 }}
+{{- end }}

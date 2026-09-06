@@ -1,0 +1,179 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "outline.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: outline
+    {{- include "outline.labels" . | nindent 4 }}
+    {{- if .Values.configMap.labels }}
+    {{- toYaml .Values.configMap.labels | nindent 4 }}
+    {{- end }}
+  {{- if .Values.configMap.annotations }}
+  annotations:
+    {{- toYaml .Values.configMap.annotations | nindent 4 }}
+  {{- end }}
+data:
+  NODE_ENV: "production"
+  PORT: {{ .Values.outline.port | quote }}
+  {{- if .Values.outline.url }}
+  URL: {{ .Values.outline.url | quote }}
+  {{- end }}
+  {{- if .Values.outline.collaborationUrl }}
+  COLLABORATION_URL: {{ .Values.outline.collaborationUrl | quote }}
+  {{- end }}
+  {{- if .Values.outline.cdnUrl }}
+  CDN_URL: {{ .Values.outline.cdnUrl | quote }}
+  {{- end }}
+  {{- if .Values.outline.webConcurrency }}
+  WEB_CONCURRENCY: {{ .Values.outline.webConcurrency | quote }}
+  {{- end }}
+  {{- if .Values.outline.defaultLanguage }}
+  DEFAULT_LANGUAGE: {{ .Values.outline.defaultLanguage | quote }}
+  {{- end }}
+  {{- /*
+    DATABASE SETTINGS
+  */}}
+  {{- if .Values.outline.database.connectionPoolMin }}
+  DATABASE_CONNECTION_POOL_MIN: {{ .Values.outline.database.connectionPoolMin | quote }}
+  {{- end }}
+  {{- if .Values.outline.database.connectionPoolMax }}
+  DATABASE_CONNECTION_POOL_MAX: {{ .Values.outline.database.connectionPoolMax | quote }}
+  {{- end }}
+  {{- if .Values.outline.database.sslMode }}
+  PGSSLMODE: {{ .Values.outline.database.sslMode | quote }}
+  {{- end }}
+  {{- /*
+    FILE STORAGE SETTINGS
+  */}}
+  FILE_STORAGE: {{ .Values.outline.fileStorage.type | quote }}
+  {{- if .Values.outline.fileStorage.uploadMaxSize }}
+  FILE_STORAGE_UPLOAD_MAX_SIZE: {{ .Values.outline.fileStorage.uploadMaxSize | quote }}
+  {{- end }}
+  {{- if .Values.outline.fileStorage.importMaxSize }}
+  FILE_STORAGE_IMPORT_MAX_SIZE: {{ .Values.outline.fileStorage.importMaxSize | quote }}
+  {{- end }}
+  {{- if .Values.outline.fileStorage.workspaceImportMaxSize }}
+  FILE_STORAGE_WORKSPACE_IMPORT_MAX_SIZE: {{ .Values.outline.fileStorage.workspaceImportMaxSize | quote }}
+  {{- end }}
+  {{- if eq .Values.outline.fileStorage.type "local" }}
+  FILE_STORAGE_LOCAL_ROOT_DIR: {{ .Values.outline.fileStorage.local.rootDir | quote }}
+  {{- end }}
+  {{- if eq .Values.outline.fileStorage.type "s3" }}
+  {{- if .Values.outline.fileStorage.s3.region }}
+  AWS_REGION: {{ .Values.outline.fileStorage.s3.region | quote }}
+  {{- end }}
+  {{- if .Values.outline.fileStorage.s3.accelerateUrl }}
+  AWS_S3_ACCELERATE_URL: {{ .Values.outline.fileStorage.s3.accelerateUrl | quote }}
+  {{- end }}
+  {{- if .Values.outline.fileStorage.s3.uploadBucketUrl }}
+  AWS_S3_UPLOAD_BUCKET_URL: {{ .Values.outline.fileStorage.s3.uploadBucketUrl | quote }}
+  {{- end }}
+  {{- if .Values.outline.fileStorage.s3.uploadBucketName }}
+  AWS_S3_UPLOAD_BUCKET_NAME: {{ .Values.outline.fileStorage.s3.uploadBucketName | quote }}
+  {{- end }}
+  AWS_S3_FORCE_PATH_STYLE: {{ .Values.outline.fileStorage.s3.forcePathStyle | quote }}
+  AWS_S3_ACL: {{ .Values.outline.fileStorage.s3.acl | quote }}
+  AWS_S3_UPLOAD_METHOD: {{ .Values.outline.fileStorage.s3.uploadMethod | quote }}
+  {{- if .Values.outline.fileStorage.s3.cloudfront.url }}
+  AWS_CLOUDFRONT_URL: {{ .Values.outline.fileStorage.s3.cloudfront.url | quote }}
+  {{- end }}
+  {{- if .Values.outline.fileStorage.s3.cloudfront.keyPairId }}
+  AWS_CLOUDFRONT_KEY_PAIR_ID: {{ .Values.outline.fileStorage.s3.cloudfront.keyPairId | quote }}
+  {{- end }}
+  {{- end }}
+  {{- /*
+    SSL / PROXY SETTINGS
+  */}}
+  FORCE_HTTPS: {{ .Values.outline.ssl.forceHttps | quote }}
+  {{- if .Values.outline.ssl.cert }}
+  SSL_CERT: {{ .Values.outline.ssl.cert | quote }}
+  {{- end }}
+  PROXY_HEADERS_TRUSTED: {{ .Values.outline.proxy.headersTrusted | quote }}
+  {{- if .Values.outline.proxy.ipHeader }}
+  PROXY_IP_HEADER: {{ .Values.outline.proxy.ipHeader | quote }}
+  {{- end }}
+  {{- /*
+    SMTP SETTINGS
+  */}}
+  {{- if .Values.outline.smtp.service }}
+  SMTP_SERVICE: {{ .Values.outline.smtp.service | quote }}
+  {{- end }}
+  {{- if .Values.outline.smtp.fromEmail }}
+  SMTP_FROM_EMAIL: {{ .Values.outline.smtp.fromEmail | quote }}
+  {{- end }}
+  {{- /*
+    RATE LIMITER SETTINGS
+  */}}
+  RATE_LIMITER_ENABLED: {{ .Values.outline.rateLimiter.enabled | quote }}
+  RATE_LIMITER_REQUESTS: {{ .Values.outline.rateLimiter.requests | quote }}
+  RATE_LIMITER_DURATION_WINDOW: {{ .Values.outline.rateLimiter.durationWindow | quote }}
+  RATE_LIMITER_MULTIPLIER: {{ .Values.outline.rateLimiter.multiplier | quote }}
+  {{- /*
+    AUTH PROVIDER SETTINGS (non-secret)
+  */}}
+  {{- if .Values.outline.auth.oidc.authUri }}
+  OIDC_AUTH_URI: {{ .Values.outline.auth.oidc.authUri | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.oidc.tokenUri }}
+  OIDC_TOKEN_URI: {{ .Values.outline.auth.oidc.tokenUri | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.oidc.userinfoUri }}
+  OIDC_USERINFO_URI: {{ .Values.outline.auth.oidc.userinfoUri | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.oidc.logoutUri }}
+  OIDC_LOGOUT_URI: {{ .Values.outline.auth.oidc.logoutUri | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.oidc.usernameClaim }}
+  OIDC_USERNAME_CLAIM: {{ .Values.outline.auth.oidc.usernameClaim | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.oidc.displayName }}
+  OIDC_DISPLAY_NAME: {{ .Values.outline.auth.oidc.displayName | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.oidc.scopes }}
+  OIDC_SCOPES: {{ .Values.outline.auth.oidc.scopes | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.azure.resourceAppId }}
+  AZURE_RESOURCE_APP_ID: {{ .Values.outline.auth.azure.resourceAppId | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.discord.serverId }}
+  DISCORD_SERVER_ID: {{ .Values.outline.auth.discord.serverId | quote }}
+  {{- end }}
+  {{- if .Values.outline.auth.discord.serverRoles }}
+  DISCORD_SERVER_ROLES: {{ .Values.outline.auth.discord.serverRoles | quote }}
+  {{- end }}
+  {{- /*
+    INTEGRATION SETTINGS (non-secret)
+  */}}
+  {{- if .Values.outline.integrations.github.appName }}
+  GITHUB_APP_NAME: {{ .Values.outline.integrations.github.appName | quote }}
+  {{- end }}
+  {{- if .Values.outline.integrations.github.appId }}
+  GITHUB_APP_ID: {{ .Values.outline.integrations.github.appId | quote }}
+  {{- end }}
+  {{- if .Values.outline.integrations.slack.appId }}
+  SLACK_APP_ID: {{ .Values.outline.integrations.slack.appId | quote }}
+  {{- end }}
+  SLACK_MESSAGE_ACTIONS: {{ .Values.outline.integrations.slack.messageActions | quote }}
+  {{- if .Values.outline.integrations.dropbox.appKey }}
+  DROPBOX_APP_KEY: {{ .Values.outline.integrations.dropbox.appKey | quote }}
+  {{- end }}
+  {{- if .Values.outline.integrations.sentry.dsn }}
+  SENTRY_DSN: {{ .Values.outline.integrations.sentry.dsn | quote }}
+  {{- end }}
+  {{- if .Values.outline.integrations.sentry.tunnel }}
+  SENTRY_TUNNEL: {{ .Values.outline.integrations.sentry.tunnel | quote }}
+  {{- end }}
+  {{- if .Values.outline.integrations.iframely.url }}
+  IFRAMELY_URL: {{ .Values.outline.integrations.iframely.url | quote }}
+  {{- end }}
+  {{- /*
+    DEBUGGING SETTINGS
+  */}}
+  ENABLE_UPDATES: {{ .Values.outline.debug.enableUpdates | quote }}
+  {{- if .Values.outline.debug.categories }}
+  DEBUG: {{ .Values.outline.debug.categories | quote }}
+  {{- end }}
+  {{- if .Values.outline.debug.logLevel }}
+  LOG_LEVEL: {{ .Values.outline.debug.logLevel | quote }}
+  {{- end }}
