@@ -4948,6 +4948,67 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/ntfy-0.1.0/ntfy-0.1.0.tgz
     version: 0.1.0
+  outline:
+  - annotations:
+      artifacthub.io/category: collaboration-and-content-management
+      artifacthub.io/changes: |
+        - kind: added
+          description: initial chart release, targeting Outline appVersion 1.10.0
+      artifacthub.io/images: |
+        - name: outline
+          image: docker.io/outlinewiki/outline:1.10.0
+      artifacthub.io/license: BUSL-1.1
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Outline GitHub Repository
+          url: https://github.com/outline/outline
+        - name: Outline Documentation
+          url: https://docs.getoutline.com/
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: BUSL-1.1
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 1.10.0
+    created: "2026-09-06T01:38:35.954149833Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    description: Outline is a fast, collaborative, open-source knowledge base for
+      your team
+    digest: 4341ed59106895a48c26ef81d5e918e8497f99c2cf51d573cc6702d07085b2e0
+    home: https://www.getoutline.com/
+    icon: https://www.getoutline.com/images/logo.svg
+    keywords:
+    - wiki
+    - knowledge-base
+    - documentation
+    - collaboration
+    - outline
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: outline
+    sources:
+    - https://github.com/adnoctem/charts
+    - https://github.com/outline/outline
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/outline-0.1.0/outline-0.1.0.tgz
+    version: 0.1.0
   paperless-ngx:
   - annotations:
       artifacthub.io/category: storage
@@ -7778,4 +7839,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T17:26:48.422399076Z"
+generated: "2026-09-06T01:38:35.954383318Z"
