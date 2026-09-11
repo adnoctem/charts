@@ -1,0 +1,12 @@
+Lighthouse CI Server is installed using {{ include "lhci.dialect" . }} storage.
+
+Access the UI locally:
+  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "lhci.fullname" . }} 9001:{{ .Values.service.ports.http }}
+  Open http://localhost:9001
+
+Create your first project with `lhci wizard` and keep the build and admin tokens safe.
+See the chart README for client configuration, database operators and persistence.
+{{- if and (eq (include "lhci.dialect" .) "sqlite") (not .Values.persistence.enabled) }}
+
+Persistence is disabled: pod replacement deletes all SQLite reports.
+{{- end }}

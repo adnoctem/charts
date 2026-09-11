@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "lhci.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lhci.labels" . | nindent 4 }}
+    {{- with .Values.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "lhci.selectorLabels" . | nindent 4 }}
+  internalTrafficPolicy: {{ .Values.service.internalTrafficPolicy }}
+  {{- if has .Values.service.type (list "NodePort" "LoadBalancer") }}
+  externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
+  {{- end }}
+  {{- if eq .Values.service.type "LoadBalancer" }}
+  {{- range $key := list "loadBalancerIP" "loadBalancerClass" "loadBalancerSourceRanges" }}
+  {{- with index $.Values.service $key }}
+  {{ $key }}: {{ toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- range $key := list "clusterIP" "externalIPs" "sessionAffinity" "sessionAffinityConfig" "ipFamilyPolicy" }}
+  {{- with index $.Values.service $key }}
+  {{ $key }}: {{ toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  ports:
+    - name: http
+      port: {{ .Values.service.ports.http }}
+      targetPort: http
+      protocol: TCP
+      {{- if has .Values.service.type (list "NodePort" "LoadBalancer") }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+    {{- with .Values.service.extraPorts }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+
+{{- if eq .Values.kind "StatefulSet" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "lhci.suffixedName" (dict "context" . "suffix" "headless") }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lhci.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  publishNotReadyAddresses: true
+  selector:
+    {{- include "lhci.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.lhci.port }}
+      targetPort: http
+{{- end }}

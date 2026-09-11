@@ -1,0 +1,152 @@
+# MySQL Deployment with alternate naming, ports and rollout strategy.
+image:
+  pullPolicy: IfNotPresent
+nameOverride: lhci-mysql
+kind: Deployment
+replicaCount: 1
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 0
+    maxUnavailable: 1
+
+lhci:
+  port: 9102
+  host: 0.0.0.0
+  logLevel: silent
+  storage:
+    sqlDialect: mysql
+    sqlConnectionSsl: false
+    sqlDangerouslyResetDatabase: false
+    sqlMigrationOptions:
+      tableName: LHCIMigrations
+    sqlDialectOptions:
+      charset: utf8mb4
+    sequelizeOptions:
+      pool:
+        max: 3
+        min: 0
+        acquire: 30000
+  basicAuth:
+    enabled: true
+    username: mysql-ci
+    password: ci-http-password
+  dbWait:
+    retries: 90
+    timeout: 3
+
+# External SQL requires no LHCI data PVC; HOME remains writable through emptyDir.
+persistence:
+  enabled: false
+  mountPath: /data
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: development-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+  hosts:
+    - host: mysql.lhci.charts.internal
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: lhci-mysql-ingress-tls
+      hosts:
+        - mysql.lhci.charts.internal
+
+service:
+  type: NodePort
+  ports:
+    http: 8080
+  # Let Kubernetes allocate a port so independent installs do not collide.
+  nodePort: 0
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+  extraPorts:
+    - name: alternate-http
+      port: 8081
+      targetPort: http
+      protocol: TCP
+  labels:
+    adnoctem.co/fixture: mysql
+
+serviceAccount:
+  create: true
+  automount: false
+podLabels:
+  adnoctem.co/fixture: mysql
+podAnnotations:
+  adnoctem.co/purpose: lhci-ci
+nodeSelector:
+  kubernetes.io/os: linux
+extraEnvVars:
+  - name: NODE_OPTIONS
+    value: --max-old-space-size=256
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+resources:
+  requests:
+    cpu: 25m
+    memory: 128Mi
+  limits:
+    memory: 512Mi
+
+livenessProbe:
+  enabled: true
+  timeoutSeconds: 2
+readinessProbe:
+  enabled: true
+  timeoutSeconds: 2
+startupProbe:
+  enabled: true
+  periodSeconds: 5
+  failureThreshold: 120
+podDisruptionBudget:
+  enabled: true
+  minAvailable: null
+  maxUnavailable: 1
+
+postgresql:
+  enabled: false
+mysql:
+  enabled: true
+  fullnameOverride: lhci-mysql-db
+  architecture: standalone
+  # CI only: archived image matching the dependency; see docs/CONTRIBUTING.md.
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/mysql
+    tag: 8.4.3-debian-12-r0
+  auth:
+    rootPassword: ci-root-password
+    username: lhci_ci
+    database: lhci_ci
+    password: "ci:p@ss/word?#%"
+  primary:
+    service:
+      ports:
+        mysql: 13306
+    persistence:
+      enabled: true
+      storageClass: standard
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi

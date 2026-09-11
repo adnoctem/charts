@@ -1,0 +1,929 @@
+{
+  "title": "Chart Values",
+  "type": "object",
+  "properties": {
+    "image": {
+      "type": "object",
+      "properties": {
+        "registry": {
+          "type": "string",
+          "description": "Container image registry",
+          "default": "ghcr.io"
+        },
+        "repository": {
+          "type": "string",
+          "description": "LHCI image repository",
+          "default": "adnoctem/lhci"
+        },
+        "tag": {
+          "type": "string",
+          "description": "Image tag; empty uses Chart.appVersion",
+          "default": ""
+        },
+        "digest": {
+          "type": "string",
+          "description": "Image digest override",
+          "default": ""
+        },
+        "pullPolicy": {
+          "type": "string",
+          "description": "Kubernetes image pull policy",
+          "default": "IfNotPresent"
+        },
+        "pullSecrets": {
+          "type": "array",
+          "description": "Existing image pull secret names",
+          "default": [],
+          "items": {}
+        }
+      }
+    },
+    "nameOverride": {
+      "type": "string",
+      "description": "Partially override lhci.fullname",
+      "default": ""
+    },
+    "fullnameOverride": {
+      "type": "string",
+      "description": "Fully override lhci.fullname",
+      "default": ""
+    },
+    "kind": {
+      "type": "string",
+      "description": "Workload kind; Deployment or StatefulSet",
+      "default": "Deployment"
+    },
+    "lhci": {
+      "type": "object",
+      "properties": {
+        "port": {
+          "type": "number",
+          "description": "HTTP listen port, also used by container ports and probes",
+          "default": 9001
+        },
+        "host": {
+          "type": "string",
+          "description": "HTTP listen address inside the pod",
+          "default": "0.0.0.0"
+        },
+        "logLevel": {
+          "type": "string",
+          "description": "Request logging; verbose or silent",
+          "default": "verbose"
+        },
+        "useBodyParser": {
+          "type": "boolean",
+          "description": "Enable upstream JSON request parsing; normally required by the API",
+          "default": true
+        },
+        "storage": {
+          "type": "object",
+          "properties": {
+            "storageMethod": {
+              "type": "string",
+              "description": "Storage implementation; only sql is supported",
+              "default": "sql"
+            },
+            "sqlDialect": {
+              "type": "string",
+              "description": "SQLite or external database dialect; sqlite, postgres or mysql. An enabled subchart selects its dialect automatically",
+              "default": "sqlite"
+            },
+            "sqlDatabasePath": {
+              "type": "string",
+              "description": "SQLite file path; must be under persistence.mountPath",
+              "default": "/data/lhci.db"
+            },
+            "sqlConnectionUrl": {
+              "type": "string",
+              "description": "External PostgreSQL/MySQL URI; prefer existingSecret for production",
+              "default": ""
+            },
+            "existingSecret": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Existing Secret containing the external database URI, e.g. a CNPG application Secret",
+                  "default": ""
+                },
+                "key": {
+                  "type": "string",
+                  "description": "Secret key containing the connection URI",
+                  "default": "uri"
+                }
+              }
+            },
+            "sqlConnectionSsl": {
+              "type": "boolean",
+              "description": "Force SSL for the SQL connection",
+              "default": false
+            },
+            "sqlDangerouslyResetDatabase": {
+              "type": "boolean",
+              "description": "Delete all LHCI data and recreate the schema on startup; leave false for normal operation",
+              "default": false
+            },
+            "sqlMigrationOptions": {
+              "type": "object",
+              "properties": {
+                "tableName": {
+                  "type": "string",
+                  "description": "Sequelize migration metadata table",
+                  "default": "SequelizeMeta"
+                }
+              }
+            },
+            "tls": {
+              "type": "object",
+              "properties": {
+                "existingSecret": {
+                  "type": "string",
+                  "description": "Secret supplying database CA and optional client certificate and key through native LHCI environment variables",
+                  "default": ""
+                },
+                "caKey": {
+                  "type": "string",
+                  "description": "CA certificate key; empty omits the CA",
+                  "default": "ca.crt"
+                },
+                "certKey": {
+                  "type": "string",
+                  "description": "Client certificate key; empty disables client certificate authentication",
+                  "default": ""
+                },
+                "keyKey": {
+                  "type": "string",
+                  "description": "Client private key key; required with certKey",
+                  "default": ""
+                },
+                "rejectUnauthorized": {
+                  "type": "boolean",
+                  "description": "Verify the database certificate",
+                  "default": true
+                }
+              }
+            }
+          }
+        },
+        "basicAuth": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Protect the UI and API with HTTP basic authentication",
+              "default": false
+            },
+            "username": {
+              "type": "string",
+              "description": "Basic authentication username; ignored with existingSecret",
+              "default": ""
+            },
+            "password": {
+              "type": "string",
+              "description": "Basic authentication password; ignored with existingSecret",
+              "default": ""
+            },
+            "existingSecret": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Existing Secret containing HTTP basic authentication credentials",
+                  "default": ""
+                },
+                "usernameKey": {
+                  "type": "string",
+                  "description": "Username key in the existing Secret",
+                  "default": "username"
+                },
+                "passwordKey": {
+                  "type": "string",
+                  "description": "Password key in the existing Secret",
+                  "default": "password"
+                }
+              }
+            }
+          }
+        },
+        "dbWait": {
+          "type": "object",
+          "properties": {
+            "retries": {
+              "type": "number",
+              "description": "Container database TCP connection attempts before exiting",
+              "default": 60
+            },
+            "timeout": {
+              "type": "number",
+              "description": "Timeout in seconds for each database connection attempt",
+              "default": 5
+            }
+          }
+        },
+        "psiCollectCron": {
+          "type": "object",
+          "properties": {
+            "psiApiKey": {
+              "type": "string",
+              "description": "PageSpeed Insights API key; prefer existingSecret",
+              "default": ""
+            },
+            "existingSecret": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Existing Secret containing the PSI API key",
+                  "default": ""
+                },
+                "key": {
+                  "type": "string",
+                  "description": "PSI API key Secret key",
+                  "default": "apiKey"
+                }
+              }
+            },
+            "psiApiEndpoint": {
+              "type": "string",
+              "description": "Optional custom PSI API endpoint; empty uses upstream default",
+              "default": ""
+            },
+            "sites": {
+              "type": "array",
+              "description": "Scheduled collections; each requires projectSlug, urls and schedule. Optional label, branch, numberOfRuns, maxNumberOfParallelUrls, strategy and categories",
+              "default": [],
+              "items": {}
+            },
+            "cachebustTimeoutMs": {
+              "type": "number",
+              "description": "Delay between repeated PSI collections of the same URL in milliseconds (PSI_CACHEBUST_TIMEOUT_MS)",
+              "default": 60000
+            }
+          }
+        },
+        "deleteOldBuildsCron": {
+          "type": "array",
+          "description": "Retention schedules; each requires schedule and maxAgeInDays, with optional skipBranches and onlyBranches arrays",
+          "default": [],
+          "items": {}
+        }
+      }
+    },
+    "persistence": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Persist SQLite using a PVC; false loses reports when the pod is replaced",
+          "default": true
+        },
+        "existingClaim": {
+          "type": "string",
+          "description": "Existing SQLite PVC name",
+          "default": ""
+        },
+        "mountPath": {
+          "type": "string",
+          "description": "Writable data directory; the image uses /data as HOME",
+          "default": "/data"
+        },
+        "size": {
+          "type": "string",
+          "description": "SQLite PVC capacity",
+          "default": "5Gi"
+        },
+        "storageClass": {
+          "type": "string",
+          "description": "Storage class; empty uses the default, '-' disables dynamic provisioning",
+          "default": ""
+        },
+        "accessModes": {
+          "type": "array",
+          "description": "SQLite PVC access modes",
+          "default": ["ReadWriteOnce"],
+          "items": {
+            "type": "string"
+          }
+        },
+        "keep": {
+          "type": "boolean",
+          "description": "Retain the chart-created SQLite PVC on helm uninstall",
+          "default": true
+        }
+      }
+    },
+    "extraEnvVars": {
+      "type": "array",
+      "description": "Extra environment entries; do not override chart-managed LHCI settings",
+      "default": [],
+      "items": {}
+    },
+    "extraEnvVarsSecret": {
+      "type": "string",
+      "description": "Existing Secret exposed with envFrom",
+      "default": ""
+    },
+    "extraEnvVarsConfigMap": {
+      "type": "string",
+      "description": "Existing ConfigMap exposed with envFrom",
+      "default": ""
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Create an Ingress",
+          "default": false
+        },
+        "className": {
+          "type": "string",
+          "description": "Ingress class name",
+          "default": ""
+        },
+        "whitelist": {
+          "type": "string",
+          "description": "Comma-separated ingress-nginx source IP allowlist",
+          "default": ""
+        },
+        "tls": {
+          "type": "array",
+          "description": "TLS hostnames and existing certificate Secret names",
+          "default": [],
+          "items": {}
+        },
+        "hosts": {
+          "type": "array",
+          "description": "Hosts with paths and pathType",
+          "default": [],
+          "items": {}
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Kubernetes Service type",
+          "default": "ClusterIP"
+        },
+        "ports": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "number",
+              "description": "HTTP Service port; targets lhci.port",
+              "default": 9001
+            }
+          }
+        },
+        "nodePort": {
+          "type": "number",
+          "description": "HTTP node port when using NodePort or LoadBalancer",
+          "default": 30080
+        },
+        "extraPorts": {
+          "type": "array",
+          "description": "Additional Service ports",
+          "default": [],
+          "items": {}
+        },
+        "externalTrafficPolicy": {
+          "type": "string",
+          "description": "External traffic routing policy",
+          "default": "Cluster"
+        },
+        "internalTrafficPolicy": {
+          "type": "string",
+          "description": "Internal traffic routing policy",
+          "default": "Cluster"
+        },
+        "clusterIP": {
+          "type": "string",
+          "description": "Static cluster IP; empty lets Kubernetes allocate one",
+          "default": ""
+        },
+        "loadBalancerIP": {
+          "type": "string",
+          "description": "Requested load balancer IP, if supported by the provider",
+          "default": ""
+        },
+        "loadBalancerClass": {
+          "type": "string",
+          "description": "Load balancer implementation",
+          "default": ""
+        },
+        "loadBalancerSourceRanges": {
+          "type": "array",
+          "description": "Allowed load balancer client CIDRs",
+          "default": [],
+          "items": {}
+        },
+        "externalIPs": {
+          "type": "array",
+          "description": "External IP addresses",
+          "default": [],
+          "items": {}
+        },
+        "sessionAffinity": {
+          "type": "string",
+          "description": "None or ClientIP",
+          "default": "None"
+        },
+        "ipFamilyPolicy": {
+          "type": "string",
+          "description": "IP family policy; empty uses the cluster default",
+          "default": ""
+        }
+      }
+    },
+    "serviceAccount": {
+      "type": "object",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "Create a ServiceAccount",
+          "default": true
+        },
+        "automount": {
+          "type": "boolean",
+          "description": "Automount Kubernetes API credentials",
+          "default": false
+        },
+        "name": {
+          "type": "string",
+          "description": "Existing or custom ServiceAccount name",
+          "default": ""
+        },
+        "secrets": {
+          "type": "array",
+          "description": "ServiceAccount Secret references",
+          "default": [],
+          "items": {}
+        }
+      }
+    },
+    "replicaCount": {
+      "type": "number",
+      "description": "Workload replicas; SQLite and built-in cron jobs require exactly one",
+      "default": 1
+    },
+    "volumes": {
+      "type": "array",
+      "description": "Additional pod volumes, e.g. secret files, certificates or host statistics mounts",
+      "default": [],
+      "items": {}
+    },
+    "volumeMounts": {
+      "type": "array",
+      "description": "Additional LHCI container mounts",
+      "default": [],
+      "items": {}
+    },
+    "initContainers": {
+      "type": "array",
+      "description": "Init containers, e.g. to populate an asset volume",
+      "default": [],
+      "items": {}
+    },
+    "tolerations": {
+      "type": "array",
+      "description": "Pod tolerations",
+      "default": [],
+      "items": {}
+    },
+    "priorityClassName": {
+      "type": "string",
+      "description": "Existing PriorityClass name",
+      "default": ""
+    },
+    "livenessProbe": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable HTTP liveness checking",
+          "default": true
+        },
+        "initialDelaySeconds": {
+          "type": "number",
+          "description": "Initial liveness delay",
+          "default": 0
+        },
+        "timeoutSeconds": {
+          "type": "number",
+          "description": "Liveness timeout",
+          "default": 1
+        },
+        "periodSeconds": {
+          "type": "number",
+          "description": "Liveness interval",
+          "default": 10
+        },
+        "successThreshold": {
+          "type": "number",
+          "description": "Successful checks required",
+          "default": 1
+        },
+        "failureThreshold": {
+          "type": "number",
+          "description": "Failed checks before restart",
+          "default": 3
+        }
+      }
+    },
+    "readinessProbe": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable HTTP readiness checking",
+          "default": true
+        },
+        "initialDelaySeconds": {
+          "type": "number",
+          "description": "Initial readiness delay",
+          "default": 0
+        },
+        "timeoutSeconds": {
+          "type": "number",
+          "description": "Readiness timeout",
+          "default": 1
+        },
+        "periodSeconds": {
+          "type": "number",
+          "description": "Readiness interval",
+          "default": 10
+        },
+        "successThreshold": {
+          "type": "number",
+          "description": "Successful checks required",
+          "default": 1
+        },
+        "failureThreshold": {
+          "type": "number",
+          "description": "Failed checks before removing the pod from Service endpoints",
+          "default": 3
+        }
+      }
+    },
+    "startupProbe": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable HTTP startup checking",
+          "default": true
+        },
+        "initialDelaySeconds": {
+          "type": "number",
+          "description": "Initial startup delay",
+          "default": 0
+        },
+        "timeoutSeconds": {
+          "type": "number",
+          "description": "Startup timeout",
+          "default": 1
+        },
+        "periodSeconds": {
+          "type": "number",
+          "description": "Startup interval",
+          "default": 5
+        },
+        "successThreshold": {
+          "type": "number",
+          "description": "Successful checks required",
+          "default": 1
+        },
+        "failureThreshold": {
+          "type": "number",
+          "description": "Failed checks allowed during startup",
+          "default": 120
+        }
+      }
+    },
+    "podDisruptionBudget": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Create a PodDisruptionBudget",
+          "default": false
+        }
+      }
+    },
+    "postgresql": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Deploy the optional postgresql subchart and select its LHCI SQL dialect",
+          "default": false
+        },
+        "fullnameOverride": {
+          "type": "string",
+          "description": "Override the database subchart resource name",
+          "default": ""
+        },
+        "architecture": {
+          "type": "string",
+          "description": "Database topology; this chart supports standalone",
+          "default": "standalone"
+        },
+        "global": {
+          "type": "object",
+          "properties": {
+            "imageRegistry": {
+              "type": "string",
+              "description": "Global database image registry",
+              "default": "docker.io"
+            },
+            "security": {
+              "type": "object",
+              "properties": {
+                "allowInsecureImages": {
+                  "type": "boolean",
+                  "description": "Allow custom images where supported by the dependency",
+                  "default": false
+                }
+              }
+            }
+          }
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "registry": {
+              "type": "string",
+              "description": "Database image registry",
+              "default": "docker.io"
+            },
+            "repository": {
+              "type": "string",
+              "description": "Database image repository; ensure compatibility with the selected chart",
+              "default": "bitnami/postgresql"
+            },
+            "tag": {
+              "type": "string",
+              "description": "Database image tag; ensure the selected tag is available in your registry",
+              "default": "16.4.0-debian-12-r14"
+            },
+            "digest": {
+              "type": "string",
+              "description": "Optional database image digest",
+              "default": ""
+            }
+          }
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "Application database username",
+              "default": "lhci"
+            },
+            "password": {
+              "type": "string",
+              "description": "Application database password; generated by the subchart if empty",
+              "default": ""
+            },
+            "database": {
+              "type": "string",
+              "description": "Application database name",
+              "default": "lhci"
+            },
+            "existingSecret": {
+              "type": "string",
+              "description": "Existing subchart credential Secret",
+              "default": ""
+            },
+            "postgresPassword": {
+              "type": "string",
+              "description": "PostgreSQL administrative password; generated if empty",
+              "default": ""
+            },
+            "secretKeys": {
+              "type": "object",
+              "properties": {
+                "userPasswordKey": {
+                  "type": "string",
+                  "description": "Application password key in the credential Secret",
+                  "default": "password"
+                },
+                "adminPasswordKey": {
+                  "type": "string",
+                  "description": "Administrative password key in the credential Secret",
+                  "default": "postgres-password"
+                }
+              }
+            }
+          }
+        },
+        "primary": {
+          "type": "object",
+          "properties": {
+            "service": {
+              "type": "object",
+              "properties": {
+                "ports": {
+                  "type": "object",
+                  "properties": {
+                    "postgresql": {
+                      "type": "number",
+                      "description": "Database service port",
+                      "default": 5432
+                    }
+                  }
+                }
+              }
+            },
+            "persistence": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Persist the database using a PVC",
+                  "default": true
+                },
+                "existingClaim": {
+                  "type": "string",
+                  "description": "Existing database PVC name",
+                  "default": ""
+                },
+                "storageClass": {
+                  "type": "string",
+                  "description": "Database PVC storage class",
+                  "default": ""
+                },
+                "accessModes": {
+                  "type": "array",
+                  "description": "Database PVC access modes",
+                  "default": ["ReadWriteOnce"],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "size": {
+                  "type": "string",
+                  "description": "Database PVC capacity",
+                  "default": "5Gi"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mysql": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Deploy the optional mysql subchart and select its LHCI SQL dialect",
+          "default": false
+        },
+        "fullnameOverride": {
+          "type": "string",
+          "description": "Override the database subchart resource name",
+          "default": ""
+        },
+        "architecture": {
+          "type": "string",
+          "description": "Database topology; this chart supports standalone",
+          "default": "standalone"
+        },
+        "global": {
+          "type": "object",
+          "properties": {
+            "imageRegistry": {
+              "type": "string",
+              "description": "Global database image registry",
+              "default": "docker.io"
+            },
+            "security": {
+              "type": "object",
+              "properties": {
+                "allowInsecureImages": {
+                  "type": "boolean",
+                  "description": "Allow custom images where supported by the dependency",
+                  "default": false
+                }
+              }
+            }
+          }
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "registry": {
+              "type": "string",
+              "description": "Database image registry",
+              "default": "docker.io"
+            },
+            "repository": {
+              "type": "string",
+              "description": "Database image repository; ensure compatibility with the selected chart",
+              "default": "bitnami/mysql"
+            },
+            "tag": {
+              "type": "string",
+              "description": "Database image tag; ensure the selected tag is available in your registry",
+              "default": "8.4.3-debian-12-r0"
+            },
+            "digest": {
+              "type": "string",
+              "description": "Optional database image digest",
+              "default": ""
+            }
+          }
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "Application database username",
+              "default": "lhci"
+            },
+            "password": {
+              "type": "string",
+              "description": "Application database password; generated by the subchart if empty",
+              "default": ""
+            },
+            "database": {
+              "type": "string",
+              "description": "Application database name",
+              "default": "lhci"
+            },
+            "existingSecret": {
+              "type": "string",
+              "description": "Existing subchart credential Secret",
+              "default": ""
+            },
+            "rootPassword": {
+              "type": "string",
+              "description": "MySQL root password; generated if empty",
+              "default": ""
+            }
+          }
+        },
+        "primary": {
+          "type": "object",
+          "properties": {
+            "service": {
+              "type": "object",
+              "properties": {
+                "ports": {
+                  "type": "object",
+                  "properties": {
+                    "mysql": {
+                      "type": "number",
+                      "description": "Database service port",
+                      "default": 3306
+                    }
+                  }
+                }
+              }
+            },
+            "persistence": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Persist the database using a PVC",
+                  "default": true
+                },
+                "existingClaim": {
+                  "type": "string",
+                  "description": "Existing database PVC name",
+                  "default": ""
+                },
+                "storageClass": {
+                  "type": "string",
+                  "description": "Database PVC storage class",
+                  "default": ""
+                },
+                "accessModes": {
+                  "type": "array",
+                  "description": "Database PVC access modes",
+                  "default": ["ReadWriteOnce"],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "size": {
+                  "type": "string",
+                  "description": "Database PVC capacity",
+                  "default": "5Gi"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

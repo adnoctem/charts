@@ -1,0 +1,40 @@
+{{- if .Values.ingress.enabled }}
+{{- $annotations := deepCopy .Values.ingress.annotations }}
+{{- if .Values.ingress.whitelist }}
+{{- $_ := set $annotations "nginx.ingress.kubernetes.io/whitelist-source-range" .Values.ingress.whitelist }}
+{{- end }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "lhci.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lhci.labels" . | nindent 4 }}
+  {{- with $annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path | quote }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ include "lhci.fullname" $ }}
+                port:
+                  name: http
+          {{- end }}
+    {{- end }}
+{{- end }}

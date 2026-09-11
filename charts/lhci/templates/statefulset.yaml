@@ -1,0 +1,12 @@
+{{- if eq .Values.kind "StatefulSet" }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "lhci.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lhci.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "lhci.suffixedName" (dict "context" . "suffix" "headless") }}
+  {{- include "lhci.podSpec" . | nindent 2 }}
+{{- end }}

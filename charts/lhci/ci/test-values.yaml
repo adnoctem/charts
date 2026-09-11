@@ -1,0 +1,210 @@
+# SQLite development installation. Coverage and prerequisites: docs/CONTRIBUTING.md.
+image:
+  registry: ghcr.io
+  repository: adnoctem/lhci
+  tag: "1.0.1"
+  pullPolicy: IfNotPresent
+
+fullnameOverride: lhci-ci
+kind: Deployment
+replicaCount: 1
+strategy:
+  type: Recreate
+
+lhci:
+  port: 9101
+  host: 0.0.0.0
+  logLevel: verbose
+  useBodyParser: true
+  storage:
+    storageMethod: sql
+    sqlDialect: sqlite
+    sqlDatabasePath: /data/reports/lhci.db
+    sqlDangerouslyResetDatabase: false
+    sqlMigrationOptions:
+      tableName: LHCIMigrations
+    sequelizeOptions:
+      pool:
+        max: 2
+        min: 0
+        idle: 10000
+  basicAuth:
+    enabled: true
+    username: ci
+    password: ci-test-password
+  dbWait:
+    retries: 60
+    timeout: 5
+  psiCollectCron:
+    # Parse the complete scheduler configuration without calling a real PSI service.
+    psiApiKey: ci-only-not-a-real-api-key
+    psiApiEndpoint: http://127.0.0.1:1/psi
+    cachebustTimeoutMs: 1500
+    sites:
+      - projectSlug: ci-configuration-only
+        label: Fixture configuration
+        branch: main
+        urls:
+          - https://example.com
+        schedule: "0 0 1 1 *"
+        numberOfRuns: 1
+        maxNumberOfParallelUrls: 1
+        strategy: mobile
+        categories:
+          - performance
+          - accessibility
+  deleteOldBuildsCron:
+    - schedule: "0 0 * * *"
+      maxAgeInDays: 30
+      skipBranches:
+        - main
+    - schedule: "0 1 * * 0"
+      maxAgeInDays: 7
+      onlyBranches:
+        - ci
+
+persistence:
+  enabled: true
+  mountPath: /data
+  storageClass: standard
+  accessModes:
+    - ReadWriteOnce
+  size: 1Gi
+  keep: false
+  annotations:
+    adnoctem.co/purpose: lhci-ci
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: development-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+  hosts:
+    - host: lhci.charts.internal
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: lhci-ci-ingress-tls
+      hosts:
+        - lhci.charts.internal
+
+service:
+  type: ClusterIP
+  ports:
+    http: 80
+  labels:
+    adnoctem.co/fixture: sqlite
+  annotations:
+    adnoctem.co/purpose: lhci-ci
+  internalTrafficPolicy: Cluster
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 60
+  ipFamilyPolicy: SingleStack
+
+serviceAccount:
+  create: true
+  name: lhci-ci
+  automount: false
+  annotations:
+    adnoctem.co/purpose: lhci-ci
+
+extraEnvVars:
+  - name: NODE_OPTIONS
+    value: --max-old-space-size=256
+# Reuse the chart-created Secret to exercise envFrom without outside prerequisites.
+extraEnvVarsSecret: lhci-ci-basic-auth
+volumes:
+  - name: scratch
+    emptyDir:
+      sizeLimit: 16Mi
+volumeMounts:
+  - name: scratch
+    mountPath: /scratch
+    readOnly: true
+initContainers:
+  - name: prepare-scratch
+    image: ghcr.io/adnoctem/lhci:1.0.1
+    command: ["touch", "/scratch/initialized"]
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+      limits:
+        memory: 32Mi
+    volumeMounts:
+      - name: scratch
+        mountPath: /scratch
+
+podLabels:
+  adnoctem.co/fixture: sqlite
+podAnnotations:
+  adnoctem.co/purpose: lhci-ci
+nodeSelector:
+  kubernetes.io/os: linux
+tolerations:
+  - key: adnoctem.co/ci
+    operator: Exists
+    effect: NoSchedule
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              adnoctem.co/fixture: sqlite
+          topologyKey: kubernetes.io/hostname
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+resources:
+  requests:
+    cpu: 25m
+    memory: 128Mi
+  limits:
+    memory: 512Mi
+
+livenessProbe:
+  enabled: true
+  timeoutSeconds: 2
+  periodSeconds: 15
+  failureThreshold: 3
+readinessProbe:
+  enabled: true
+  timeoutSeconds: 2
+  periodSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+startupProbe:
+  enabled: true
+  timeoutSeconds: 2
+  periodSeconds: 5
+  failureThreshold: 120
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+postgresql:
+  enabled: false
+mysql:
+  enabled: false

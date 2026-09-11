@@ -1,0 +1,11 @@
+{{- if eq .Values.kind "Deployment" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lhci.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lhci.labels" . | nindent 4 }}
+spec:
+  {{- include "lhci.podSpec" . | nindent 2 }}
+{{- end }}

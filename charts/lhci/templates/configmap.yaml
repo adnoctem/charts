@@ -1,0 +1,12 @@
+{{- include "lhci.validate" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lhci.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lhci.labels" . | nindent 4 }}
+data:
+  {{- include "lhci.environment" . | nindent 2 }}
+  lighthouserc.yaml: |
+    {{- include "lhci.configuration" . | nindent 4 }}

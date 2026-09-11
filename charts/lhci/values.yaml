@@ -1,0 +1,412 @@
+# Default Helm values for adnoctem/lhci.
+# Reference: https://github.com/adnoctem/charts
+# Server options match @lhci/server 0.15.1 in ghcr.io/adnoctem/lhci:1.0.1.
+
+## @section Image parameters
+## @param image.registry Container image registry
+## @param image.repository LHCI image repository
+## @param image.tag Image tag; empty uses Chart.appVersion
+## @param image.digest Image digest override
+## @param image.pullPolicy Kubernetes image pull policy
+## @param image.pullSecrets Existing image pull secret names
+image:
+  registry: ghcr.io
+  repository: adnoctem/lhci
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## @section Name and workload overrides
+## @param nameOverride Partially override lhci.fullname
+nameOverride: ""
+## @param fullnameOverride Fully override lhci.fullname
+fullnameOverride: ""
+## @param kind Workload kind; Deployment or StatefulSet
+kind: Deployment
+
+## @section Lighthouse CI configuration
+lhci:
+  ## @param lhci.port HTTP listen port, also used by container ports and probes
+  port: 9001
+  ## @param lhci.host HTTP listen address inside the pod
+  host: 0.0.0.0
+  ## @param lhci.logLevel Request logging; verbose or silent
+  logLevel: verbose
+  ## @param lhci.useBodyParser Enable upstream JSON request parsing; normally required by the API
+  useBodyParser: true
+  storage:
+    ## @param lhci.storage.storageMethod Storage implementation; only sql is supported
+    storageMethod: sql
+    ## @param lhci.storage.sqlDialect SQLite or external database dialect; sqlite, postgres or mysql. An enabled subchart selects its dialect automatically
+    sqlDialect: sqlite
+    ## @param lhci.storage.sqlDatabasePath SQLite file path; must be under persistence.mountPath
+    sqlDatabasePath: /data/lhci.db
+    ## @param lhci.storage.sqlConnectionUrl External PostgreSQL/MySQL URI; prefer existingSecret for production
+    sqlConnectionUrl: ""
+    ## @param lhci.storage.existingSecret.name Existing Secret containing the external database URI, e.g. a CNPG application Secret
+    ## @param lhci.storage.existingSecret.key Secret key containing the connection URI
+    existingSecret:
+      name: ""
+      key: uri
+    ## @param lhci.storage.sqlConnectionSsl Force SSL for the SQL connection
+    sqlConnectionSsl: false
+    ## @param lhci.storage.sqlDangerouslyResetDatabase Delete all LHCI data and recreate the schema on startup; leave false for normal operation
+    sqlDangerouslyResetDatabase: false
+    sqlMigrationOptions:
+      ## @param lhci.storage.sqlMigrationOptions.tableName Sequelize migration metadata table
+      tableName: SequelizeMeta
+    ## @param lhci.storage.sqlDialectOptions [object] Native Sequelize dialect options; credentials belong in Secrets
+    sqlDialectOptions: {}
+    ## @param lhci.storage.sequelizeOptions [object] Native Sequelize options such as pool settings; credentials belong in Secrets
+    sequelizeOptions: {}
+    tls:
+      ## @param lhci.storage.tls.existingSecret Secret supplying database CA and optional client certificate and key through native LHCI environment variables
+      existingSecret: ""
+      ## @param lhci.storage.tls.caKey CA certificate key; empty omits the CA
+      caKey: ca.crt
+      ## @param lhci.storage.tls.certKey Client certificate key; empty disables client certificate authentication
+      certKey: ""
+      ## @param lhci.storage.tls.keyKey Client private key key; required with certKey
+      keyKey: ""
+      ## @param lhci.storage.tls.rejectUnauthorized Verify the database certificate
+      rejectUnauthorized: true
+  basicAuth:
+    ## @param lhci.basicAuth.enabled Protect the UI and API with HTTP basic authentication
+    enabled: false
+    ## @param lhci.basicAuth.username Basic authentication username; ignored with existingSecret
+    username: ""
+    ## @param lhci.basicAuth.password Basic authentication password; ignored with existingSecret
+    password: ""
+    ## @param lhci.basicAuth.existingSecret.name Existing Secret containing HTTP basic authentication credentials
+    ## @param lhci.basicAuth.existingSecret.usernameKey Username key in the existing Secret
+    ## @param lhci.basicAuth.existingSecret.passwordKey Password key in the existing Secret
+    existingSecret:
+      name: ""
+      usernameKey: username
+      passwordKey: password
+  dbWait:
+    ## @param lhci.dbWait.retries Container database TCP connection attempts before exiting
+    retries: 60
+    ## @param lhci.dbWait.timeout Timeout in seconds for each database connection attempt
+    timeout: 5
+  psiCollectCron:
+    ## @param lhci.psiCollectCron.psiApiKey PageSpeed Insights API key; prefer existingSecret
+    psiApiKey: ""
+    ## @param lhci.psiCollectCron.existingSecret.name Existing Secret containing the PSI API key
+    ## @param lhci.psiCollectCron.existingSecret.key PSI API key Secret key
+    existingSecret:
+      name: ""
+      key: apiKey
+    ## @param lhci.psiCollectCron.psiApiEndpoint Optional custom PSI API endpoint; empty uses upstream default
+    psiApiEndpoint: ""
+    ## @param lhci.psiCollectCron.sites Scheduled collections; each requires projectSlug, urls and schedule. Optional label, branch, numberOfRuns, maxNumberOfParallelUrls, strategy and categories
+    sites: []
+    ## @param lhci.psiCollectCron.cachebustTimeoutMs Delay between repeated PSI collections of the same URL in milliseconds (PSI_CACHEBUST_TIMEOUT_MS)
+    cachebustTimeoutMs: 60000
+  ## @param lhci.deleteOldBuildsCron Retention schedules; each requires schedule and maxAgeInDays, with optional skipBranches and onlyBranches arrays
+  deleteOldBuildsCron: []
+
+## @section Persistence parameters
+## PVCs are used only for SQLite. External SQL gets a writable emptyDir for HOME.
+persistence:
+  ## @param persistence.enabled Persist SQLite using a PVC; false loses reports when the pod is replaced
+  enabled: true
+  ## @param persistence.existingClaim Existing SQLite PVC name
+  existingClaim: ""
+  ## @param persistence.mountPath Writable data directory; the image uses /data as HOME
+  mountPath: /data
+  ## @param persistence.size SQLite PVC capacity
+  size: 5Gi
+  ## @param persistence.storageClass Storage class; empty uses the default, '-' disables dynamic provisioning
+  storageClass: ""
+  ## @param persistence.accessModes SQLite PVC access modes
+  accessModes:
+    - ReadWriteOnce
+  ## @param persistence.keep Retain the chart-created SQLite PVC on helm uninstall
+  keep: true
+  ## @param persistence.annotations [object] Extra PVC annotations
+  annotations: {}
+
+## @section Environment parameters
+## @param extraEnvVars Extra environment entries; do not override chart-managed LHCI settings
+extraEnvVars: []
+## @param extraEnvVarsSecret Existing Secret exposed with envFrom
+extraEnvVarsSecret: ""
+## @param extraEnvVarsConfigMap Existing ConfigMap exposed with envFrom
+extraEnvVarsConfigMap: ""
+
+## @section Ingress parameters
+## @param ingress.enabled Create an Ingress
+## @param ingress.className Ingress class name
+## @param ingress.whitelist Comma-separated ingress-nginx source IP allowlist
+## @param ingress.annotations [object] Ingress annotations, including controller-specific prefix rewriting
+## @param ingress.tls TLS hostnames and existing certificate Secret names
+## @param ingress.hosts Hosts with paths and pathType
+ingress:
+  enabled: false
+  className: ""
+  whitelist: ""
+  annotations: {}
+  tls: []
+  hosts: []
+  ## - host: lhci.example.com
+  ##   paths:
+  ##     - path: /
+  ##       pathType: Prefix
+
+## @section Service parameters
+## @param service.type Kubernetes Service type
+## @param service.ports.http HTTP Service port; targets lhci.port
+## @param service.nodePort HTTP node port when using NodePort or LoadBalancer
+## @param service.extraPorts Additional Service ports
+## @param service.annotations [object] Service annotations
+## @param service.labels [object] Service labels
+## @param service.externalTrafficPolicy External traffic routing policy
+## @param service.internalTrafficPolicy Internal traffic routing policy
+## @param service.clusterIP Static cluster IP; empty lets Kubernetes allocate one
+## @param service.loadBalancerIP Requested load balancer IP, if supported by the provider
+## @param service.loadBalancerClass Load balancer implementation
+## @param service.loadBalancerSourceRanges Allowed load balancer client CIDRs
+## @param service.externalIPs External IP addresses
+## @param service.sessionAffinity None or ClientIP
+## @param service.sessionAffinityConfig [object] Session affinity settings
+## @param service.ipFamilyPolicy IP family policy; empty uses the cluster default
+service:
+  type: ClusterIP
+  ports:
+    http: 9001
+  nodePort: 30080
+  extraPorts: []
+  annotations: {}
+  labels: {}
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  clusterIP: ""
+  loadBalancerIP: ""
+  loadBalancerClass: ""
+  loadBalancerSourceRanges: []
+  externalIPs: []
+  sessionAffinity: None
+  sessionAffinityConfig: {}
+  ipFamilyPolicy: ""
+
+## @section Service Account parameters
+## @param serviceAccount.create Create a ServiceAccount
+## @param serviceAccount.automount Automount Kubernetes API credentials
+## @param serviceAccount.annotations [object] ServiceAccount annotations
+## @param serviceAccount.name Existing or custom ServiceAccount name
+## @param serviceAccount.secrets ServiceAccount Secret references
+serviceAccount:
+  create: true
+  automount: false
+  annotations: {}
+  name: ""
+  secrets: []
+
+## @section Pod settings
+## @param replicaCount Workload replicas; SQLite and built-in cron jobs require exactly one
+replicaCount: 1
+## @param strategy [object] Workload update strategy; empty chooses Recreate for Deployment and RollingUpdate for StatefulSet
+strategy: {}
+## @param resources [object] Container resource requests and limits
+resources: {}
+## @param volumes Additional pod volumes, e.g. secret files, certificates or host statistics mounts
+volumes: []
+## @param volumeMounts Additional LHCI container mounts
+volumeMounts: []
+## @param initContainers Init containers, e.g. to populate an asset volume
+initContainers: []
+## @param nodeSelector [object] Node labels for pod placement
+nodeSelector: {}
+## @param tolerations Pod tolerations
+tolerations: []
+## @param affinity [object] Pod affinity and anti-affinity
+affinity: {}
+## @param podAnnotations [object] Extra pod annotations
+podAnnotations: {}
+## @param podLabels [object] Extra pod labels
+podLabels: {}
+## @param priorityClassName Existing PriorityClass name
+priorityClassName: ""
+
+## @section Security context settings
+## @param podSecurityContext [object] Pod security context; fsGroup makes the mounted data directory writable
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+## @param securityContext [object] Container security context
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+## @section Probe parameters
+## /healthz is available before basic auth. It checks the HTTP server, not ongoing database connectivity.
+## @param livenessProbe.enabled Enable HTTP liveness checking
+## @param livenessProbe.initialDelaySeconds Initial liveness delay
+## @param livenessProbe.timeoutSeconds Liveness timeout
+## @param livenessProbe.periodSeconds Liveness interval
+## @param livenessProbe.successThreshold Successful checks required
+## @param livenessProbe.failureThreshold Failed checks before restart
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 0
+  timeoutSeconds: 1
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+## @param readinessProbe.enabled Enable HTTP readiness checking
+## @param readinessProbe.initialDelaySeconds Initial readiness delay
+## @param readinessProbe.timeoutSeconds Readiness timeout
+## @param readinessProbe.periodSeconds Readiness interval
+## @param readinessProbe.successThreshold Successful checks required
+## @param readinessProbe.failureThreshold Failed checks before removing the pod from Service endpoints
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 0
+  timeoutSeconds: 1
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+## @param startupProbe.enabled Enable HTTP startup checking
+## @param startupProbe.initialDelaySeconds Initial startup delay
+## @param startupProbe.timeoutSeconds Startup timeout
+## @param startupProbe.periodSeconds Startup interval
+## @param startupProbe.successThreshold Successful checks required
+## @param startupProbe.failureThreshold Failed checks allowed during startup
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 0
+  timeoutSeconds: 1
+  periodSeconds: 5
+  successThreshold: 1
+  failureThreshold: 120
+
+## @section PodDisruptionBudget parameters
+## @param podDisruptionBudget.enabled Create a PodDisruptionBudget
+## @param podDisruptionBudget.minAvailable [object, nullable] Minimum available pods; set null when using maxUnavailable
+## @param podDisruptionBudget.maxUnavailable [object, nullable] Maximum unavailable pods; mutually exclusive with minAvailable
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+  maxUnavailable: null
+
+## @section Bitnami&reg; postgresql parameters
+## Optional convenience dependency. For production prefer an operator-managed database.
+## Image availability is subject to Bitnami catalog changes. No BSI integration is included.
+## See the README and https://github.com/bitnami/charts/issues/35164.
+postgresql:
+  ## @param postgresql.enabled Deploy the optional postgresql subchart and select its LHCI SQL dialect
+  enabled: false
+  ## @param postgresql.fullnameOverride Override the database subchart resource name
+  fullnameOverride: ""
+  ## @param postgresql.architecture Database topology; this chart supports standalone
+  architecture: standalone
+  global:
+    ## @param postgresql.global.imageRegistry Global database image registry
+    imageRegistry: docker.io
+    security:
+      ## @param postgresql.global.security.allowInsecureImages Allow custom images where supported by the dependency
+      allowInsecureImages: false
+  image:
+    ## @param postgresql.image.registry Database image registry
+    registry: docker.io
+    ## @param postgresql.image.repository Database image repository; ensure compatibility with the selected chart
+    repository: bitnami/postgresql
+    ## @param postgresql.image.tag Database image tag; ensure the selected tag is available in your registry
+    tag: 16.4.0-debian-12-r14
+    ## @param postgresql.image.digest Optional database image digest
+    digest: ""
+  auth:
+    ## @param postgresql.auth.username Application database username
+    username: lhci
+    ## @param postgresql.auth.password Application database password; generated by the subchart if empty
+    password: ""
+    ## @param postgresql.auth.database Application database name
+    database: lhci
+    ## @param postgresql.auth.existingSecret Existing subchart credential Secret
+    existingSecret: ""
+    ## @param postgresql.auth.postgresPassword PostgreSQL administrative password; generated if empty
+    postgresPassword: ""
+    ## @param postgresql.auth.secretKeys.userPasswordKey Application password key in the credential Secret
+    ## @param postgresql.auth.secretKeys.adminPasswordKey Administrative password key in the credential Secret
+    secretKeys:
+      userPasswordKey: password
+      adminPasswordKey: postgres-password
+  primary:
+    service:
+      ports:
+        ## @param postgresql.primary.service.ports.postgresql Database service port
+        postgresql: 5432
+    persistence:
+      ## @param postgresql.primary.persistence.enabled Persist the database using a PVC
+      enabled: true
+      ## @param postgresql.primary.persistence.existingClaim Existing database PVC name
+      existingClaim: ""
+      ## @param postgresql.primary.persistence.storageClass Database PVC storage class
+      storageClass: ""
+      ## @param postgresql.primary.persistence.accessModes Database PVC access modes
+      accessModes:
+        - ReadWriteOnce
+      ## @param postgresql.primary.persistence.size Database PVC capacity
+      size: 5Gi
+
+## @section Bitnami&reg; mysql parameters
+## Optional convenience dependency. For production prefer an operator-managed database.
+## Image availability is subject to Bitnami catalog changes. No BSI integration is included.
+## See the README and https://github.com/bitnami/charts/issues/35164.
+mysql:
+  ## @param mysql.enabled Deploy the optional mysql subchart and select its LHCI SQL dialect
+  enabled: false
+  ## @param mysql.fullnameOverride Override the database subchart resource name
+  fullnameOverride: ""
+  ## @param mysql.architecture Database topology; this chart supports standalone
+  architecture: standalone
+  global:
+    ## @param mysql.global.imageRegistry Global database image registry
+    imageRegistry: docker.io
+    security:
+      ## @param mysql.global.security.allowInsecureImages Allow custom images where supported by the dependency
+      allowInsecureImages: false
+  image:
+    ## @param mysql.image.registry Database image registry
+    registry: docker.io
+    ## @param mysql.image.repository Database image repository; ensure compatibility with the selected chart
+    repository: bitnami/mysql
+    ## @param mysql.image.tag Database image tag; ensure the selected tag is available in your registry
+    tag: 8.4.3-debian-12-r0
+    ## @param mysql.image.digest Optional database image digest
+    digest: ""
+  auth:
+    ## @param mysql.auth.username Application database username
+    username: lhci
+    ## @param mysql.auth.password Application database password; generated by the subchart if empty
+    password: ""
+    ## @param mysql.auth.database Application database name
+    database: lhci
+    ## @param mysql.auth.existingSecret Existing subchart credential Secret
+    existingSecret: ""
+    ## @param mysql.auth.rootPassword MySQL root password; generated if empty
+    rootPassword: ""
+  primary:
+    service:
+      ports:
+        ## @param mysql.primary.service.ports.mysql Database service port
+        mysql: 3306
+    persistence:
+      ## @param mysql.primary.persistence.enabled Persist the database using a PVC
+      enabled: true
+      ## @param mysql.primary.persistence.existingClaim Existing database PVC name
+      existingClaim: ""
+      ## @param mysql.primary.persistence.storageClass Database PVC storage class
+      storageClass: ""
+      ## @param mysql.primary.persistence.accessModes Database PVC access modes
+      accessModes:
+        - ReadWriteOnce
+      ## @param mysql.primary.persistence.size Database PVC capacity
+      size: 5Gi

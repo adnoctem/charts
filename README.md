@@ -61,6 +61,7 @@ helm install oci://ghcr.io/adnoctem/charts/<CHART_NAME>:<VERSION>
 | [Popeye <img src="https://github.com/derailed/popeye/blob/d09ec25f3834d2c6a171486b9726b0a91793e3f0/assets/popeye_logo.png?raw=true" alt="Popeye Logo" width="32px" height="32px" align="right" loading="lazy">][popeye_chart]                                                           |     0.3.0     |       0.22.1        | [derailed/popeye][popeye_images]                       |
 | [Keycloak Operator <img src="https://github.com/keycloak/keycloak-misc/blob/dee033f2d6d6b5c3a6ce8eb84e285f7e5626dbf6/logo/icon.png?raw=true" alt="Keycloak Logo" width="32px" height="32px" align="right" loading="lazy">][keycloak_operator_chart]                                     |     0.3.0     |       26.7.3        | [keycloak/keycloak-operator][keycloak_operator_images] |
 | [Outline <img src="https://www.getoutline.com/images/logo.svg" alt="Outline Logo" width="32px" height="32px" align="right" loading="lazy">][outline_chart]                                                                                                                              |     0.1.2     |       1.10.1        | [outlinewiki/outline][outline_images]                  |
+| [Lighthouse CI <img src="https://raw.githubusercontent.com/GoogleChrome/lighthouse/main/assets/lighthouse-logo_512px.png" alt="Lighthouse CI Logo" width="32px" height="32px" align="right" loading="lazy">][lhci_chart]                                                                |     0.1.0     |        1.0.1        | [adnoctem/lhci][lhci_images]                           |
 
 [//]: # '"Stolen" from https://github.com/gabe565/charts/blob/main/README.md because I really liked the look'
 
@@ -96,6 +97,7 @@ contact details to reach out directly.
 [popeye_chart]: charts/popeye
 [keycloak_operator_chart]: ./charts/keycloak-operator
 [outline_chart]: charts/outline
+[lhci_chart]: charts/lhci
 
 <!-- File references -->
 
@@ -123,3 +125,4 @@ contact details to reach out directly.
 [popeye_images]: https://hub.docker.com/r/derailed/popeye
 [keycloak_operator_images]: https://quay.io/repository/keycloak/keycloak-operator
 [outline_images]: https://hub.docker.com/r/outlinewiki/outline
+[lhci_images]: https://github.com/adnoctem/lhci/pkgs/container/lhci
