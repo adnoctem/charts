@@ -36,6 +36,10 @@ Pin chart versions for reproducible deployments and review release notes and cha
 before updating. Image overrides and dependency versions require their own review. A pinned version still needs
 deliberate updates to receive fixes. See [Contributing][contributing] for chart versioning and release policy.
 
+Charts at `0.x.y` are in pre-1.0 development and may introduce breaking changes in minor chart releases. Stable
+`1.0.0` is declared independently for each chart after maintainer validation; application versions do not determine
+chart stability. Review upgrade guidance even when the chart's major version remains zero.
+
 ## Trust and Privilege Boundaries
 
 Review chart sources, container image sources and rendered resources before installing into a cluster. Helm

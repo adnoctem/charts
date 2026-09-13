@@ -74,7 +74,10 @@ Notes:
 - Never hand-edit `values.schema.json` or the generated parameter tables. Change the `values.yaml` comments and
   re-run `make gen`. Re-run after every `values.yaml` change; use `make all` for changes spanning many charts.
 - Every chart change (including README-only) requires a `Chart.yaml` `version` bump — chart releases are immutable.
-  New charts start at `0.1.0`; breaking changes bump MAJOR and add an `Upgrading` section to the chart README.
+  New charts start at `0.1.0`. During `0.x.y` development, breaking changes bump MINOR and reset PATCH; from `1.0.0`
+  onward they bump MAJOR. Always document breaking changes and migration steps in the chart README's `Upgrading`
+  section and a `BREAKING CHANGE:` commit footer. Stable `1.0.0` requires an explicit maintainer decision after
+  testing and operational validation; never promote a chart to stable solely because a change is breaking.
 - Charts with subchart dependencies (e.g. `lhci`) commit neither lockfile nor vendored packages: run
   `helm dependency update charts/<name>` after cloning and before rendering or linting.
 

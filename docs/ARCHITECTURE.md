@@ -85,10 +85,16 @@ Charts release independently. Conventional commit messages describe changes, whi
 version determines its package version; this repository does not use libsh's semantic-release versioning flow.
 Released versions are immutable. Review the chart's upgrade notes and pin the chart version when deploying.
 
+Charts at `0.x.y` remain in pre-1.0 development: breaking changes use a minor chart version bump and require
+migration notes. Each chart advances to stable `1.0.0` only after an explicit maintainer decision based on testing
+and operational validation. Application versions do not determine chart stability. The
+[versioning policy][versioning] covers both pre-1.0 and stable releases.
+
 <!-- File references -->
 
 [charts]: ../charts
 [contributing]: CONTRIBUTING.md
+[versioning]: CONTRIBUTING.md#versioning
 [security]: SECURITY.md
 [generator]: ../config/bitnami-readme-gen.json
 [overview]: ../README.md#-overview

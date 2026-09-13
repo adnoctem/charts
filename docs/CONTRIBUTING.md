@@ -418,15 +418,29 @@ documentation.
 
 The chart `version` should follow [SemVer](https://semver.org/).
 
-New charts should start at `0.1.0`. They will be upgraded to a _stable_ `1.0.0` after they have been used in production
-clusters for more than a month without issues. This is obviously hard to do, but as [I](https://github.com/mvprowess)
-operate a cluster myself I will be taking care of this.
+Each chart is versioned independently. New charts start at `0.1.0`; all chart versions of `0.x.y` remain in
+pre-1.0 development. This policy applies to the chart's `version`, not its `appVersion` or container image tag.
+The application may be stable while its chart is still undergoing testing.
 
-Any breaking (backwards incompatible) changes to a chart should:
+During pre-1.0 development:
 
-1. Bump the MAJOR version
-2. In the README, under a section called "Upgrading", describe the manual steps necessary to upgrade to the new (
-   specified) MAJOR version
+- Breaking changes bump the MINOR chart version, resetting PATCH to zero, for example `0.4.2` → `0.5.0`.
+  Values, rendered resources, defaults and application behavior may change incompatibly in these releases.
+- Backward-compatible features also bump MINOR. Backward-compatible fixes, documentation changes and application
+  updates without breaking deployment changes bump PATCH.
+- Every breaking release documents the affected behavior and migration steps in the chart README's `Upgrading`
+  section. Commit messages still require a `BREAKING CHANGE:` footer with migration guidance.
+
+Earlier pre-1.0 releases also shipped breaking changes without a major bump. Their published versions remain
+immutable; retain their upgrade notes and review them when crossing those releases.
+
+Stable `1.0.0` is an explicit maintainer decision for each chart after sufficient testing and operational validation.
+A breaking change alone does not promote a chart to stable, and there is no automatic time-based graduation.
+From `1.0.0` onward, breaking changes bump MAJOR, backward-compatible features bump MINOR, and backward-compatible
+fixes and documentation changes bump PATCH. Breaking releases continue to require upgrade notes and commit footers.
+
+Pin chart versions for reproducible deployments and review chart release notes, upgrade instructions and relevant
+upstream application changes before updating, including during `0.x.y` development.
 
 <!-- Project documentation -->
 
