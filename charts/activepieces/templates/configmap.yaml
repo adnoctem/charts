@@ -100,9 +100,7 @@ data:
   {{- if .Values.activepieces.triggerPollInterval }}
   AP_TRIGGER_DEFAULT_POLL_INTERVAL: {{ .Values.activepieces.triggerPollInterval | quote }}
   {{- end }}
-  {{- if .Values.activepieces.telemetry }}
   AP_TELEMETRY_ENABLED: {{ .Values.activepieces.telemetry | quote }}
-  {{- end }}
   {{- if .Values.activepieces.webhookTimeoutSeconds }}
   AP_WEBHOOK_TIMEOUT_SECONDS: {{ .Values.activepieces.webhookTimeoutSeconds | quote }}
   {{- end }}

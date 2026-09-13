@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "0.90.2"
+          "default": "0.90.4"
         },
         "digest": {
           "type": "string",
@@ -333,7 +333,7 @@
         },
         "telemetry": {
           "type": "boolean",
-          "description": "Enable the collection of telemetry information",
+          "description": "Initial product analytics setting for platforms without a stored configuration; subsequent changes and deployment-setup telemetry are managed in the admin UI",
           "default": false
         },
         "templateSourceURL": {
