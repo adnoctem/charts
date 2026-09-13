@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: vaultwarden/server
-  tag: "1.37.2-alpine"
+  tag: "1.37.3-alpine"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
