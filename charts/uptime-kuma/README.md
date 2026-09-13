@@ -84,7 +84,7 @@ Back up your PVC first.
 | ------------------- | ------------------------------------------------------------------- | ---------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`            |
 | `image.repository`  | The registry repository to pull the image from                      | `louislam/uptime-kuma` |
-| `image.tag`         | The image tag to pull                                               | `2.5.3`                |
+| `image.tag`         | The image tag to pull                                               | `2.5.4`                |
 | `image.digest`      | The image digest to pull                                            | `""`                   |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`         |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                   |
