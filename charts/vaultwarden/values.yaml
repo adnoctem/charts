@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: vaultwarden/server
-  tag: "1.37.2-alpine"
+  tag: "1.37.3-alpine"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -335,6 +335,9 @@ vaultwarden:
     ## @param vaultwarden.sso.signupsMatchEmail [default: true] On SSO signup, associate with an existing user if the email matches
     ##
     signupsMatchEmail: true
+    ## @param vaultwarden.sso.signupsAllowed [default: true] Allow SSO to create accounts; signup.domainWhitelist overrides this setting when configured
+    ##
+    signupsAllowed: true
     ## @param vaultwarden.sso.allowUnknownEmailVerification [default: false] Allow unknown email verification status - combined with signupsMatchEmail this can allow account takeover, only enable if you understand the risk
     ##
     allowUnknownEmailVerification: false

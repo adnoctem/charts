@@ -1,4 +1,6 @@
 vaultwarden:
+  sso:
+    signupsAllowed: false
   domain: "vaultwarden.charts.internal"
   adminToken:
     value: "PretendThisIsAnAdminToken"

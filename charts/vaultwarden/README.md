@@ -68,7 +68,7 @@ configurable via the Image Parameters.
 | ------------------- | ------------------------------------------------------------------- | -------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`          |
 | `image.repository`  | The registry repository to pull the image from                      | `vaultwarden/server` |
-| `image.tag`         | The image tag to pull                                               | `1.37.2-alpine`      |
+| `image.tag`         | The image tag to pull                                               | `1.37.3-alpine`      |
 | `image.digest`      | The image digest to pull                                            | `""`                 |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`       |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                 |
@@ -145,6 +145,7 @@ configurable via the Image Parameters.
 | `vaultwarden.sso.enabled`                                | Whether users can log in using an OpenID Connect identity provider                                                                                | `false`                    |
 | `vaultwarden.sso.only`                                   | Prevent users from logging in directly without going through SSO                                                                                  | `false`                    |
 | `vaultwarden.sso.signupsMatchEmail`                      | On SSO signup, associate with an existing user if the email matches                                                                               | `true`                     |
+| `vaultwarden.sso.signupsAllowed`                         | Allow SSO to create accounts; signup.domainWhitelist overrides this setting when configured                                                       | `true`                     |
 | `vaultwarden.sso.allowUnknownEmailVerification`          | Allow unknown email verification status - combined with signupsMatchEmail this can allow account takeover, only enable if you understand the risk | `false`                    |
 | `vaultwarden.sso.authority`                              | Base URL of the OIDC server (auto-discovery is used) - must not include `/.well-known/openid-configuration` or a trailing slash                   | `""`                       |
 | `vaultwarden.sso.scopes`                                 | Additional authorization request scopes (`openid` is always implicit) - defaults to "email profile" if unset                                      | `""`                       |

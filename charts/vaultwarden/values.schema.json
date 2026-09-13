@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "1.37.2-alpine"
+          "default": "1.37.3-alpine"
         },
         "digest": {
           "type": "string",
@@ -392,6 +392,11 @@
             "signupsMatchEmail": {
               "type": "boolean",
               "description": "On SSO signup, associate with an existing user if the email matches",
+              "default": "true"
+            },
+            "signupsAllowed": {
+              "type": "boolean",
+              "description": "Allow SSO to create accounts; signup.domainWhitelist overrides this setting when configured",
               "default": "true"
             },
             "allowUnknownEmailVerification": {
