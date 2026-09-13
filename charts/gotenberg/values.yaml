@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: gotenberg/gotenberg
-  tag: 8.36.0
+  tag: 8.37.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -58,6 +58,12 @@ gotenberg:
     ## @param gotenberg.api.port [default: 3000] The port the API should listen on
     ##
     port: 3000
+    ## @param gotenberg.api.downloadFromMaxConcurrency [default: 10] Maximum concurrent downloadFrom fetches per request
+    ##
+    downloadFromMaxConcurrency: 10
+    ## @param gotenberg.api.downloadFromMaxEntries [default: 0] Maximum downloadFrom entries per request; zero disables the limit
+    ##
+    downloadFromMaxEntries: 0
     ## @param gotenberg.api.tlsCertFile [string] Disable health check logging
     ##
     tlsCertFile: ""
@@ -238,6 +244,9 @@ gotenberg:
   ## PDF Engines configuration
   ##
   pdf:
+    ## @param gotenberg.pdf.maxConcurrency [default: 1] Maximum concurrent per-file PDF operations across all requests
+    ##
+    maxConcurrency: 1
     ## @param gotenberg.pdf.convertEngines [default: libreoffice-pdfengine] Set the PDF conversion engines and their order
     ## Replaces the single `engines` key removed in Gotenberg 8.13 (`--pdfengines-engines` -> `--pdfengines-convert-engines`)
     ##

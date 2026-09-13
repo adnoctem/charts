@@ -45,6 +45,8 @@ spec:
           {{- /*
             API settings
           */}}
+            - --api-download-from-max-concurrency={{ .Values.gotenberg.api.downloadFromMaxConcurrency }}
+            - --api-download-from-max-entries={{ .Values.gotenberg.api.downloadFromMaxEntries }}
             - --api-port={{ .Values.gotenberg.api.port }}
           {{- if ne .Values.gotenberg.api.startTimeout "30s" }}
             - --api-start-timeout={{ .Values.gotenberg.api.startTimeout }}
@@ -196,6 +198,7 @@ spec:
           {{- /*
             PDF settings
           */}}
+            - --pdfengines-max-concurrency={{ .Values.gotenberg.pdf.maxConcurrency }}
           {{- if .Values.gotenberg.pdf.convertEngines }}
             - --pdfengines-convert-engines={{ .Values.gotenberg.pdf.convertEngines }}
           {{- end }}

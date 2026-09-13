@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "8.36.0"
+          "default": "8.37.0"
         },
         "digest": {
           "type": "string",
@@ -58,6 +58,16 @@
               "type": "number",
               "description": "The port the API should listen on",
               "default": "3000"
+            },
+            "downloadFromMaxConcurrency": {
+              "type": "number",
+              "description": "Maximum concurrent downloadFrom fetches per request",
+              "default": "10"
+            },
+            "downloadFromMaxEntries": {
+              "type": "number",
+              "description": "Maximum downloadFrom entries per request; zero disables the limit",
+              "default": "0"
             },
             "tlsCertFile": {
               "type": "string",
@@ -334,6 +344,11 @@
         "pdf": {
           "type": "object",
           "properties": {
+            "maxConcurrency": {
+              "type": "number",
+              "description": "Maximum concurrent per-file PDF operations across all requests",
+              "default": "1"
+            },
             "convertEngines": {
               "type": "string",
               "description": "Set the PDF conversion engines and their order",

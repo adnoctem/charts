@@ -78,7 +78,7 @@ This is a breaking chart release. Review the following before upgrading:
 | ------------------- | ------------------------------------------------------------------- | --------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`           |
 | `image.repository`  | The registry repository to pull the image from                      | `gotenberg/gotenberg` |
-| `image.tag`         | The image tag to pull                                               | `8.36.0`              |
+| `image.tag`         | The image tag to pull                                               | `8.37.0`              |
 | `image.digest`      | The image digest to pull                                            | `""`                  |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`        |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                  |
@@ -95,6 +95,8 @@ This is a breaking chart release. Review the following before upgrading:
 | Name                                           | Description                                                                        | Value                   |
 | ---------------------------------------------- | ---------------------------------------------------------------------------------- | ----------------------- |
 | `gotenberg.api.port`                           | The port the API should listen on                                                  | `3000`                  |
+| `gotenberg.api.downloadFromMaxConcurrency`     | Maximum concurrent downloadFrom fetches per request                                | `10`                    |
+| `gotenberg.api.downloadFromMaxEntries`         | Maximum downloadFrom entries per request; zero disables the limit                  | `0`                     |
 | `gotenberg.api.tlsCertFile`                    | Disable health check logging                                                       | `""`                    |
 | `gotenberg.api.tlsKeyFile`                     | Disable health check logging                                                       | `""`                    |
 | `gotenberg.api.startTimeout`                   | Set the time limit for the API to start                                            | `30s`                   |
@@ -146,6 +148,7 @@ This is a breaking chart release. Review the following before upgrading:
 | `gotenberg.libreOffice.denyPrivateIps`         | Reject LibreOffice outbound fetches resolving to a non-public IP                   | `false`                 |
 | `gotenberg.libreOffice.denyPublicIps`          | Reject LibreOffice outbound fetches resolving to a public IP                       | `false`                 |
 | `gotenberg.libreOffice.enableEnvironmentProxy` | Route outbound LibreOffice traffic through HTTP_PROXY/HTTPS_PROXY/NO_PROXY         | `false`                 |
+| `gotenberg.pdf.maxConcurrency`                 | Maximum concurrent per-file PDF operations across all requests                     | `1`                     |
 | `gotenberg.pdf.convertEngines`                 | Set the PDF conversion engines and their order                                     | `libreoffice-pdfengine` |
 | `gotenberg.pdf.readMetadataEngines`            | Set the PDF metadata-reading engines and their order                               | `exiftool`              |
 | `gotenberg.pdf.writeMetadataEngines`           | Set the PDF metadata-writing engines and their order                               | `exiftool`              |
