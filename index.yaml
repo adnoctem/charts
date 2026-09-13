@@ -5,6 +5,67 @@ entries:
       artifacthub.io/category: integration-delivery
       artifacthub.io/changes: |
         - kind: changed
+          description: bump appVersion from 0.90.2 to 0.90.4; telemetry is now managed per platform after initialization, see README Upgrading notes
+        - kind: fixed
+          description: render AP_TELEMETRY_ENABLED when telemetry is false so the product analytics initialization honors the chart default
+      artifacthub.io/images: |
+        - name: activepieces
+          image: docker.io/activepieces/activepieces:0.90.4
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Activepieces Homepage
+          url: https://www.activepieces.com/
+        - name: Activepieces Documentation
+          url: https://www.activepieces.com/docs/getting-started/introduction
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 0.90.4
+    created: "2026-09-13T21:45:56.049399086Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    description: Activepieces is an open source all-in-one automation tool with 100+
+      integrations
+    digest: 18e5d89a9b31d4b7a144d8b7f14021327a4d792d864a5a8ef03b96fae96645d7
+    home: https://www.activepieces.com/
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
+    keywords:
+    - automation
+    - workflow
+    - activepieces
+    - zapier
+    - n8n
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: activepieces
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.5.0/activepieces-0.5.0.tgz
+    version: 0.5.0
+  - annotations:
+      artifacthub.io/category: integration-delivery
+      artifacthub.io/changes: |
+        - kind: changed
           description: repository owner changed from fmjstudios to adnoctem
         - kind: fixed
           description: verify rotation of expired GPG key
@@ -8299,4 +8360,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-13T21:03:32.064449443Z"
+generated: "2026-09-13T21:45:56.049639423Z"
