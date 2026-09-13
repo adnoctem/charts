@@ -1,22 +1,47 @@
 # .gitignore - Helm Charts
 
+###> general/ai ###
+
+# personal harness settings
+.claude/
+.codex/
+.agents/
+.openaxis/
+.omc/
+.omx/
+
+# assistants and IDEs
+.cursor/
+.windsurf/
+.cline/
+.roo/
+.aide/
+.cody/
+.continue/
+
+# local integrations
+.ollama/
+.openwebui/
+.crewai/
+.autogen/
+###>
+
 ###> general/editors ###
 
 # IntelliJ IDEA
-.idea/*
+.idea/
 
 # VS Code
-.vscode/*
+.vscode/
 ###>
 
 ###> general/secret ###
 
 # secrets
-secrets/*
+secrets/
 
 # Vault data
-data/*
-!data/.gitkeep
+data/
 ###>
 
 ###> source/helm-charts ###

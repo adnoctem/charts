@@ -3,6 +3,9 @@
 Contributions are welcome via GitHub's Pull Requests. This document outlines the process to help get your contribution
 accepted.
 
+Start with the [Architecture][architecture] for the repository layout and chart release flow. Participation follows
+the [Code of Conduct][conduct]; report suspected vulnerabilities privately using the [Security Policy][security].
+
 ## ⚒️ Building
 
 The project uses the `Make` build tool with targets defined in the projects top-level [`Makefile`](../Makefile). The
@@ -11,6 +14,11 @@ defined. It will not execute any commands, but solely print the information so n
 
 Before running _any_ other target you should run the `tools-check` target which will look for all executables required
 to operate the project locally. If any of the required executables are not found the `make` will let you know.
+
+The hostname setup used by `make env` and `make prune` also requires an installed [libsh][libsh]. Export `LIBSH_DIR`
+using the path printed by its installer; it must point to the directory containing `lib.sh`. `make tools-check`
+does not check this dependency. The hostname script confirms edits and uses sudo when the host file is not writable.
+Installing published charts does not require libsh.
 
 After you have all the necessary tools installed you will want to generate a TLS certificate authority to issue local
 TLS certificates for your applications' Ingress manifests. To this you can run:
@@ -419,3 +427,10 @@ Any breaking (backwards incompatible) changes to a chart should:
 1. Bump the MAJOR version
 2. In the README, under a section called "Upgrading", describe the manual steps necessary to upgrade to the new (
    specified) MAJOR version
+
+<!-- Project documentation -->
+
+[architecture]: ARCHITECTURE.md
+[conduct]: CODE_OF_CONDUCT.md
+[security]: SECURITY.md
+[libsh]: https://github.com/adnoctem/libsh
