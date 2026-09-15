@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "0.90.4"
+          "default": "0.91.0"
         },
         "digest": {
           "type": "string",
@@ -313,8 +313,13 @@
         },
         "dataRetentionDays": {
           "type": "string",
-          "description": "The number of days to retain execution data, logs and events",
+          "description": "Days to retain execution data, logs and events; empty uses upstream's 30 days. Set at least one day greater than pausedFlowTimeoutDays to avoid cleanup racing a resume",
           "default": ""
+        },
+        "pausedFlowTimeoutDays": {
+          "type": "number",
+          "description": "Maximum cumulative pause deadline in days from flow creation, rendered as AP_PAUSED_FLOW_TIMEOUT_DAYS; keep below dataRetentionDays",
+          "default": 30
         },
         "workerConcurrency": {
           "type": "number",

@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: activepieces/activepieces
-  tag: 0.90.4
+  tag: 0.91.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -234,9 +234,12 @@ activepieces:
     ##
     propagatedEnvVars: ""
 
-  ## @param activepieces.dataRetentionDays The number of days to retain execution data, logs and events
+  ## @param activepieces.dataRetentionDays Days to retain execution data, logs and events; empty uses upstream's 30 days. Set at least one day greater than pausedFlowTimeoutDays to avoid cleanup racing a resume
   ##
   dataRetentionDays: ""
+  ## @param activepieces.pausedFlowTimeoutDays Maximum cumulative pause deadline in days from flow creation, rendered as AP_PAUSED_FLOW_TIMEOUT_DAYS; keep below dataRetentionDays
+  ##
+  pausedFlowTimeoutDays: 30
   ## @param activepieces.workerConcurrency The number of flows to be processed at the same time - rendered as
   ## `AP_WORKER_CONCURRENCY` as of Activepieces 0.69.0, replacing the removed `AP_FLOW_WORKER_CONCURRENCY`
   ##

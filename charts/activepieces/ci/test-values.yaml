@@ -58,10 +58,11 @@ activepieces:
 
   sandbox:
     executionMode: UNSANDBOXED
-    runTimeSeconds: false
+    flowTimeoutSeconds: false
     propagatedEnvVars: ""
 
-  dataRetentionDays: ""
+  dataRetentionDays: "31"
+  pausedFlowTimeoutDays: 30
   workerConcurrency: 10
   triggerPollInterval: 5
   enableCloudAuth: false

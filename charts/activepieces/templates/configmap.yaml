@@ -94,6 +94,7 @@ data:
   {{- if .Values.activepieces.dataRetentionDays }}
   AP_EXECUTION_DATA_RETENTION_DAYS: {{ .Values.activepieces.dataRetentionDays | quote }}
   {{- end }}
+  AP_PAUSED_FLOW_TIMEOUT_DAYS: {{ .Values.activepieces.pausedFlowTimeoutDays | quote }}
   {{- if .Values.activepieces.enableCloudAuth }}
   AP_CLOUD_AUTH_ENABLED: {{ .Values.activepieces.enableCloudAuth | quote }}
   {{- end }}
