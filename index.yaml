@@ -5,6 +5,67 @@ entries:
       artifacthub.io/category: integration-delivery
       artifacthub.io/changes: |
         - kind: changed
+          description: upgrade Activepieces to 0.91.0; review cumulative pause deadlines and worker-group routing in the README Upgrading notes
+        - kind: added
+          description: expose pausedFlowTimeoutDays and document the retention margin needed for paused flows
+      artifacthub.io/images: |
+        - name: activepieces
+          image: docker.io/activepieces/activepieces:0.91.0
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Activepieces Homepage
+          url: https://www.activepieces.com/
+        - name: Activepieces Documentation
+          url: https://www.activepieces.com/docs/getting-started/introduction
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 0.91.0
+    created: "2026-09-15T20:28:42.512504181Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.5
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.5
+    description: Activepieces is an open source all-in-one automation tool with 100+
+      integrations
+    digest: 403eaf7c2988e4b0a42d74c8014ddd186b07f7ac23c21795af72e0693a984ce7
+    home: https://www.activepieces.com/
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
+    keywords:
+    - automation
+    - workflow
+    - activepieces
+    - zapier
+    - n8n
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: activepieces
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.6.0/activepieces-0.6.0.tgz
+    version: 0.6.0
+  - annotations:
+      artifacthub.io/category: integration-delivery
+      artifacthub.io/changes: |
+        - kind: changed
           description: bump appVersion from 0.90.2 to 0.90.4; telemetry is now managed per platform after initialization, see README Upgrading notes
         - kind: fixed
           description: render AP_TELEMETRY_ENABLED when telemetry is false so the product analytics initialization honors the chart default
@@ -8360,4 +8421,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-13T21:45:56.049639423Z"
+generated: "2026-09-15T20:28:42.512719842Z"
