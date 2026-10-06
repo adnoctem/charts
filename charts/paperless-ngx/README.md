@@ -51,12 +51,68 @@ Ingress needs to be explicitly enabled. Lastly the chart configures
 a [PodDisruptionBudget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) if
 enabled. [RBAC manifests](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) are enabled by default.
 
-The chart supports the configuration of
-all [Paperless-NGX environment variables](https://docs.paperless-ngx.com/configuration/) via the `paperless` key in
-Helm's _values_ and makes use of the official Docker Hub container image, although this is configurable via the Image
-Parameters.
+The chart exposes [Paperless-NGX configuration](https://docs.paperless-ngx.com/configuration/) through the `paperless`
+values and uses the official GitHub Container Registry image. Settings without dedicated values can be supplied
+through `extraEnvVars`. In particular, the existing AI enablement, provider, model and endpoint settings remain on
+that interface; this release adds dedicated values for the new embedding credential and extra request parameters.
 
 ## Upgrading
+
+### To 0.5.0 (Paperless-ngx 3.1.3 -> 3.3.0)
+
+Back up the database, media and data volumes before upgrading. Paperless applies database migrations and updates
+its search index during startup; allow them to finish. Review the [3.2.0][release_320] and [3.3.0][release_330]
+release notes and the [tagged configuration reference][configuration_330].
+
+**NLTK is removed.** `paperless.enableNLTK` and `paperless.data.paths.nltkDir` remain accepted for compatibility,
+but no longer render environment variables. Remove these values and any NLTK-specific mounts or environment
+overrides from your configuration. Classification now uses Tantivy preprocessing based on the first OCR language;
+stemming and stop-word removal always apply for supported languages, even if you previously disabled NLTK.
+
+**Retrain the classifier and review automatic matching.** The model format changed, so the previous classifier
+must be rebuilt. The next scheduled training run does this; if training is disabled or you need automatic
+matching immediately, run `python3 manage.py document_create_classifier` in the Paperless container. The new
+`paperless.classifierMatchThreshold` defaults to `0.3` and discards low-confidence correspondent, document-type
+and storage-path predictions. Set it to `0` to disable that cutoff; this does not restore the old preprocessing
+or training algorithm. `paperless.matchRegexTimeoutSeconds` defaults to `0.1`; increase it if matching rules
+or date parsing time out on long documents.
+
+**Redis prefixes now include Celery task results.** With a non-empty `paperless.redis.prefix`, new workers read
+and write results under that prefix; results stored previously without it are not found at the new keys. Let
+running tasks finish before upgrading and avoid running mixed application versions against the same queue.
+The default empty prefix is unaffected.
+
+The Django admin login now uses the application authentication flow, including configured two-factor
+authentication. Check scripts or bookmarks that depend on the old standalone admin login form.
+
+New optional values:
+
+- `paperless.consume.barcodes.storeValues` stores detected barcode contents for display and search. It defaults
+  to `false` and does not require enabling barcode page separation. Reprocess existing documents to populate
+  their barcode contents; only pages within the configured barcode scan limit are read.
+- `paperless.ai.embeddingApiKey` configures a separate embedding key through either `.value` or
+  `.existingSecret.name` and `.existingSecret.key`. An existing Secret takes precedence. Leaving both unset
+  preserves upstream's fallback to the main LLM API key. Other AI settings are still configured through the
+  application UI or `extraEnvVars`; setting an embedding key alone does not enable AI.
+- `paperless.ai.extraParams` accepts an object, rendered as JSON, for provider-specific LLM request options.
+  These options override Paperless' request parameters; the provider must support them.
+
+For example, use an existing embedding credential and a provider-specific request option:
+
+```yaml
+paperless:
+  ai:
+    embeddingApiKey:
+      existingSecret:
+        name: paperless-embedding
+        key: api-key
+    extraParams:
+      temperature: 0.2
+```
+
+Move any existing overrides for these new dedicated settings out of `extraEnvVars` to avoid duplicate definitions.
+Stored application UI settings can override their corresponding environment values; use **Reset to external**
+in the configuration UI when you want Helm-supplied values to apply.
 
 ### To 0.4.0 (Paperless-ngx 2.10.1 -> 3.1.3)
 
@@ -124,7 +180,7 @@ relevant to this chart specifically.
 | ------------------- | ------------------------------------------------------------------- | ----------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`                     |
 | `image.repository`  | The registry repository to pull the image from                      | `paperless-ngx/paperless-ngx` |
-| `image.tag`         | The image tag to pull                                               | `3.1.3`                       |
+| `image.tag`         | The image tag to pull                                               | `3.3.0`                       |
 | `image.digest`      | The image digest to pull                                            | `""`                          |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`                |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                          |
@@ -156,12 +212,18 @@ relevant to this chart specifically.
 | `paperless.threadsPerWorker`                       | The amount of threads to assign each task worker process within the container                                                                                                                                 | `""`             |
 | `paperless.workerTimeout`                          | The amount of threads to assign each task worker process within the container                                                                                                                                 | `""`             |
 | `paperless.timeZone`                               | Set the time zone here                                                                                                                                                                                        | `UTC`            |
-| `paperless.enableNLTK`                             | Enables or disables the advanced natural language processing used during                                                                                                                                      | `""`             |
+| `paperless.enableNLTK`                             | Deprecated and no longer rendered; Paperless-ngx 3.2 removed NLTK and always preprocesses supported classifier languages                                                                                      | `""`             |
+| `paperless.classifierMatchThreshold`               | Minimum classifier confidence from 0.0 to 1.0 for correspondents, document types and storage paths; 0 disables the threshold                                                                                  | `0.3`            |
+| `paperless.matchRegexTimeoutSeconds`               | Timeout in seconds for date parsing and user-defined regular expression matching                                                                                                                              | `0.1`            |
 | `paperless.enableAuditLog`                         | Enables the audit trail for documents, document types, correspondents, and tags                                                                                                                               | `true`           |
 | `paperless.enableCompression`                      | Enables compression of the responses from the webserver. Defaults to 1, enabling compression.                                                                                                                 | `"1"`            |
 | `paperless.apps`                                   | A comma-separated list of Django apps to be included in Django's INSTALLED_APPS                                                                                                                               | `""`             |
 | `paperless.maxImagePixels`                         | Configures the maximum size of an image PIL will allow to load without warning or error                                                                                                                       | `""`             |
 | `paperless.emptyTrashDelay`                        | Sets how long in days documents remain in the 'trash' before they are permanently deleted                                                                                                                     | `30`             |
+| `paperless.ai.extraParams`                         | Extra LLM request parameters; override provider defaults and are passed upstream without validation                                                                                                           | `{}`             |
+| `paperless.ai.embeddingApiKey.value`               | Separate embedding backend API key; unset falls back to the main LLM API key                                                                                                                                  | `""`             |
+| `paperless.ai.embeddingApiKey.existingSecret.name` | Existing Secret containing the embedding API key; takes precedence over value                                                                                                                                 | `""`             |
+| `paperless.ai.embeddingApiKey.existingSecret.key`  | Key within the existing Secret containing the embedding API key                                                                                                                                               | `apiKey`         |
 | `paperless.auth.autoLoginUsername`                 | Specify a username so that paperless will automatically perform login with the selected user                                                                                                                  | `""`             |
 | `paperless.auth.adminUser`                         | If this environment variable is specified, Paperless automatically creates a superuser with the provided username at start                                                                                    | `""`             |
 | `paperless.auth.adminPassword`                     | Only used when PAPERLESS_ADMIN_USER is set. This will be the password of the automatically created superuser                                                                                                  | `""`             |
@@ -232,7 +294,7 @@ relevant to this chart specifically.
 | `paperless.data.paths.filenameFormat`              | Define a custom filename format                                                                                                                                                                               | `""`             |
 | `paperless.data.paths.filenameFormatRemoveNone`    | Omit placeholders that would resolve to 'none' in filenameFormat                                                                                                                                              | `false`          |
 | `paperless.data.paths.loggingDir`                  | Define a custom logging directory                                                                                                                                                                             | `""`             |
-| `paperless.data.paths.nltkDir`                     | Define a custom NLTK processing directory                                                                                                                                                                     | `""`             |
+| `paperless.data.paths.nltkDir`                     | Deprecated and no longer rendered; Paperless-ngx 3.2 removed NLTK data files                                                                                                                                  | `""`             |
 | `paperless.data.paths.emailCertificateLocation`    | Define a path to a certificate (chain) for TLS verification for mail servers                                                                                                                                  | `""`             |
 | `paperless.data.paths.modelFile`                   | This is where paperless will store the classification model. Default is PAPERLESS_DATA_DIR/classification_model.pickle                                                                                        | `""`             |
 | `paperless.data.paths.supervisordWorkingDir`       | If this environment variable is defined, the supervisord.log and supervisord.pid file will be created under the specified path                                                                                | `""`             |
@@ -275,6 +337,7 @@ relevant to this chart specifically.
 | `paperless.consume.polling.delay`                  | If consumer polling is enabled, sets the delay in seconds between each check (above) paperless will do while waiting for a file to remain unmodified                                                          | `5`              |
 | `paperless.consume.iNotify.delay`                  | Sets the time in seconds the consumer will wait for additional events from inotify before the consumer will consider a file ready and begin consumption                                                       | `0.5`            |
 | `paperless.consume.barcodes.enabled`               | Enables the scanning and page separation based on detected barcodes                                                                                                                                           | `false`          |
+| `paperless.consume.barcodes.storeValues`           | Store detected barcode contents during consumption; independent of barcode page separation                                                                                                                    | `false`          |
 | `paperless.consume.barcodes.tiffSupport`           | Whether TIFF image files should be scanned for barcodes                                                                                                                                                       | `false`          |
 | `paperless.consume.barcodes.string`                | Defines the string to be detected as a separator barcode                                                                                                                                                      | `PATCHT`         |
 | `paperless.consume.barcodes.enableASNBarcode`      | Enables the detection of barcodes in the scanned document and setting the ASN (archive serial number) if a properly formatted barcode is detected                                                             | `false`          |
@@ -470,3 +533,9 @@ relevant to this chart specifically.
 | `gotenberg.gotenberg.chromium.disableJavaScript` | Disable JavaScript                                                               | `false` |
 | `gotenberg.gotenberg.chromium.allowList`         | Set the allowed URLs for Chromium using a regular expression - defaults to 'All' | `""`    |
 | `gotenberg.gotenberg.logging.level`              | Choose the level of logging detail                                               | `info`  |
+
+<!-- Upgrade references -->
+
+[release_320]: https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.2.0
+[release_330]: https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.3.0
+[configuration_330]: https://github.com/paperless-ngx/paperless-ngx/blob/v3.3.0/docs/configuration.md

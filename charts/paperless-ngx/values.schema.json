@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "3.1.3"
+          "default": "3.3.0"
         },
         "digest": {
           "type": "string",
@@ -143,8 +143,18 @@
         },
         "enableNLTK": {
           "type": "string",
-          "description": "Enables or disables the advanced natural language processing used during",
+          "description": "Deprecated and no longer rendered; Paperless-ngx 3.2 removed NLTK and always preprocesses supported classifier languages",
           "default": "\"\""
+        },
+        "classifierMatchThreshold": {
+          "type": "number",
+          "description": "Minimum classifier confidence from 0.0 to 1.0 for correspondents, document types and storage paths; 0 disables the threshold",
+          "default": 0.3
+        },
+        "matchRegexTimeoutSeconds": {
+          "type": "number",
+          "description": "Timeout in seconds for date parsing and user-defined regular expression matching",
+          "default": 0.1
         },
         "enableAuditLog": {
           "type": "boolean",
@@ -170,6 +180,41 @@
           "type": "string",
           "description": "Sets how long in days documents remain in the 'trash' before they are permanently deleted",
           "default": "30"
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "extraParams": {
+              "type": "object",
+              "description": "Extra LLM request parameters; override provider defaults and are passed upstream without validation",
+              "default": {}
+            },
+            "embeddingApiKey": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "Separate embedding backend API key; unset falls back to the main LLM API key",
+                  "default": "\"\""
+                },
+                "existingSecret": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Existing Secret containing the embedding API key; takes precedence over value",
+                      "default": "\"\""
+                    },
+                    "key": {
+                      "type": "string",
+                      "description": "Key within the existing Secret containing the embedding API key",
+                      "default": "apiKey"
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         "auth": {
           "type": "object",
@@ -579,7 +624,7 @@
                 },
                 "nltkDir": {
                   "type": "string",
-                  "description": "Define a custom NLTK processing directory",
+                  "description": "Deprecated and no longer rendered; Paperless-ngx 3.2 removed NLTK data files",
                   "default": "\"\""
                 },
                 "emailCertificateLocation": {
@@ -831,6 +876,11 @@
                   "type": "boolean",
                   "description": "Enables the scanning and page separation based on detected barcodes",
                   "default": "false"
+                },
+                "storeValues": {
+                  "type": "boolean",
+                  "description": "Store detected barcode contents during consumption; independent of barcode page separation",
+                  "default": false
                 },
                 "tiffSupport": {
                   "type": "boolean",

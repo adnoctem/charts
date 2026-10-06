@@ -25,6 +25,10 @@ Set the names of the secrets
 {{- printf "%s-allauth" (include "paperless.fullname" .) }}
 {{- end }}
 
+{{- define "paperless.secrets.embedding" -}}
+{{- printf "%s-embedding" (include "paperless.fullname" .) }}
+{{- end }}
+
 {{- /*
 Build connection URI's
 */}}

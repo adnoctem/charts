@@ -3,6 +3,19 @@ paperless:
   secretKey:
     value: "PretendThisIsASecretKey"
 
+  classifierMatchThreshold: 0.5
+  matchRegexTimeoutSeconds: 0.25
+
+  consume:
+    barcodes:
+      storeValues: true
+
+  ai:
+    extraParams:
+      temperature: 0.2
+    embeddingApiKey:
+      value: "ci-placeholder-embedding-key"
+
   auth:
     autoLoginUsername: ""
     adminUser: "admin"

@@ -19,7 +19,7 @@
 image:
   registry: ghcr.io
   repository: paperless-ngx/paperless-ngx
-  tag: "3.1.3"
+  tag: "3.3.0"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -110,10 +110,15 @@ paperless:
   ## ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_TIME_ZONE
   ##
   timeZone: UTC
-  ## @param paperless.enableNLTK [string] Enables or disables the advanced natural language processing used during
-  ## automatic classification. If disabled, paperless will still perform some basic text pre-processing before matching.
+  ## @param paperless.enableNLTK [string] Deprecated and no longer rendered; Paperless-ngx 3.2 removed NLTK and always preprocesses supported classifier languages
   ##
   enableNLTK: ""
+  ## @param paperless.classifierMatchThreshold Minimum classifier confidence from 0.0 to 1.0 for correspondents, document types and storage paths; 0 disables the threshold
+  ##
+  classifierMatchThreshold: 0.3
+  ## @param paperless.matchRegexTimeoutSeconds Timeout in seconds for date parsing and user-defined regular expression matching
+  ##
+  matchRegexTimeoutSeconds: 0.1
   ## @param paperless.enableAuditLog [default: true] Enables the audit trail for documents, document types, correspondents, and tags
   ##
   enableAuditLog: true
@@ -132,6 +137,24 @@ paperless:
   ## ref: https://docs.paperless-ngx.com/configuration/#EMPTY_TRASH_DELAY
   ##
   emptyTrashDelay: ""
+
+  ## AI configuration
+  ##
+  ai:
+    ## @param paperless.ai.extraParams Extra LLM request parameters; override provider defaults and are passed upstream without validation
+    ##
+    extraParams: {}
+    embeddingApiKey:
+      ## @param paperless.ai.embeddingApiKey.value [string] Separate embedding backend API key; unset falls back to the main LLM API key
+      ##
+      value: ""
+      existingSecret:
+        ## @param paperless.ai.embeddingApiKey.existingSecret.name [string] Existing Secret containing the embedding API key; takes precedence over value
+        ##
+        name: ""
+        ## @param paperless.ai.embeddingApiKey.existingSecret.key [string, default: apiKey] Key within the existing Secret containing the embedding API key
+        ##
+        key: apiKey
 
   ## Authentication configuration
   ##
@@ -403,7 +426,7 @@ paperless:
       ## @param paperless.data.paths.loggingDir [string] Define a custom logging directory
       ##
       loggingDir: ""
-      ## @param paperless.data.paths.nltkDir [string] Define a custom NLTK processing directory
+      ## @param paperless.data.paths.nltkDir [string] Deprecated and no longer rendered; Paperless-ngx 3.2 removed NLTK data files
       ##
       nltkDir: ""
       ## @param paperless.data.paths.emailCertificateLocation [string] Define a path to a certificate (chain) for TLS verification for mail servers
@@ -577,6 +600,9 @@ paperless:
       ## @param paperless.consume.barcodes.enabled [default: false] Enables the scanning and page separation based on detected barcodes
       ##
       enabled: false
+      ## @param paperless.consume.barcodes.storeValues Store detected barcode contents during consumption; independent of barcode page separation
+      ##
+      storeValues: false
       ## @param paperless.consume.barcodes.tiffSupport [default: false] Whether TIFF image files should be scanned for barcodes
       ##
       tiffSupport: false

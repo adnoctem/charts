@@ -47,8 +47,10 @@ data:
   {{- if ne .Values.paperless.timeZone "UTC" }}
   PAPERLESS_TIME_ZONE: {{ .Values.paperless.timeZone | quote }}
   {{- end }}
-  {{- if .Values.paperless.enableNLTK }}
-  PAPERLESS_ENABLE_NLTK: {{ .Values.paperless.enableNLTK | quote }}
+  PAPERLESS_CLASSIFIER_MATCH_THRESHOLD: {{ .Values.paperless.classifierMatchThreshold | quote }}
+  PAPERLESS_MATCH_REGEX_TIMEOUT_SECONDS: {{ .Values.paperless.matchRegexTimeoutSeconds | quote }}
+  {{- if .Values.paperless.ai.extraParams }}
+  PAPERLESS_AI_LLM_EXTRA_PARAMS: {{ .Values.paperless.ai.extraParams | toJson | quote }}
   {{- end }}
   {{- if not .Values.paperless.enableAuditLog }}
   PAPERLESS_AUDIT_LOG_ENABLED: {{ .Values.paperless.enableAuditLog | quote }}
@@ -246,9 +248,6 @@ data:
   {{- if .Values.paperless.data.paths.loggingDir }}
   PAPERLESS_LOGGING_DIR: {{ .Values.paperless.data.paths.loggingDir | quote }}
   {{- end }}
-  {{- if .Values.paperless.data.paths.nltkDir }}
-  PAPERLESS_NLTK_DIR: {{ .Values.paperless.data.paths.nltkDir | quote }}
-  {{- end }}
   {{- if .Values.paperless.data.paths.emailCertificateLocation }}
   PAPERLESS_EMAIL_CERTIFICATE_LOCATION: {{ .Values.paperless.data.paths.emailCertificateLocation | quote }}
   {{- end }}
@@ -373,6 +372,9 @@ data:
   {{- /* Barcodes */}}
   {{- if .Values.paperless.consume.barcodes.enabled }}
   PAPERLESS_CONSUMER_ENABLE_BARCODES: {{ .Values.paperless.consume.barcodes.enabled | quote }}
+  {{- end }}
+  {{- if .Values.paperless.consume.barcodes.storeValues }}
+  PAPERLESS_CONSUMER_STORE_BARCODE_VALUES: {{ .Values.paperless.consume.barcodes.storeValues | quote }}
   {{- end }}
   {{- if .Values.paperless.consume.barcodes.tiffSupport }}
   PAPERLESS_CONSUMER_BARCODE_TIFF_SUPPORT: {{ .Values.paperless.consume.barcodes.tiffSupport | quote }}

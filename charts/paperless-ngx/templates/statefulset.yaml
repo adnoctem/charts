@@ -98,6 +98,13 @@ spec:
                   name: {{ default (include "paperless.secrets.allauth" .) .Values.paperless.auth.social.existingSecret }}
                   key: accountProviders
             {{- end }}
+            {{- if or .Values.paperless.ai.embeddingApiKey.value .Values.paperless.ai.embeddingApiKey.existingSecret.name }}
+            - name: PAPERLESS_AI_LLM_EMBEDDING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.paperless.ai.embeddingApiKey.existingSecret.name | default (include "paperless.secrets.embedding" .) }}
+                  key: {{ if .Values.paperless.ai.embeddingApiKey.existingSecret.name }}{{ .Values.paperless.ai.embeddingApiKey.existingSecret.key | quote }}{{ else }}apiKey{{ end }}
+            {{- end }}
             {{- if .Values.extraEnvVars }}
             {{- toYaml .Values.extraEnvVars | nindent 12 }}
             {{- end }}
