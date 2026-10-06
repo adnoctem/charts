@@ -25,6 +25,7 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "kcOperator.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automount }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
         - name: {{ include "kcOperator.fullname" . }}
           image: {{ include "kcOperator.image" . }}
@@ -34,6 +35,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: kc.operator.keycloak.image
+              value: {{ include "kcOperator.image.related" . }}
             - name: RELATED_IMAGE_KEYCLOAK
               value: {{ include "kcOperator.image.related" . }}
             - name: QUARKUS_OPERATOR_SDK_CONTROLLERS_KEYCLOAKREALMIMPORTCONTROLLER_NAMESPACES

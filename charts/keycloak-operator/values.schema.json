@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "26.7.3"
+          "default": "26.8.0"
         },
         "digest": {
           "type": "string",
@@ -47,6 +47,11 @@
       "type": "string",
       "description": "String to fully override kcOperator.fullname",
       "default": ""
+    },
+    "terminationGracePeriodSeconds": {
+      "type": "number",
+      "description": "Time in seconds for the operator to terminate gracefully, matching upstream's default",
+      "default": 10
     },
     "service": {
       "type": "object",

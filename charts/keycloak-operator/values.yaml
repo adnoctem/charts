@@ -19,7 +19,7 @@
 image:
   registry: quay.io
   repository: keycloak/keycloak-operator
-  tag: "26.7.3"
+  tag: "26.8.0"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -45,6 +45,13 @@ nameOverride: ""
 ## @param fullnameOverride String to fully override kcOperator.fullname
 ##
 fullnameOverride: ""
+
+## @section Operator Pod parameters
+##
+
+## @param terminationGracePeriodSeconds Time in seconds for the operator to terminate gracefully, matching upstream's default
+##
+terminationGracePeriodSeconds: 10
 
 ## @section Service parameters
 ##

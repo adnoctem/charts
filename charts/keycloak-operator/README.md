@@ -6,11 +6,10 @@ features such as user management, two-factor authentication, permissions and rol
 etc. The [Keycloak Operator](https://github.com/keycloak/keycloak/tree/main/operator) will allow you to deploy dedicated
 instances of Keycloak at will using the newly registered
 `Keycloak` [CustomResourceDefinition](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/).
-Unfortunately the [Keycloak Project](https://www.keycloak.org/) does not provide a way to [install
-the Operator via a Helm Chart](https://www.keycloak.org/operator/installation#_installing_by_using_kubectl_without_operator_lifecycle_manager),
-thus making it challenging to manage. This Helm Chart is built from the
-official [upstream sources](https://github.com/keycloak/keycloak-k8s-resources/blob/26.7.3/kubernetes/kubernetes.yml)
-and closely tracks these for changes. It delivers all of these features within a single Docker image available
+This Helm chart packages the
+official [upstream manifests](https://github.com/keycloak/keycloak-k8s-resources/blob/26.8.0/kubernetes/kubernetes.yml)
+and closely tracks these for changes. Keycloak also provides an experimental upstream Helm chart as of 26.8.0;
+this chart remains independently maintained. The Operator is available as a single Docker image
 on [quay.io](https://quay.io/repository/keycloak/keycloak-operator).
 
 > Head to the [Keycloak GitHub Repository](https://github.com/keycloak/keycloak) for
@@ -44,9 +43,10 @@ RoleBinding. These are enabled by default.
 
 > [!IMPORTANT]
 > Helm does not upgrade or delete CRDs on `helm upgrade` (see the
-> [Helm documentation](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)) - after upgrading this
-> chart, you must apply the CRDs under `crds/` to your cluster yourself (`kubectl apply -f crds/`, or via
-> `kubectl apply -f` against the raw files in this chart's GitHub repository) for the new operator version to work
+> [Helm documentation](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)) - before upgrading this
+> chart, apply its versioned CRDs to your cluster yourself, after reviewing the migration steps below.
+> Use server-side apply (`kubectl apply --server-side -f charts/keycloak-operator/crds/` from this repository)
+> to avoid the client-side annotation size limit on these large schemas. This is required for the new operator to work
 > correctly. This matters most between major CRD schema changes, and whenever new CRDs are added (see the Upgrading
 > notes below).
 
@@ -86,6 +86,64 @@ EOF
 
 ## Upgrading
 
+### To 0.4.0 (Keycloak Operator 26.7.3 -> 26.8.0)
+
+This release updates the Operator and its default managed Keycloak image to 26.8.0. Back up the Keycloak database
+and your custom resources, and review the [versioned upstream migration guide][upgrading_2680] before upgrading.
+Existing `Keycloak` resources without an explicit `spec.image` follow the Operator's new default server image;
+plan for the server's database migrations as well as the Operator update.
+
+Complete these steps before upgrading the Operator:
+
+1. **Update realm-import manifests that link identity providers to organizations.** In both
+   `spec.realm.identityProviders` and nested `spec.realm.organizations[].identityProviders`, replace the removed
+   `organizationId` field with an `organizationLinks` list. To preserve an existing managed association:
+
+   ```yaml
+   organizationLinks:
+     - organizationId: "your-organization-id"
+       autoMembership: true
+       membershipType: MANAGED
+   ```
+
+   The server migrates existing database links automatically, but your saved import manifests must use the new
+   schema; Kubernetes can prune the removed field. Domain routing now uses each organization's
+   `domains[].identityProviderAlias` and `domains[].autoRedirect`. Review domain routing and membership settings
+   after the server migration. New organization links default to unmanaged membership.
+
+2. **Label Secrets referenced by OIDC client resources.** Each Secret used by
+   `KeycloakOIDCClient.spec.client.auth.secretRef` needs `operator.keycloak.org/kind: KeycloakOIDCClient`.
+   Without it, the Operator reports the Secret as missing. Apply the label in the client's namespace:
+
+   ```shell
+   kubectl label secret <secret-name> -n <namespace> \
+     operator.keycloak.org/kind=KeycloakOIDCClient --overwrite
+   ```
+
+3. **Review admin TLS certificates for declarative client management.** The Operator now rejects a CA certificate
+   that does not cover the internal Service hostname in its admin TLS trust path. Configure an appropriate
+   server certificate for the Service address. Explicitly trusted leaf certificates with an external hostname
+   remain supported for TLS passthrough; that exception does not apply to CA certificates. See the
+   [tagged controller implementation][client_controller_2680].
+4. **Apply all four versioned CRDs before the Helm upgrade.** The Keycloak and realm-import schemas changed;
+   the OIDC and SAML client schemas are unchanged but remain required:
+
+   ```shell
+   helm show crds adnoctem/keycloak-operator --version 0.4.0 | \
+     kubectl apply --server-side -f -
+   ```
+
+The Operator now sets a stable cache node name from the Keycloak Pod name. If you use the `stateless` feature,
+enable it explicitly (the `preview` feature set no longer enables it) and set a unique `cache-embedded-cluster-name`
+through the Keycloak CR's `spec.additionalOptions`; the server refuses to start with the default `ISPN` name.
+Login-failure tracking now uses the database by default, which can increase database load. Review the upstream
+guide for authentication, authorization, organization and custom-provider changes affecting your deployment.
+
+The chart's new `terminationGracePeriodSeconds` defaults to upstream's 10 seconds, replacing Kubernetes' implicit
+30-second default. Set it to `30` to retain the previous shutdown window. Controller RBAC permissions and namespace
+watching are unchanged. Declarative client management is now a preview feature; enable `client-admin-api:v2` in
+the managed Keycloak CR when using client resources.
+
 ### To 0.3.0 (Keycloak Operator 26.0.6 -> 26.7.3)
 
 This is a large range covering multiple Keycloak minor releases, including a heavy security-patch release
@@ -93,7 +151,7 @@ This is a large range covering multiple Keycloak minor releases, including a hea
 [upstream upgrading guide](https://www.keycloak.org/docs/latest/upgrading/) for anything affecting your own
 `Keycloak`/`KeycloakRealmImport` resources - the items below cover what changed in this chart specifically.
 
-- **Apply the updated CRDs manually after upgrading** (see the note above) - `keycloaks.k8s.keycloak.org` and
+- **Apply the updated CRDs manually before upgrading** (see the note above) - `keycloaks.k8s.keycloak.org` and
   `keycloakrealmimports.k8s.keycloak.org` both gained substantial new schema (nearly 400 new fields combined,
   across the Identity Brokering V2 API, workflows, and other 26.x features), and two entirely new CRDs are now
   bundled: `keycloakoidcclients.k8s.keycloak.org` and `keycloaksamlclients.k8s.keycloak.org`, for declarative
@@ -120,7 +178,7 @@ This is a large range covering multiple Keycloak minor releases, including a hea
 | ------------------- | ------------------------------------------------------------------- | ---------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `quay.io`                    |
 | `image.repository`  | The registry repository to pull the image from                      | `keycloak/keycloak-operator` |
-| `image.tag`         | The image tag to pull                                               | `26.7.3`                     |
+| `image.tag`         | The image tag to pull                                               | `26.8.0`                     |
 | `image.digest`      | The image digest to pull                                            | `""`                         |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`               |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                         |
@@ -131,6 +189,12 @@ This is a large range covering multiple Keycloak minor releases, including a hea
 | ------------------ | ------------------------------------------------ | ----- |
 | `nameOverride`     | String to partially override kcOperator.fullname | `""`  |
 | `fullnameOverride` | String to fully override kcOperator.fullname     | `""`  |
+
+### Operator Pod parameters
+
+| Name                            | Description                                                                           | Value |
+| ------------------------------- | ------------------------------------------------------------------------------------- | ----- |
+| `terminationGracePeriodSeconds` | Time in seconds for the operator to terminate gracefully, matching upstream's default | `10`  |
 
 ### Service parameters
 
@@ -199,3 +263,8 @@ This is a large range covering multiple Keycloak minor releases, including a hea
 | `startupProbe.periodSeconds`       | Configure the seconds for each period of the startup probe | `10`   |
 | `startupProbe.successThreshold`    | Configure the success threshold for the startup probe      | `1`    |
 | `startupProbe.failureThreshold`    | Configure the failure threshold for the startup probe      | `3`    |
+
+<!-- Upgrade references -->
+
+[upgrading_2680]: https://github.com/keycloak/keycloak/blob/26.8.0/docs/documentation/upgrading/topics/changes/changes-26_8_0.adoc
+[client_controller_2680]: https://github.com/keycloak/keycloak/blob/26.8.0/operator/src/main/java/org/keycloak/operator/controllers/KeycloakClientBaseController.java
