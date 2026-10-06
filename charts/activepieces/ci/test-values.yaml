@@ -63,6 +63,11 @@ activepieces:
 
   dataRetentionDays: "31"
   pausedFlowTimeoutDays: 30
+  maxFileSizeMB: 50
+  aiCreditUsdValue: 0.001
+  maxBarrierSignals: 500
+  flowRunLogInputTruncateThresholdKB: 4
+  flowRunLogSliceThresholdKB: 64
   workerConcurrency: 10
   triggerPollInterval: 5
   enableCloudAuth: false

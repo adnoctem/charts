@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "0.91.0"
+          "default": "0.92.1"
         },
         "digest": {
           "type": "string",
@@ -320,6 +320,31 @@
           "type": "number",
           "description": "Maximum cumulative pause deadline in days from flow creation, rendered as AP_PAUSED_FLOW_TIMEOUT_DAYS; keep below dataRetentionDays",
           "default": 30
+        },
+        "maxFileSizeMB": {
+          "type": "number",
+          "description": "Maximum size in MB of each file uploaded by steps or triggers, including AI file inputs",
+          "default": 25
+        },
+        "aiCreditUsdValue": {
+          "type": "number",
+          "description": "Dollar value of one managed AI credit; must be positive. Calls using your own provider key do not use this conversion rate",
+          "default": 0.0005
+        },
+        "maxBarrierSignals": {
+          "type": "number",
+          "description": "Initial per-platform limit on signals a barrier can wait for, clamped upstream to 1-10000; later changes belong in Platform Admin > Account > Configurations",
+          "default": 10000
+        },
+        "flowRunLogInputTruncateThresholdKB": {
+          "type": "number",
+          "description": "Step input size in KB above which run-log inputs are truncated",
+          "default": 2
+        },
+        "flowRunLogSliceThresholdKB": {
+          "type": "number",
+          "description": "Step output size in KB above which run-log outputs are offloaded to file storage",
+          "default": 32
         },
         "workerConcurrency": {
           "type": "number",

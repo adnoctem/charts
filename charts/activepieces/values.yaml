@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: activepieces/activepieces
-  tag: 0.91.0
+  tag: 0.92.1
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -240,6 +240,21 @@ activepieces:
   ## @param activepieces.pausedFlowTimeoutDays Maximum cumulative pause deadline in days from flow creation, rendered as AP_PAUSED_FLOW_TIMEOUT_DAYS; keep below dataRetentionDays
   ##
   pausedFlowTimeoutDays: 30
+  ## @param activepieces.maxFileSizeMB Maximum size in MB of each file uploaded by steps or triggers, including AI file inputs
+  ##
+  maxFileSizeMB: 25
+  ## @param activepieces.aiCreditUsdValue Dollar value of one managed AI credit; must be positive. Calls using your own provider key do not use this conversion rate
+  ##
+  aiCreditUsdValue: 0.0005
+  ## @param activepieces.maxBarrierSignals Initial per-platform limit on signals a barrier can wait for, clamped upstream to 1-10000; later changes belong in Platform Admin > Account > Configurations
+  ##
+  maxBarrierSignals: 10000
+  ## @param activepieces.flowRunLogInputTruncateThresholdKB Step input size in KB above which run-log inputs are truncated
+  ##
+  flowRunLogInputTruncateThresholdKB: 2
+  ## @param activepieces.flowRunLogSliceThresholdKB Step output size in KB above which run-log outputs are offloaded to file storage
+  ##
+  flowRunLogSliceThresholdKB: 32
   ## @param activepieces.workerConcurrency The number of flows to be processed at the same time - rendered as
   ## `AP_WORKER_CONCURRENCY` as of Activepieces 0.69.0, replacing the removed `AP_FLOW_WORKER_CONCURRENCY`
   ##

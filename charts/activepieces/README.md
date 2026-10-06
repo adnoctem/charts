@@ -68,6 +68,53 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.7.0 (Activepieces 0.91.0 -> 0.92.1)
+
+This release upgrades to [Activepieces 0.92.1][release_0921], including the piece-loading fix missing from 0.92.0.
+Back up your database and persistent data before upgrading. The chart's workload and database settings remain
+compatible, but upstream changes AI execution and connection replacement behavior. See the
+[tagged breaking changes][breaking_0921]; these changes still appear under `Unreleased` in that release's guide.
+
+**AI steps now execute on workers.** Upstream automatically upgrades flow versions when they are read. If you use
+a private piece registry, publish the AI piece at version `0.11.0` or later before upgrading: older pieces call the
+removed `/v1/ai-providers/:provider/config` endpoint. Extract Structured Data and Generate Image file inputs now
+obey the per-file limit, exposed as `activepieces.maxFileSizeMB` (default `25`). Raise it for larger files.
+
+Managed AI credit charges now follow actual provider cost. `activepieces.aiCreditUsdValue` exposes the positive
+dollar value per credit (default `0.0005`). Where a billing provider is configured, AI steps using your own API key
+also stop when credits run out; replenish credits or increase the allowance. Community self-hosting does not
+enforce credits.
+
+**Releases and Project Replace now apply changed connection references.** If you deliberately use a different
+connection in the destination, the next apply can overwrite it. Set the intended connection in the source, or
+clear the source step's connection to preserve the destination connection when the piece is unchanged. Credentials
+do not transfer between instances; authorize any destination connections marked `MISSING`.
+
+Review affected integrations before resuming automation:
+
+- **Pinterest/Trello agents:** replace the six original Pinterest tools and Trello's file attachment tool with
+  their new agent actions, and refresh MCP clients' tool lists. Saved flow steps still work. Pinterest board
+  updates now preserve blank descriptions; clear descriptions directly in Pinterest when needed.
+- **Airtable:** Find Airtable Record now paginates up to 1,000 matches instead of returning only the first page.
+  Review downstream loops for increased work, and rename search fields containing braces before using them.
+- **Zagomail:** the vendor has shut down and its piece is deprecated; move affected automations to another service.
+
+The chart also exposes `activepieces.maxBarrierSignals` (default `10000`) and the run-log thresholds
+`activepieces.flowRunLogInputTruncateThresholdKB` (default `2`) and `activepieces.flowRunLogSliceThresholdKB`
+(default `32`). The barrier limit initializes new platform configuration only; existing platforms retain their
+stored setting. Manage it and telemetry under **Platform Admin → Account → Configurations**. Run-log threshold
+overrides that upstream previously ignored now take effect.
+
+If you supplied any of these five settings through `extraEnvVars`, move them into the dedicated values and remove
+the environment overrides. For example, replace `AP_MAX_FILE_SIZE_MB=50` with:
+
+```yaml
+activepieces:
+  maxFileSizeMB: 50
+```
+
+See the [tagged configuration reference][environment_0921] and [0.92.0 release notes][release_0920] for details.
+
 ### To 0.6.0 (Activepieces 0.90.4 -> 0.91.0)
 
 This release upgrades to [Activepieces 0.91.0][release_0910]. Back up your application database and persistent data
@@ -203,7 +250,7 @@ useful either:
 | ------------------- | ------------------------------------------------------------------- | --------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`                 |
 | `image.repository`  | The registry repository to pull the image from                      | `activepieces/activepieces` |
-| `image.tag`         | The image tag to pull                                               | `0.91.0`                    |
+| `image.tag`         | The image tag to pull                                               | `0.92.1`                    |
 | `image.digest`      | The image digest to pull                                            | `""`                        |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`              |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                        |
@@ -223,57 +270,62 @@ useful either:
 
 ### Activepieces Configuration parameters
 
-| Name                                         | Description                                                                                                                                                             | Value                       |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| `activepieces.domain`                        | The public facing domain name for the Activepieces service, reused in Ingress.                                                                                          | `localhost`                 |
-| `activepieces.configPath`                    | Specify the path to store SQLite3 and local settings, prefixed with activepieces.data.rootPath                                                                          | `""`                        |
-| `activepieces.database`                      | Specify the path to store SQLite3 and local settings. Values are `sqlite3` or `postgres`.                                                                               | `sqlite3`                   |
-| `activepieces.data.rootPath`                 | The root path for ntfy to store its' files                                                                                                                              | `/var/lib/ntfy`             |
-| `activepieces.data.pvc.size`                 | The size given to the new PVC                                                                                                                                           | `5Gi`                       |
-| `activepieces.data.pvc.storageClass`         | The storageClass given to the new PVC                                                                                                                                   | `standard`                  |
-| `activepieces.data.pvc.reclaimPolicy`        | The resourcePolicy given to the new PVC                                                                                                                                 | `Retain`                    |
-| `activepieces.data.pvc.existingClaim`        | Provide the name to an existing PVC                                                                                                                                     | `""`                        |
-| `activepieces.postgresql.database`           | The name of the PostgreSQL database                                                                                                                                     | `activepieces`              |
-| `activepieces.postgresql.host`               | The hostname or IP address of the PostgreSQL server                                                                                                                     | `activepieces-postgresql`   |
-| `activepieces.postgresql.port`               | The port number for the PostgreSQL server                                                                                                                               | `5432`                      |
-| `activepieces.postgresql.username`           | The username for the PostgreSQL user                                                                                                                                    | `activepieces`              |
-| `activepieces.postgresql.password`           | The password for the PostgreSQL server                                                                                                                                  | `activepieces`              |
-| `activepieces.postgresql.existingSecret`     | The name of an existing `basic-auth` Secret to use the credentials from                                                                                                 | `""`                        |
-| `activepieces.postgresql.useSSL`             | Use SSL to connect to the PostgreSQL database                                                                                                                           | `false`                     |
-| `activepieces.postgresql.sslCA`              | Use SSL Certificate to connect to the postgres database                                                                                                                 | `""`                        |
-| `activepieces.redis.database`                | The name of the Redis database                                                                                                                                          | `0`                         |
-| `activepieces.redis.host`                    | The hostname or IP address of the Redis server                                                                                                                          | `activepieces-redis-master` |
-| `activepieces.redis.port`                    | The port number for the Redis server                                                                                                                                    | `6379`                      |
-| `activepieces.redis.username`                | The username for the Redis user                                                                                                                                         | `""`                        |
-| `activepieces.redis.password`                | The password for the Redis server                                                                                                                                       | `activepieces`              |
-| `activepieces.redis.existingSecret`          | The name of an existing `basic-auth` Secret to use the credentials from                                                                                                 | `""`                        |
-| `activepieces.redis.useSSL`                  | Use SSL to connect to the Redis database                                                                                                                                | `false`                     |
-| `activepieces.queue.mode`                    | The queue mode to use. Valid values are `memory` and `redis` - rendered as the                                                                                          | `memory`                    |
-| `activepieces.queue.enableUI`                | Enable the queue UI (only works with redis)                                                                                                                             | `false`                     |
-| `activepieces.queue.username`                | The username for the queue UI                                                                                                                                           | `""`                        |
-| `activepieces.queue.password`                | The password for the queue UI                                                                                                                                           | `""`                        |
-| `activepieces.queue.existingSecret`          | The name of an existing `basic-auth` Secret to use the credentials from                                                                                                 | `""`                        |
-| `activepieces.pieces.source`                 | Deprecated and no longer rendered - pieces are self-contained bundles as of                                                                                             | `""`                        |
-| `activepieces.pieces.syncMode`               | Define the syncing method for Activepieces to download and use pieces.                                                                                                  | `OFFICIAL_AUTO`             |
-| `activepieces.copilot.instanceType`          | Deprecated and no longer rendered - see the note above                                                                                                                  | `""`                        |
-| `activepieces.copilot.openAI.apiKey`         | Rendered as `AP_OPENAI_API_KEY`, which now funds Tool Search's embeddings rather than Copilot - see the note above                                                      | `""`                        |
-| `activepieces.copilot.openAI.endpoint`       | Deprecated and no longer rendered - see the note above                                                                                                                  | `""`                        |
-| `activepieces.copilot.openAI.apiVersion`     | Deprecated and no longer rendered - see the note above                                                                                                                  | `""`                        |
-| `activepieces.copilot.openAI.existingSecret` | The name of an existing Secret containing an `apiKey` key, for `AP_OPENAI_API_KEY` - see the note above                                                                 | `""`                        |
-| `activepieces.encryption.connection`         | The encryption key used for connections                                                                                                                                 | `""`                        |
-| `activepieces.encryption.jwt`                | Encryption key used for generating JWT tokens                                                                                                                           | `""`                        |
-| `activepieces.encryption.existingSecret`     | The name of an existing Secret containing a `connection` and `jwt` key, from which the encryption keys will be sourced                                                  | `""`                        |
-| `activepieces.sandbox.executionMode`         | Define the execution mode. Valid values are `UNSANDBOXED`, `SANDBOX_PROCESS`,                                                                                           | `UNSANDBOXED`               |
-| `activepieces.sandbox.flowTimeoutSeconds`    | Maximum allowed runtime for a flow, in seconds - rendered as                                                                                                            | `false`                     |
-| `activepieces.sandbox.propagatedEnvVars`     | Environment variables that will be propagated to the sandboxed code.                                                                                                    | `""`                        |
-| `activepieces.dataRetentionDays`             | Days to retain execution data, logs and events; empty uses upstream's 30 days. Set at least one day greater than pausedFlowTimeoutDays to avoid cleanup racing a resume | `""`                        |
-| `activepieces.pausedFlowTimeoutDays`         | Maximum cumulative pause deadline in days from flow creation, rendered as AP_PAUSED_FLOW_TIMEOUT_DAYS; keep below dataRetentionDays                                     | `30`                        |
-| `activepieces.workerConcurrency`             | The number of flows to be processed at the same time - rendered as                                                                                                      | `10`                        |
-| `activepieces.triggerPollInterval`           | The polling interval determines how frequently the system checks for new data updates for pieces with scheduled triggers                                                | `5`                         |
-| `activepieces.enableCloudAuth`               | Enable the utilization of oAuth2 applications                                                                                                                           | `true`                      |
-| `activepieces.telemetry`                     | Initial product analytics setting for platforms without a stored configuration; subsequent changes and deployment-setup telemetry are managed in the admin UI           | `false`                     |
-| `activepieces.templateSourceURL`             | Deprecated and no longer rendered - the templates API moved from                                                                                                        | `""`                        |
-| `activepieces.webhookTimeoutSeconds`         | The default timeout for webhooks                                                                                                                                        | `30`                        |
+| Name                                              | Description                                                                                                                                                             | Value                       |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| `activepieces.domain`                             | The public facing domain name for the Activepieces service, reused in Ingress.                                                                                          | `localhost`                 |
+| `activepieces.configPath`                         | Specify the path to store SQLite3 and local settings, prefixed with activepieces.data.rootPath                                                                          | `""`                        |
+| `activepieces.database`                           | Specify the path to store SQLite3 and local settings. Values are `sqlite3` or `postgres`.                                                                               | `sqlite3`                   |
+| `activepieces.data.rootPath`                      | The root path for ntfy to store its' files                                                                                                                              | `/var/lib/ntfy`             |
+| `activepieces.data.pvc.size`                      | The size given to the new PVC                                                                                                                                           | `5Gi`                       |
+| `activepieces.data.pvc.storageClass`              | The storageClass given to the new PVC                                                                                                                                   | `standard`                  |
+| `activepieces.data.pvc.reclaimPolicy`             | The resourcePolicy given to the new PVC                                                                                                                                 | `Retain`                    |
+| `activepieces.data.pvc.existingClaim`             | Provide the name to an existing PVC                                                                                                                                     | `""`                        |
+| `activepieces.postgresql.database`                | The name of the PostgreSQL database                                                                                                                                     | `activepieces`              |
+| `activepieces.postgresql.host`                    | The hostname or IP address of the PostgreSQL server                                                                                                                     | `activepieces-postgresql`   |
+| `activepieces.postgresql.port`                    | The port number for the PostgreSQL server                                                                                                                               | `5432`                      |
+| `activepieces.postgresql.username`                | The username for the PostgreSQL user                                                                                                                                    | `activepieces`              |
+| `activepieces.postgresql.password`                | The password for the PostgreSQL server                                                                                                                                  | `activepieces`              |
+| `activepieces.postgresql.existingSecret`          | The name of an existing `basic-auth` Secret to use the credentials from                                                                                                 | `""`                        |
+| `activepieces.postgresql.useSSL`                  | Use SSL to connect to the PostgreSQL database                                                                                                                           | `false`                     |
+| `activepieces.postgresql.sslCA`                   | Use SSL Certificate to connect to the postgres database                                                                                                                 | `""`                        |
+| `activepieces.redis.database`                     | The name of the Redis database                                                                                                                                          | `0`                         |
+| `activepieces.redis.host`                         | The hostname or IP address of the Redis server                                                                                                                          | `activepieces-redis-master` |
+| `activepieces.redis.port`                         | The port number for the Redis server                                                                                                                                    | `6379`                      |
+| `activepieces.redis.username`                     | The username for the Redis user                                                                                                                                         | `""`                        |
+| `activepieces.redis.password`                     | The password for the Redis server                                                                                                                                       | `activepieces`              |
+| `activepieces.redis.existingSecret`               | The name of an existing `basic-auth` Secret to use the credentials from                                                                                                 | `""`                        |
+| `activepieces.redis.useSSL`                       | Use SSL to connect to the Redis database                                                                                                                                | `false`                     |
+| `activepieces.queue.mode`                         | The queue mode to use. Valid values are `memory` and `redis` - rendered as the                                                                                          | `memory`                    |
+| `activepieces.queue.enableUI`                     | Enable the queue UI (only works with redis)                                                                                                                             | `false`                     |
+| `activepieces.queue.username`                     | The username for the queue UI                                                                                                                                           | `""`                        |
+| `activepieces.queue.password`                     | The password for the queue UI                                                                                                                                           | `""`                        |
+| `activepieces.queue.existingSecret`               | The name of an existing `basic-auth` Secret to use the credentials from                                                                                                 | `""`                        |
+| `activepieces.pieces.source`                      | Deprecated and no longer rendered - pieces are self-contained bundles as of                                                                                             | `""`                        |
+| `activepieces.pieces.syncMode`                    | Define the syncing method for Activepieces to download and use pieces.                                                                                                  | `OFFICIAL_AUTO`             |
+| `activepieces.copilot.instanceType`               | Deprecated and no longer rendered - see the note above                                                                                                                  | `""`                        |
+| `activepieces.copilot.openAI.apiKey`              | Rendered as `AP_OPENAI_API_KEY`, which now funds Tool Search's embeddings rather than Copilot - see the note above                                                      | `""`                        |
+| `activepieces.copilot.openAI.endpoint`            | Deprecated and no longer rendered - see the note above                                                                                                                  | `""`                        |
+| `activepieces.copilot.openAI.apiVersion`          | Deprecated and no longer rendered - see the note above                                                                                                                  | `""`                        |
+| `activepieces.copilot.openAI.existingSecret`      | The name of an existing Secret containing an `apiKey` key, for `AP_OPENAI_API_KEY` - see the note above                                                                 | `""`                        |
+| `activepieces.encryption.connection`              | The encryption key used for connections                                                                                                                                 | `""`                        |
+| `activepieces.encryption.jwt`                     | Encryption key used for generating JWT tokens                                                                                                                           | `""`                        |
+| `activepieces.encryption.existingSecret`          | The name of an existing Secret containing a `connection` and `jwt` key, from which the encryption keys will be sourced                                                  | `""`                        |
+| `activepieces.sandbox.executionMode`              | Define the execution mode. Valid values are `UNSANDBOXED`, `SANDBOX_PROCESS`,                                                                                           | `UNSANDBOXED`               |
+| `activepieces.sandbox.flowTimeoutSeconds`         | Maximum allowed runtime for a flow, in seconds - rendered as                                                                                                            | `false`                     |
+| `activepieces.sandbox.propagatedEnvVars`          | Environment variables that will be propagated to the sandboxed code.                                                                                                    | `""`                        |
+| `activepieces.dataRetentionDays`                  | Days to retain execution data, logs and events; empty uses upstream's 30 days. Set at least one day greater than pausedFlowTimeoutDays to avoid cleanup racing a resume | `""`                        |
+| `activepieces.pausedFlowTimeoutDays`              | Maximum cumulative pause deadline in days from flow creation, rendered as AP_PAUSED_FLOW_TIMEOUT_DAYS; keep below dataRetentionDays                                     | `30`                        |
+| `activepieces.maxFileSizeMB`                      | Maximum size in MB of each file uploaded by steps or triggers, including AI file inputs                                                                                 | `25`                        |
+| `activepieces.aiCreditUsdValue`                   | Dollar value of one managed AI credit; must be positive. Calls using your own provider key do not use this conversion rate                                              | `0.0005`                    |
+| `activepieces.maxBarrierSignals`                  | Initial per-platform limit on signals a barrier can wait for, clamped upstream to 1-10000; later changes belong in Platform Admin > Account > Configurations            | `10000`                     |
+| `activepieces.flowRunLogInputTruncateThresholdKB` | Step input size in KB above which run-log inputs are truncated                                                                                                          | `2`                         |
+| `activepieces.flowRunLogSliceThresholdKB`         | Step output size in KB above which run-log outputs are offloaded to file storage                                                                                        | `32`                        |
+| `activepieces.workerConcurrency`                  | The number of flows to be processed at the same time - rendered as                                                                                                      | `10`                        |
+| `activepieces.triggerPollInterval`                | The polling interval determines how frequently the system checks for new data updates for pieces with scheduled triggers                                                | `5`                         |
+| `activepieces.enableCloudAuth`                    | Enable the utilization of oAuth2 applications                                                                                                                           | `true`                      |
+| `activepieces.telemetry`                          | Initial product analytics setting for platforms without a stored configuration; subsequent changes and deployment-setup telemetry are managed in the admin UI           | `false`                     |
+| `activepieces.templateSourceURL`                  | Deprecated and no longer rendered - the templates API moved from                                                                                                        | `""`                        |
+| `activepieces.webhookTimeoutSeconds`              | The default timeout for webhooks                                                                                                                                        | `30`                        |
 
 ### ConfigMap parameters
 
@@ -447,6 +499,10 @@ useful either:
 
 [release_0904]: https://github.com/activepieces/activepieces/releases/tag/0.90.4
 [release_0910]: https://github.com/activepieces/activepieces/releases/tag/0.91.0
+[release_0920]: https://github.com/activepieces/activepieces/releases/tag/0.92.0
+[release_0921]: https://github.com/activepieces/activepieces/releases/tag/0.92.1
+[environment_0921]: https://github.com/activepieces/activepieces/blob/0.92.1/docs/install/reference/environment-variables.mdx
+[breaking_0921]: https://github.com/activepieces/activepieces/blob/0.92.1/docs/install/reference/breaking-changes.mdx
 [environment_0910]: https://github.com/activepieces/activepieces/blob/0.91.0/docs/install/reference/environment-variables.mdx
 [breaking_0910]: https://github.com/activepieces/activepieces/blob/0.91.0/docs/install/reference/breaking-changes.mdx
 [telemetry_0904]: https://github.com/activepieces/activepieces/blob/0.90.4/packages/server/api/src/app/platform/platform-configuration.service.ts

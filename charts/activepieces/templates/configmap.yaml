@@ -95,6 +95,11 @@ data:
   AP_EXECUTION_DATA_RETENTION_DAYS: {{ .Values.activepieces.dataRetentionDays | quote }}
   {{- end }}
   AP_PAUSED_FLOW_TIMEOUT_DAYS: {{ .Values.activepieces.pausedFlowTimeoutDays | quote }}
+  AP_MAX_FILE_SIZE_MB: {{ .Values.activepieces.maxFileSizeMB | quote }}
+  AP_AI_CREDIT_USD_VALUE: {{ .Values.activepieces.aiCreditUsdValue | quote }}
+  AP_MAX_BARRIER_SIGNALS: {{ .Values.activepieces.maxBarrierSignals | quote }}
+  AP_FLOW_RUN_LOG_INPUT_TRUNCATE_THRESHOLD_KB: {{ .Values.activepieces.flowRunLogInputTruncateThresholdKB | quote }}
+  AP_FLOW_RUN_LOG_SLICE_THRESHOLD_KB: {{ .Values.activepieces.flowRunLogSliceThresholdKB | quote }}
   {{- if .Values.activepieces.enableCloudAuth }}
   AP_CLOUD_AUTH_ENABLED: {{ .Values.activepieces.enableCloudAuth | quote }}
   {{- end }}
