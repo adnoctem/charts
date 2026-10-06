@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 1.37.3
+appVersion: 1.37.4
 kubeVersion: ">=1.26.0-0"
 name: vaultwarden
-version: 0.5.0
+version: 0.6.0
 description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible server written in Rust
 home: https://github.com/dani-garcia/vaultwarden
 icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
@@ -31,7 +31,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: vaultwarden
-      image: docker.io/vaultwarden/server:1.37.3-alpine
+      image: docker.io/vaultwarden/server:1.37.4-alpine
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -46,6 +46,8 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: bump appVersion from 1.37.2 to 1.37.3
+      description: upgrade Vaultwarden to 1.37.4 and document proxy and client compatibility changes
     - kind: added
-      description: expose SSO account creation control through vaultwarden.sso.signupsAllowed
+      description: expose trusted proxies and the opt-in Alpine MariaDB compatibility setting
+    - kind: changed
+      description: refresh the supported experimental client feature flags

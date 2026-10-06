@@ -45,6 +45,7 @@ data:
   EVENTS_DAYS_RETAIN: {{ .Values.vaultwarden.retainEventsDays | quote }}
   {{- end }}
   IP_HEADER: {{ .Values.vaultwarden.ipHeader | quote }}
+  IP_HEADER_TRUSTED_PROXIES: {{ .Values.vaultwarden.ipHeaderTrustedProxies | quote }}
   DISABLE_2FA_REMEMBER: {{ .Values.vaultwarden.disable2FARemember | quote }}
   {{- if .Values.vaultwarden.orgCreationUsers }}
   ORG_CREATION_USERS: {{ .Values.vaultwarden.orgCreationUsers | quote }}
@@ -59,6 +60,9 @@ data:
   DATABASE_MAX_CONNS: {{ .Values.vaultwarden.database.maxConnections | quote }}
   DATABASE_TIMEOUT: {{ .Values.vaultwarden.database.timeout | quote }}
   DB_CONNECTION_RETRIES: {{ .Values.vaultwarden.database.connectionRetries | quote }}
+  {{- end }}
+  {{- if and (eq .Values.vaultwarden.database.type "mysql") .Values.vaultwarden.database.mysqlDisablePeerVerification }}
+  MARIADB_TLS_DISABLE_PEER_VERIFICATION: "1"
   {{- end }}
   {{- if (eq .Values.vaultwarden.database.type "sqlite") }}
   DATABASE_CONN_INIT: {{ include "vaultwarden.db.conn_init" . | quote }}

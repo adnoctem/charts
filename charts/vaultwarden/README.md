@@ -39,12 +39,58 @@ Ingress needs to be explicitly enabled. Lastly the chart configures
 a [PodDisruptionBudget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) if
 enabled. [RBAC manifests](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) are enabled by default.
 
-The chart supports the configuration of
-all [Vaultwarden environment variables](https://github.com/dani-garcia/vaultwarden/blob/main/.env.template) via
+The chart exposes [Vaultwarden configuration](https://github.com/dani-garcia/vaultwarden/blob/1.37.4/.env.template) via
 the `vaultwarden` key in Helm's _values_ and makes use of the official Docker Hub container image, although this is
 configurable via the Image Parameters.
 
 ## Upgrading
+
+### To 0.6.0 (Vaultwarden 1.37.3 -> 1.37.4)
+
+This release includes upstream security fixes and database migrations. Back up the database and persistent
+data before upgrading and review the [1.37.4 release notes][release_1374].
+
+**Review proxy trust before upgrading.** The chart retains `vaultwarden.ipHeader: X-Forwarded-For`, but Vaultwarden
+now selects the rightmost address outside the trusted proxy set instead of the leftmost address. The new
+`vaultwarden.ipHeaderTrustedProxies` value renders `IP_HEADER_TRUSTED_PROXIES` and defaults to upstream's `local`
+(non-global addresses). With multiple proxies, include the addresses or CIDRs of every proxy in the chain,
+including any public CDN proxies. Otherwise logs and rate limits can use an intermediate proxy's address.
+
+For example, replace these documentation addresses with your own proxy addresses and ranges:
+
+```yaml
+vaultwarden:
+  ipHeader: X-Forwarded-For
+  ipHeaderTrustedProxies: "10.42.0.0/16,203.0.113.10,2001:db8:1234::/48"
+```
+
+Avoid `all` unless direct access to Vaultwarden is blocked and a trusted proxy controls the header. Use
+`vaultwarden.ipHeader: none` to ignore forwarded headers. Review any saved admin-panel overrides as well.
+
+**Remove unsupported experimental flags.** Check `vaultwarden.experimental.featureFlags` and saved admin settings.
+Removed flags include `ssh-agent`, `ssh-key-vault-item`, `mutual-tls`, `anon-addy-self-host-alias`,
+`simple-login-self-host-alias`, `pm-25373-windows-biometrics-v2`, `pm-26340-linux-biometrics-v2`,
+`desktop-ui-migration-milestone-1` through `-4`, `cxp-import-mobile` and `cxp-export-mobile`. They produce startup
+warnings and prevent saving admin settings. Use the supported list in `values.yaml` or the tagged
+[upstream configuration source][config_1374]; the default empty list needs no change.
+
+Other compatibility changes:
+
+- Upgrade CLI clients using `bw send receive`: versions 2026.4.2 and older cannot receive Sends from this release.
+  Creating and managing Sends remains supported.
+- Duo's legacy iframe prompt and `DUO_USE_IFRAME` are removed. Remove any external override and use the supported
+  Duo login flow. The chart's existing Duo credentials remain applicable.
+- Custom email templates can now override `email/recover_twofactor`, the recovery-code login notification.
+- The legacy `POST /identity/accounts/register` and `POST /api/accounts/prelogin` endpoints are removed;
+  update integrations that still call them.
+
+**Alpine with MySQL/MariaDB:** servers without native TLS support may fail to connect with this image. Upstream's
+workaround is available through `vaultwarden.database.mysqlDisablePeerVerification: true` when
+`vaultwarden.database.type: mysql`. This sets `MARIADB_TLS_DISABLE_PEER_VERIFICATION=1` and weakens TLS peer
+verification. Leave it disabled for databases with verified TLS; SQLite and PostgreSQL do not use this option.
+
+If organization admins were not fully trusted, rotate the organization API key after updating, as recommended
+upstream; older releases exposed it to admins.
 
 ### To 0.4.0 (Vaultwarden 1.30.5 -> 1.37.2)
 
@@ -68,7 +114,7 @@ configurable via the Image Parameters.
 | ------------------- | ------------------------------------------------------------------- | -------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`          |
 | `image.repository`  | The registry repository to pull the image from                      | `vaultwarden/server` |
-| `image.tag`         | The image tag to pull                                               | `1.37.3-alpine`      |
+| `image.tag`         | The image tag to pull                                               | `1.37.4-alpine`      |
 | `image.digest`      | The image digest to pull                                            | `""`                 |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`       |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                 |
@@ -98,7 +144,8 @@ configurable via the Image Parameters.
 | `vaultwarden.allowEmailChange`                           | Controls whether users can change their email. Applies globally to all users.                                                                     | `true`                     |
 | `vaultwarden.enableOrgEvents`                            | Controls whether event logging is enabled for organizations. Applies to organizations.                                                            | `false`                    |
 | `vaultwarden.retainEventsDays`                           | Number of days to retain events stored in the database.                                                                                           | `""`                       |
-| `vaultwarden.ipHeader`                                   | The Client IP Header, defaults to "X-Forwarded-For".                                                                                              | `X-Forwarded-For`          |
+| `vaultwarden.ipHeader`                                   | Client IP header; list headers use the rightmost untrusted address. Set to "none" to use the remote IP                                            | `X-Forwarded-For`          |
+| `vaultwarden.ipHeaderTrustedProxies`                     | Trusted proxies for the client IP header: "local", "all", or comma-separated IPs/CIDRs; include every proxy in the chain                          | `local`                    |
 | `vaultwarden.disable2FARemember`                         | Disable 2FA remembrance.                                                                                                                          | `false`                    |
 | `vaultwarden.orgCreationUsers`                           | Controls which users can create new orgs.                                                                                                         | `""`                       |
 | `vaultwarden.enableOrgGroups`                            | Controls whether group support is enabled for organizations                                                                                       | `false`                    |
@@ -170,6 +217,7 @@ configurable via the Image Parameters.
 | `vaultwarden.database.maxConnections`                    | Maximum database connections                                                                                                                      | `10`                       |
 | `vaultwarden.database.timeout`                           | Database timeout                                                                                                                                  | `30`                       |
 | `vaultwarden.database.connectionRetries`                 | Database connection retries                                                                                                                       | `15`                       |
+| `vaultwarden.database.mysqlDisablePeerVerification`      | Disable MariaDB TLS peer verification for Alpine connections to MySQL/MariaDB without native TLS; only applies to mysql                           | `false`                    |
 | `vaultwarden.limits.logins.ratelimitSeconds`             | Number of seconds between login requests                                                                                                          | `60`                       |
 | `vaultwarden.limits.logins.ratelimitMaxBurst`            | Allow bursts of requests up to this amount                                                                                                        | `10`                       |
 | `vaultwarden.limits.logins.adminRatelimitSeconds`        | Number of seconds between admin login requests                                                                                                    | `300`                      |
@@ -234,7 +282,7 @@ configurable via the Image Parameters.
 | `vaultwarden.rocket.port`                                | The port rocket should bind to                                                                                                                    | `80`                       |
 | `vaultwarden.rocket.workers`                             | The amount of rocket workers to create                                                                                                            | `10`                       |
 | `vaultwarden.rocket.tls`                                 | Rocket TLS configuration e.g.: "{certs="/path/to/certs.pem",key="/path/to/key.pem"}"                                                              | `""`                       |
-| `vaultwarden.experimental.featureFlags`                  | A list of feature flags to enable                                                                                                                 | `[]`                       |
+| `vaultwarden.experimental.featureFlags`                  | Client feature flags to enable; unsupported flags warn on startup and prevent saving admin settings                                               | `[]`                       |
 
 ### ConfigMap parameters
 
@@ -361,3 +409,8 @@ configurable via the Image Parameters.
 | -------------------- | ------------------------------------------------- | ----- |
 | `podSecurityContext` | Security context settings for the Vaultwarden pod | `{}`  |
 | `securityContext`    | General security context settings for             | `{}`  |
+
+<!-- Upgrade references -->
+
+[release_1374]: https://github.com/dani-garcia/vaultwarden/releases/tag/1.37.4
+[config_1374]: https://github.com/dani-garcia/vaultwarden/blob/1.37.4/src/config.rs

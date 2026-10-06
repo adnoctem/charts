@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: vaultwarden/server
-  tag: "1.37.3-alpine"
+  tag: "1.37.4-alpine"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -95,10 +95,16 @@ vaultwarden:
   ##
   retainEventsDays: ""
 
-  ## @param vaultwarden.ipHeader [default: X-Forwarded-For] The Client IP Header, defaults to "X-Forwarded-For".
+  ## @param vaultwarden.ipHeader Client IP header; list headers use the rightmost untrusted address. Set to "none" to use the remote IP
   ## Set to the string "none" to disable any headers and just use the remote IP
   ##
   ipHeader: X-Forwarded-For
+
+  ## @param vaultwarden.ipHeaderTrustedProxies Trusted proxies for the client IP header: "local", "all", or comma-separated IPs/CIDRs; include every proxy in the chain
+  ## "local" trusts non-global addresses. Prefer explicit proxy addresses or CIDRs when possible.
+  ## "all" trusts headers from any source and should only be used behind a trusted proxy with direct access blocked.
+  ##
+  ipHeaderTrustedProxies: local
 
   ## @param vaultwarden.disable2FARemember [default: false] Disable 2FA remembrance.
   ## Enabling this would force the users to use a second factor to login every time.
@@ -446,6 +452,11 @@ vaultwarden:
     ## 0 to retry indefinitely
     ##
     connectionRetries: 15
+
+    ## @param vaultwarden.database.mysqlDisablePeerVerification Disable MariaDB TLS peer verification for Alpine connections to MySQL/MariaDB without native TLS; only applies to mysql
+    ## Leave disabled for databases with verified TLS. Enabling weakens TLS peer verification.
+    ##
+    mysqlDisablePeerVerification: false
 
   ## Rate Limits
   ##
@@ -829,13 +840,19 @@ vaultwarden:
   ## Experimental Vaultwarden settings
   ## ref:
   experimental:
-    ## @param vaultwarden.experimental.featureFlags [array] A list of feature flags to enable
+    ## @param vaultwarden.experimental.featureFlags [array] Client feature flags to enable; unsupported flags warn on startup and prevent saving admin settings
     ##
     ## The following flags are available:
-    ### - "autofill-overlay": Add an overlay menu to form fields for quick access to credentials.
-    ### - "autofill-v2": Use the new autofill implementation.
-    ### - "browser-fileless-import": Directly import credentials from other providers without a file.
-    ### - "fido2-vault-credentials": Enable the use of FIDO2 security keys as second factor.
+    ## See https://github.com/dani-garcia/vaultwarden/blob/1.37.4/src/config.rs (SUPPORTED_FEATURE_FLAGS).
+    ### - "pm-5594-safari-account-switching"
+    ### - "pm-32413-multi-client-password-management"
+    ### - "undetermined-cipher-scenario-logic"
+    ### - "enable-basic-auth-response"
+    ### - "ssh-agent-v2"
+    ### - "windows-native-credential-sync"
+    ### - "pm-34171-card-scanner"
+    ### - "pm-30529-webauthn-related-origins"
+    ### - "pm-32009-new-item-types"
     featureFlags: []
 
 ## @section ConfigMap parameters

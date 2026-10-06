@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "1.37.3-alpine"
+          "default": "1.37.4-alpine"
         },
         "digest": {
           "type": "string",
@@ -103,8 +103,13 @@
         },
         "ipHeader": {
           "type": "string",
-          "description": "The Client IP Header, defaults to \"X-Forwarded-For\".",
+          "description": "Client IP header; list headers use the rightmost untrusted address. Set to \"none\" to use the remote IP",
           "default": "X-Forwarded-For"
+        },
+        "ipHeaderTrustedProxies": {
+          "type": "string",
+          "description": "Trusted proxies for the client IP header: \"local\", \"all\", or comma-separated IPs/CIDRs; include every proxy in the chain",
+          "default": "local"
         },
         "disable2FARemember": {
           "type": "boolean",
@@ -533,6 +538,11 @@
               "type": "number",
               "description": "Database connection retries",
               "default": "15"
+            },
+            "mysqlDisablePeerVerification": {
+              "type": "boolean",
+              "description": "Disable MariaDB TLS peer verification for Alpine connections to MySQL/MariaDB without native TLS; only applies to mysql",
+              "default": false
             }
           }
         },
@@ -956,7 +966,7 @@
           "properties": {
             "featureFlags": {
               "type": "array",
-              "description": "A list of feature flags to enable",
+              "description": "Client feature flags to enable; unsupported flags warn on startup and prevent saving admin settings",
               "default": "[]",
               "items": {
                 "type": "string"
