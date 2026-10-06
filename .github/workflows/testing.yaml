@@ -1,4 +1,4 @@
-name: 'Testing'
+name: "Testing"
 
 on:
   workflow_dispatch:
@@ -26,7 +26,7 @@ defaults:
     shell: bash
 
 concurrency:
-  group: '${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  group: "${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
   # Safe to cancel: unlike release.yaml, nothing here signs or publishes
   # anything, so a superseded run can be dropped without leaving state behind.
   cancel-in-progress: true
@@ -98,7 +98,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: '3.x'
+          python-version: "3.x"
           check-latest: true
 
       - name: Set up Chart-Testing
@@ -148,7 +148,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: '3.x'
+          python-version: "3.x"
           check-latest: true
 
       - name: Set up Chart-Testing
@@ -160,7 +160,7 @@ jobs:
 
       - name: Run kind to create a Kubernetes cluster
         if: ${{ needs.changes.outputs.changed == 'true' || github.event.inputs.forceTest }}
-        uses: helm/kind-action@06c1ae10762d3b9c1644e7fe69596ae519e015a2 # v1.15.0
+        uses: helm/kind-action@1544676c07bb3570fcb70166beaa07c4528fd4aa # v1.15.1
         with:
           config: config/k8s/cluster/kind-config.yaml
 
