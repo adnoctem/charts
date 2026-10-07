@@ -68,6 +68,13 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.7.1 (Activepieces 0.92.1 -> 0.92.2)
+
+[Activepieces 0.92.2][release_0922] restores the legacy sandbox for template-expression evaluation and shared
+script sessions, reducing memory pressure and slowdowns when flows map many expressions over large step outputs.
+No chart configuration changes are required when upgrading from 0.7.0. For older installations, also follow the
+earlier upgrade notes below.
+
 ### To 0.7.0 (Activepieces 0.91.0 -> 0.92.1)
 
 This release upgrades to [Activepieces 0.92.1][release_0921], including the piece-loading fix missing from 0.92.0.
@@ -250,7 +257,7 @@ useful either:
 | ------------------- | ------------------------------------------------------------------- | --------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`                 |
 | `image.repository`  | The registry repository to pull the image from                      | `activepieces/activepieces` |
-| `image.tag`         | The image tag to pull                                               | `0.92.1`                    |
+| `image.tag`         | The image tag to pull                                               | `0.92.2`                    |
 | `image.digest`      | The image digest to pull                                            | `""`                        |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`              |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                        |
@@ -501,6 +508,7 @@ useful either:
 [release_0910]: https://github.com/activepieces/activepieces/releases/tag/0.91.0
 [release_0920]: https://github.com/activepieces/activepieces/releases/tag/0.92.0
 [release_0921]: https://github.com/activepieces/activepieces/releases/tag/0.92.1
+[release_0922]: https://github.com/activepieces/activepieces/releases/tag/0.92.2
 [environment_0921]: https://github.com/activepieces/activepieces/blob/0.92.1/docs/install/reference/environment-variables.mdx
 [breaking_0921]: https://github.com/activepieces/activepieces/blob/0.92.1/docs/install/reference/breaking-changes.mdx
 [environment_0910]: https://github.com/activepieces/activepieces/blob/0.91.0/docs/install/reference/environment-variables.mdx
