@@ -37,12 +37,26 @@ Ingress needs to be explicitly enabled. Lastly the chart configures
 a [PodDisruptionBudget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) if
 enabled. [RBAC manifests](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) are enabled by default.
 
-The chart supports the configuration of
-all [ntfy environment variables](https://docs.ntfy.sh/config/) via the `ntfy` key in
+The chart exposes [ntfy configuration](https://docs.ntfy.sh/config/) via the `ntfy` key in
 Helm's _values_ and makes use of the official Docker Hub container image, although this is configurable via the Image
 Parameters.
 
 ## Upgrading
+
+### To 0.4.1 (ntfy 2.28.0 -> 2.29.0)
+
+[ntfy 2.29.0][release_2290] improves cache writes during publish bursts and flushes queued writes on graceful
+shutdown. Existing chart values remain compatible; no configuration migration is required.
+
+Delayed notifications now accept timezones through the `X-Timezone` header, `timezone` query parameter or JSON
+field, and support RFC 3339 timestamps. These are publish-request options; no Helm value is needed.
+
+For PostgreSQL installations, the idle-connection limit now defaults to `pool_max_conns` (10 by default).
+If you need the previous two-idle-connection limit, explicitly set `pool_max_idle_conns=2` in the query string of
+`ntfy.database.url`. See the [tagged database configuration reference][config_2290].
+
+The new `experimental-cluster-*` options are reserved for future use. This chart does not expose them because
+clustering is not functional in 2.29.0; setting `experimental-cluster-listen` prevents the server from starting.
 
 ### To 0.4.0 (ntfy 2.11.0 -> 2.28.0)
 
@@ -71,7 +85,7 @@ Parameters.
 | ------------------- | ------------------------------------------------------------------- | -------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`          |
 | `image.repository`  | The registry repository to pull the image from                      | `binwiederhier/ntfy` |
-| `image.tag`         | The image tag to pull                                               | `v2.28.0`            |
+| `image.tag`         | The image tag to pull                                               | `v2.29.0`            |
 | `image.digest`      | The image digest to pull                                            | `""`                 |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`       |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                 |
@@ -311,3 +325,8 @@ Parameters.
 | -------------------- | ------------------------------------------ | ----- |
 | `podSecurityContext` | Security context settings for the ntfy pod | `{}`  |
 | `securityContext`    | General security context settings for      | `{}`  |
+
+<!-- Upgrade references -->
+
+[release_2290]: https://github.com/binwiederhier/ntfy/releases/tag/v2.29.0
+[config_2290]: https://github.com/binwiederhier/ntfy/blob/v2.29.0/docs/config.md#database-options
