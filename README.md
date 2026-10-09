@@ -69,15 +69,15 @@ For example, inspect Uptime-Kuma's documented settings and save its defaults for
 for your deployment and existing Secret references where supported; keep credentials out of version control.
 
 ```shell
-helm show readme adnoctem/uptime-kuma --version 0.4.2
-helm show values adnoctem/uptime-kuma --version 0.4.2 > my-values.yaml
+helm show readme adnoctem/uptime-kuma --version 0.4.3
+helm show values adnoctem/uptime-kuma --version 0.4.3 > my-values.yaml
 
 # Edit my-values.yaml, then preview the resources locally.
-helm template uptime-kuma adnoctem/uptime-kuma --version 0.4.2 \
+helm template uptime-kuma adnoctem/uptime-kuma --version 0.4.3 \
   --namespace monitoring --values my-values.yaml
 
 # Install, or upgrade an existing release with the reviewed configuration.
-helm upgrade --install uptime-kuma adnoctem/uptime-kuma --version 0.4.2 \
+helm upgrade --install uptime-kuma adnoctem/uptime-kuma --version 0.4.3 \
   --namespace monitoring --create-namespace --values my-values.yaml
 helm status uptime-kuma --namespace monitoring
 ```
@@ -92,7 +92,7 @@ and back up persistent application data. Chart installation and application data
 | Chart                                                                                                                                                                                                                                                                                   | Chart Version | Application Version | Default Container Images                               |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-----------------: | ------------------------------------------------------ |
 | [Vaultwarden <img src="https://raw.githubusercontent.com/dani-garcia/vaultwarden/890e668071cffe2833834348e19bbef3c061d014/resources/vaultwarden-icon.svg" alt="Vaultwarden Logo" width="32px" height="32px" align="right" loading="lazy">][vaultwarden_chart]                           |     0.6.0     |       1.37.4        | [vaultwarden/server][vaultwarden_images]               |
-| [Uptime-Kuma <img src="https://raw.githubusercontent.com/louislam/uptime-kuma/36196f632d499fddef436a3aacf2f11a01958f07/public/icon.svg" alt="Uptime-Kuma Logo" width="32px" height="32px" align="right" loading="lazy">][uptimekuma_chart]                                              |     0.4.2     |        2.5.5        | [louislam/uptime-kuma][uptime_kuma_images]             |
+| [Uptime-Kuma <img src="https://raw.githubusercontent.com/louislam/uptime-kuma/36196f632d499fddef436a3aacf2f11a01958f07/public/icon.svg" alt="Uptime-Kuma Logo" width="32px" height="32px" align="right" loading="lazy">][uptimekuma_chart]                                              |     0.4.3     |        2.5.6        | [louislam/uptime-kuma][uptime_kuma_images]             |
 | [Linkwarden <img src="https://raw.githubusercontent.com/linkwarden/linkwarden/main/assets/logo.png" alt="Linkwarden Logo" width="32px" height="32px" align="right" loading="lazy">][linkwarden_chart]                                                                                   |     0.5.1     |       2.16.3        | [linkwarden/linkwarden][linkwarden_images]             |
 | [Glance <img src="https://github.com/glanceapp/glance/blob/main/docs/logo.png?raw=true" alt="Glance Logo" width="32px" height="32px" align="right" loading="lazy">][glance_chart]                                                                                                       |     0.1.0     |       v0.8.6        | [glanceapp/glance][glance_images]                      |
 | [Gotenberg <img src="https://user-images.githubusercontent.com/8983173/130322857-185831e2-f041-46eb-a17f-0a69d066c4e5.png" alt="Gotenberg Logo" width="32px" height="32px" align="right" loading="lazy">][gotenberg_chart]                                                              |     0.5.0     |       8.37.0        | [gotenberg/gotenberg][gotenberg_images]                |

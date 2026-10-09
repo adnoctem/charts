@@ -48,6 +48,12 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.4.3 (Uptime-Kuma 2.5.5 -> 2.5.6)
+
+[Uptime-Kuma 2.5.6](https://github.com/louislam/uptime-kuma/releases/tag/2.5.6) fixes the average-response badge
+endpoint and includes dependency security updates. No Helm value changes or database migrations are required
+when upgrading from 2.5.5.
+
 ### To 0.4.2 (Uptime-Kuma 2.5.4 -> 2.5.5)
 
 [Uptime-Kuma 2.5.5](https://github.com/louislam/uptime-kuma/releases/tag/2.5.5) fixes a memory leak in TCP monitors
@@ -90,7 +96,7 @@ Back up your PVC first.
 | ------------------- | ------------------------------------------------------------------- | ---------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`            |
 | `image.repository`  | The registry repository to pull the image from                      | `louislam/uptime-kuma` |
-| `image.tag`         | The image tag to pull                                               | `2.5.5`                |
+| `image.tag`         | The image tag to pull                                               | `2.5.6`                |
 | `image.digest`      | The image digest to pull                                            | `""`                   |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`         |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                   |
