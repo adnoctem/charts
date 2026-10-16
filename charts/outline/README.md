@@ -73,6 +73,16 @@ list.
 
 ## Upgrading
 
+### To 0.1.3 (Outline 1.10.1 -> 1.11.0)
+
+[Outline 1.11.0](https://github.com/outline/outline/releases/tag/v1.11.0) adds document and collection deprecation
+reasons, group icons and colors, and improves search and query performance. Existing chart values remain compatible.
+
+Back up the database and file storage before upgrading. With the default container command, Outline runs four
+new migrations at startup: deprecation reasons, the document-search trigger, a replacement views index, and group
+icons and colors. Allow time for index creation on larger databases when setting the Helm upgrade timeout and
+startup probe's failure threshold.
+
 ### To 0.1.2 (Outline 1.10.0 -> 1.10.1)
 
 [Outline 1.10.1](https://github.com/outline/outline/releases/tag/v1.10.1) adds WebMCP support and Open Knowledge
@@ -93,7 +103,7 @@ and, if enabled, the startup probe's failure threshold.
 | ------------------- | ------------------------------------------------------------------- | --------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`           |
 | `image.repository`  | The registry repository to pull the image from                      | `outlinewiki/outline` |
-| `image.tag`         | The image tag to pull                                               | `1.10.1`              |
+| `image.tag`         | The image tag to pull                                               | `1.11.0`              |
 | `image.digest`      | The image digest to pull                                            | `""`                  |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`        |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                  |
