@@ -66,9 +66,9 @@ Common annotations
 */}}
 {{- define "kcOperator.annotations" -}}
 app.quarkus.io/quarkus-version: 3.40.1
-app.quarkus.io/commit-id: 4246609cf2024c85016d3fb1254c3d2533367c31
+app.quarkus.io/commit-id: 24ed1dadf3f246a555adb6d3d4a99e9b3003fb3b
 app.quarkus.io/vcs-uri: https://github.com/keycloak/keycloak.git
-app.quarkus.io/build-timestamp: 2026-10-01 - 06:02:53 +0000
+app.quarkus.io/build-timestamp: 2026-10-13 - 09:04:43 +0000
 {{- end }}
 
 {{/*

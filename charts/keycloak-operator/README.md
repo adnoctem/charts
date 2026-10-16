@@ -7,7 +7,7 @@ etc. The [Keycloak Operator](https://github.com/keycloak/keycloak/tree/main/oper
 instances of Keycloak at will using the newly registered
 `Keycloak` [CustomResourceDefinition](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/).
 This Helm chart packages the
-official [upstream manifests](https://github.com/keycloak/keycloak-k8s-resources/blob/26.8.0/kubernetes/kubernetes.yml)
+official [upstream manifests](https://github.com/keycloak/keycloak-k8s-resources/blob/26.8.1/kubernetes/kubernetes.yml)
 and closely tracks these for changes. Keycloak also provides an experimental upstream Helm chart as of 26.8.0;
 this chart remains independently maintained. The Operator is available as a single Docker image
 on [quay.io](https://quay.io/repository/keycloak/keycloak-operator).
@@ -85,6 +85,31 @@ EOF
 ```
 
 ## Upgrading
+
+### To 0.5.0 (Keycloak Operator 26.8.0 -> 26.8.1)
+
+This release upgrades the operator and its default managed Keycloak image to 26.8.1. Back up the Keycloak database
+and review the [tagged upstream migration guide](https://github.com/keycloak/keycloak/blob/26.8.1/docs/documentation/upgrading/topics/changes/changes-26_8_1.adoc)
+before upgrading. Existing chart values remain compatible, but the managed server includes security changes that
+can require configuration changes:
+
+- SMTP with **Enable StartTLS** now requires a successful TLS upgrade. Verify that the SMTP server supports
+  STARTTLS; email delivery fails instead of falling back to plaintext.
+- X.509 key usage and extended key usage checks now also validate non-critical extensions. Check certificates
+  against your authenticator's configured purposes. CRL files must resolve inside Keycloak's `conf` directory;
+  move or mount external files there and use a relative CRL path. HTTP CRL and OCSP responses now share the
+  default 10 MB HTTP response limit; review it if your PKI serves larger responses.
+- OIDC identity-provider backchannel logout always validates signatures. Configure the provider's JWKS URL or
+  validating public key even when **Validate Signatures** is disabled.
+- Identity-provider updates that change the client ID, authentication method or secret destination must supply
+  the actual client secret again, rather than the masked value returned by the API. Update provisioning scripts
+  accordingly. An existing identity provider's `providerId` can no longer be changed through an update.
+- Direct Kerberos username/password authentication now validates a service ticket against the configured local
+  keytab. Verify the service principal and keytab; browser SPNEGO authentication is unaffected.
+- Use the protocol-agnostic client-registration endpoint or Admin REST API when managing clients of another
+  protocol. Replace semicolons used as query-parameter separators with ampersands.
+- Conditional OTP's **Skip OTP for Header** rule now requires reverse-proxy headers and a trusted proxy.
+  Configure both and ensure the proxy overwrites client-supplied headers before relying on this rule.
 
 ### To 0.4.0 (Keycloak Operator 26.7.3 -> 26.8.0)
 
@@ -178,7 +203,7 @@ This is a large range covering multiple Keycloak minor releases, including a hea
 | ------------------- | ------------------------------------------------------------------- | ---------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `quay.io`                    |
 | `image.repository`  | The registry repository to pull the image from                      | `keycloak/keycloak-operator` |
-| `image.tag`         | The image tag to pull                                               | `26.8.0`                     |
+| `image.tag`         | The image tag to pull                                               | `26.8.1`                     |
 | `image.digest`      | The image digest to pull                                            | `""`                         |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`               |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                         |
