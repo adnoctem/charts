@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: gotenberg/gotenberg
-  tag: 8.37.0
+  tag: 8.38.1
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -97,7 +97,7 @@ gotenberg:
     ## @param gotenberg.api.disableVersionRouteTelemetry [default: false] Disable telemetry for the /version route
     ##
     disableVersionRouteTelemetry: false
-    ## @param gotenberg.api.bodyLimit [string] Set a cap on multipart/form-data request size, e.g. "5MB"
+    ## @param gotenberg.api.bodyLimit [string] Cap the complete multipart request body, including headers and boundaries, e.g. "5MB"
     ##
     bodyLimit: ""
     ## @param gotenberg.api.bindIp [default: 0.0.0.0] Bind the API to a specific IP address
@@ -169,10 +169,13 @@ gotenberg:
     ## @param gotenberg.chromium.proxyServer [string] Set the outbound proxy server; this switch only affects HTTP and HTTPS requests
     ##
     proxyServer: ""
-    ## @param gotenberg.chromium.clearCache [default: false] Clear Chromium cache between each conversion
+    ## @param gotenberg.chromium.sharedBrowserContext [default: false] Share cookies, cache and storage across conversions; enable only when all callers trust each other
+    ##
+    sharedBrowserContext: false
+    ## @param gotenberg.chromium.clearCache [default: false] Clear Chromium cache between conversions when sharedBrowserContext is enabled
     ##
     clearCache: false
-    ## @param gotenberg.chromium.clearCookies [default: false] Clear Chromium cookies between each conversion
+    ## @param gotenberg.chromium.clearCookies [default: false] Clear Chromium cookies between conversions when sharedBrowserContext is enabled
     ##
     clearCookies: false
     ## @param gotenberg.chromium.disableJavaScript [default: false] Disable JavaScript
@@ -187,7 +190,7 @@ gotenberg:
     ## @param gotenberg.chromium.idleShutdownTimeout [default: "0s"] Auto-stop Chromium after this idle period; set to "0s" to disable
     ##
     idleShutdownTimeout: "0s"
-    ## @param gotenberg.chromium.clearStorage [default: false] Clear browser storage between each conversion
+    ## @param gotenberg.chromium.clearStorage [default: false] Clear browser storage between conversions when sharedBrowserContext is enabled
     ##
     clearStorage: false
     ## @param gotenberg.chromium.denyPrivateIps [default: false] Reject Chromium navigations/sub-resources resolving to a non-public IP

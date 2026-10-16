@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "8.37.0"
+          "default": "8.38.1"
         },
         "digest": {
           "type": "string",
@@ -121,7 +121,7 @@
             },
             "bodyLimit": {
               "type": "string",
-              "description": "Set a cap on multipart/form-data request size, e.g. \"5MB\"",
+              "description": "Cap the complete multipart request body, including headers and boundaries, e.g. \"5MB\"",
               "default": "\"\""
             },
             "bindIp": {
@@ -229,14 +229,19 @@
               "description": "Set the outbound proxy server; this switch only affects HTTP and HTTPS requests",
               "default": "\"\""
             },
+            "sharedBrowserContext": {
+              "type": "boolean",
+              "description": "Share cookies, cache and storage across conversions; enable only when all callers trust each other",
+              "default": "false"
+            },
             "clearCache": {
               "type": "boolean",
-              "description": "Clear Chromium cache between each conversion",
+              "description": "Clear Chromium cache between conversions when sharedBrowserContext is enabled",
               "default": "false"
             },
             "clearCookies": {
               "type": "boolean",
-              "description": "Clear Chromium cookies between each conversion",
+              "description": "Clear Chromium cookies between conversions when sharedBrowserContext is enabled",
               "default": "false"
             },
             "disableJavaScript": {
@@ -261,7 +266,7 @@
             },
             "clearStorage": {
               "type": "boolean",
-              "description": "Clear browser storage between each conversion",
+              "description": "Clear browser storage between conversions when sharedBrowserContext is enabled",
               "default": "false"
             },
             "denyPrivateIps": {

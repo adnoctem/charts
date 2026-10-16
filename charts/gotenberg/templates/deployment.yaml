@@ -129,6 +129,9 @@ spec:
           {{- if .Values.gotenberg.chromium.proxyServer }}
             - --chromium-proxy-server={{ .Values.gotenberg.chromium.proxyServer }}
           {{- end }}
+          {{- if .Values.gotenberg.chromium.sharedBrowserContext }}
+            - --chromium-shared-browser-context={{ .Values.gotenberg.chromium.sharedBrowserContext }}
+          {{- end }}
           {{- if .Values.gotenberg.chromium.clearCache }}
             - --chromium-clear-cache={{ .Values.gotenberg.chromium.clearCache }}
           {{- end }}
