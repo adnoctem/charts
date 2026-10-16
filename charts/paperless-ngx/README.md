@@ -58,6 +58,14 @@ that interface; this release adds dedicated values for the new embedding credent
 
 ## Upgrading
 
+### To 0.5.1 (Paperless-ngx 3.3.0 -> 3.3.2)
+
+[Paperless-ngx 3.3.2](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.3.2), including the
+[3.3.1 fixes](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.3.1), corrects document-version
+permissions, metadata permission copying, search indexing and exporter filename collisions. Existing chart
+values remain compatible. Back up the database and document storage before upgrading; installations older
+than 3.3.0 must also follow the migration notes below.
+
 ### To 0.5.0 (Paperless-ngx 3.1.3 -> 3.3.0)
 
 Back up the database, media and data volumes before upgrading. Paperless applies database migrations and updates
@@ -180,7 +188,7 @@ relevant to this chart specifically.
 | ------------------- | ------------------------------------------------------------------- | ----------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`                     |
 | `image.repository`  | The registry repository to pull the image from                      | `paperless-ngx/paperless-ngx` |
-| `image.tag`         | The image tag to pull                                               | `3.3.0`                       |
+| `image.tag`         | The image tag to pull                                               | `3.3.2`                       |
 | `image.digest`      | The image digest to pull                                            | `""`                          |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`                |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                          |

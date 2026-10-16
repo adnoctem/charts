@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 3.3.0
+appVersion: 3.3.2
 kubeVersion: ">=1.26.0-0"
 name: paperless-ngx
-version: 0.5.0
+version: 0.5.1
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -49,7 +49,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: paperless-ngx
-      image: ghcr.io/paperless-ngx/paperless-ngx:3.3.0
+      image: ghcr.io/paperless-ngx/paperless-ngx:3.3.2
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -64,8 +64,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Paperless-ngx to 3.3.0 and document classifier, Redis and admin-login changes
-    - kind: changed
-      description: stop rendering removed NLTK settings while retaining deprecated values
-    - kind: added
-      description: expose classifier confidence, regex timeout, barcode storage and new AI settings
+      description: upgrade Paperless-ngx to 3.3.2 with document permission and search fixes
