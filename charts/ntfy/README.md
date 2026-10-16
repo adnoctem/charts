@@ -43,6 +43,19 @@ Parameters.
 
 ## Upgrading
 
+### To 0.5.0 (ntfy 2.29.0 -> 2.31.0)
+
+[ntfy 2.31.0](https://github.com/binwiederhier/ntfy/releases/tag/v2.31.0) recovers missed messages from the cache
+and adds a readiness endpoint. Pod readiness now uses `/v1/ready`; liveness and startup use `/v1/health`, so probes
+also work with the web UI disabled. Custom images must provide these endpoints.
+
+Subscriptions using `since=<message-id>` now replay other messages from the same second. Custom consumers must
+deduplicate by message ID to avoid processing a notification twice. Existing chart configuration remains
+compatible; back up persistent data before upgrading.
+
+Upstream now implements experimental PostgreSQL clustering, but it is not ready for production. This chart
+continues to expose single-node configuration and does not expose the experimental cluster options.
+
 ### To 0.4.1 (ntfy 2.28.0 -> 2.29.0)
 
 [ntfy 2.29.0][release_2290] improves cache writes during publish bursts and flushes queued writes on graceful
@@ -85,7 +98,7 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | ------------------- | ------------------------------------------------------------------- | -------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`          |
 | `image.repository`  | The registry repository to pull the image from                      | `binwiederhier/ntfy` |
-| `image.tag`         | The image tag to pull                                               | `v2.29.0`            |
+| `image.tag`         | The image tag to pull                                               | `v2.31.0`            |
 | `image.digest`      | The image digest to pull                                            | `""`                 |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`       |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                 |
