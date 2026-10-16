@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 0.92.2
+appVersion: 0.92.3
 kubeVersion: ">=1.26.0-0"
 name: activepieces
-version: 0.7.1
+version: 0.7.2
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -40,7 +40,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: activepieces
-      image: docker.io/activepieces/activepieces:0.92.2
+      image: docker.io/activepieces/activepieces:0.92.3
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -55,4 +55,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Activepieces to 0.92.2 to reduce memory use and slowdowns during template-expression evaluation
+      description: upgrade Activepieces to 0.92.3 with worker piece-installation fixes

@@ -68,6 +68,12 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.7.2 (Activepieces 0.92.2 -> 0.92.3)
+
+[Activepieces 0.92.3](https://github.com/activepieces/activepieces/releases/tag/0.92.3) fixes worker piece
+installation, including reinstalling a piece when loading it fails and removing the worker's dependency on
+reaching the public URL during installation. Existing chart values remain compatible.
+
 ### To 0.7.1 (Activepieces 0.92.1 -> 0.92.2)
 
 [Activepieces 0.92.2][release_0922] restores the legacy sandbox for template-expression evaluation and shared
@@ -257,7 +263,7 @@ useful either:
 | ------------------- | ------------------------------------------------------------------- | --------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`                 |
 | `image.repository`  | The registry repository to pull the image from                      | `activepieces/activepieces` |
-| `image.tag`         | The image tag to pull                                               | `0.92.2`                    |
+| `image.tag`         | The image tag to pull                                               | `0.92.3`                    |
 | `image.digest`      | The image digest to pull                                            | `""`                        |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`              |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                        |
