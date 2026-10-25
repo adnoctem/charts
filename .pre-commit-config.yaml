@@ -12,7 +12,7 @@ repos:
         args: ["--fix=lf"]
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.49.1
+    rev: v0.50.0
     hooks:
       - id: markdownlint
         exclude: ^CHANGELOG\.md$
