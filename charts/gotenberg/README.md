@@ -41,6 +41,27 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.7.0 (Gotenberg 8.38.1 -> 8.39.0)
+
+[Gotenberg 8.39.0](https://github.com/gotenberg/gotenberg/releases/tag/v8.39.0) introduces security restrictions
+and changes to generated documents. Review callers before upgrading:
+
+- Chromium URL conversion and screenshot routes now accept only `http://` and `https://`. Other schemes return
+  HTTP 400. Serve content over HTTP(S), or upload HTML to the corresponding HTML route.
+- ExifTool no longer loads `~/.ExifTool_config`. Remove dependencies on custom ExifTool configuration files.
+  Metadata keys `j`, `addtagsfromfile` and `alltagsfromfile` return HTTP 400; use group-qualified names such as
+  `XMP:j` when writing literal tags with these names.
+- Chromium WebSocket connections now enforce full-URL deny rules, including paths and `wss://` patterns.
+  Check required WebSocket endpoints against `gotenberg.chromium.denyList`; denied handshakes fail the
+  conversion with HTTP 403.
+- The `XRECHNUNG` Factur-X profile now embeds `xrechnung.xml` instead of `factur-x.xml`. Update downstream
+  attachment extraction and validation accordingly; other profiles keep `factur-x.xml`.
+- The image removes the `emSign ECC Root CA - G3` and `AAA Certificate Services` trust anchors. If an upstream
+  HTTPS service relies on them, replace its certificate chain with one trusted by the updated image.
+
+No Helm values need to be renamed. This release also fixes startup with absolute TLS certificate/key paths;
+missing or unreadable TLS files now cause startup to fail.
+
 ### To 0.6.0 (Gotenberg 8.37.0 -> 8.38.1)
 
 [Gotenberg 8.38.1](https://github.com/gotenberg/gotenberg/releases/tag/v8.38.1) includes the security and behavior
@@ -92,7 +113,7 @@ This is a breaking chart release. Review the following before upgrading:
 | ------------------- | ------------------------------------------------------------------- | --------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`           |
 | `image.repository`  | The registry repository to pull the image from                      | `gotenberg/gotenberg` |
-| `image.tag`         | The image tag to pull                                               | `8.38.1`              |
+| `image.tag`         | The image tag to pull                                               | `8.39.0`              |
 | `image.digest`      | The image digest to pull                                            | `""`                  |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`        |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                  |

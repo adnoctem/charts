@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 8.38.1
+appVersion: 8.39.0
 kubeVersion: ">=1.26.0-0"
 name: gotenberg
-version: 0.6.0
+version: 0.7.0
 description: Gotenberg is a Docker-powered stateless API for PDF files.
 home: https://gotenberg.dev/
 icon: https://user-images.githubusercontent.com/8983173/130322857-185831e2-f041-46eb-a17f-0a69d066c4e5.png
@@ -32,7 +32,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: gotenberg
-      image: docker.io/gotenberg/gotenberg:8.38.1
+      image: docker.io/gotenberg/gotenberg:8.39.0
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -47,6 +47,6 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Gotenberg to 8.38.1 with isolated Chromium conversions
+      description: upgrade Gotenberg to 8.39.0 with security fixes for URL routes, WebSockets and ExifTool
     - kind: changed
-      description: expose shared browser context opt-in and document request body limit changes
+      description: document migration for HTTP-only URL routes, metadata restrictions and XRECHNUNG attachments
