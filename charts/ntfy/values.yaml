@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: binwiederhier/ntfy
-  tag: v2.31.0
+  tag: v2.36.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -63,7 +63,7 @@ ntfy:
   ##
   baseURL: ""
 
-  ## @param ntfy.listenHTTP [string] The listen address for the HTTP server (e.g. ":80", "127.0.0.1:80")
+  ## @param ntfy.listenHTTP [string] Single HTTP listen address in :port form (e.g. ":8080"); multiple addresses are unsupported
   ##
   listenHTTP: ":8080"
 
@@ -364,15 +364,14 @@ ntfy:
     ## exempt from request rate limiting. Hostnames are resolved at the time the server is started. (e.g. "1.2.3.4,ntfy.example.com,8.7.6.0/24")
     ##
     requestLimitExemptHosts: ""
-    ## @param ntfy.visitor.messageDailyLimit [default: 15000] Hard daily limit of messages per visitor and day. The limit is reset
-    ## every day at midnight UTC. If the limit is not set (or set to zero), the request limit (see above) governs the
-    ## upper limit.
+    ## @param ntfy.visitor.messageDailyLimit [default: 15000] Hard message limit per visitor's own 24-hour period; zero leaves only request rate limits
+    ## Counts persist across restarts when ntfy.auth.file or ntfy.database.url is set; otherwise they stay in memory.
     ##
     messageDailyLimit: 15000
     ## @param ntfy.visitor.emailLimitBurst [default: 16] The initial bucket of emails each visitor has (e.g. "60")
     ##
     emailLimitBurst: 16
-    ## @param ntfy.visitor.emailLimitReplenish [default: 1h] The rate at which the bucket is refilled (e.g. "5s")
+    ## @param ntfy.visitor.emailLimitReplenish [default: 1h] Email refill interval; also limits untiered daily emails to 24h divided by this interval
     ##
     emailLimitReplenish: "1h"
     ## @param ntfy.visitor.attachmentTotalSizeLimit [default: 100M] The total storage limit used for attachments per visitor

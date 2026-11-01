@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "v2.31.0"
+          "default": "v2.36.0"
         },
         "digest": {
           "type": "string",
@@ -63,7 +63,7 @@
         },
         "listenHTTP": {
           "type": "string",
-          "description": "The listen address for the HTTP server (e.g. \":80\", \"127.0.0.1:80\")",
+          "description": "Single HTTP listen address in :port form (e.g. \":8080\"); multiple addresses are unsupported",
           "default": "\"\""
         },
         "listenHTTPS": {
@@ -464,7 +464,7 @@
             },
             "messageDailyLimit": {
               "type": "number",
-              "description": "Hard daily limit of messages per visitor and day. The limit is reset",
+              "description": "Hard message limit per visitor's own 24-hour period; zero leaves only request rate limits",
               "default": "15000"
             },
             "emailLimitBurst": {
@@ -474,7 +474,7 @@
             },
             "emailLimitReplenish": {
               "type": "string",
-              "description": "The rate at which the bucket is refilled (e.g. \"5s\")",
+              "description": "Email refill interval; also limits untiered daily emails to 24h divided by this interval",
               "default": "1h"
             },
             "attachmentTotalSizeLimit": {

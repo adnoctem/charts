@@ -43,6 +43,38 @@ Parameters.
 
 ## Upgrading
 
+### To 0.6.0 (ntfy 2.31.0 -> 2.36.0)
+
+This is a breaking chart release because upstream changes quota enforcement and startup validation.
+Review the [2.35.0](https://github.com/binwiederhier/ntfy/releases/tag/v2.35.0) and
+[2.36.0](https://github.com/binwiederhier/ntfy/releases/tag/v2.36.0) release notes before upgrading:
+
+- Daily message, email and phone-call counts now survive restarts when `ntfy.auth.file` or `ntfy.database.url`
+  is configured. Without a user database they remain in memory. Each visitor has its own 24-hour period instead
+  of resetting at midnight UTC; use `/v1/account`'s `stats.reset_at` when displaying the next reset.
+  Existing daily counts reset once during the upgrade. Review quota settings and any automation that assumes
+  a restart or midnight UTC replenishes allowances.
+- Tier changes preserve usage already consumed. Tier email limits are hard caps, including a zero limit;
+  the burst allowance no longer permits extra daily emails. Visitors without a tier again have a daily email
+  cap of `24h / ntfy.visitor.emailLimitReplenish` (24 with the default `1h`). Adjust tiers or the refill interval
+  if legitimate traffic needs a larger allowance.
+- The server validates the rest of its configuration even when `ntfy.baseURL` is set or
+  `ntfy.message.sizeLimit` exceeds 4K. Check startup logs and correct invalid combinations, such as incomplete
+  upstream, email or web-push settings, that previously escaped validation.
+- A subscription accepts at most 150 distinct topics; duplicate topic names are ignored. Split larger
+  subscriptions across connections and check `ntfy.visitor.subscriptionLimit` when doing so.
+- Revoking topic access or deleting a user now disconnects all affected subscriptions. Matrix push keys must
+  identify valid topics. Clients must not rely on the previous authorization gaps.
+
+Back up the PVC and any external PostgreSQL database before upgrading. ntfy migrates the message store from
+schema 16 to 17 and the user store from 9 to 10. Older images may refuse the migrated schemas; plan a rollback
+using the matching pre-upgrade database backup and chart version, rather than only reverting the image tag.
+Servers sharing PostgreSQL must have synchronized clocks for shared daily limits.
+
+No Helm values are renamed or removed. Keep `ntfy.listenHTTP` in single `:port` form: upstream supports multiple
+HTTP listeners, but this chart's Service and container ports do not. Experimental clustering and the local admin
+socket remain unexposed and disabled by this chart.
+
 ### To 0.5.0 (ntfy 2.29.0 -> 2.31.0)
 
 [ntfy 2.31.0](https://github.com/binwiederhier/ntfy/releases/tag/v2.31.0) recovers missed messages from the cache
@@ -98,7 +130,7 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | ------------------- | ------------------------------------------------------------------- | -------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`          |
 | `image.repository`  | The registry repository to pull the image from                      | `binwiederhier/ntfy` |
-| `image.tag`         | The image tag to pull                                               | `v2.31.0`            |
+| `image.tag`         | The image tag to pull                                               | `v2.36.0`            |
 | `image.digest`      | The image digest to pull                                            | `""`                 |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`       |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                 |
@@ -121,7 +153,7 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | Name                                         | Description                                                                                                | Value           |
 | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------- |
 | `ntfy.baseURL`                               | The public facing URL for the service (e.g. https://ntfy.example.com)                                      | `""`            |
-| `ntfy.listenHTTP`                            | The listen address for the HTTP server (e.g. ":80", "127.0.0.1:80")                                        | `""`            |
+| `ntfy.listenHTTP`                            | Single HTTP listen address in :port form (e.g. ":8080"); multiple addresses are unsupported                | `""`            |
 | `ntfy.listenHTTPS`                           | The listen address for the HTTPS server (e.g. ":443", "127.0.0.1:443") -                                   | `""`            |
 | `ntfy.listenUnix`                            | The path to a Unix socket to listen on (e.g. "/var/run/ntfy/ntfy.sock")                                    | `""`            |
 | `ntfy.listenUnixMode`                        | The Linux permissions for the Unix socket (e.g. "0700")                                                    | `""`            |
@@ -188,9 +220,9 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | `ntfy.visitor.requestLimitBurst`             | The initial bucket of requests each visitor has (e.g. "60")                                                | `60`            |
 | `ntfy.visitor.requestLimitReplenish`         | The rate at which the bucket is refilled (e.g. "5s")                                                       | `5s`            |
 | `ntfy.visitor.requestLimitExemptHosts`       | A comma-separated list of hostnames, IPs or CIDRs to be                                                    | `""`            |
-| `ntfy.visitor.messageDailyLimit`             | Hard daily limit of messages per visitor and day. The limit is reset                                       | `15000`         |
+| `ntfy.visitor.messageDailyLimit`             | Hard message limit per visitor's own 24-hour period; zero leaves only request rate limits                  | `15000`         |
 | `ntfy.visitor.emailLimitBurst`               | The initial bucket of emails each visitor has (e.g. "60")                                                  | `16`            |
-| `ntfy.visitor.emailLimitReplenish`           | The rate at which the bucket is refilled (e.g. "5s")                                                       | `1h`            |
+| `ntfy.visitor.emailLimitReplenish`           | Email refill interval; also limits untiered daily emails to 24h divided by this interval                   | `1h`            |
 | `ntfy.visitor.attachmentTotalSizeLimit`      | The total storage limit used for attachments per visitor                                                   | `100M`          |
 | `ntfy.visitor.attachmentDailyBandwidthLimit` | The total daily attachment download/upload traffic limit per visitor                                       | `500M`          |
 | `ntfy.visitor.subscriberRateLimiting`        | Whether to enable subscriber-based rate limiting                                                           | `false`         |

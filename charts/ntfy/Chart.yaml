@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 2.31.0
+appVersion: 2.36.0
 kubeVersion: ">=1.26.0-0"
 name: ntfy
-version: 0.5.0
+version: 0.6.0
 description: ntfy lets you send push notifications to your phone or desktop via scripts from any computer, using simple HTTP PUT or POST requests
 home: https://github.com/binwiederhier/ntfy
 icon: https://raw.githubusercontent.com/binwiederhier/ntfy/9d3fc20e583564e40af5afb90233f4714fdfcb4c/web/public/static/images/pwa-512x512.png
@@ -32,7 +32,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: ntfy
-      image: docker.io/binwiederhier/ntfy:v2.31.0
+      image: docker.io/binwiederhier/ntfy:v2.36.0
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -47,6 +47,6 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade ntfy to 2.31.0 and document message replay deduplication
+      description: upgrade ntfy to 2.36.0 with persistent daily limits and authorization fixes
     - kind: changed
-      description: use native health and readiness endpoints for pod probes
+      description: document quota, configuration validation and database migration changes
