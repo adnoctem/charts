@@ -48,6 +48,22 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.5.0 (Uptime-Kuma 2.5.6 -> 2.5.9)
+
+This is a breaking chart release because [Uptime-Kuma 2.5.8](https://github.com/louislam/uptime-kuma/releases/tag/2.5.8)
+removes TLS/STARTTLS support from TCP Port monitors. Existing TCP Port monitors become plain TCP connectivity checks:
+a successful check no longer establishes that the endpoint can complete a TLS handshake or serve a valid certificate.
+
+Before upgrading, review TCP Port monitors that use TLS/STARTTLS. For HTTPS services, configure an HTTP(s) monitor
+with certificate verification enabled. For other TLS/STARTTLS services, arrange a separate TLS-aware check before
+relying on the remaining TCP connectivity check. No Helm value restores the removed functionality.
+
+Back up persistent application data before upgrading. No Helm values are renamed or removed by this chart update.
+The included [2.5.7](https://github.com/louislam/uptime-kuma/releases/tag/2.5.7) update rejects a compromised eMudhra CA;
+replace affected server certificate chains rather than disabling certificate verification.
+[2.5.9](https://github.com/louislam/uptime-kuma/releases/tag/2.5.9) also fixes monitor timeouts, push monitor retries,
+maintenance timezone display and RSS cache poisoning, and includes the security fixes from 2.5.8.
+
 ### To 0.4.3 (Uptime-Kuma 2.5.5 -> 2.5.6)
 
 [Uptime-Kuma 2.5.6](https://github.com/louislam/uptime-kuma/releases/tag/2.5.6) fixes the average-response badge
@@ -96,7 +112,7 @@ Back up your PVC first.
 | ------------------- | ------------------------------------------------------------------- | ---------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`            |
 | `image.repository`  | The registry repository to pull the image from                      | `louislam/uptime-kuma` |
-| `image.tag`         | The image tag to pull                                               | `2.5.6`                |
+| `image.tag`         | The image tag to pull                                               | `2.5.9`                |
 | `image.digest`      | The image digest to pull                                            | `""`                   |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`         |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                   |
