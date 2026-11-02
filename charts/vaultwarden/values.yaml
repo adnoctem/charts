@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: vaultwarden/server
-  tag: "1.37.4-alpine"
+  tag: "1.37.5-alpine"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -111,6 +111,16 @@ vaultwarden:
   ## Note that the checkbox would still be present, but ignored.
   ##
   disable2FARemember: false
+
+  ## @param vaultwarden.twoFactorRememberDays [default: 30] Days before a remembered two-factor login expires; must be an integer from 1 to 90
+  ## Ignored for login when disable2FARemember is true, but must still be valid.
+  ##
+  twoFactorRememberDays: 30
+
+  ## @param vaultwarden.fillAssistRulesURL HTTPS base directory URL for the server-wide Fill Assist rules feed, not a JSON file
+  ## Must not contain credentials, query parameters, fragments or surrounding whitespace.
+  ##
+  fillAssistRulesURL: https://fillassist.bitwarden.com
 
   ## @param vaultwarden.orgCreationUsers [string] Controls which users can create new orgs.
   ## Blank or 'all' means all users can create orgs (this is the default)
@@ -843,16 +853,21 @@ vaultwarden:
     ## @param vaultwarden.experimental.featureFlags [array] Client feature flags to enable; unsupported flags warn on startup and prevent saving admin settings
     ##
     ## The following flags are available:
-    ## See https://github.com/dani-garcia/vaultwarden/blob/1.37.4/src/config.rs (SUPPORTED_FEATURE_FLAGS).
+    ## See https://github.com/dani-garcia/vaultwarden/blob/1.37.5/src/config.rs (SUPPORTED_FEATURE_FLAGS).
     ### - "pm-5594-safari-account-switching"
     ### - "pm-32413-multi-client-password-management"
     ### - "undetermined-cipher-scenario-logic"
     ### - "enable-basic-auth-response"
+    ### - "fill-assist-targeting-rules"
     ### - "ssh-agent-v2"
+    ### - "windows-desktop-autotype"
+    ### - "windows-desktop-autotype-ga"
+    ### - "biometrics-sdk-ipc"
     ### - "windows-native-credential-sync"
     ### - "pm-34171-card-scanner"
     ### - "pm-30529-webauthn-related-origins"
     ### - "pm-32009-new-item-types"
+    ## Enable at most one Windows autotype flag; enabling both disables autotype in clients.
     featureFlags: []
 
 ## @section ConfigMap parameters

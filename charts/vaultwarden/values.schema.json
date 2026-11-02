@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "1.37.4-alpine"
+          "default": "1.37.5-alpine"
         },
         "digest": {
           "type": "string",
@@ -115,6 +115,16 @@
           "type": "boolean",
           "description": "Disable 2FA remembrance.",
           "default": "false"
+        },
+        "twoFactorRememberDays": {
+          "type": "number",
+          "description": "Days before a remembered two-factor login expires; must be an integer from 1 to 90",
+          "default": "30"
+        },
+        "fillAssistRulesURL": {
+          "type": "string",
+          "description": "HTTPS base directory URL for the server-wide Fill Assist rules feed, not a JSON file",
+          "default": "https://fillassist.bitwarden.com"
         },
         "orgCreationUsers": {
           "type": "string",

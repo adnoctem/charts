@@ -1,4 +1,6 @@
 vaultwarden:
+  twoFactorRememberDays: 7
+  fillAssistRulesURL: https://fillassist.bitwarden.com/
   sso:
     signupsAllowed: false
   domain: "vaultwarden.charts.internal"
@@ -7,6 +9,7 @@ vaultwarden:
     featureFlags:
       - ssh-agent-v2
       - enable-basic-auth-response
+      - biometrics-sdk-ipc
   adminToken:
     value: "PretendThisIsAnAdminToken"
 

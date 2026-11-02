@@ -47,6 +47,8 @@ data:
   IP_HEADER: {{ .Values.vaultwarden.ipHeader | quote }}
   IP_HEADER_TRUSTED_PROXIES: {{ .Values.vaultwarden.ipHeaderTrustedProxies | quote }}
   DISABLE_2FA_REMEMBER: {{ .Values.vaultwarden.disable2FARemember | quote }}
+  TWO_FACTOR_REMEMBER_DAYS: {{ .Values.vaultwarden.twoFactorRememberDays | quote }}
+  FILL_ASSIST_RULES_URL: {{ .Values.vaultwarden.fillAssistRulesURL | quote }}
   {{- if .Values.vaultwarden.orgCreationUsers }}
   ORG_CREATION_USERS: {{ .Values.vaultwarden.orgCreationUsers | quote }}
   {{- end }}
