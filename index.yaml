@@ -8724,6 +8724,60 @@ entries:
       artifacthub.io/category: security
       artifacthub.io/changes: |
         - kind: changed
+          description: upgrade Vaultwarden to 1.37.5 with security fixes and stricter configuration validation
+        - kind: added
+          description: expose remembered two-factor login duration and the Fill Assist rules URL
+        - kind: changed
+          description: document web vault compatibility and refresh experimental client feature flags
+      artifacthub.io/images: |
+        - name: vaultwarden
+          image: docker.io/vaultwarden/server:1.37.5-alpine
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Source
+          url: https://github.com/adnoctem/charts
+        - name: Support
+          url: https://github.com/adnoctem/charts/issues
+        - name: Vaultwarden GitHub Repository
+          url: https://github.com/dani-garcia/vaultwarden
+        - name: Vaultwarden Documentation
+          url: https://github.com/dani-garcia/vaultwarden/wiki
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 97DB36A8BD5E342076ED46D63E317D513290CC4B
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/97DB36A8BD5E342076ED46D63E317D513290CC4B
+      org.opencontainers.image.licenses: AGPL-3.0
+      org.opencontainers.image.vendor: Ad Noctem Collective
+    apiVersion: v2
+    appVersion: 1.37.5
+    created: "2026-11-02T01:06:32.782212803Z"
+    description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible
+      server written in Rust
+    digest: 51b86fc804c03255c825bb8faa10618f6588311f73252433ac75c5066592527b
+    home: https://github.com/dani-garcia/vaultwarden
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    keywords:
+    - passwords
+    - password-manager
+    - bitwarden
+    - keepass
+    - vaultwarden
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - email: info@adnoctem.co
+      name: adnoctem
+    - email: info@mvprowess.com
+      name: MVProwess
+    name: vaultwarden
+    sources:
+    - https://github.com/adnoctem/charts
+    urls:
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.7.0/vaultwarden-0.7.0.tgz
+    version: 0.7.0
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/changes: |
+        - kind: changed
           description: upgrade Vaultwarden to 1.37.4 and document proxy and client compatibility changes
         - kind: added
           description: expose trusted proxies and the opt-in Alpine MariaDB compatibility setting
@@ -9522,4 +9576,4 @@ entries:
     urls:
     - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-11-02T00:43:28.253080528Z"
+generated: "2026-11-02T01:06:32.782446138Z"
