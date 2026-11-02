@@ -326,6 +326,24 @@ in the chart-specific development section, including prerequisites and the limit
 Keep each chart's maintainer workflow, fixture descriptions and development notices here. End users should find
 all deployment and operational guidance in the chart README, without having to read this section.
 
+### Paperless-NGX (`paperless-ngx`)
+
+Run `helm dependency update charts/paperless-ngx` before rendering or linting. The `ci/test-values.yaml` fixture
+starts Paperless with PostgreSQL, Redis, Tika and Gotenberg. Empty conversion endpoints let the chart derive
+hostnames from chart-testing's release name; these values accept hostnames, not full URLs. The fixture exercises
+barcode storage, classifier thresholds, AI parameter/credential mapping, a custom scratch directory, ingress and probes.
+AI credentials are placeholders and do not enable a provider.
+
+PostgreSQL and Redis use archived `bitnamilegacy/postgresql:16.4.0-debian-12-r14` and
+`bitnamilegacy/redis:7.2.5-debian-12-r0` images only in CI because the original tags are unavailable. These images
+receive no security updates; production defaults remain unchanged. Use supported external services or licensed
+images for production. The Gotenberg dependency stays on the published `~0.4.0` range; updating it to a later
+chart requires that chart to be published and its conversion/filtering behavior validated first.
+
+Fresh installation covers service readiness and initial migrations. Existing database upgrades, representative
+document conversion/OCR, real AI providers, OIDC/MFA, external services, existing Secrets/PVCs and browser
+ingress/TLS require separate integration validation. Keep application regression tests in the upstream project.
+
 ### Outline (`outline`)
 
 Run `helm dependency update charts/outline` before rendering or linting. The `ci/test-values.yaml` fixture starts

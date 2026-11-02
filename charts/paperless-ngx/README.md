@@ -58,6 +58,33 @@ that interface; this release adds dedicated values for the new embedding credent
 
 ## Upgrading
 
+### To 0.6.0 (Paperless-ngx 3.3.2 -> 3.4.1)
+
+Back up the database, media and data volumes before upgrading. Review the
+[3.4.0](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.4.0) and
+[3.4.1](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.4.1) release notes.
+This update includes dependency security fixes from 3.3.4, workflow and search improvements, and PDF viewer fixes.
+Installations older than 3.3.2 must also follow the migration notes below.
+
+**PDF thumbnails now use Poppler; ImageMagick has been removed.** `paperless.binaries.convert` and
+`paperless.binaries.gs` remain accepted for values compatibility but no longer render environment variables.
+Remove these values, ImageMagick-specific mounts, and any `PAPERLESS_CONVERT_BINARY`, `PAPERLESS_GS_BINARY`,
+`PAPERLESS_CONVERT_MEMORY_LIMIT` or `PAPERLESS_CONVERT_TMPDIR` overrides: the application ignores them.
+Review custom scripts that call ImageMagick inside the container and validate thumbnail generation on your documents.
+
+Use `paperless.data.paths.scratchDir` to configure the writable workspace used for processing and exports
+(upstream default: `/tmp/paperless`). If you previously placed ImageMagick temporary files on disk to avoid a
+memory-backed `/tmp`, mount suitable storage and point this value at it. This is not a replacement memory limit.
+Move any existing `PAPERLESS_SCRATCH_DIR` entry from `extraEnvVars` to this value to avoid duplicate definitions.
+
+**OIDC MFA limitation in 3.4.1:** upstream documents `PAPERLESS_SOCIAL_ACCOUNT_MFA_TRUSTED_AMR` as a
+comma-separated list defaulting to `mfa`. However, the tagged settings pass `mfa` as the parser's separator,
+not its default. Unset or `mfa` values produce an empty list, so they do not skip Paperless' own two-factor prompt;
+comma-separated lists do not work as documented. This chart does not add a dedicated value for that broken
+interface. Leave it unset to retain local two-factor authentication and validate SSO behavior before relying on
+provider MFA. See the [tagged settings](https://github.com/paperless-ngx/paperless-ngx/blob/v3.4.1/src/paperless/settings/__init__.py)
+and [parser](https://github.com/paperless-ngx/paperless-ngx/blob/v3.4.1/src/paperless/settings/parsers.py).
+
 ### To 0.5.1 (Paperless-ngx 3.3.0 -> 3.3.2)
 
 [Paperless-ngx 3.3.2](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.3.2), including the
@@ -188,7 +215,7 @@ relevant to this chart specifically.
 | ------------------- | ------------------------------------------------------------------- | ----------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`                     |
 | `image.repository`  | The registry repository to pull the image from                      | `paperless-ngx/paperless-ngx` |
-| `image.tag`         | The image tag to pull                                               | `3.3.2`                       |
+| `image.tag`         | The image tag to pull                                               | `3.4.1`                       |
 | `image.digest`      | The image digest to pull                                            | `""`                          |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`                |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                          |
@@ -297,6 +324,7 @@ relevant to this chart specifically.
 | `paperless.data.paths.dataDir`                     | Define a custom data directory                                                                                                                                                                                | `""`             |
 | `paperless.data.paths.trashDir`                    | Define a custom trash directory                                                                                                                                                                               | `""`             |
 | `paperless.data.paths.emptyTrashDir`               | Define a custom trash directory                                                                                                                                                                               | `""`             |
+| `paperless.data.paths.scratchDir`                  | Writable temporary workspace for document processing and exports; defaults to /tmp/paperless                                                                                                                  | `""`             |
 | `paperless.data.paths.mediaRoot`                   | Define a custom media directory                                                                                                                                                                               | `""`             |
 | `paperless.data.paths.staticDir`                   | Define a custom static directory                                                                                                                                                                              | `""`             |
 | `paperless.data.paths.filenameFormat`              | Define a custom filename format                                                                                                                                                                               | `""`             |
@@ -357,8 +385,8 @@ relevant to this chart specifically.
 | `paperless.consume.collate.enableDoubleSided`      | Enables automatic collation of two single-sided scans into a double-sided document                                                                                                                            | `false`          |
 | `paperless.consume.collate.doubleSidedSubdirName`  | The name of the subdirectory that the collate feature expects documents to arrive                                                                                                                             | `double-sided`   |
 | `paperless.consume.collate.doubleSidedTiffSupport` | Whether TIFF image files should be supported when collating documents                                                                                                                                         | `false`          |
-| `paperless.binaries.convert`                       | The binary name for `convert`                                                                                                                                                                                 | `convert`        |
-| `paperless.binaries.gs`                            | The binary name for `gs`                                                                                                                                                                                      | `convert`        |
+| `paperless.binaries.convert`                       | Deprecated and no longer rendered; Paperless-ngx 3.4 removed ImageMagick                                                                                                                                      | `""`             |
+| `paperless.binaries.gs`                            | Deprecated and no longer rendered; Paperless-ngx 3.4 no longer uses this Ghostscript path                                                                                                                     | `""`             |
 
 ### ConfigMap parameters
 

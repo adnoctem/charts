@@ -233,6 +233,9 @@ data:
   {{- if .Values.paperless.data.paths.emptyTrashDir }}
   PAPERLESS_EMPTY_TRASH_DIR: {{ .Values.paperless.data.paths.emptyTrashDir | quote }}
   {{- end }}
+  {{- if .Values.paperless.data.paths.scratchDir }}
+  PAPERLESS_SCRATCH_DIR: {{ .Values.paperless.data.paths.scratchDir | quote }}
+  {{- end }}
   {{- if .Values.paperless.data.paths.mediaRoot }}
   PAPERLESS_MEDIA_ROOT: {{ .Values.paperless.data.paths.mediaRoot | quote }}
   {{- end }}
@@ -409,13 +412,4 @@ data:
   {{- end }}
   {{- if .Values.paperless.consume.collate.doubleSidedTiffSupport }}
   PAPERLESS_CONSUMER_COLLATE_DOUBLE_SIDED_TIFF_SUPPORT: {{ .Values.paperless.consume.collate.doubleSidedTiffSupport | quote }}
-  {{- end }}
-  {{- /*
-    Binaries configuration
-  */}}
-  {{- if .Values.paperless.binaries.convert }}
-  PAPERLESS_CONVERT_BINARY: {{ .Values.paperless.binaries.convert | quote }}
-  {{- end }}
-  {{- if .Values.paperless.binaries.gs }}
-  PAPERLESS_GS_BINARY: {{ .Values.paperless.binaries.gs | quote }}
   {{- end }}

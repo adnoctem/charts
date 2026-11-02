@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "3.3.2"
+          "default": "3.4.1"
         },
         "digest": {
           "type": "string",
@@ -597,6 +597,11 @@
                   "description": "Define a custom trash directory",
                   "default": "\"\""
                 },
+                "scratchDir": {
+                  "type": "string",
+                  "description": "Writable temporary workspace for document processing and exports; defaults to /tmp/paperless",
+                  "default": "\"\""
+                },
                 "mediaRoot": {
                   "type": "string",
                   "description": "Define a custom media directory",
@@ -951,13 +956,13 @@
           "properties": {
             "convert": {
               "type": "string",
-              "description": "The binary name for `convert`",
-              "default": "convert"
+              "description": "Deprecated and no longer rendered; Paperless-ngx 3.4 removed ImageMagick",
+              "default": "\"\""
             },
             "gs": {
               "type": "string",
-              "description": "The binary name for `gs`",
-              "default": "convert"
+              "description": "Deprecated and no longer rendered; Paperless-ngx 3.4 no longer uses this Ghostscript path",
+              "default": "\"\""
             }
           }
         }

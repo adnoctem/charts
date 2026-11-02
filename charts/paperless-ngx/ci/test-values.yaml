@@ -6,6 +6,10 @@ paperless:
   classifierMatchThreshold: 0.5
   matchRegexTimeoutSeconds: 0.25
 
+  data:
+    paths:
+      scratchDir: /tmp/paperless-ci
+
   consume:
     barcodes:
       storeValues: true
@@ -32,10 +36,10 @@ paperless:
 
   tika:
     enabled: true
-    endpoint: "http://paperless-ngx-tika:9998"
+    endpoint: ""
 
   gotenberg:
-    endpoint: "http://paperless-ngx-gotenberg"
+    endpoint: ""
 
 ingress:
   enabled: true
@@ -67,6 +71,9 @@ podDisruptionBudget:
 
 postgresql:
   enabled: true
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: 16.4.0-debian-12-r14
   auth:
     enablePostgresUser: true
     postgresPassword: "postgres"
@@ -86,6 +93,9 @@ postgresql:
 
 redis:
   enabled: true
+  image:
+    repository: bitnamilegacy/redis
+    tag: 7.2.5-debian-12-r0
   architecture: standalone
   auth:
     password: "paperless"
