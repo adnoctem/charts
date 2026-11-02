@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: outlinewiki/outline
-  tag: 1.11.0
+  tag: 1.12.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -168,6 +168,9 @@ outline:
     ## @param outline.redis.useTLS [default: false] Use a `rediss://` (TLS) URL to connect to Redis
     ##
     useTLS: false
+    ## @param outline.redis.unavailableTimeout [default: 300000] Milliseconds Redis may remain unavailable before Outline exits for restart; minimum 1000
+    ##
+    unavailableTimeout: 300000
     ## Specify an existing secret to grab the already-composed `REDIS_URL` connection string from - takes
     ## precedence over the individual fields above, which cannot be recombined with a live Secret's contents
     ## at template time

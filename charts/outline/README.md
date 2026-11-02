@@ -73,6 +73,25 @@ list.
 
 ## Upgrading
 
+### To 0.2.0 (Outline 1.11.0 -> 1.12.0)
+
+[Outline 1.12.0](https://github.com/outline/outline/releases/tag/v1.12.0) adds personal documents, improves mobile
+editing and includes security fixes. Administrators can disable personal documents in the application's settings.
+
+**Redis outage behavior changes:** Outline now exits when a Redis connection remains unavailable for five minutes,
+allowing Kubernetes to restart the container. Review Redis availability and restart alerts before upgrading.
+Set `outline.redis.unavailableTimeout` to adjust this interval in milliseconds (default `300000`, minimum `1000`).
+Existing Helm values remain valid; this new setting also applies when using an existing Redis Secret.
+
+Back up PostgreSQL and file storage before upgrading. The default container command runs migrations at startup:
+OAuth client metadata support, indexes on OAuth client references, and ownership for personal collections.
+Allow time for index creation on larger databases when choosing the Helm upgrade timeout and startup probe budget.
+An image rollback alone does not restore the previous database; retain matching database and file backups.
+
+Upstream has also replaced migrations before Outline 1.3.0 with a baseline schema. An existing database that has
+not completed those migrations cannot upgrade directly: first run an Outline version between 1.3.0 and 1.10.1
+and let its migrations finish, then upgrade to 1.12.0. Databases already migrated by 1.11.0 satisfy this prerequisite.
+
 ### To 0.1.3 (Outline 1.10.1 -> 1.11.0)
 
 [Outline 1.11.0](https://github.com/outline/outline/releases/tag/v1.11.0) adds document and collection deprecation
@@ -103,7 +122,7 @@ and, if enabled, the startup probe's failure threshold.
 | ------------------- | ------------------------------------------------------------------- | --------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`           |
 | `image.repository`  | The registry repository to pull the image from                      | `outlinewiki/outline` |
-| `image.tag`         | The image tag to pull                                               | `1.11.0`              |
+| `image.tag`         | The image tag to pull                                               | `1.12.0`              |
 | `image.digest`      | The image digest to pull                                            | `""`                  |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`        |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                  |
@@ -152,6 +171,7 @@ and, if enabled, the startup probe's failure threshold.
 | `outline.redis.username`                                | The username for the Redis user, if using Redis ACLs                                                                                                                                                                           | `""`                     |
 | `outline.redis.password`                                | The password for the Redis server - ignored if `existingSecret.name` is set                                                                                                                                                    | `""`                     |
 | `outline.redis.useTLS`                                  | Use a `rediss://` (TLS) URL to connect to Redis                                                                                                                                                                                | `false`                  |
+| `outline.redis.unavailableTimeout`                      | Milliseconds Redis may remain unavailable before Outline exits for restart; minimum 1000                                                                                                                                       | `300000`                 |
 | `outline.redis.existingSecret.name`                     | The name of an existing Secret containing the full `REDIS_URL` connection string                                                                                                                                               | `""`                     |
 | `outline.redis.existingSecret.key`                      | The key within the previously named existingSecret                                                                                                                                                                             | `REDIS_URL`              |
 | `outline.redis.collaborationUrl`                        | A separate Redis URL for the collaboration service, to enable horizontal scaling - leave empty to reuse the main Redis connection                                                                                              | `""`                     |

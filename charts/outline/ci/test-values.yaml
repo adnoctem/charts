@@ -13,10 +13,12 @@ outline:
     name: outline
     username: outline
     password: outline
+    sslMode: disable
 
   redis:
     host: outline-redis-master
     password: outline
+    unavailableTimeout: 60000
 
   fileStorage:
     type: local
@@ -55,8 +57,16 @@ podDisruptionBudget:
   enabled: true
   minAvailable: 1
 
+podSecurityContext:
+  fsGroup: 1001
+
 postgresql:
   enabled: true
+  fullnameOverride: outline-postgresql
+  # CI only: archived image matching the dependency; see docs/CONTRIBUTING.md.
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: 16.4.0-debian-12-r14
   auth:
     enablePostgresUser: true
     postgresPassword: outline
@@ -67,6 +77,11 @@ postgresql:
 
 redis:
   enabled: true
+  fullnameOverride: outline-redis
+  # CI only: archived image matching the dependency; see docs/CONTRIBUTING.md.
+  image:
+    repository: bitnamilegacy/redis
+    tag: 7.2.5-debian-12-r0
   architecture: standalone
   auth:
     password: outline

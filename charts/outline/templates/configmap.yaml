@@ -44,6 +44,10 @@ data:
   PGSSLMODE: {{ .Values.outline.database.sslMode | quote }}
   {{- end }}
   {{- /*
+    REDIS SETTINGS
+  */}}
+  REDIS_UNAVAILABLE_TIMEOUT: {{ .Values.outline.redis.unavailableTimeout | quote }}
+  {{- /*
     FILE STORAGE SETTINGS
   */}}
   FILE_STORAGE: {{ .Values.outline.fileStorage.type | quote }}

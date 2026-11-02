@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "1.11.0"
+          "default": "1.12.0"
         },
         "digest": {
           "type": "string",
@@ -223,6 +223,11 @@
               "type": "boolean",
               "description": "Use a `rediss://` (TLS) URL to connect to Redis",
               "default": "false"
+            },
+            "unavailableTimeout": {
+              "type": "number",
+              "description": "Milliseconds Redis may remain unavailable before Outline exits for restart; minimum 1000",
+              "default": "300000"
             },
             "existingSecret": {
               "type": "object",

@@ -326,6 +326,23 @@ in the chart-specific development section, including prerequisites and the limit
 Keep each chart's maintainer workflow, fixture descriptions and development notices here. End users should find
 all deployment and operational guidance in the chart README, without having to read this section.
 
+### Outline (`outline`)
+
+Run `helm dependency update charts/outline` before rendering or linting. The `ci/test-values.yaml` fixture starts
+Outline with PostgreSQL and Redis subcharts, local file storage, ingress, probes and a PodDisruptionBudget.
+Fixed subchart names match the application's connection settings even when chart-testing chooses a random release
+name. PostgreSQL TLS is disabled only in this fixture, and `fsGroup: 1001` permits the container's non-root user to
+write local attachments. A non-default Redis unavailability timeout exercises the environment-variable mapping.
+
+The fixture pins archived `bitnamilegacy/postgresql:16.4.0-debian-12-r14` and
+`bitnamilegacy/redis:7.2.5-debian-12-r0` images matching the dependency charts. They receive no security updates and
+are for CI only; production image defaults are unchanged. Use supported external services or licensed images in
+production. Do not substitute a different vendor's image into these subcharts without verifying its startup interface.
+
+The OIDC URLs and credentials are placeholders: startup and database migrations can be checked without an identity
+provider, but interactive login requires a real provider. Existing database upgrades, external PostgreSQL/Redis,
+existing Secrets/PVCs, S3 storage and browser ingress/TLS behavior require separate integration validation.
+
 ### Lighthouse CI (`lhci`)
 
 The chart uses the existing generation and chart-testing workflow:
