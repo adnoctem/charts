@@ -48,6 +48,17 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.5.1 (Uptime-Kuma 2.5.9 -> 2.5.11)
+
+[Uptime-Kuma 2.5.11](https://github.com/louislam/uptime-kuma/releases/tag/2.5.11) fixes an admin-only remote
+code-execution issue caused by an upstream dependency regression and updates dependencies. It includes
+[2.5.10](https://github.com/louislam/uptime-kuma/releases/tag/2.5.10), which fixes password reset with embedded
+MariaDB and updates the Docker image's Node.js runtime for security fixes.
+
+Existing Helm values remain compatible, with no new database migrations in these releases. Back up persistent
+application data before upgrading. Installations older than 2.5.9 must also follow the migration notes below,
+particularly the removal of TLS/STARTTLS checks from TCP Port monitors.
+
 ### To 0.5.0 (Uptime-Kuma 2.5.6 -> 2.5.9)
 
 This is a breaking chart release because [Uptime-Kuma 2.5.8](https://github.com/louislam/uptime-kuma/releases/tag/2.5.8)
@@ -112,7 +123,7 @@ Back up your PVC first.
 | ------------------- | ------------------------------------------------------------------- | ---------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`            |
 | `image.repository`  | The registry repository to pull the image from                      | `louislam/uptime-kuma` |
-| `image.tag`         | The image tag to pull                                               | `2.5.9`                |
+| `image.tag`         | The image tag to pull                                               | `2.5.11`               |
 | `image.digest`      | The image digest to pull                                            | `""`                   |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`         |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                   |
