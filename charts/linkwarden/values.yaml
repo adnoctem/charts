@@ -19,7 +19,7 @@
 image:
   registry: ghcr.io
   repository: linkwarden/linkwarden
-  tag: "v2.16.3"
+  tag: "v2.17.0"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'

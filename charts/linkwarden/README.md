@@ -59,6 +59,32 @@ Parameters.
 
 ## Upgrading
 
+### To 0.6.0 (Linkwarden 2.16.3 -> 2.17.0)
+
+[Linkwarden 2.17.0](https://github.com/linkwarden/linkwarden/releases/tag/v2.17.0) adds custom link ordering,
+faster rendering of large lists, import improvements and security fixes. Custom Order becomes the default sort
+inside collections; use the sort menu to select date or name ordering instead.
+
+The container automatically runs six new PostgreSQL migrations before starting the application. These include
+backfilling link order, adding email verification codes and session/rate-limit fields, and removing the unused
+`User.isPrivate` column and `WhitelistedUser` table. Back up both PostgreSQL and archived files before upgrading.
+Avoid running old and new application versions against the migrating database: stop all old web/worker replicas
+first (for this chart's Deployment, use `strategy.type: Recreate` with a single replica during the upgrade).
+Large libraries may need a longer startup-probe budget and Helm timeout while link order is backfilled.
+Rolling back the Helm release does not undo these migrations; restore the pre-upgrade database backup together
+with the old application version. The older manual migration below still applies to upgrades from 2.6.0 or earlier.
+
+- Email verification now uses a six-digit code instead of a sign-in link.
+- Changing a password signs out other devices and revokes access tokens; resetting a forgotten password signs
+  out all devices. Reauthenticate browser extensions and integrations such as Floccus and replace their revoked
+  tokens afterwards. Repeated incorrect passwords are now rate-limited.
+- `NEXT_PUBLIC_MOBILE_APP_REDIRECT_ENABLED` has been removed upstream. Remove it from `extraEnvVars` if configured;
+  the optional automatic mobile-app redirect is no longer available.
+- Optional custom AI prompts use `AI_GENERATE_TAGS_PROMPT`, `AI_PREDEFINED_TAGS_PROMPT` and
+  `AI_EXISTING_TAGS_PROMPT` through `extraEnvVars`, consistent with the chart's existing AI-provider escape hatch.
+  See the [upstream custom-prompt documentation](https://docs.linkwarden.app/self-hosting/ai-worker#custom-prompts)
+  for supported placeholders. Ports, storage paths and existing chart values otherwise remain unchanged.
+
 ### To 0.5.1 (Linkwarden 2.16.2 -> 2.16.3)
 
 [Linkwarden 2.16.3](https://github.com/linkwarden/linkwarden/releases/tag/v2.16.3) improves the performance of link,
@@ -119,7 +145,7 @@ affecting your own usage.
 | ------------------- | ------------------------------------------------------------------- | ----------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`               |
 | `image.repository`  | The registry repository to pull the image from                      | `linkwarden/linkwarden` |
-| `image.tag`         | The image tag to pull                                               | `v2.16.3`               |
+| `image.tag`         | The image tag to pull                                               | `v2.17.0`               |
 | `image.digest`      | The image digest to pull                                            | `""`                    |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`          |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                    |

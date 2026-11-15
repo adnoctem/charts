@@ -45,6 +45,9 @@ startupProbe:
   enabled: true
 
 postgresql:
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: 16.4.0-debian-12-r14
   auth:
     enablePostgresUser: true
     postgresPassword: "postgres"

@@ -388,6 +388,21 @@ The OIDC URLs and credentials are placeholders: startup and database migrations 
 provider, but interactive login requires a real provider. Existing database upgrades, external PostgreSQL/Redis,
 existing Secrets/PVCs, S3 storage and browser ingress/TLS behavior require separate integration validation.
 
+### Linkwarden (`linkwarden`)
+
+Run `helm dependency update charts/linkwarden` before rendering or linting, then use the standard generation and
+chart-testing workflow. The fixture starts Linkwarden with PostgreSQL, local archive storage, credential login,
+ingress and all three probes. The database hostname follows the release name, including chart-testing's random names.
+
+The fixture pins archived `bitnamilegacy/postgresql:16.4.0-debian-12-r14` to match the PostgreSQL dependency chart.
+This image receives no security updates and is for CI only; production defaults remain unchanged.
+
+Fresh installation validates startup and migrations on an empty database. Existing database upgrades, populated
+link-order backfills, email verification, session/token revocation, SSO, AI tagging, archive capture, external
+PostgreSQL, existing Secrets/PVCs and browser ingress/TLS need separate integration validation. In particular,
+check upgrade downtime and backup restoration with representative data before a production upgrade to 2.17.0.
+Keep application regression tests in the upstream project.
+
 ### Lighthouse CI (`lhci`)
 
 The chart uses the existing generation and chart-testing workflow:
