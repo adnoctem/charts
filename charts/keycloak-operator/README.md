@@ -7,7 +7,7 @@ etc. The [Keycloak Operator](https://github.com/keycloak/keycloak/tree/main/oper
 instances of Keycloak at will using the newly registered
 `Keycloak` [CustomResourceDefinition](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/).
 This Helm chart packages the
-official [upstream manifests](https://github.com/keycloak/keycloak-k8s-resources/blob/26.8.1/kubernetes/kubernetes.yml)
+official [upstream manifests](https://github.com/keycloak/keycloak-k8s-resources/blob/26.8.2/kubernetes/kubernetes.yml)
 and closely tracks these for changes. Keycloak also provides an experimental upstream Helm chart as of 26.8.0;
 this chart remains independently maintained. The Operator is available as a single Docker image
 on [quay.io](https://quay.io/repository/keycloak/keycloak-operator).
@@ -85,6 +85,55 @@ EOF
 ```
 
 ## Upgrading
+
+### To 0.6.0 (Keycloak Operator 26.8.1 -> 26.8.2)
+
+This release upgrades the operator and its default managed Keycloak image to 26.8.2. Existing chart values remain
+compatible, and all four bundled CRD schemas are unchanged. The managed server introduces breaking security fixes;
+back up its database and custom resources, and review the
+[tagged upstream migration guide](https://github.com/keycloak/keycloak/blob/26.8.2/docs/documentation/upgrading/topics/changes/changes-26_8_2.adoc).
+
+**Plan downtime for this upgrade.** The migration adds a client-registration policy provider that older 26.8.x
+nodes cannot use, so a rolling server upgrade is unsupported. Before upgrading the operator, set each managed
+`Keycloak` resource's `spec.update.strategy` to `RecreateOnImageChange` (the default), including resources currently
+using `Auto` or `Explicit`. The operator then stops the old server pods before changing their image. Use a new image
+tag when upgrading a custom image; resources with an explicit `spec.image` must be updated separately. See the
+[versioned operator update guide](https://github.com/keycloak/keycloak/blob/26.8.2/docs/guides/operator/rolling-updates.adoc)
+for update-strategy behavior.
+
+Review these integrations before allowing application traffic again:
+
+- **Admin API clients:** assign the new built-in `kc-admin-api` client scope to custom clients and service accounts
+  that call the Admin REST API. When assigned as an optional scope, request it when obtaining tokens. New tokens
+  must include both this scope and the Admin API audience it supplies, or requests receive HTTP 401. The built-in
+  `admin-cli` and `security-admin-console` clients receive the scope automatically during migration.
+- **Protocol mappers and client registration:** mapper creation, modification and deletion now require realm
+  management permission unless a realm administrator explicitly permits mapper types for delegated client
+  administrators. Dynamic Client Registration additionally requires those types in its policy allowlist; both
+  lists must permit each type. Existing disallowed mappers may remain unchanged. Registration policies also block
+  changes to realm default roles and enabling full scope through authenticated registration; move that management
+  to the Admin REST API. Adjust provisioning scripts and permissions before retrying rejected requests.
+- **SAML integrations:** upstream broker assertions must contain valid bearer subject confirmation and its data.
+  Assertions with `ProxyRestriction` are rejected by default; arrange compatible assertions with the provider.
+  SAML adapters must use the actual realm URL as the IdP `entityID`, replacing old `idp` placeholders; download a
+  fresh adapter configuration. Back-channel logout with `SessionIndex` requires client signatures and a configured
+  signing certificate, or switch to browser-based logout. SOAP requests now have a 120,000-byte limit; review
+  `spi-login-protocol--saml--max-soap-message-request-size` if necessary. SAML 1.1 parsing is disabled by default;
+  migrate integrations to supported SAML 2.0.
+- **Identity linking and organizations:** automatic account linking requires verified email or a trusted provider.
+  Enable **Trust Email** only when the provider establishes address ownership. Organization domain-based membership
+  can now require local email verification even when realm-wide verification is off; configure and test SMTP and
+  first-login flows. An OIDC `email_verified=false` value still requires local verification even with Trust Email.
+  Review memberships previously granted from unverified addresses and onboarding that relies on `IMPORT` mappers;
+  those mappers are not replayed when verification must be retried in another authentication session.
+- **Token exchange and CIBA:** exchanged access and ID tokens now expire no later than the subject token. Review
+  clients that assume a fresh full token lifetime. Rename custom CIBA form parameters that use reserved protocol
+  claim names such as `sub`, `aud` or `exp`; required claims inside signed request objects remain supported.
+- **Administration and operations:** client-session statistics now include only clients the caller can view.
+  Grant the appropriate client-view permissions where needed. Stop updating the internal `admin-permissions`
+  client through the Admin REST API; manage the realm's permissions and policies instead. Explicitly import
+  self-signed server certificates into custom `kcadm`/`kcreg` truststores. Review user-storage sync periods if they
+  were shortened to compensate for the previous doubled interval.
 
 ### To 0.5.0 (Keycloak Operator 26.8.0 -> 26.8.1)
 
@@ -203,7 +252,7 @@ This is a large range covering multiple Keycloak minor releases, including a hea
 | ------------------- | ------------------------------------------------------------------- | ---------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `quay.io`                    |
 | `image.repository`  | The registry repository to pull the image from                      | `keycloak/keycloak-operator` |
-| `image.tag`         | The image tag to pull                                               | `26.8.1`                     |
+| `image.tag`         | The image tag to pull                                               | `26.8.2`                     |
 | `image.digest`      | The image digest to pull                                            | `""`                         |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`               |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                         |

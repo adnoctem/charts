@@ -65,10 +65,10 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Common annotations
 */}}
 {{- define "kcOperator.annotations" -}}
-app.quarkus.io/quarkus-version: 3.40.1
-app.quarkus.io/commit-id: 24ed1dadf3f246a555adb6d3d4a99e9b3003fb3b
+app.quarkus.io/quarkus-version: 3.40.1.1
+app.quarkus.io/commit-id: e514445f9dcdabc5bdcf67cab56c1e49655de067
 app.quarkus.io/vcs-uri: https://github.com/keycloak/keycloak.git
-app.quarkus.io/build-timestamp: 2026-10-13 - 09:04:43 +0000
+app.quarkus.io/build-timestamp: 2026-11-09 - 13:35:29 +0000
 {{- end }}
 
 {{/*
