@@ -41,6 +41,27 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.8.0 (Gotenberg 8.39.0 -> 8.40.0)
+
+[Gotenberg 8.40.0](https://github.com/gotenberg/gotenberg/releases/tag/v8.40.0) is the final v8 release.
+It fixes QPDF password argument injection that could expose files readable by the container, Chromium certificate
+trust and outbound filtering gaps, LibreOffice restart failures, merged PDF/A output and image optimization.
+Existing Helm value names remain compatible, but review these behavior changes before upgrading:
+
+- Invalid `gotenberg.chromium.hostResolverRules` now prevent startup. Correct malformed `MAP`/`EXCLUDE` rules.
+  Gotenberg applies the mappings itself and keeps its pinning proxy enabled; network checks evaluate the mapped
+  address. Test custom DNS mappings and loopback access against your outbound policy.
+- `denyPrivateIps` in the Chromium, LibreOffice and webhook settings now rejects additional IANA special-purpose
+  ranges, including some anycast services. Check required destinations against the ranges in the release notes.
+- Chromium now distrusts the affected eMudhra certificate roots immediately on startup. Replace affected upstream
+  certificate chains; restarting Chromium no longer briefly restores trust.
+- When `gotenberg.chromium.proxyServer` is configured, enforce outbound restrictions at that proxy as well;
+  WebSocket handshakes can reach it without Gotenberg's checks. Startup now warns about this combination.
+- Invalid Chromium print parameters now return HTTP 400 instead of 500. Adjust client error handling if needed.
+
+For `linux/386` deployments, review the upstream runtime-specific seccomp guidance: Docker 29.4 and later can
+block `socketcall`, preventing startup. This also affects earlier Gotenberg images; it is not a chart-default change.
+
 ### To 0.7.0 (Gotenberg 8.38.1 -> 8.39.0)
 
 [Gotenberg 8.39.0](https://github.com/gotenberg/gotenberg/releases/tag/v8.39.0) introduces security restrictions
@@ -105,6 +126,65 @@ This is a breaking chart release. Review the following before upgrading:
   `startupProbe.enabled: true` set, the correct probe type is now applied - review your probe behavior after
   upgrading.
 
+<!-- markdownlint-disable MD025 -->
+
+# Notes
+
+<!-- markdownlint-enable MD025 -->
+
+## When is v9 coming
+
+This chart intentionally stays on **Gotenberg 8.40.0** for now. We want a thorough chart history that records
+which application versions, behavior changes and migration decisions each chart release represents. Keeping
+that history useful also means giving existing users a practical upgrade path instead of immediately switching
+the chart's configuration contract to a new application major version.
+
+Moving the chart to v9 now would leave v8 users pinned to their last compatible chart release unless they take
+responsibility for custom images or image-version overrides and matching command-line arguments. An image tag
+alone is not enough when the chart emits flags for another major version. We want v8 users to remain able to
+receive chart improvements without having to maintain those workarounds themselves.
+
+We therefore expect to wait longer, likely until upstream moves toward deprecating v8, before changing the chart's
+default major version. There is no fixed migration date. Upstream already describes 8.40.0 as the final v8 release;
+this policy does not promise further upstream v8 fixes or indefinite support. We will reassess compatibility and
+security as that lifecycle develops. Staying on 8.39.0 instead would leave the security and reliability fixes
+listed in the 0.8.0 upgrade notes unapplied.
+
+**Why migrate eventually?** [Gotenberg 9](https://github.com/gotenberg/gotenberg/releases/tag/v9.0.0) replaces
+pdfcpu, QPDF, pdftk and ExifTool with the in-process litho PDF engine and uses a new [LibreOfficeKit worker](https://github.com/gotenberg/lok).
+Java, Python and several external tools leave the image, reducing the dependencies to patch. New capabilities
+include PDF conformance checking and repair, signing, redaction and ordered processing stages. These are useful
+reasons to adopt v9 once the surrounding integrations are ready.
+
+**Why wait?** The [v9 migration guide](https://gotenberg.dev/docs/getting-started/upgrade) describes changes
+that require more than an image bump:
+
+- Our chart emits `--pdfengines-*` and `--prometheus-*` flags that v9 removes or replaces. Engine selection and
+  webhook error settings also need migration.
+- PDF endpoints move from `/forms/pdfengines/*` to `/forms/pdf/*`; old paths return 404. Moved fields such as
+  `pdfa` and `merge` return 400 and must become stages or their supported native equivalents.
+- Prometheus collection moves through OpenTelemetry, changing scrape configuration and metric names. Existing
+  dashboards and alerts need review.
+- Replacing the PDF engine requires checking representative documents, fonts, metadata and PDF/A output.
+  Some v8 features, including arbitrary ExifTool metadata tags and lossy PDF image optimization, have no direct
+  equivalent. Custom images and scripts that invoke removed tools also need changes.
+
+Paperless is a concrete compatibility concern. Its
+[3.4.2 conversion code](https://github.com/paperless-ngx/paperless-ngx/blob/v3.4.2/src/paperless/parsers/tika.py)
+uses the [pinned Gotenberg client](https://github.com/paperless-ngx/paperless-ngx/blob/v3.4.2/uv.lock), whose PDF/A
+requests send the old `pdfa` field. Source inspection therefore indicates those conversions would fail against
+v9; this is not a completed integration test. Our Paperless chart separately pins Gotenberg chart `~0.4.0`.
+Updating this standalone chart neither upgrades that bundled instance nor delivers the 8.40.0 fixes to it;
+that dependency needs its own compatibility review and update after the desired chart is published.
+
+Before we migrate this chart ourselves, we must provide and thoroughly verify a **custom argument API** that
+works with explicit image versions and custom images. It must let users replace incompatible generated arguments,
+with documented precedence and predictable behavior, rather than merely append flags that conflict with defaults.
+The current chart generates arguments from the typed `gotenberg` values and has no general argument override;
+`extraEnvVars` does not replace command-line arguments. This remains a prerequisite for the future migration,
+not a capability introduced by this v8 release. We must also validate the v9 configuration, monitoring and client
+conversion paths and publish migration instructions that preserve a usable route for v8 users.
+
 ## Parameters
 
 ### Image parameters
@@ -113,7 +193,7 @@ This is a breaking chart release. Review the following before upgrading:
 | ------------------- | ------------------------------------------------------------------- | --------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`           |
 | `image.repository`  | The registry repository to pull the image from                      | `gotenberg/gotenberg` |
-| `image.tag`         | The image tag to pull                                               | `8.39.0`              |
+| `image.tag`         | The image tag to pull                                               | `8.40.0`              |
 | `image.digest`      | The image digest to pull                                            | `""`                  |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`        |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                  |
