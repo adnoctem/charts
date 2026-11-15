@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: outlinewiki/outline
-  tag: 1.12.0
+  tag: 1.13.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -131,7 +131,7 @@ outline:
     ## @param outline.database.connectionPoolMin [string] The in-memory database pool minimum size per process
     ##
     connectionPoolMin: ""
-    ## @param outline.database.connectionPoolMax [string] The in-memory database pool maximum size per process - ensure this does not exceed your database's maximum connections
+    ## @param outline.database.connectionPoolMax [string] The in-memory database pool maximum size per process; empty uses upstream default 5, otherwise at least 2 - account for all processes against your database's connection limit
     ##
     connectionPoolMax: ""
     ## @param outline.database.sslMode [string] Set to `disable` if not using SSL to connect to Postgres (acceptable if the database and application are co-located)
@@ -171,6 +171,9 @@ outline:
     ## @param outline.redis.unavailableTimeout [default: 300000] Milliseconds Redis may remain unavailable before Outline exits for restart; minimum 1000
     ##
     unavailableTimeout: 300000
+    ## @param outline.redis.ephemeralCommandTimeout [default: 500] Timeout in milliseconds for ephemeral Redis commands (caches, locks and rate limits); minimum 100
+    ##
+    ephemeralCommandTimeout: 500
     ## Specify an existing secret to grab the already-composed `REDIS_URL` connection string from - takes
     ## precedence over the individual fields above, which cannot be recombined with a live Secret's contents
     ## at template time
@@ -446,6 +449,13 @@ outline:
       ## @param outline.auth.discord.serverRoles [string] Comma-separated Discord role IDs allowed to sign in, when `serverId` is set
       ##
       serverRoles: ""
+
+  ## OAuth server configuration (including MCP clients, separate from sign-in providers)
+  ##
+  oauth:
+    ## @param outline.oauth.disableCimd [default: false] Disable OAuth Client ID Metadata Documents when client metadata hosts are unreachable; clients must use Dynamic Client Registration instead
+    ##
+    disableCimd: false
 
   ## Third-party integrations
   ##

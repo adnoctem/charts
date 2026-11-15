@@ -14,11 +14,16 @@ outline:
     username: outline
     password: outline
     sslMode: disable
+    connectionPoolMax: "2"
 
   redis:
     host: outline-redis-master
     password: outline
     unavailableTimeout: 60000
+    ephemeralCommandTimeout: 1000
+
+  oauth:
+    disableCimd: true
 
   fileStorage:
     type: local

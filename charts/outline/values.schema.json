@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "1.12.0"
+          "default": "1.13.0"
         },
         "digest": {
           "type": "string",
@@ -171,7 +171,7 @@
             },
             "connectionPoolMax": {
               "type": "string",
-              "description": "The in-memory database pool maximum size per process - ensure this does not exceed your database's maximum connections",
+              "description": "The in-memory database pool maximum size per process; empty uses upstream default 5, otherwise at least 2 - account for all processes against your database's connection limit",
               "default": "\"\""
             },
             "sslMode": {
@@ -228,6 +228,11 @@
               "type": "number",
               "description": "Milliseconds Redis may remain unavailable before Outline exits for restart; minimum 1000",
               "default": "300000"
+            },
+            "ephemeralCommandTimeout": {
+              "type": "number",
+              "description": "Timeout in milliseconds for ephemeral Redis commands (caches, locks and rate limits); minimum 100",
+              "default": "500"
             },
             "existingSecret": {
               "type": "object",
@@ -648,6 +653,16 @@
                   "default": "\"\""
                 }
               }
+            }
+          }
+        },
+        "oauth": {
+          "type": "object",
+          "properties": {
+            "disableCimd": {
+              "type": "boolean",
+              "description": "Disable OAuth Client ID Metadata Documents when client metadata hosts are unreachable; clients must use Dynamic Client Registration instead",
+              "default": "false"
             }
           }
         },

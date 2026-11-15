@@ -47,6 +47,11 @@ data:
     REDIS SETTINGS
   */}}
   REDIS_UNAVAILABLE_TIMEOUT: {{ .Values.outline.redis.unavailableTimeout | quote }}
+  REDIS_EPHEMERAL_COMMAND_TIMEOUT: {{ .Values.outline.redis.ephemeralCommandTimeout | quote }}
+  {{- /*
+    OAUTH SERVER SETTINGS
+  */}}
+  OAUTH_DISABLE_CIMD: {{ .Values.outline.oauth.disableCimd | quote }}
   {{- /*
     FILE STORAGE SETTINGS
   */}}

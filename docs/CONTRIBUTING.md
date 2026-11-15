@@ -397,7 +397,9 @@ Run `helm dependency update charts/outline` before rendering or linting. The `ci
 Outline with PostgreSQL and Redis subcharts, local file storage, ingress, probes and a PodDisruptionBudget.
 Fixed subchart names match the application's connection settings even when chart-testing chooses a random release
 name. PostgreSQL TLS is disabled only in this fixture, and `fsGroup: 1001` permits the container's non-root user to
-write local attachments. A non-default Redis unavailability timeout exercises the environment-variable mapping.
+write local attachments. Non-default Redis unavailability and ephemeral-command timeouts exercise the
+environment-variable mappings. The fixture sets the database pool maximum to the minimum supported value of two
+and enables the OAuth CIMD fallback to exercise its boolean mapping; actual DCR/MCP flows need an OAuth client.
 
 The fixture pins archived `bitnamilegacy/postgresql:16.4.0-debian-12-r14` and
 `bitnamilegacy/redis:7.2.5-debian-12-r0` images matching the dependency charts. They receive no security updates and

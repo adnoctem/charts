@@ -73,6 +73,39 @@ list.
 
 ## Upgrading
 
+### To 0.3.0 (Outline 1.12.0 -> 1.13.0)
+
+[Outline 1.13.0](https://github.com/outline/outline/releases/tag/v1.13.0) improves search, adds Gitea/Forgejo
+integration, preview cards and expiry dates for public shares, and includes security fixes. Workspace-wide default
+share expiry requires the licensed edition. Configure the Gitea/Forgejo integration in the application's settings.
+
+**Database connection pools now require a maximum of at least two connections per process.** If
+`outline.database.connectionPoolMax` is `"0"` or `"1"`, raise it to at least `"2"`, or leave it empty to use the
+upstream default of five. Allow enough PostgreSQL connections for every application process and replica.
+
+Two new chart values expose upstream settings:
+
+- `outline.redis.ephemeralCommandTimeout` controls command timeouts for Redis caches, locks and rate limits
+  (milliseconds, default `500`, minimum `100`). Ephemeral commands fail immediately when disconnected instead
+  of being queued. This is separate from `outline.redis.unavailableTimeout`, which controls process exit during
+  a sustained Redis outage; Redis is still required for the application.
+- `outline.oauth.disableCimd` defaults to `false`. Set it to `true` when network restrictions prevent the OAuth
+  server from fetching Client ID Metadata Documents; clients must then use Dynamic Client Registration (DCR).
+  DCR must remain enabled for that fallback. This controls Outline's OAuth server, including MCP clients, and
+  does not change the OIDC sign-in provider settings.
+
+Back up PostgreSQL and file storage before upgrading and preserve existing application Secrets. The default
+container command applies seven migrations: import destinations, longer file-operation keys/URLs, share expiry,
+and indexes for comment replies, OAuth authentications, pending import tasks and inherited group permissions.
+Allow time for these migrations when setting the Helm timeout and startup-probe budget. An image or Helm rollback
+does not undo database migrations; retain matching backups. The pre-1.3.0 database prerequisite described below
+still applies when upgrading from older Outline releases.
+
+API clients calling `views.list` must now follow pagination (default page size `100`). Request transactions also
+gain a five-second database lock timeout. The official image includes the updated Node.js runtime, so no host
+Node.js upgrade is needed for this chart; custom images built from source must satisfy upstream's new runtime
+requirements. Ports and storage mounts are unchanged.
+
 ### To 0.2.0 (Outline 1.11.0 -> 1.12.0)
 
 [Outline 1.12.0](https://github.com/outline/outline/releases/tag/v1.12.0) adds personal documents, improves mobile
@@ -122,7 +155,7 @@ and, if enabled, the startup probe's failure threshold.
 | ------------------- | ------------------------------------------------------------------- | --------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`           |
 | `image.repository`  | The registry repository to pull the image from                      | `outlinewiki/outline` |
-| `image.tag`         | The image tag to pull                                               | `1.12.0`              |
+| `image.tag`         | The image tag to pull                                               | `1.13.0`              |
 | `image.digest`      | The image digest to pull                                            | `""`                  |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`        |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                  |
@@ -162,7 +195,7 @@ and, if enabled, the startup probe's failure threshold.
 | `outline.database.username`                             | The username for the PostgreSQL user                                                                                                                                                                                           | `outline`                |
 | `outline.database.password`                             | The password for the PostgreSQL user - ignored if `existingSecret.name` is set                                                                                                                                                 | `""`                     |
 | `outline.database.connectionPoolMin`                    | The in-memory database pool minimum size per process                                                                                                                                                                           | `""`                     |
-| `outline.database.connectionPoolMax`                    | The in-memory database pool maximum size per process - ensure this does not exceed your database's maximum connections                                                                                                         | `""`                     |
+| `outline.database.connectionPoolMax`                    | The in-memory database pool maximum size per process; empty uses upstream default 5, otherwise at least 2 - account for all processes against your database's connection limit                                                 | `""`                     |
 | `outline.database.sslMode`                              | Set to `disable` if not using SSL to connect to Postgres (acceptable if the database and application are co-located)                                                                                                           | `""`                     |
 | `outline.database.existingSecret.name`                  | The name of an existing Secret containing the full `DATABASE_URL` connection string                                                                                                                                            | `""`                     |
 | `outline.database.existingSecret.key`                   | The key within the previously named existingSecret                                                                                                                                                                             | `DATABASE_URL`           |
@@ -172,6 +205,7 @@ and, if enabled, the startup probe's failure threshold.
 | `outline.redis.password`                                | The password for the Redis server - ignored if `existingSecret.name` is set                                                                                                                                                    | `""`                     |
 | `outline.redis.useTLS`                                  | Use a `rediss://` (TLS) URL to connect to Redis                                                                                                                                                                                | `false`                  |
 | `outline.redis.unavailableTimeout`                      | Milliseconds Redis may remain unavailable before Outline exits for restart; minimum 1000                                                                                                                                       | `300000`                 |
+| `outline.redis.ephemeralCommandTimeout`                 | Timeout in milliseconds for ephemeral Redis commands (caches, locks and rate limits); minimum 100                                                                                                                              | `500`                    |
 | `outline.redis.existingSecret.name`                     | The name of an existing Secret containing the full `REDIS_URL` connection string                                                                                                                                               | `""`                     |
 | `outline.redis.existingSecret.key`                      | The key within the previously named existingSecret                                                                                                                                                                             | `REDIS_URL`              |
 | `outline.redis.collaborationUrl`                        | A separate Redis URL for the collaboration service, to enable horizontal scaling - leave empty to reuse the main Redis connection                                                                                              | `""`                     |
@@ -233,6 +267,7 @@ and, if enabled, the startup probe's failure threshold.
 | `outline.auth.discord.existingSecret.name`              | The name of an existing Secret containing `clientId` and `clientSecret` keys                                                                                                                                                   | `""`                     |
 | `outline.auth.discord.serverId`                         | Restrict sign-in to members of this Discord server ID                                                                                                                                                                          | `""`                     |
 | `outline.auth.discord.serverRoles`                      | Comma-separated Discord role IDs allowed to sign in, when `serverId` is set                                                                                                                                                    | `""`                     |
+| `outline.oauth.disableCimd`                             | Disable OAuth Client ID Metadata Documents when client metadata hosts are unreachable; clients must use Dynamic Client Registration instead                                                                                    | `false`                  |
 | `outline.integrations.github.clientId`                  | The GitHub OAuth app client ID                                                                                                                                                                                                 | `""`                     |
 | `outline.integrations.github.clientSecret`              | The GitHub OAuth app client secret - ignored if `existingSecret.name` is set                                                                                                                                                   | `""`                     |
 | `outline.integrations.github.webhookSecret`             | The GitHub webhook secret - ignored if `existingSecret.name` is set                                                                                                                                                            | `""`                     |
