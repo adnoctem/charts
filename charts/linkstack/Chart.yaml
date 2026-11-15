@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 4.8.6
+appVersion: 4.8.8
 kubeVersion: ">=1.26.0-0"
 name: linkstack
-version: 0.4.0
+version: 0.5.0
 description: LinkStack is a highly customizable link sharing platform with an intuitive, easy to use user interface
 home: https://github.com/LinkStackOrg/LinkStack
 icon: https://raw.githubusercontent.com/LinkStackOrg/branding/c22886d7585246836d5e4e597484b92b51c76f0c/logo/png/logo.png
@@ -33,7 +33,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: linkstack
-      image: docker.io/linkstackorg/linkstack:latest@sha256:1c8b05399ee459ac601bac3eede7fbe765d1b6b7be725663b57f3220610958bf
+      image: docker.io/linkstackorg/linkstack:latest@sha256:2920f70e15ae01a9d943cc90b96fc6198f6ac79260491deabf96103c42d49357
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -47,6 +47,12 @@ annotations:
   org.opencontainers.image.licenses: "AGPL-3.0"
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
+    - kind: changed
+      description: update the pinned image to the build containing LinkStack 4.8.8
+    - kind: fixed
+      description: seed only empty volumes to prevent overwriting configuration, SQLite data and custom files on pod recreation
+    - kind: fixed
+      description: track the separate image digest with Renovate
     - kind: changed
       description: repository owner changed from fmjstudios to adnoctem
     - kind: fixed

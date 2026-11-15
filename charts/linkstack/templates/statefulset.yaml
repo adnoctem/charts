@@ -128,7 +128,14 @@ spec:
           image: {{ include "linkstack.image" . }}
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh"]
-          args: ["-c", "cp -r /htdocs/. /data && chown -R {{ default "100" .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }} /data"]
+          args:
+            - -ec
+            - |
+              contents=$(ls -A /data)
+              if [ -z "$contents" ]; then
+                cp -r /htdocs/. /data
+                chown -R {{ default "100" .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }} /data
+              fi
           securityContext:
             runAsUser: 0
             runAsGroup: 0

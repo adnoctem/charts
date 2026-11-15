@@ -46,6 +46,32 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.5.0 (LinkStack 4.8.6 -> 4.8.8 for new installations)
+
+The pinned image contains LinkStack 4.8.8. Releases
+[4.8.7](https://github.com/LinkStackOrg/LinkStack/releases/tag/v4.8.7) and
+[4.8.8](https://github.com/LinkStackOrg/LinkStack/releases/tag/v4.8.8) include security and compatibility fixes:
+link ownership checks, profile HTML filtering and Apache restrictions on direct PHP and sensitive-file access.
+The container's environment variables, ports and storage path are unchanged; no new application migration files
+were added between these releases.
+
+**Existing volumes are now preserved instead of overwritten.** Earlier chart versions copied the bundled application,
+including `.env` and `database/database.sqlite`, into the PVC every time the pod was recreated. The init container
+now seeds only an empty volume. This protects existing configuration, database contents, uploads and customizations.
+Back up the entire PVC before upgrading, including `.env`, database files, themes and uploaded assets; also back up
+an external database if configured.
+
+An image or Helm upgrade updates the container runtime but does not replace the application already stored on the
+PVC. After upgrading this chart, use the [upstream Admin Panel updater](https://github.com/LinkStackOrg/linkstack-docker#updating)
+to update an existing installation to 4.8.8 and verify its reported application version. `appVersion` describes the
+version bundled for new installations, not necessarily the version running from an existing PVC. Do not delete
+the PVC to force an upgrade. A nonempty volume must contain a complete installation writable by the configured
+container user; partially populated volumes are left untouched and need manual recovery from a known-good backup.
+
+Avoid rolling back to chart 0.4.0 or earlier: those init containers can overwrite your restored data on pod recreation.
+For recovery, retain this chart's guarded seeding behavior and restore matching application files, configuration and
+database backups. A container digest rollback alone does not roll back the application on the PVC.
+
 ### To 0.4.0 (LinkStack 4.8.0 -> 4.8.6)
 
 - `appVersion` bumped from `4.8.0` to `4.8.6`, and `image.digest` updated to match. All intermediate releases were
@@ -58,7 +84,7 @@ configurable via the Image Parameters.
 - If your LinkStack instance was ever upgraded via its own in-app updater while running `4.8.0`-`4.8.3`, be aware
   that a since-fixed bug in that updater could corrupt or delete the contents of the themes directory - see
   [the 4.8.4 release notes](https://github.com/LinkStackOrg/LinkStack/releases/tag/v4.8.4) if that applies to your
-  deployment. This chart's own upgrade path (pulling a newer image) is unaffected.
+  deployment. The volume-overwrite issue in this chart's old image upgrade path is addressed in 0.5.0 above.
 
 ## Parameters
 
@@ -69,7 +95,7 @@ configurable via the Image Parameters.
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`                                                               |
 | `image.repository`  | The registry repository to pull the image from                      | `linkstackorg/linkstack`                                                  |
 | `image.tag`         | The image tag to pull                                               | `latest`                                                                  |
-| `image.digest`      | The image digest to pull                                            | `sha256:1c8b05399ee459ac601bac3eede7fbe765d1b6b7be725663b57f3220610958bf` |
+| `image.digest`      | The image digest to pull                                            | `sha256:2920f70e15ae01a9d943cc90b96fc6198f6ac79260491deabf96103c42d49357` |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`                                                            |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                                                                      |
 

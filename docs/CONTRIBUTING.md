@@ -410,6 +410,27 @@ The OIDC URLs and credentials are placeholders: startup and database migrations 
 provider, but interactive login requires a real provider. Existing database upgrades, external PostgreSQL/Redis,
 existing Secrets/PVCs, S3 storage and browser ingress/TLS behavior require separate integration validation.
 
+### LinkStack (`linkstack`)
+
+Use the standard generation, chart lint and `ct install --config config/ct-config.yaml --charts charts/linkstack`
+workflow. The fixture exercises native Apache/PHP settings, persistent storage, ingress and all three probes.
+Readiness checks the initial setup page; it does not establish that account setup or authenticated workflows work.
+For persistence validation, retain a test release, modify its `.env`, SQLite database and a custom file, recreate
+only its pod, and verify those files are unchanged. Never use a production PVC for this check.
+
+The existing init container seeds only an empty volume and assigns its initial ownership. It must not overwrite
+an existing application tree: LinkStack stores application code alongside user data in `/htdocs`, and upgrades of
+that tree belong to the upstream Admin Panel updater. The pinned image's `version.json` establishes `appVersion`
+for new installations; verify it directly when changing the digest. Real application upgrades, backup restoration,
+external databases, custom themes and ingress/TLS need separate integration validation. Keep application update
+logic in LinkStack, rather than implementing it in Helm templates or runtime wrappers.
+
+Renovate's scoped regex manager reads the Docker repository, tag and separate digest in this chart's `values.yaml`.
+The normal Helm values extractor is disabled only for this dependency because it ignores the separate digest.
+Validate config and local extraction/lookup when changing this mapping. Digest updates still need image-version
+verification, a chart version bump, Artifact Hub metadata and README updates; the mutable `latest` tag alone cannot
+establish the bundled application version. Dashboard visibility follows the next Renovate run on the tracked branch.
+
 ### Linkwarden (`linkwarden`)
 
 Run `helm dependency update charts/linkwarden` before rendering or linting, then use the standard generation and
