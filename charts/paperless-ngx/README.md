@@ -58,6 +58,19 @@ that interface; this release adds dedicated values for the new embedding credent
 
 ## Upgrading
 
+### To 0.6.1 (Paperless-ngx 3.4.1 -> 3.4.2)
+
+[Paperless-ngx 3.4.2](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.4.2) fixes search and LLM
+index initialization starting before OCR language installation finishes, ensures Celery loads bulk-edit tasks,
+and includes file-locking, saved-view and mobile UI fixes. Existing chart values remain compatible, with no new
+Paperless database migration files in this release. Back up the database, media and data volumes before upgrading;
+installations older than 3.4.1 must also follow the migration notes below.
+
+Upstream now explicitly rejects a non-empty `PAPERLESS_URL` without a hostname. Keep `paperless.domain` as a
+hostname (the chart adds the scheme); if you supply `PAPERLESS_URL` through `extraEnvVars`, use a full URL such
+as `https://paperless.example.com`. The OIDC MFA parsing limitation documented for 0.6.0 remains present in 3.4.2;
+continue to leave that override unset and retain local two-factor authentication.
+
 ### To 0.6.0 (Paperless-ngx 3.3.2 -> 3.4.1)
 
 Back up the database, media and data volumes before upgrading. Review the
@@ -215,7 +228,7 @@ relevant to this chart specifically.
 | ------------------- | ------------------------------------------------------------------- | ----------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`                     |
 | `image.repository`  | The registry repository to pull the image from                      | `paperless-ngx/paperless-ngx` |
-| `image.tag`         | The image tag to pull                                               | `3.4.1`                       |
+| `image.tag`         | The image tag to pull                                               | `3.4.2`                       |
 | `image.digest`      | The image digest to pull                                            | `""`                          |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`                |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                          |
