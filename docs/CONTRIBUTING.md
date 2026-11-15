@@ -343,6 +343,26 @@ of representative flows, external databases/poolers and migration-role permissio
 audit-log features, AI providers, separate MCP proxy routing and browser ingress/TLS need integration validation.
 Preserve existing encryption and JWT Secrets when testing upgrades. Keep application regression tests upstream.
 
+### Glance (`glance`)
+
+Use `make gen CHART=charts/glance`, `make chart-testing CHART=charts/glance` and
+`ct install --config config/ct-config.yaml --charts charts/glance` with the standard development cluster.
+The five independent fixtures cover defaults, authentication with environment substitutions, native widget layouts,
+optional networking resources, included files and assets. The included-file fixture also exercises a non-root
+container with a read-only root filesystem. Chart-testing checks installation and readiness; this chart has no
+Helm test hooks. Browser login, external widget integrations (including Reddit app authentication), existing
+Secrets/ConfigMaps/PVCs, Docker sockets, remote agents and ingress/TLS need separate integration validation.
+
+`make gen` generates the parameter tables and values schema from `values.yaml`. Glance validates widget objects
+and included files at startup. Keep the manually maintained widget reference in the chart README for Artifact Hub.
+
+The default image tag comes from `Chart.appVersion`. The root `renovate.json` enables Renovate's
+`customManagers:helmChartYamlAppVersions` preset; the `# renovate: image=glanceapp/glance` comment immediately above
+`appVersion` opts this chart into Docker tag tracking. Keep `image.tag` empty to retain the fallback. This preset
+only updates the annotated version; chart versions, Artifact Hub image annotations and README release notes still
+need review in each update. Dependency Dashboard visibility changes only after the configuration reaches the
+tracked branch and Renovate runs again.
+
 ### Gotenberg (`gotenberg`)
 
 Before we migrate this chart to Gotenberg v9, we must provide and thoroughly verify a **custom argument API** that

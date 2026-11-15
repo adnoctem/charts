@@ -36,14 +36,14 @@ The chart requires Kubernetes 1.26 or later and Helm 3.
 
 The chart supports all documented [Glance configuration options](https://github.com/glanceapp/glance/blob/main/docs/configuration.md)
 via the `glance` key in Helm's _values_ and makes use of the official Docker Hub container image, although this is
-configurable via the Image Parameters. The default application version is Glance v0.8.6.
+configurable via the Image Parameters. The default application version is Glance v0.8.8.
 
 ## Application configuration
 
 Set application configuration under `glance`, using upstream's native property names.
 All 28 documented widget types and their nested configuration fields are supported.
 See the [widget reference](#widget-configuration-reference), the commented examples in [values.yaml](values.yaml), and
-[Glance's configuration documentation](https://github.com/glanceapp/glance/blob/v0.8.6/docs/configuration.md).
+[Glance's configuration documentation](https://github.com/glanceapp/glance/blob/v0.8.8/docs/configuration.md).
 The image is pinned to a release; review upstream configuration changes before overriding it with another version.
 
 Pages, columns and widget lists retain their order. Helm replaces lists rather than merging individual entries.
@@ -154,7 +154,7 @@ even through a read-only mount. Configure scheduling and socket permissions for 
 Local server statistics reflect the container's visible environment. Remote statistics require a separately deployed
 [Glance Agent](https://github.com/glanceapp/agent); configure its URL and token in a `server-stats` widget.
 
-## Development and validation
+## Local installation
 
 To install from this checkout and access the dashboard locally:
 
@@ -165,26 +165,26 @@ kubectl --namespace glance port-forward svc/glance 8080:8080
 
 Open <http://localhost:8080>. Repository and OCI installation become available after the chart is published.
 
-Use the repository's existing generation and chart-testing commands:
+## Upgrading
 
-```shell
-make tools-check
-make gen CHART=charts/glance
-ct lint --config config/ct-config.yaml --charts charts/glance
-ct install --config config/ct-config.yaml --charts charts/glance
-```
+### To 0.2.0 (Glance v0.8.6 -> v0.8.8)
 
-Run `ct install` against a development cluster. Chart-testing discovers `ci/*-values.yaml` and installs each
-configuration separately. The fixtures cover defaults, included files and assets, native widget layouts,
-authentication with environment substitutions, and optional networking resources.
+[Glance v0.8.7](https://github.com/glanceapp/glance/releases/tag/v0.8.7) restores Reddit feeds after upstream API
+changes, but Reddit widget `search` now requires `app-auth`. Configure the Reddit application's `name`, `id` and
+`secret` in each affected widget, using environment or Secret-file substitutions for credentials as described
+above. Alternatively, remove `search` to display the unfiltered subreddit feed. Check included files and external
+configuration sources as well as widgets in `glance.pages`.
 
-`make gen` generates the parameter tables and values schema from `values.yaml`, as for the other charts.
-The schema describes the chart values; Glance validates the contents of widget objects and included files at startup.
-The widget reference below is maintained in this README so it is published with the chart on Artifact Hub.
+[Glance v0.8.8](https://github.com/glanceapp/glance/releases/tag/v0.8.8) fixes release, search, markets,
+change-detection and Docker widgets and adds security hardening. Across these releases, authentication request
+bodies are limited to 512 KiB, and several widget response readers (including RSS, custom API, extension and shared
+JSON requests) reject responses larger than 10 MiB. If a widget reports a response-size error, reduce the upstream
+payload, for example through pagination or filtering. The HTTP server now limits header reads to five seconds
+and request reads to ten seconds; unusually slow clients or proxies may need adjustment.
 
-`helm test` runs Kubernetes workloads annotated with `helm.sh/hook: test`; it does not discover values files
-or local scripts. This chart defines no test hooks. The CI fixtures are exercised by chart-testing's installation
-and readiness checks. See [Helm chart tests](https://helm.sh/docs/topics/chart_tests/).
+The chart's values interface, ports and mounts are unchanged, and no database migration is required. The optional
+search widget also accepts `brave` as a search engine. `image.tag` remains empty by default, selecting `Chart.appVersion`;
+existing explicit tag or digest overrides still take precedence.
 
 ## Widget configuration reference
 
@@ -192,7 +192,7 @@ Place widgets in `glance.pages[].columns[].widgets` or `glance.pages[].head-widg
 All 28 documented widget types are supported, including nested widgets.
 Glance resolves `${NAME}`, `${secret:name}` and `${readFileFromEnv:NAME}` substitutions at runtime.
 
-See [upstream configuration](https://github.com/glanceapp/glance/blob/v0.8.6/docs/configuration.md)
+See [upstream configuration](https://github.com/glanceapp/glance/blob/v0.8.8/docs/configuration.md)
 for behavior, defaults and examples. The commented examples in `values.yaml` cover every widget.
 
 Every widget accepts `title`, `title-url`, `hide-header`, `cache` and `css-class`.
@@ -245,6 +245,8 @@ Every widget accepts `title`, `title-url`, `hide-header`, `cache` and `css-class
 | `tags`           | array of string | no       |
 
 ### reddit
+
+`search` requires `app-auth`; use Secret-file or environment substitutions for the application credentials.
 
 | Field                   | Type                                              | Required |
 | ----------------------- | ------------------------------------------------- | -------- |
