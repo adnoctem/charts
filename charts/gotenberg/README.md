@@ -177,14 +177,6 @@ v9; this is not a completed integration test. Our Paperless chart separately pin
 Updating this standalone chart neither upgrades that bundled instance nor delivers the 8.40.0 fixes to it;
 that dependency needs its own compatibility review and update after the desired chart is published.
 
-Before we migrate this chart ourselves, we must provide and thoroughly verify a **custom argument API** that
-works with explicit image versions and custom images. It must let users replace incompatible generated arguments,
-with documented precedence and predictable behavior, rather than merely append flags that conflict with defaults.
-The current chart generates arguments from the typed `gotenberg` values and has no general argument override;
-`extraEnvVars` does not replace command-line arguments. This remains a prerequisite for the future migration,
-not a capability introduced by this v8 release. We must also validate the v9 configuration, monitoring and client
-conversion paths and publish migration instructions that preserve a usable route for v8 users.
-
 ## Parameters
 
 ### Image parameters

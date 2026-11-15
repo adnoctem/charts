@@ -343,6 +343,16 @@ of representative flows, external databases/poolers and migration-role permissio
 audit-log features, AI providers, separate MCP proxy routing and browser ingress/TLS need integration validation.
 Preserve existing encryption and JWT Secrets when testing upgrades. Keep application regression tests upstream.
 
+### Gotenberg (`gotenberg`)
+
+Before we migrate this chart to Gotenberg v9, we must provide and thoroughly verify a **custom argument API** that
+works with explicit image versions and custom images. It must let users replace incompatible generated arguments,
+with documented precedence and predictable behavior, rather than merely append flags that conflict with defaults.
+The current chart generates arguments from the typed `gotenberg` values and has no general argument override;
+`extraEnvVars` does not replace command-line arguments. This remains a prerequisite for the future migration,
+not a capability provided by the current v8 chart. We must also validate the v9 configuration, monitoring and client
+conversion paths and publish migration instructions that preserve a usable route for v8 users.
+
 ### Paperless-NGX (`paperless-ngx`)
 
 Run `helm dependency update charts/paperless-ngx` before rendering or linting. The `ci/test-values.yaml` fixture
