@@ -14,6 +14,9 @@ metadata:
   {{- toYaml .Values.configMap.annotations | nindent 4 }}
   {{- end }}
 data:
+  {{- if .Values.activepieces.mcpURL }}
+  AP_MCP_URL: {{ .Values.activepieces.mcpURL | quote }}
+  {{- end }}
   AP_CONFIG_PATH: {{ include "activepieces.data.path" . | quote }}
   AP_DB_TYPE: {{ .Values.activepieces.database | upper | quote }}
   {{- if .Values.activepieces.domain }}
@@ -94,6 +97,12 @@ data:
   {{- if .Values.activepieces.dataRetentionDays }}
   AP_EXECUTION_DATA_RETENTION_DAYS: {{ .Values.activepieces.dataRetentionDays | quote }}
   {{- end }}
+  {{- if .Values.activepieces.auditLogRetentionDays }}
+  AP_AUDIT_LOG_RETENTION_DAYS: {{ .Values.activepieces.auditLogRetentionDays | quote }}
+  {{- end }}
+  AP_AUDIT_LOG_RETENTION_PAUSED: {{ .Values.activepieces.auditLogRetentionPaused | quote }}
+  AP_SKIP_PREWARM_CODES: {{ .Values.activepieces.skipPrewarmCodes | quote }}
+  AP_MODEL_TIERS_URL: {{ .Values.activepieces.modelTiersURL | quote }}
   AP_PAUSED_FLOW_TIMEOUT_DAYS: {{ .Values.activepieces.pausedFlowTimeoutDays | quote }}
   AP_MAX_FILE_SIZE_MB: {{ .Values.activepieces.maxFileSizeMB | quote }}
   AP_AI_CREDIT_USD_VALUE: {{ .Values.activepieces.aiCreditUsdValue | quote }}

@@ -76,6 +76,13 @@ template:
                 name: {{ default (include "activepieces.secrets.postgresql" .) .Values.activepieces.postgresql.existingSecret }}
                 key: password
           {{- end }}
+          {{- if and (eq .Values.activepieces.database "postgres") (or .Values.activepieces.postgresql.migrationURL.value .Values.activepieces.postgresql.migrationURL.existingSecret.name) }}
+          - name: AP_POSTGRES_MIGRATION_URL
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.activepieces.postgresql.migrationURL.existingSecret.name | default (printf "%s-migration" (include "activepieces.fullname" .)) }}
+                key: {{ if .Values.activepieces.postgresql.migrationURL.existingSecret.name }}{{ .Values.activepieces.postgresql.migrationURL.existingSecret.key | quote }}{{ else }}uri{{ end }}
+          {{- end }}
           {{- if and (eq .Values.activepieces.queue.mode "redis") (or .Values.activepieces.redis.password .Values.activepieces.redis.existingSecret) }}
           {{- if .Values.activepieces.redis.username }}
           - name: AP_REDIS_USER

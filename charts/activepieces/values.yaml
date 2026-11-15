@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: activepieces/activepieces
-  tag: 0.92.3
+  tag: 0.93.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -62,6 +62,9 @@ activepieces:
   ## @param activepieces.domain The public facing domain name for the Activepieces service, reused in Ingress.
   ##
   domain: localhost
+  ## @param activepieces.mcpURL Public base URL for a separate MCP hostname; empty serves MCP on the frontend URL. Requires matching proxy routes and preserved Host headers
+  ##
+  mcpURL: ""
   ## @param activepieces.configPath Specify the path to store SQLite3 and local settings, prefixed with activepieces.data.rootPath
   ##
   configPath: ""
@@ -119,6 +122,20 @@ activepieces:
     ## @param activepieces.postgresql.sslCA Use SSL Certificate to connect to the postgres database
     ##
     sslCA: ""
+    ## Background migration connection; empty uses the main database connection.
+    ## Use a role with statement_timeout=0 and membership in the table-owning app role.
+    ##
+    migrationURL:
+      ## @param activepieces.postgresql.migrationURL.value PostgreSQL connection URL for background migrations, stored in a chart-managed Secret
+      ##
+      value: ""
+      existingSecret:
+        ## @param activepieces.postgresql.migrationURL.existingSecret.name Existing Secret for the migration connection; takes precedence over value
+        ##
+        name: ""
+        ## @param activepieces.postgresql.migrationURL.existingSecret.key Key containing the migration connection URL
+        ##
+        key: uri
 
   ## Redis configuration
   ##
@@ -234,9 +251,22 @@ activepieces:
     ##
     propagatedEnvVars: ""
 
-  ## @param activepieces.dataRetentionDays Days to retain execution data, logs and events; empty uses upstream's 30 days. Set at least one day greater than pausedFlowTimeoutDays to avoid cleanup racing a resume
+  ## @param activepieces.dataRetentionDays Days to retain execution data and run logs, excluding audit events; empty uses upstream's 30 days. Set at least one day greater than pausedFlowTimeoutDays to avoid cleanup racing a resume
   ##
   dataRetentionDays: ""
+  ## @param activepieces.auditLogRetentionDays Global audit retention ceiling as a string of whole days from 30 to 3650; empty imposes no ceiling. Platform admins may choose shorter periods
+  ## The first hourly cleanup deletes older events. Invalid values are ignored upstream with a warning.
+  ##
+  auditLogRetentionDays: ""
+  ## @param activepieces.auditLogRetentionPaused Pause hourly audit-log deletion on every app server without changing retention settings
+  ##
+  auditLogRetentionPaused: false
+  ## @param activepieces.skipPrewarmCodes Exclude code steps from platform-wide cache prewarming; they compile on first run. Relevant when AP_PREWARM_CACHE_ON_STARTUP is enabled
+  ##
+  skipPrewarmCodes: false
+  ## @param activepieces.modelTiersURL Published AI credit model tiers feed; fetched at startup and refreshed during use, with bundled tiers as the offline fallback
+  ##
+  modelTiersURL: https://cdn.activepieces.com/ai/pricing.json
   ## @param activepieces.pausedFlowTimeoutDays Maximum cumulative pause deadline in days from flow creation, rendered as AP_PAUSED_FLOW_TIMEOUT_DAYS; keep below dataRetentionDays
   ##
   pausedFlowTimeoutDays: 30

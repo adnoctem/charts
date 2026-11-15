@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 0.92.3
+appVersion: 0.93.0
 kubeVersion: ">=1.26.0-0"
 name: activepieces
-version: 0.7.2
+version: 0.8.0
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -40,7 +40,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: activepieces
-      image: docker.io/activepieces/activepieces:0.92.3
+      image: docker.io/activepieces/activepieces:0.93.0
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -55,4 +55,8 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Activepieces to 0.92.3 with worker piece-installation fixes
+      description: upgrade Activepieces to 0.93.0 with Deno code steps and database migrations
+    - kind: added
+      description: expose MCP URL, background migration credentials, audit retention and worker/AI settings
+    - kind: fixed
+      description: make the bundled PostgreSQL and Redis CI fixture independently runnable

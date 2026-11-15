@@ -326,6 +326,23 @@ in the chart-specific development section, including prerequisites and the limit
 Keep each chart's maintainer workflow, fixture descriptions and development notices here. End users should find
 all deployment and operational guidance in the chart README, without having to read this section.
 
+### Activepieces (`activepieces`)
+
+Run `helm dependency update charts/activepieces` before rendering or linting. The `ci/test-values.yaml` fixture
+uses PostgreSQL and Redis with fixed subchart names matching the app's connection settings, independent of the
+release name. It exercises the background migration URL using the same local database role (no statement timeout),
+audit retention with cleanup paused, code-prewarm exclusion, ingress, persistence and startup/readiness probes.
+Cache prewarming is not enabled by the fixture. Database credentials are development-only.
+
+The fixture pins archived `bitnamilegacy/postgresql:16.4.0-debian-12-r14` and
+`bitnamilegacy/redis:7.2.5-debian-12-r0` images matching the dependency charts because the original tags are
+unavailable. They receive no security updates and are for CI only; production defaults remain unchanged.
+
+Fresh installation checks startup and migrations on an empty database. Existing database upgrades, Deno execution
+of representative flows, external databases/poolers and migration-role permissions, existing Secrets/PVCs, licensed
+audit-log features, AI providers, separate MCP proxy routing and browser ingress/TLS need integration validation.
+Preserve existing encryption and JWT Secrets when testing upgrades. Keep application regression tests upstream.
+
 ### Paperless-NGX (`paperless-ngx`)
 
 Run `helm dependency update charts/paperless-ngx` before rendering or linting. The `ci/test-values.yaml` fixture
