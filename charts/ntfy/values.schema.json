@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "v2.36.0"
+          "default": "v2.38.0"
         },
         "digest": {
           "type": "string",
@@ -519,12 +519,12 @@
             },
             "threshold": {
               "type": "number",
-              "description": "The number of weighted strikes per window before a visitor is banned",
+              "description": "Weighted strikes per window before a ban (maximum 1000000000; 0 uses the upstream default)",
               "default": "0"
             },
             "weights": {
               "type": "array",
-              "description": "Strike weights per matcher KEY:WEIGHT (e.g. an ntfy code \"42909:10\", a prefix family \"429*:5\", or \"*:1\") -",
+              "description": "Strike weights as KEY:WEIGHT (e.g. \"42909:2\", \"50701:0.05\"); use 0 or weights from 0.001 to 1000000",
               "default": "[]",
               "items": {
                 "type": "string"
