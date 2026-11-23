@@ -153,14 +153,14 @@ define kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 secretGenerator:
-	- name: root-ca
-		type: "kubernetes.io/tls"
-		namespace: cert-manager
-		files:
-			- tls.crt=ca.pem
-			- tls.key=ca-key.pem
-		options:
-			disableNameSuffixHash: true
+  - name: root-ca
+    type: "kubernetes.io/tls"
+    namespace: cert-manager
+    files:
+      - tls.crt=ca.pem
+      - tls.key=ca-key.pem
+    options:
+      disableNameSuffixHash: true
 endef
 
 # ---------------------------
