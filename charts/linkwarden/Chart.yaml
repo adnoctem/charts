@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 2.17.0
 kubeVersion: ">=1.26.0-0"
 name: linkwarden
-version: 0.6.0
+version: 0.6.1
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -52,22 +52,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Linkwarden to 2.17.0 with custom link ordering, faster lists and security fixes
-    - kind: changed
-      description: database migrations remove obsolete fields; email verification uses codes and password changes revoke other sessions and access tokens; see upgrade notes
-    - kind: changed
-      description: bump appVersion to 2.16.3 for improved link, search, tag, collection and dashboard query performance
-    - kind: changed
-      description: repository owner changed from fmjstudios to adnoctem
-    - kind: fixed
-      description: verify rotation of expired GPG key
-    - kind: fixed
-      description: corrected the artifacthub.io/license annotation - Linkwarden is AGPL-3.0, not MIT
-    - kind: changed
-      description: bump appVersion to 2.16.2 (from 2.5.3) - fixes CVE-2026-42455 (stored XSS via archive upload, affects <=2.14.0); see README Upgrading section for a required manual migration step
-    - kind: fixed
-      description: bungie and fusionauth SSO providers never actually received their required apiKey/tenantId - the secret was created but never wired to the container
-    - kind: added
-      description: support the authelia, azure_ad, azure_ad_b2c, synology, and generic oidc SSO providers added upstream since 2.13.0/2.15.0/2.16.1
-    - kind: added
-      description: extraEnvVars lets any of Linkwarden's many other environment variables (AI tagging providers, memory tuning, user-content-domain isolation) be set without a dedicated value
+      description: migrate development ingress fixtures to Traefik
