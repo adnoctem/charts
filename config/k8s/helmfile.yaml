@@ -3,58 +3,83 @@ environments:
     values: []
 ---
 repositories:
-  - name: ingress-nginx
-    url: https://kubernetes.github.io/ingress-nginx
+  - name: traefik
+    url: https://traefik.github.io/charts
   - name: jetstack
     url: https://charts.jetstack.io
 
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 300
+
 releases:
-  - chart: ingress-nginx/ingress-nginx
-    name: ingress-nginx
-    namespace: ingress-nginx
-    version: 4.9.0
+  - chart: traefik/traefik
+    name: traefik
+    namespace: traefik
+    version: 42.4.2
     installed: true
     values:
-      - controller:
-          updateStrategy:
-            type: RollingUpdate
-            rollingUpdate:
-              maxUnavailable: 1
-          hostPort:
+      - deployment:
+          replicas: 1
+        # Free the node's host ports before scheduling the replacement pod.
+        updateStrategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
+            maxSurge: 0
+        ingressClass:
+          enabled: true
+          name: traefik
+          isDefaultClass: false
+        providers:
+          kubernetesIngress:
             enabled: true
-          terminationGracePeriodSeconds: 0
-          service:
-            type: NodePort
-          watchIngressWithoutClass: true
-          nodeSelector:
-            ingress-ready: "true"
-          tolerations:
-            - key: "node-role.kubernetes.io/master"
-              operator: "Equal"
-              effect: "NoSchedule"
-            - key: "node-role.kubernetes.io/control-plane"
-              operator: "Equal"
-              effect: "NoSchedule"
-          config:
-            enable-real-ip: "true"
-            # forwarded-for-header: "X-Real-IP"
-            allow-snippet-annotations: true
-          publishService:
+            ingressClass: traefik
+            publishedService:
+              enabled: false
+            ingressEndpoint:
+              hostname: localhost
+          # Supports middleware references from ordinary Kubernetes Ingresses.
+          kubernetesCRD:
+            enabled: true
+          kubernetesGateway:
             enabled: false
-          extraArgs:
-            publish-status-address: "localhost"
+          kubernetesIngressNGINX:
+            enabled: false
+        ports:
+          web:
+            hostPort: 80
+            http:
+              redirections:
+                entryPoint:
+                  to: websecure
+                  scheme: https
+                  permanent: true
+          websecure:
+            hostPort: 443
+            http:
+              tls:
+                enabled: true
+        service:
+          spec:
+            type: ClusterIP
+        nodeSelector:
+          ingress-ready: "true"
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+            effect: NoSchedule
 
   - chart: jetstack/cert-manager
     name: cert-manager
     namespace: cert-manager
-    version: v1.13.3
+    version: v1.21.3
     installed: true
-    hooks:
-      - events: ["postsync"]
-        showlogs: true
-        command: "kubectl"
-        args: ["apply", "-k", "kustomize"]
     values:
-      - installCRDs: true
+      - crds:
+          enabled: true
+        startupapicheck:
+          enabled: true
         ingressShim:
           defaultIssuerKind: ClusterIssuer

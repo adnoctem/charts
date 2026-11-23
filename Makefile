@@ -168,15 +168,15 @@ endef
 
 define ENV_INFO
 # Create a local development environment for Helm charts. This is a wrapper
-# target which requires the 'dev-cluster' and 'dev-cluster-bootstrap' Make
-# targets.
+# target creates the cluster, then runs 'cluster-bootstrap'.
 endef
 .PHONY: env
 ifeq ($(PRINT_HELP), y)
 env:
 	echo "$$ENV_INFO"
 else
-env: cluster cluster-bootstrap
+env: cluster
+	$(MAKE) cluster-bootstrap
 endif
 
 # ---------------------------
@@ -423,7 +423,7 @@ secrets-dir:
 
 .PHONY: cluster
 cluster:
-	$(call log_success, "Creating local 'kind' Kubernetes cluster using configuration in: $(KIND_CLUSTER_CONFIG)!")
+	$(call log_success, "Creating local 'kind' Kubernetes cluster using configuration in: $(CONFIG_K8S_DIR)/cluster/kind-config.yaml!")
 	$(kind) create cluster \
 		--config $(CONFIG_K8S_DIR)/cluster/kind-config.yaml \
 		--name $(PROJ_NAME) \
@@ -432,8 +432,12 @@ cluster:
 .PHONY: cluster-bootstrap
 cluster-bootstrap:
 	$(call log_success, "Bootstrapping development cluster")
-	$(helmfile) apply -f $(CONFIG_K8S_DIR)/helmfile.yaml
-	$(kubectl) apply -k $(CONFIG_K8S_DIR)/kustomize
+	$(helmfile) --kube-context kind-$(PROJ_NAME) -f $(CONFIG_K8S_DIR)/helmfile.yaml apply
+	$(kubectl) --context kind-$(PROJ_NAME) -n traefik rollout status deployment/traefik --timeout=300s
+	$(kubectl) --context kind-$(PROJ_NAME) -n cert-manager rollout status \
+		deployment/cert-manager deployment/cert-manager-cainjector deployment/cert-manager-webhook --timeout=300s
+	$(kubectl) --context kind-$(PROJ_NAME) apply -k $(CONFIG_K8S_DIR)/kustomize
+	$(kubectl) --context kind-$(PROJ_NAME) wait --for=condition=Ready clusterissuer/development-issuer --timeout=120s
 	$(SCRIPT_DIR)/hosts.sh add
 
 .PHONY: registry-login

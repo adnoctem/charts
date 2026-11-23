@@ -45,19 +45,31 @@ using the image published with [kind v0.33.0](https://github.com/kubernetes-sigs
 Use kind v0.33.0 for this configuration. [Helmfile](../config/k8s/helmfile.yaml) declares the chart repositories it
 needs, so no manual `helm repo add` setup is required. Renovate tracks both the Helmfile releases and the node images.
 Node image updates stay within Kubernetes 1.36; before changing that range in [`renovate.json`](../renovate.json),
-check the controllers' supported Kubernetes versions. The 1.36 baseline prepares for cert-manager 1.21 and Traefik;
-the controller migration follows separately. Changing the image pin only affects newly created clusters.
+check the controllers' supported Kubernetes versions. Changing the image pin only affects newly created clusters.
 
-This will set up a new local `kind`, already pre-configured to
-be [ingress-ready](https://kind.sigs.k8s.io/docs/user/ingress/#ingress-nginx) and
-install [Jetstack's Cert-Manager](https://artifacthub.io/packages/helm/cert-manager/cert-manager) as well as
-the [Kubernetes Project's Ingress-Nginx Controller](https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx).
-As mentioned `cert-manager` is already set up to make use of our previously generated CA. Most charts' `ci/test-values`
-already include the
-necessary `Ingress` [annotations to auto-generate TLS certificates](https://cert-manager.io/docs/usage/certificate/)
-with `cert-manager`. Lastly this will also insert the hostnames defined in [`scripts/hosts.sh`](../scripts/hosts.sh) in
-your `/etc/hosts/` to be-able to resolve the hostnames in your browser. If your current user has root-privileges then
-the script will just insert the hostnames, otherwise you will be prompt for the `sudo` password.
+Bootstrap installs [Traefik](https://github.com/traefik/traefik-helm-chart) and
+[cert-manager](https://cert-manager.io/docs/installation/helm/), waits for their deployments and cert-manager's
+startup API check, then applies the local CA Secret and waits for the `development-issuer` ClusterIssuer to be ready.
+Traefik runs one replica on the `ingress-ready` control-plane node, exposing host ports 80 and 443 through kind's
+existing port mappings. HTTP redirects to HTTPS; cert-manager issues certificates from the CA in `secrets/`.
+Use `ingressClassName: traefik` on development Ingresses. Traefik's Kubernetes CRD provider supports middleware
+references, while the Gateway API and NGINX compatibility providers are disabled.
+
+Most charts' fixtures include the
+[annotations to request TLS certificates](https://cert-manager.io/docs/usage/ingress/) from `development-issuer`.
+Their ingress classes and controller-specific annotations are being migrated in the next phase; existing `nginx`
+fixtures need that migration before browser testing. Bootstrap also adds the hostnames defined in
+[`scripts/hosts.sh`](../scripts/hosts.sh) to `/etc/hosts`, with confirmation and sudo when required.
+
+For a cluster created with the old ingress-nginx/cert-manager 1.13 setup, recreate the disposable environment using
+`make prune` followed by `make env`. This deletes workloads and cluster-local data; preserve anything you still need
+first. The CA files in `secrets/` are retained, so there is no need to regenerate or re-trust the CA. Do not apply the
+new Helmfile over the old environment: it does not remove the old nginx release, and cert-manager
+[recommends upgrading one minor version at a time](https://cert-manager.io/docs/installation/upgrade/).
+
+After initial creation, use `make cluster-bootstrap` to reapply the infrastructure to the existing development cluster.
+Bootstrap explicitly targets the `kind-<checkout-directory-basename>-charts` context. `make env` creates the cluster
+before bootstrapping it, including when Make runs with parallel jobs.
 
 When developing new charts the [`Makefile`](../Makefile) provides a couple of handy targets to `template`, `install`
 or `dry-install` any chart. To run them you might execute something like this:
@@ -324,7 +336,7 @@ hard-coded assumptions. Prefer real settings and resource references to commente
 Fixtures should work in chart-testing's clean kind environment without production credentials, paid services or
 operator-managed resources that CI does not create. Ingress/TLS manifests can use the repository's development
 hostnames and issuer; controller reconciliation and browser testing happen on the bootstrapped development cluster.
-A plain CI cluster can still validate their manifests without requiring ingress-nginx or cert-manager to be installed.
+A plain CI cluster can still validate their manifests without requiring Traefik or cert-manager to be installed.
 Do not turn a fixture into an application test program or add a provisioning harness just to cover an external resource.
 Document remaining manual cases (existing PVCs/Secrets, operator integration, private registries, external load balancers)
 in the chart-specific development section, including prerequisites and the limits of automated coverage.
@@ -499,7 +511,7 @@ PostgreSQL fixtures use `mysql.lhci.charts.internal` and `postgresql.lhci.charts
 resolution if testing them in a browser. They expose HTTP Services on `8080`, targeting app ports `9102` and `9103`.
 MySQL basic auth is `mysql-ci` / `ci-http-password`; PostgreSQL uses its fixture database username/password.
 
-Do not install two Ingress resources for the same host/path on a cluster with ingress-nginx admission enabled.
+Do not install two Ingress resources for the same host/path; overlapping routes make browser tests ambiguous.
 If a development installation already owns a fixture hostname, use another hostname consistently in both
 `ingress.hosts` and `ingress.tls`, or remove that development installation before running chart-testing. For example:
 

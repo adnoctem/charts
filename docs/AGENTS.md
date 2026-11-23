@@ -30,22 +30,22 @@ directly and `CHART_NAME` is derived with `basename`, so a bare chart name fails
 relative path (`ci/test-values.yaml`), applied as `$(CHART)/$(VALUES)`. `RELEASE_NAME` defaults to
 `<chart>-test`.
 
-| Stage          | Command                                                                        |
-| -------------- | ------------------------------------------------------------------------------ |
-| Prerequisites  | `make tools-check` (then install whatever it reports missing)                  |
-| Local CA       | `make secrets` — cfssl CA into `secrets/`; required before `make env`          |
-| Dev cluster    | `make env` — kind + helmfile (ingress-nginx, cert-manager) + kustomize + hosts |
-| Render         | `make template CHART=charts/<name> [VALUES=ci/test-values.yaml]`               |
-| Dry run        | `make dry-install CHART=charts/<name> [VALUES=...]`                            |
-| Deploy         | `make install` / `make upgrade CHART=charts/<name> [VALUES=...]`               |
-| Codegen        | `make gen CHART=charts/<name>`                                                 |
-| Full rebuild   | `make all` — `gen` + `prettier --write` + `build` for every chart              |
-| Package        | `make build CHART=charts/<name>` → `dist/<name>-<version>.tgz`                 |
-| Lint           | `make lint` — markdownlint, actionlint, shellcheck, shfmt, chart-testing       |
-| Chart lint     | `make chart-testing [CHART=charts/<name>]` — `ct lint --all` when unset        |
-| Secret scan    | `make gitleaks` — **not** part of `make lint`                                  |
-| Registry login | `make registry-login REGISTRY_USER=<user>` — uses `gh auth token`              |
-| Teardown       | `make prune` — deletes the kind cluster and removes hosts entries              |
+| Stage          | Command                                                                  |
+| -------------- | ------------------------------------------------------------------------ |
+| Prerequisites  | `make tools-check` (then install whatever it reports missing)            |
+| Local CA       | `make secrets` — cfssl CA into `secrets/`; required before `make env`    |
+| Dev cluster    | `make env` — kind + helmfile (Traefik, cert-manager) + kustomize + hosts |
+| Render         | `make template CHART=charts/<name> [VALUES=ci/test-values.yaml]`         |
+| Dry run        | `make dry-install CHART=charts/<name> [VALUES=...]`                      |
+| Deploy         | `make install` / `make upgrade CHART=charts/<name> [VALUES=...]`         |
+| Codegen        | `make gen CHART=charts/<name>`                                           |
+| Full rebuild   | `make all` — `gen` + `prettier --write` + `build` for every chart        |
+| Package        | `make build CHART=charts/<name>` → `dist/<name>-<version>.tgz`           |
+| Lint           | `make lint` — markdownlint, actionlint, shellcheck, shfmt, chart-testing |
+| Chart lint     | `make chart-testing [CHART=charts/<name>]` — `ct lint --all` when unset  |
+| Secret scan    | `make gitleaks` — **not** part of `make lint`                            |
+| Registry login | `make registry-login REGISTRY_USER=<user>` — uses `gh auth token`        |
+| Teardown       | `make prune` — deletes the kind cluster and removes hosts entries        |
 
 Notes:
 
@@ -61,8 +61,11 @@ Notes:
 - The kind cluster is named `<checkout-directory-basename>-charts` (`PROJ_NAME` derives from `ROOT_DIR_NAME`, not
   the git repo name). The kind config binds host ports 80/443 and API server `0.0.0.0:6443`.
 - Development hostnames are `*.charts.internal`; a chart whose fixture uses Ingress needs its hostname added to
-  `scripts/hosts.sh` to be resolvable locally. A second Ingress for the same host/path fails when ingress-nginx
-  admission is active — remove the conflicting install or use another hostname.
+  `scripts/hosts.sh` to be resolvable locally. Use the `traefik` ingress class. Avoid overlapping
+  host/path routes — remove the conflicting install or use another hostname.
+- `make cluster-bootstrap` targets `kind-<checkout-directory-basename>-charts`, waits for the controllers, applies
+  the local CA and issuer once, and waits for the issuer to be ready before updating hosts entries. Recreate old
+  ingress-nginx environments with `make prune` then `make env`; cluster-local data is deleted, but the CA is retained.
 - `make secrets` writes a `kustomization.yaml` that `make env` applies via `config/k8s/kustomize`, provisioning the
   `root-ca` Secret consumed by the `development-issuer` ClusterIssuer.
 

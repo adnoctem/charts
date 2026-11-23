@@ -60,7 +60,7 @@ The root Makefile provides rendering, generation, linting, packaging and deploym
 a repository-relative directory, for example `CHART=charts/uptime-kuma`; `VALUES=ci/test-values.yaml` is relative
 to that chart. See [Contributing][contributing] for the complete workflow.
 
-The development environment uses kind, ingress-nginx, cert-manager and Kustomize. `make secrets` creates local
+The development environment uses kind, Traefik, cert-manager and Kustomize. `make secrets` creates local
 CA material; `make env` creates and bootstraps the cluster and adds `*.charts.internal` hostnames.
 The hostname script requires an installed [libsh][libsh] and `LIBSH_DIR` pointing to the directory containing
 `lib.sh`. It confirms host-file edits and uses sudo when necessary. This dependency is for development tooling;
