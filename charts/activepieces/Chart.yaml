@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 0.93.0
 kubeVersion: ">=1.26.0-0"
 name: activepieces
-version: 0.8.0
+version: 0.8.1
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -55,8 +55,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Activepieces to 0.93.0 with Deno code steps and database migrations
-    - kind: added
-      description: expose MCP URL, background migration credentials, audit retention and worker/AI settings
-    - kind: fixed
-      description: make the bundled PostgreSQL and Redis CI fixture independently runnable
+      description: migrate development ingress fixtures to Traefik
