@@ -14,12 +14,18 @@ service:
       timeoutSeconds: 30
 ingress:
   enabled: true
-  className: nginx
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: development-issuer
   hosts:
-    - host: glance.example.test
+    - host: glance.charts.internal
       paths:
         - path: /
           pathType: Prefix
+  tls:
+    - secretName: glance-ingress-tls
+      hosts:
+        - glance.charts.internal
 podDisruptionBudget:
   enabled: true
   minAvailable: null

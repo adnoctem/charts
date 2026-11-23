@@ -6,7 +6,7 @@ apiVersion: v2
 appVersion: v0.8.8
 kubeVersion: ">=1.26.0-0"
 name: glance
-version: 0.2.0
+version: 0.2.1
 description: A customizable self-hosted dashboard for feeds, services and homelab monitoring.
 home: https://github.com/glanceapp/glance
 icon: https://github.com/glanceapp/glance/blob/main/docs/logo.png?raw=true
@@ -46,8 +46,4 @@ annotations:
   org.opencontainers.image.licenses: "MIT"
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Glance to v0.8.8 with widget fixes and security hardening; Reddit search now requires app-auth
-    - kind: fixed
-      description: enable Renovate discovery of the default image version through Chart.appVersion
-    - kind: added
-      description: initial chart release with native configuration and all documented widgets
+      description: migrate development ingress fixtures to Traefik
