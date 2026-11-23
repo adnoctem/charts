@@ -7,6 +7,9 @@
     ":enablePreCommit"
   ],
   "assignees": ["MVProwess"],
+  "kubernetes": {
+    "managerFilePatterns": ["/^config/k8s/cluster/kind-config\\.yaml$/"]
+  },
   "customManagers": [
     {
       "customType": "regex",
@@ -19,6 +22,13 @@
     }
   ],
   "packageRules": [
+    {
+      "description": "Keep development Kubernetes on the controller-compatible minor; review controller support before changing this range",
+      "matchManagers": ["kubernetes"],
+      "matchFileNames": ["config/k8s/cluster/kind-config.yaml"],
+      "matchPackageNames": ["kindest/node"],
+      "allowedVersions": "~1.36.0"
+    },
     {
       "description": "Track LinkStack through its separate digest field instead of the tag-only Helm values extractor",
       "matchManagers": ["helm-values"],

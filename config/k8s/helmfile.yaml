@@ -2,6 +2,12 @@ environments:
   default:
     values: []
 ---
+repositories:
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  - name: jetstack
+    url: https://charts.jetstack.io
+
 releases:
   - chart: ingress-nginx/ingress-nginx
     name: ingress-nginx

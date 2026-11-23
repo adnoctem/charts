@@ -40,6 +40,14 @@ through `kind` and can be created with:
 make env
 ```
 
+The [kind configuration](../config/k8s/cluster/kind-config.yaml) pins every node to Kubernetes 1.36.4 by image digest,
+using the image published with [kind v0.33.0](https://github.com/kubernetes-sigs/kind/releases/tag/v0.33.0).
+Use kind v0.33.0 for this configuration. [Helmfile](../config/k8s/helmfile.yaml) declares the chart repositories it
+needs, so no manual `helm repo add` setup is required. Renovate tracks both the Helmfile releases and the node images.
+Node image updates stay within Kubernetes 1.36; before changing that range in [`renovate.json`](../renovate.json),
+check the controllers' supported Kubernetes versions. The 1.36 baseline prepares for cert-manager 1.21 and Traefik;
+the controller migration follows separately. Changing the image pin only affects newly created clusters.
+
 This will set up a new local `kind`, already pre-configured to
 be [ingress-ready](https://kind.sigs.k8s.io/docs/user/ingress/#ingress-nginx) and
 install [Jetstack's Cert-Manager](https://artifacthub.io/packages/helm/cert-manager/cert-manager) as well as
