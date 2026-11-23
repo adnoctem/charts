@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 3.1.1
 kubeVersion: ">=1.26.0-0"
 name: gobackup
-version: 0.4.0
+version: 0.4.1
 description: GoBackup is a CLI and Web UI for database backups to local, cloud or remote storage with notification support
 home: https://gobackup.github.io/
 icon: https://user-images.githubusercontent.com/5518/205909959-12b92929-4ac5-4bb5-9111-6f9a3ed76cf6.png
@@ -47,14 +47,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: repository owner changed from fmjstudios to adnoctem
-    - kind: fixed
-      description: verify rotation of expired GPG key
-    - kind: changed
-      description: bump appVersion to 3.1.1 (from 2.11.2) - see README Upgrading section for the config keys this affects
-    - kind: added
-      description: support the firebird database type and googlechat notifier type added upstream since 2.16.0/2.13.0
-    - kind: added
-      description: gobackup.web.enabled lets the bundled Web UI be turned off entirely
-    - kind: fixed
-      description: corrected internal validation helpers that checked for the wrong model key (dead code, never had a behavioral effect since these checks are not yet wired into any template)
+      description: migrate development ingress fixtures to Traefik
