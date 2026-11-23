@@ -7,9 +7,9 @@ gotenberg:
 
 ingress:
   enabled: true
-  className: "nginx"
+  className: "traefik"
   annotations:
-    cert-manager.io/cluster-issuer: mkcert-development-issuer
+    cert-manager.io/cluster-issuer: development-issuer
   hosts:
     - host: gotenberg.charts.internal
       paths:
