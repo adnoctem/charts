@@ -119,6 +119,7 @@ configMap:
 ## Linkstack Ingress settings
 ## @param ingress.enabled Whether to enable Ingress
 ## @param ingress.className The IngressClass to use for the pod's ingress
+## @param ingress.backendProtocol Backend Service protocol to route to (http or https); HTTPS preserves the existing default
 ## @param ingress.whitelist A comma-separated list of IP addresses to whitelist
 ## @param ingress.annotations Annotations for the Ingress resource
 ## @param ingress.tls A list of hostnames and secret names to use for TLS
@@ -127,6 +128,7 @@ configMap:
 ingress:
   enabled: false
   className: ""
+  backendProtocol: https
   whitelist: ""
   annotations: {}
   # kubernetes.io/ingress.class: nginx

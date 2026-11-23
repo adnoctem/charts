@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 4.8.8
 kubeVersion: ">=1.26.0-0"
 name: linkstack
-version: 0.5.0
+version: 0.6.0
 description: LinkStack is a highly customizable link sharing platform with an intuitive, easy to use user interface
 home: https://github.com/LinkStackOrg/LinkStack
 icon: https://raw.githubusercontent.com/LinkStackOrg/branding/c22886d7585246836d5e4e597484b92b51c76f0c/logo/png/logo.png
@@ -48,16 +48,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: update the pinned image to the build containing LinkStack 4.8.8
-    - kind: fixed
-      description: seed only empty volumes to prevent overwriting configuration, SQLite data and custom files on pod recreation
-    - kind: fixed
-      description: track the separate image digest with Renovate
-    - kind: changed
-      description: repository owner changed from fmjstudios to adnoctem
-    - kind: fixed
-      description: verify rotation of expired GPG key
-    - kind: fixed
-      description: corrected the artifacthub.io/license annotation - LinkStack is AGPL-3.0, not MIT
-    - kind: changed
-      description: bump appVersion to 4.8.6 (from 4.8.0) and update the pinned image digest accordingly - LinkStack does not publish semver image tags, only "latest"
+      description: allow HTTP ingress backends while preserving the HTTPS default

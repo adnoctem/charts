@@ -46,6 +46,14 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.6.0
+
+`ingress.backendProtocol` selects the backend Service port: `https` (the unchanged default) uses
+`service.ports.https`, while `http` uses `service.ports.http`. Configure the ingress controller to use the matching
+backend protocol. Frontend TLS remains controlled by `ingress.tls` and the controller's certificate configuration.
+For TLS termination at the ingress controller with an HTTP backend, set `ingress.backendProtocol: http`.
+Existing HTTPS-backend installations do not need a values change.
+
 ### To 0.5.0 (LinkStack 4.8.6 -> 4.8.8 for new installations)
 
 The pinned image contains LinkStack 4.8.8. Releases
@@ -131,14 +139,15 @@ database backups. A container digest rollback alone does not roll back the appli
 
 ### Ingress parameters
 
-| Name                  | Description                                                                | Value   |
-| --------------------- | -------------------------------------------------------------------------- | ------- |
-| `ingress.enabled`     | Whether to enable Ingress                                                  | `false` |
-| `ingress.className`   | The IngressClass to use for the pod's ingress                              | `""`    |
-| `ingress.whitelist`   | A comma-separated list of IP addresses to whitelist                        | `""`    |
-| `ingress.annotations` | Annotations for the Ingress resource                                       | `{}`    |
-| `ingress.tls`         | A list of hostnames and secret names to use for TLS                        | `[]`    |
-| `ingress.extraHosts`  | A list of extra hosts for the Ingress resource (with linkstack.serverName) | `[]`    |
+| Name                      | Description                                                                                | Value   |
+| ------------------------- | ------------------------------------------------------------------------------------------ | ------- |
+| `ingress.enabled`         | Whether to enable Ingress                                                                  | `false` |
+| `ingress.className`       | The IngressClass to use for the pod's ingress                                              | `""`    |
+| `ingress.backendProtocol` | Backend Service protocol to route to (http or https); HTTPS preserves the existing default | `https` |
+| `ingress.whitelist`       | A comma-separated list of IP addresses to whitelist                                        | `""`    |
+| `ingress.annotations`     | Annotations for the Ingress resource                                                       | `{}`    |
+| `ingress.tls`             | A list of hostnames and secret names to use for TLS                                        | `[]`    |
+| `ingress.extraHosts`      | A list of extra hosts for the Ingress resource (with linkstack.serverName)                 | `[]`    |
 
 ### Service parameters
 

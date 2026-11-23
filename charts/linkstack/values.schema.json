@@ -146,6 +146,11 @@
           "description": "The IngressClass to use for the pod's ingress",
           "default": ""
         },
+        "backendProtocol": {
+          "type": "string",
+          "description": "Backend Service protocol to route to (http or https); HTTPS preserves the existing default",
+          "default": "https"
+        },
         "whitelist": {
           "type": "string",
           "description": "A comma-separated list of IP addresses to whitelist",

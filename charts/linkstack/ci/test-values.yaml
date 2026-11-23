@@ -8,11 +8,10 @@ linkstack:
 
 ingress:
   enabled: true
-  className: nginx
+  className: traefik
+  backendProtocol: http
   annotations:
     cert-manager.io/cluster-issuer: development-issuer
-    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-    nginx.ingress.kubernetes.io/connection-proxy-header: "upgrade"
   tls:
     - secretName: linkstack-ingress-tls
       hosts:

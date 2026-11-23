@@ -1,6 +1,10 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "linkstack.fullname" . -}}
-{{- $svcPort := .Values.service.ports.https -}}
+{{- $backendProtocol := .Values.ingress.backendProtocol -}}
+{{- if not (has $backendProtocol (list "http" "https")) -}}
+  {{- fail "ingress.backendProtocol must be http or https" -}}
+{{- end -}}
+{{- $svcPort := index .Values.service.ports $backendProtocol -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
