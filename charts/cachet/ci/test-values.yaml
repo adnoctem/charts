@@ -32,7 +32,7 @@ cachet:
 
 ingress:
   enabled: true
-  className: nginx
+  className: traefik
   annotations:
     cert-manager.io/cluster-issuer: development-issuer
   tls:

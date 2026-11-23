@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 2.3.15
 kubeVersion: ">=1.26.0-0"
 name: cachet
-version: 0.3.3
+version: 0.3.4
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -56,10 +56,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: repository owner changed from fmjstudios to adnoctem
-    - kind: fixed
-      description: verify rotation of expired GPG key
-    - kind: fixed
-      description: corrected the license annotation - Cachet ships under a custom "Cachet license", not MIT
-    - kind: fixed
-      description: keep appVersion pinned at 2.3.15 - every later image cachethq has published (2.3.16 through 2.3.18) fails on a fresh install with "Command cachet:install is not defined" (cachethq/Docker#379), an upstream packaging defect with no known workaround
+      description: migrate development ingress fixtures to Traefik
