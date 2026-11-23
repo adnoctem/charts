@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 1.13.0
 kubeVersion: ">=1.26.0-0"
 name: outline
-version: 0.3.0
+version: 0.3.1
 dependencies:
   - name: postgresql
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -56,12 +56,4 @@ annotations:
   org.opencontainers.image.licenses: "BUSL-1.1"
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Outline to 1.13.0 with improved search, share expiry, Gitea/Forgejo integration and security fixes
-    - kind: added
-      description: expose the ephemeral Redis command timeout and OAuth client metadata fallback
-    - kind: changed
-      description: database connection pool maximum must now be at least two; see upgrade notes for migrations and compatibility changes
-    - kind: changed
-      description: upgrade Outline to 1.12.0 with personal documents and security fixes
-    - kind: added
-      description: expose the Redis unavailability timeout and document restart and migration behavior
+      description: migrate development ingress fixtures to Traefik
