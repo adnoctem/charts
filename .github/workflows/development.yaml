@@ -83,23 +83,54 @@ jobs:
 
       - name: Install development ingress fixture
         run: |
-          make install CHART=charts/glance VALUES=ci/networking-values.yaml RELEASE_NAME=development-check \
-            HELM_ARGS="--kube-context kind-charts-development --namespace development-check --create-namespace --wait --timeout 5m"
-          kubectl --context kind-charts-development --namespace development-check \
-            wait --for=create certificate/glance-ingress-tls --timeout=120s
-          kubectl --context kind-charts-development --namespace development-check \
-            wait --for=condition=Ready certificate/glance-ingress-tls --timeout=120s
+          make install \
+            CHART=charts/glance \
+            VALUES=ci/networking-values.yaml \
+            RELEASE_NAME=development-check \
+            HELM_ARGS="--kube-context kind-charts-development \
+              --namespace development-check \
+              --create-namespace \
+              --wait \
+              --timeout 5m"
+          kubectl wait certificate/glance-ingress-tls \
+            --context kind-charts-development \
+            --namespace development-check \
+            --for=create \
+            --timeout=120s
+          kubectl wait certificate/glance-ingress-tls \
+            --context kind-charts-development \
+            --namespace development-check \
+            --for=condition=Ready \
+            --timeout=120s
 
       - name: Verify redirect and trusted HTTPS routing
         run: |
-          redirect=$(curl --silent --show-error --fail --noproxy '*' \
-            --resolve glance.charts.internal:80:127.0.0.1 --max-time 10 \
-            --output /dev/null --write-out '%{redirect_url}' http://glance.charts.internal/)
+          redirect=$(curl \
+            --silent \
+            --show-error \
+            --fail \
+            --noproxy '*' \
+            --resolve glance.charts.internal:80:127.0.0.1 \
+            --max-time 10 \
+            --output /dev/null \
+            --write-out '%{redirect_url}' \
+            http://glance.charts.internal/)
           test "$redirect" = "https://glance.charts.internal/"
-          status=$(curl --silent --show-error --fail --noproxy '*' \
-            --resolve glance.charts.internal:443:127.0.0.1 --cacert secrets/ca.pem \
-            --retry 12 --retry-all-errors --retry-delay 5 --retry-max-time 120 --max-time 10 \
-            --output /dev/null --write-out '%{http_code}' https://glance.charts.internal/)
+          status=$(curl \
+            --silent \
+            --show-error \
+            --fail \
+            --noproxy '*' \
+            --resolve glance.charts.internal:443:127.0.0.1 \
+            --cacert secrets/ca.pem \
+            --retry 12 \
+            --retry-all-errors \
+            --retry-delay 5 \
+            --retry-max-time 120 \
+            --max-time 10 \
+            --output /dev/null \
+            --write-out '%{http_code}' \
+            https://glance.charts.internal/)
           test "$status" = 200
 
       - name: Inspect failed bootstrap
