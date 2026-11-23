@@ -16,6 +16,10 @@ providers:
     enabled: true
     content:
       http:
+        serversTransports:
+          # LinkStack generates a self-signed certificate inside its container.
+          linkstack-backend:
+            insecureSkipVerify: true
         middlewares:
           lhci-upload-limit:
             buffering:

@@ -69,8 +69,8 @@ Notes:
   ingress-nginx environments with `make prune` then `make env`; cluster-local data is deleted, but the CA is retained.
 - Make runs Carto from the repository root with explicit `--config`, `--backbone` and `--charts-dir` paths derived
   from `CONFIG_K8S_DIR`; controller values live under `config/k8s/charts`.
-  `carto render` returns merged values, not manifests. Use GOpsKit v1.4.0 or newer for namespace management and apply
-  wait/timeout settings. Tools are externally installed; Make only reports missing executables.
+  `carto render` returns merged values, not manifests. Use GOpsKit v1.4.1 or newer for namespace management, apply
+  wait/timeout settings and settings-relative paths. Tools are externally installed; Make only reports missing executables.
 - `make secrets` writes a `kustomization.yaml` that `make env` applies via `config/k8s/kustomize`, provisioning the
   `root-ca` Secret consumed by the `development-issuer` ClusterIssuer.
 

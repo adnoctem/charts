@@ -21,7 +21,8 @@ does not check this dependency. The hostname script confirms edits and uses sudo
 Installing published charts does not require libsh.
 
 Install [Carto](https://github.com/adnoctem/gopskit/tree/main/cmd/carto) on your `PATH`, for example in
-`~/.local/bin`, using GOpsKit v1.4.0 or newer for namespace management and the apply wait/timeout settings.
+`~/.local/bin`, using GOpsKit v1.4.1 or newer for namespace management, apply wait/timeout settings and corrected
+settings-relative path resolution.
 The [release assets](https://github.com/adnoctem/gopskit/releases) include Linux amd64/arm64 tarballs and SHA-256
 checksums. `make tools-check` reports whether the executable is present; Make does not download or install tools.
 Helm is still required for chart development and packaging.
@@ -97,7 +98,10 @@ Helm operation uses atomic rollback; namespace changes and the separately applie
 
 The [development workflow](../.github/workflows/development.yaml) downloads a pinned Carto release, verifies its
 checksum, and bootstraps then reapplies this infrastructure in a disposable kind cluster. It uses a fresh local CA
-and does not edit the runner's hosts file. Renovate tracks the CI Carto version as well as the backbone chart versions.
+and installs Glance's networking fixture to verify certificate issuance, HTTP-to-HTTPS redirection and HTTPS routing
+with CA verification. Requests use `curl --resolve`, without editing the runner's hosts file. Renovate tracks the CI
+Carto version as well as the backbone chart versions. This smoke test complements the chart-specific browser checks
+above; it does not exercise application setup, WebSocket sessions or long-lived subscriptions.
 
 When developing new charts the [`Makefile`](../Makefile) provides a couple of handy targets to `template`, `install`
 or `dry-install` any chart. To run them you might execute something like this:
@@ -462,9 +466,12 @@ existing Secrets/PVCs, S3 storage and browser ingress/TLS behavior require separ
 
 Use the standard generation, chart lint and `ct install --config config/ct-config.yaml --charts charts/linkstack`
 workflow. The fixture exercises native Apache/PHP settings, persistent storage, ingress and all three probes.
-It selects `ingress.backendProtocol: http`, routing to `service.ports.http` while Traefik terminates frontend TLS.
-The chart default remains `https`. During browser validation, check generated asset URLs and redirects for mixed
-content or redirect loops, including after initial setup; HTTP pod readiness alone cannot establish proxy behavior.
+It selects `ingress.backendProtocol: https`, matching the chart default. LinkStack generates HTTP asset URLs when
+accessed over an HTTP backend, even when Traefik supplies forwarded HTTPS headers. The development file-provider
+transport `linkstack-backend@file` skips verification only for this container's self-signed backend certificate;
+frontend TLS uses the development CA as usual. Reapply `make cluster-bootstrap` before using this fixture.
+During browser validation, check generated asset URLs and redirects for mixed content or redirect loops, including
+after initial setup; HTTP pod readiness alone cannot establish proxy behavior.
 Readiness checks the initial setup page; it does not establish that account setup or authenticated workflows work.
 For persistence validation, retain a test release, modify its `.env`, SQLite database and a custom file, recreate
 only its pod, and verify those files are unchanged. Never use a production PVC for this check.

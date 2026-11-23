@@ -9,6 +9,7 @@ on:
       - config/k8s/**
       - config/ssl/**
       - Makefile
+      - charts/glance/**
   pull_request:
     branches: [main]
     paths:
@@ -16,6 +17,7 @@ on:
       - config/k8s/**
       - config/ssl/**
       - Makefile
+      - charts/glance/**
 
 permissions: {}
 
@@ -30,7 +32,7 @@ concurrency:
 
 jobs:
   bootstrap:
-    name: Bootstrap and reapply development infrastructure
+    name: Bootstrap, reapply and verify development ingress
     runs-on: ubuntu-latest
     timeout-minutes: 25
     permissions:
@@ -43,7 +45,7 @@ jobs:
 
       - name: Set up Carto
         env:
-          GOPSKIT_VERSION: v1.4.0
+          GOPSKIT_VERSION: v1.4.1
         run: |
           mkdir -p "$RUNNER_TEMP/carto"
           cd "$RUNNER_TEMP/carto"
@@ -74,8 +76,35 @@ jobs:
       - name: Reapply development infrastructure
         run: make cluster-bootstrap PROJ_NAME=charts-development
 
+      - name: Set up Helm
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5.1.0
+        with:
+          version: v3.22.1
+
+      - name: Install development ingress fixture
+        run: |
+          make install CHART=charts/glance VALUES=ci/networking-values.yaml RELEASE_NAME=development-check \
+            HELM_ARGS="--kube-context kind-charts-development --namespace development-check --create-namespace --wait --timeout 5m"
+          kubectl --context kind-charts-development --namespace development-check \
+            wait --for=create certificate/glance-ingress-tls --timeout=120s
+          kubectl --context kind-charts-development --namespace development-check \
+            wait --for=condition=Ready certificate/glance-ingress-tls --timeout=120s
+
+      - name: Verify redirect and trusted HTTPS routing
+        run: |
+          redirect=$(curl --silent --show-error --fail --noproxy '*' \
+            --resolve glance.charts.internal:80:127.0.0.1 --max-time 10 \
+            --output /dev/null --write-out '%{redirect_url}' http://glance.charts.internal/)
+          test "$redirect" = "https://glance.charts.internal/"
+          status=$(curl --silent --show-error --fail --noproxy '*' \
+            --resolve glance.charts.internal:443:127.0.0.1 --cacert secrets/ca.pem \
+            --retry 12 --retry-all-errors --retry-delay 5 --retry-max-time 120 --max-time 10 \
+            --output /dev/null --write-out '%{http_code}' https://glance.charts.internal/)
+          test "$status" = 200
+
       - name: Inspect failed bootstrap
         if: failure()
         run: |
           kubectl --context kind-charts-development get pods,jobs -A
           kubectl --context kind-charts-development get events -A --sort-by=.lastTimestamp
+          kubectl --context kind-charts-development get ingress,certificate,certificaterequest -A
