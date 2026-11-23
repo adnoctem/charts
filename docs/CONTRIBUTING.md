@@ -80,8 +80,9 @@ This target does not edit `/etc/hosts` or require libsh. Bootstrap explicitly ta
 `kind-<checkout-directory-basename>-charts` context. `make env` creates the cluster, bootstraps it, then configures
 hostnames, including when Make runs with parallel jobs.
 
-Make runs Carto from `config/k8s` with the explicit [settings file](../config/k8s/carto.yaml), avoiding personal
-Carto configuration. Settings select the development environment and a five-minute Helm timeout with Job waiting
+Make runs Carto from the repository root, passing the [settings file](../config/k8s/carto.yaml), backbone and values
+directory explicitly through `CONFIG_K8S_DIR`. This avoids personal Carto configuration and working-directory changes.
+Settings select the development environment and a five-minute Helm timeout with Job waiting
 enabled. Controller values live under [`config/k8s/charts`](../config/k8s/charts); these are configuration for upstream
 charts, separate from this repository's published charts. Carto only manages namespaces listed in `backbone.yaml`;
 a chart's `namespace` field alone never creates one. Removing a declaration does not delete a namespace.

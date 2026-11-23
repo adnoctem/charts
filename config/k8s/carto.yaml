@@ -1,6 +1,4 @@
-# Make runs Carto from this directory so these paths are checkout-independent.
-backbone: backbone.yaml
-charts-dir: charts
+# Make supplies filesystem paths explicitly through CONFIG_K8S_DIR.
 environment: dev
 
 apply:

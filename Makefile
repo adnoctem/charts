@@ -434,8 +434,12 @@ cluster:
 .PHONY: cluster-bootstrap
 cluster-bootstrap:
 	$(call log_success, "Bootstrapping development cluster")
-	cd $(CONFIG_K8S_DIR) && $(carto) --config carto.yaml --context kind-$(PROJ_NAME) apply cert-manager
-	cd $(CONFIG_K8S_DIR) && $(carto) --config carto.yaml --context kind-$(PROJ_NAME) apply traefik
+	$(carto) --config "$(CONFIG_K8S_DIR)/carto.yaml" \
+		--backbone "$(CONFIG_K8S_DIR)/backbone.yaml" --charts-dir "$(CONFIG_K8S_DIR)/charts" \
+		--context kind-$(PROJ_NAME) apply cert-manager
+	$(carto) --config "$(CONFIG_K8S_DIR)/carto.yaml" \
+		--backbone "$(CONFIG_K8S_DIR)/backbone.yaml" --charts-dir "$(CONFIG_K8S_DIR)/charts" \
+		--context kind-$(PROJ_NAME) apply traefik
 	$(kubectl) --context kind-$(PROJ_NAME) apply -k $(CONFIG_K8S_DIR)/kustomize
 	$(kubectl) --context kind-$(PROJ_NAME) wait --for=condition=Ready clusterissuer/development-issuer --timeout=120s
 
