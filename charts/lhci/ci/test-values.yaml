@@ -76,10 +76,10 @@ persistence:
 
 ingress:
   enabled: true
-  className: nginx
+  className: traefik
   annotations:
     cert-manager.io/cluster-issuer: development-issuer
-    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    traefik.ingress.kubernetes.io/router.middlewares: lhci-upload-limit@file
   hosts:
     - host: lhci.charts.internal
       paths:
