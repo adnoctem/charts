@@ -51,7 +51,9 @@ configurable via the Image Parameters.
 `ingress.backendProtocol` selects the backend Service port: `https` (the unchanged default) uses
 `service.ports.https`, while `http` uses `service.ports.http`. Configure the ingress controller to use the matching
 backend protocol. Frontend TLS remains controlled by `ingress.tls` and the controller's certificate configuration.
-For TLS termination at the ingress controller with an HTTP backend, set `ingress.backendProtocol: http`.
+For TLS termination at the ingress controller with an HTTP backend, set `ingress.backendProtocol: http` and configure
+the application to recognize its external HTTPS URL. The bundled application configuration generates HTTP asset URLs
+over an HTTP backend despite forwarded HTTPS headers; retain the HTTPS backend to avoid mixed content in that case.
 Existing HTTPS-backend installations do not need a values change.
 
 ### To 0.5.0 (LinkStack 4.8.6 -> 4.8.8 for new installations)

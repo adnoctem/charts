@@ -9,13 +9,17 @@ linkstack:
 ingress:
   enabled: true
   className: traefik
-  backendProtocol: http
+  backendProtocol: https
   annotations:
     cert-manager.io/cluster-issuer: development-issuer
   tls:
     - secretName: linkstack-ingress-tls
       hosts:
         - linkstack.charts.internal
+
+service:
+  annotations:
+    traefik.ingress.kubernetes.io/service.serverstransport: linkstack-backend@file
 
 livenessProbe:
   enabled: true
