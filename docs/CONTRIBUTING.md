@@ -63,10 +63,13 @@ existing port mappings. HTTP redirects to HTTPS; cert-manager issues certificate
 Use `ingressClassName: traefik` on development Ingresses. Traefik's Kubernetes CRD provider supports middleware
 references, while the Gateway API and NGINX compatibility providers are disabled.
 
+Traefik handles WebSocket upgrades natively; fixtures do not need nginx connection/timeout annotations.
+The development HTTPS entrypoint has no response-write deadline so HTTP streams such as ntfy subscriptions can
+remain open. Validate Uptime Kuma's WebSocket connection and ntfy's streaming reconnect behavior during browser tests.
+
 Most charts' fixtures include the
 [annotations to request TLS certificates](https://cert-manager.io/docs/usage/ingress/) from `development-issuer`.
-Their ingress classes and controller-specific annotations are being migrated in the next phase; existing `nginx`
-fixtures need that migration before browser testing. Bootstrap also adds the hostnames defined in
+The ingress fixtures use the `traefik` class. `make env` also adds the hostnames defined in
 [`scripts/hosts.sh`](../scripts/hosts.sh) to `/etc/hosts`, with confirmation and sudo when required.
 
 For a cluster created with the old ingress-nginx/cert-manager 1.13 setup, recreate the disposable environment using
@@ -459,6 +462,9 @@ existing Secrets/PVCs, S3 storage and browser ingress/TLS behavior require separ
 
 Use the standard generation, chart lint and `ct install --config config/ct-config.yaml --charts charts/linkstack`
 workflow. The fixture exercises native Apache/PHP settings, persistent storage, ingress and all three probes.
+It selects `ingress.backendProtocol: http`, routing to `service.ports.http` while Traefik terminates frontend TLS.
+The chart default remains `https`. During browser validation, check generated asset URLs and redirects for mixed
+content or redirect loops, including after initial setup; HTTP pod readiness alone cannot establish proxy behavior.
 Readiness checks the initial setup page; it does not establish that account setup or authenticated workflows work.
 For persistence validation, retain a test release, modify its `.env`, SQLite database and a custom file, recreate
 only its pod, and verify those files are unchanged. Never use a production PVC for this check.
@@ -535,6 +541,11 @@ The fixture's Service is named `lhci-ci` and exposes port `80`; its application 
 PostgreSQL fixtures use `mysql.lhci.charts.internal` and `postgresql.lhci.charts.internal`; add these to local hostname
 resolution if testing them in a browser. They expose HTTP Services on `8080`, targeting app ports `9102` and `9103`.
 MySQL basic auth is `mysql-ci` / `ci-http-password`; PostgreSQL uses its fixture database username/password.
+
+All three fixtures reference `lhci-upload-limit@file`, a buffering middleware supplied by the development Traefik
+configuration. It preserves the former 10 MiB request-body limit (`10485760` bytes) without adding Traefik custom
+resources to the chart or requiring them in a plain chart-testing cluster. Reapply `make cluster-bootstrap` before
+browser testing these fixtures. Verify that oversized requests receive HTTP 413 and normal report uploads succeed.
 
 Do not install two Ingress resources for the same host/path; overlapping routes make browser tests ambiguous.
 If a development installation already owns a fixture hostname, use another hostname consistently in both

@@ -11,6 +11,15 @@ ingressClass:
   name: traefik
   isDefaultClass: false
 providers:
+  # File-provider middleware is shared by fixtures without requiring chart CRDs.
+  file:
+    enabled: true
+    content:
+      http:
+        middlewares:
+          lhci-upload-limit:
+            buffering:
+              maxRequestBodyBytes: 10485760
   kubernetesIngress:
     enabled: true
     ingressClass: traefik
@@ -36,6 +45,10 @@ ports:
           permanent: true
   websecure:
     hostPort: 443
+    # Keep streaming responses open; WebSocket upgrades are handled natively.
+    transport:
+      respondingTimeouts:
+        writeTimeout: 0s
     http:
       tls:
         enabled: true
