@@ -116,7 +116,7 @@ jobs:
       run:
         shell: sh
     container:
-      image: public.ecr.aws/artifacthub/ah:v1.23.0
+      image: public.ecr.aws/artifacthub/ah:v1.24.0
       options: --user 1001
     steps:
       - name: Checkout
