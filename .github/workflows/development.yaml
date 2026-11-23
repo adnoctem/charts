@@ -1,0 +1,81 @@
+name: "Development Environment"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/development.yaml
+      - config/k8s/**
+      - config/ssl/**
+      - Makefile
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/development.yaml
+      - config/k8s/**
+      - config/ssl/**
+      - Makefile
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: "${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  # The cluster and CA are disposable and nothing is published by this workflow.
+  cancel-in-progress: true
+
+jobs:
+  bootstrap:
+    name: Bootstrap and reapply development infrastructure
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Carto
+        env:
+          GOPSKIT_VERSION: v1.4.0
+        run: |
+          mkdir -p "$RUNNER_TEMP/carto"
+          cd "$RUNNER_TEMP/carto"
+          base="https://github.com/adnoctem/gopskit/releases/download/$GOPSKIT_VERSION"
+          curl -fL --retry 3 -o carto_linux_amd64.tar.gz "$base/carto_linux_amd64.tar.gz"
+          curl -fL --retry 3 -o CHECKSUMS_SHA256.txt "$base/CHECKSUMS_SHA256.txt"
+          sha256sum --check --ignore-missing CHECKSUMS_SHA256.txt
+          tar -xzf carto_linux_amd64.tar.gz carto_amd64
+          install -m 0755 carto_amd64 carto
+          echo "$RUNNER_TEMP/carto" >> "$GITHUB_PATH"
+
+      - name: Set up certificate tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes golang-cfssl
+
+      - name: Create development cluster
+        uses: helm/kind-action@ea822c7bf1874f08e5a491df991c228edffc3376 # v1.15.2
+        with:
+          config: config/k8s/cluster/kind-config.yaml
+          cluster_name: charts-development
+
+      - name: Bootstrap development infrastructure
+        run: |
+          make secrets
+          make cluster-bootstrap PROJ_NAME=charts-development
+
+      - name: Reapply development infrastructure
+        run: make cluster-bootstrap PROJ_NAME=charts-development
+
+      - name: Inspect failed bootstrap
+        if: failure()
+        run: |
+          kubectl --context kind-charts-development get pods,jobs -A
+          kubectl --context kind-charts-development get events -A --sort-by=.lastTimestamp

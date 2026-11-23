@@ -1,0 +1,6 @@
+crds:
+  enabled: true
+startupapicheck:
+  enabled: true
+ingressShim:
+  defaultIssuerKind: ClusterIssuer

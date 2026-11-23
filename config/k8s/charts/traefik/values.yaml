@@ -1,0 +1,50 @@
+deployment:
+  replicas: 1
+# Free the node's host ports before scheduling the replacement pod.
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 0
+ingressClass:
+  enabled: true
+  name: traefik
+  isDefaultClass: false
+providers:
+  kubernetesIngress:
+    enabled: true
+    ingressClass: traefik
+    publishedService:
+      enabled: false
+    ingressEndpoint:
+      hostname: localhost
+  # Supports middleware references from ordinary Kubernetes Ingresses.
+  kubernetesCRD:
+    enabled: true
+  kubernetesGateway:
+    enabled: false
+  kubernetesIngressNGINX:
+    enabled: false
+ports:
+  web:
+    hostPort: 80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    hostPort: 443
+    http:
+      tls:
+        enabled: true
+service:
+  spec:
+    type: ClusterIP
+nodeSelector:
+  ingress-ready: "true"
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule

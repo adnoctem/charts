@@ -9,7 +9,7 @@ This file records what an agent otherwise gets wrong.
 - `charts/<name>/` — 16 independent Helm charts (Kubernetes `>=1.26.0`): `Chart.yaml`, `values.yaml`, committed
   `values.schema.json`, `templates/`, `ci/` fixtures and a generated end-user `README.md`.
 - `config/` — `ct-config.yaml` (chart-testing), `cr-config.yaml` (chart-releaser), `bitnami-readme-gen.json`,
-  `k8s/` (kind cluster, helmfile, kustomize dev setup), `ssl/` (cfssl CA CSR).
+  `k8s/` (kind cluster, Carto backbone/settings/controller values, kustomize dev setup), `ssl/` (cfssl CA CSR).
 - `docs/` — development documentation only (`CONTRIBUTING.md`, `TODO.md`). Never put development notices in a
   chart `README.md`; that file is for end users and is published to Artifact Hub.
 - `scripts/hosts.sh` — manages `*.charts.internal` entries in `/etc/hosts`. Requires an installed
@@ -34,7 +34,7 @@ relative path (`ci/test-values.yaml`), applied as `$(CHART)/$(VALUES)`. `RELEASE
 | -------------- | ------------------------------------------------------------------------ |
 | Prerequisites  | `make tools-check` (then install whatever it reports missing)            |
 | Local CA       | `make secrets` — cfssl CA into `secrets/`; required before `make env`    |
-| Dev cluster    | `make env` — kind + helmfile (Traefik, cert-manager) + kustomize + hosts |
+| Dev cluster    | `make env` — kind + Carto (Traefik, cert-manager) + kustomize + hosts    |
 | Render         | `make template CHART=charts/<name> [VALUES=ci/test-values.yaml]`         |
 | Dry run        | `make dry-install CHART=charts/<name> [VALUES=...]`                      |
 | Deploy         | `make install` / `make upgrade CHART=charts/<name> [VALUES=...]`         |
@@ -52,7 +52,7 @@ Notes:
 - `install`/`upgrade`/`template` do not pass `--namespace`; the release lands in the active kubeconfig namespace.
 - `make gen` and `make all` need network access: `gen` runs `npx @bitnami/readme-generator-for-helm`, and `all`
   calls `prettier --write` directly, so `prettier` must be on `PATH` (pre-commit uses `bun x prettier` instead).
-- `tools-check` only verifies `helm helmfile kind npx cfssl cfssljson kubectl`. `make lint` additionally needs
+- `tools-check` only verifies `helm carto kind npx cfssl cfssljson kubectl`. `make lint` additionally needs
   `ct`, `markdownlint`, `actionlint`, `shellcheck` and `shfmt`. Pre-commit manages its own hook environments and
   only needs `pre-commit` and `bun` on `PATH` (for the local Prettier hook). `yq` is invoked whenever `CHART` is
   set, even though the computed `CHART_VERSION` is currently unused.
@@ -63,9 +63,13 @@ Notes:
 - Development hostnames are `*.charts.internal`; a chart whose fixture uses Ingress needs its hostname added to
   `scripts/hosts.sh` to be resolvable locally. Use the `traefik` ingress class. Avoid overlapping
   host/path routes — remove the conflicting install or use another hostname.
-- `make cluster-bootstrap` targets `kind-<checkout-directory-basename>-charts`, waits for the controllers, applies
-  the local CA and issuer once, and waits for the issuer to be ready before updating hosts entries. Recreate old
+- `make cluster-bootstrap` targets `kind-<checkout-directory-basename>-charts`. Carto manages the explicit namespaces
+  in `config/k8s/backbone.yaml` and applies cert-manager then Traefik, waiting for readiness and Jobs. Make applies
+  the local CA and issuer once and waits for the issuer to be ready. Only `make env` adds hosts entries. Recreate old
   ingress-nginx environments with `make prune` then `make env`; cluster-local data is deleted, but the CA is retained.
+- Make runs Carto from `config/k8s` with `--config carto.yaml`; controller values live under `config/k8s/charts`.
+  `carto render` returns merged values, not manifests. Use GOpsKit v1.4.0 or newer for namespace management and apply
+  wait/timeout settings. Tools are externally installed; Make only reports missing executables.
 - `make secrets` writes a `kustomization.yaml` that `make env` applies via `config/k8s/kustomize`, provisioning the
   `root-ca` Secret consumed by the `development-issuer` ClusterIssuer.
 
@@ -120,6 +124,8 @@ Full rules: [Chart Design Principles](CONTRIBUTING.md#-chart-design-principles).
 
 ## CI and release
 
+- `.github/workflows/development.yaml` runs on development infrastructure changes. It installs a checksum-verified
+  Carto release, creates kind and a disposable CA, then runs `make cluster-bootstrap` twice without hosts-file edits.
 - `.github/workflows/testing.yaml` runs on `charts/**` changes: `pre-commit run --all-files`, then
   `ct list-changed` → `ct lint` → Artifact Hub `ah lint` (inside `charts/`) → `ct install` on a kind cluster.
   On a push to `main` it dispatches `release.yaml`.

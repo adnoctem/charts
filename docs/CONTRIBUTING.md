@@ -20,6 +20,12 @@ using the path printed by its installer; it must point to the directory containi
 does not check this dependency. The hostname script confirms edits and uses sudo when the host file is not writable.
 Installing published charts does not require libsh.
 
+Install [Carto](https://github.com/adnoctem/gopskit/tree/main/cmd/carto) on your `PATH`, for example in
+`~/.local/bin`, using GOpsKit v1.4.0 or newer for namespace management and the apply wait/timeout settings.
+The [release assets](https://github.com/adnoctem/gopskit/releases) include Linux amd64/arm64 tarballs and SHA-256
+checksums. `make tools-check` reports whether the executable is present; Make does not download or install tools.
+Helm is still required for chart development and packaging.
+
 After you have all the necessary tools installed you will want to generate a TLS certificate authority to issue local
 TLS certificates for your applications' Ingress manifests. To this you can run:
 
@@ -42,14 +48,16 @@ make env
 
 The [kind configuration](../config/k8s/cluster/kind-config.yaml) pins every node to Kubernetes 1.36.4 by image digest,
 using the image published with [kind v0.33.0](https://github.com/kubernetes-sigs/kind/releases/tag/v0.33.0).
-Use kind v0.33.0 for this configuration. [Helmfile](../config/k8s/helmfile.yaml) declares the chart repositories it
-needs, so no manual `helm repo add` setup is required. Renovate tracks both the Helmfile releases and the node images.
+Use kind v0.33.0 for this configuration. Carto's [backbone file](../config/k8s/backbone.yaml) declares the controller
+charts, repositories, versions and managed namespaces, so no manual `helm repo add` or namespace setup is required.
+Renovate tracks the backbone chart versions and the node images.
 Node image updates stay within Kubernetes 1.36; before changing that range in [`renovate.json`](../renovate.json),
 check the controllers' supported Kubernetes versions. Changing the image pin only affects newly created clusters.
 
-Bootstrap installs [Traefik](https://github.com/traefik/traefik-helm-chart) and
-[cert-manager](https://cert-manager.io/docs/installation/helm/), waits for their deployments and cert-manager's
-startup API check, then applies the local CA Secret and waits for the `development-issuer` ClusterIssuer to be ready.
+Bootstrap uses Carto to apply [cert-manager](https://cert-manager.io/docs/installation/helm/) followed by
+[Traefik](https://github.com/traefik/traefik-helm-chart). Each apply reconciles the explicitly declared namespaces and
+waits for release readiness, including Jobs and cert-manager's startup API check. It then applies the local CA Secret
+and waits for the `development-issuer` ClusterIssuer to be ready.
 Traefik runs one replica on the `ingress-ready` control-plane node, exposing host ports 80 and 443 through kind's
 existing port mappings. HTTP redirects to HTTPS; cert-manager issues certificates from the CA in `secrets/`.
 Use `ingressClassName: traefik` on development Ingresses. Traefik's Kubernetes CRD provider supports middleware
@@ -64,12 +72,28 @@ fixtures need that migration before browser testing. Bootstrap also adds the hos
 For a cluster created with the old ingress-nginx/cert-manager 1.13 setup, recreate the disposable environment using
 `make prune` followed by `make env`. This deletes workloads and cluster-local data; preserve anything you still need
 first. The CA files in `secrets/` are retained, so there is no need to regenerate or re-trust the CA. Do not apply the
-new Helmfile over the old environment: it does not remove the old nginx release, and cert-manager
+new bootstrap over the old environment: it does not remove the old nginx release, and cert-manager
 [recommends upgrading one minor version at a time](https://cert-manager.io/docs/installation/upgrade/).
 
 After initial creation, use `make cluster-bootstrap` to reapply the infrastructure to the existing development cluster.
-Bootstrap explicitly targets the `kind-<checkout-directory-basename>-charts` context. `make env` creates the cluster
-before bootstrapping it, including when Make runs with parallel jobs.
+This target does not edit `/etc/hosts` or require libsh. Bootstrap explicitly targets the
+`kind-<checkout-directory-basename>-charts` context. `make env` creates the cluster, bootstraps it, then configures
+hostnames, including when Make runs with parallel jobs.
+
+Make runs Carto from `config/k8s` with the explicit [settings file](../config/k8s/carto.yaml), avoiding personal
+Carto configuration. Settings select the development environment and a five-minute Helm timeout with Job waiting
+enabled. Controller values live under [`config/k8s/charts`](../config/k8s/charts); these are configuration for upstream
+charts, separate from this repository's published charts. Carto only manages namespaces listed in `backbone.yaml`;
+a chart's `namespace` field alone never creates one. Removing a declaration does not delete a namespace.
+
+Carto uses standard Helm release records, so existing Traefik/cert-manager releases with the same names and namespaces
+can be adopted without reinstalling. Reapplying performs a Helm upgrade even when values have not changed. A failed
+Helm operation uses atomic rollback; namespace changes and the separately applied CA/issuer are outside that rollback.
+`carto render` outputs merged values, not Kubernetes manifests; continue using Helm for manifest rendering.
+
+The [development workflow](../.github/workflows/development.yaml) downloads a pinned Carto release, verifies its
+checksum, and bootstraps then reapplies this infrastructure in a disposable kind cluster. It uses a fresh local CA
+and does not edit the runner's hosts file. Renovate tracks the CI Carto version as well as the backbone chart versions.
 
 When developing new charts the [`Makefile`](../Makefile) provides a couple of handy targets to `template`, `install`
 or `dry-install` any chart. To run them you might execute something like this:

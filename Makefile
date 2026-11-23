@@ -69,13 +69,13 @@ DATE := $(shell date '+%d.%m.%y-%T')
 # Executables
 kubectl := kubectl
 helm := helm
-helmfile := helmfile
+carto := carto
 kind := kind
 npx := npx
 cfssl := cfssl
 cfssljson := cfssljson
 
-EXECUTABLES := $(helm) $(helmfile) $(kind) $(npx) $(cfssl) $(cfssljson) $(kubectl)
+EXECUTABLES := $(helm) $(carto) $(kind) $(npx) $(cfssl) $(cfssljson) $(kubectl)
 
 # Packages
 README_GEN_PACKAGE := @bitnami/readme-generator-for-helm
@@ -86,6 +86,7 @@ $(PROJ_NAME) Makefile
 Targets:
 --------
 env            - Create a development Cluster with $(kind)
+cluster-bootstrap - Apply development infrastructure to an existing kind cluster
 build          - Build a Helm Chart's .tgz bundle
 install        - Install a Helm Chart onto the development Cluster
 upgrade        - Upgrade a currently installed Helm Chart
@@ -167,8 +168,8 @@ endef
 # ---------------------------
 
 define ENV_INFO
-# Create a local development environment for Helm charts. This is a wrapper
-# target creates the cluster, then runs 'cluster-bootstrap'.
+# Create a local development environment for Helm charts: create the cluster,
+# run 'cluster-bootstrap', then configure local hostnames.
 endef
 .PHONY: env
 ifeq ($(PRINT_HELP), y)
@@ -177,6 +178,7 @@ env:
 else
 env: cluster
 	$(MAKE) cluster-bootstrap
+	$(SCRIPT_DIR)/hosts.sh add
 endif
 
 # ---------------------------
@@ -432,13 +434,10 @@ cluster:
 .PHONY: cluster-bootstrap
 cluster-bootstrap:
 	$(call log_success, "Bootstrapping development cluster")
-	$(helmfile) --kube-context kind-$(PROJ_NAME) -f $(CONFIG_K8S_DIR)/helmfile.yaml apply
-	$(kubectl) --context kind-$(PROJ_NAME) -n traefik rollout status deployment/traefik --timeout=300s
-	$(kubectl) --context kind-$(PROJ_NAME) -n cert-manager rollout status \
-		deployment/cert-manager deployment/cert-manager-cainjector deployment/cert-manager-webhook --timeout=300s
+	cd $(CONFIG_K8S_DIR) && $(carto) --config carto.yaml --context kind-$(PROJ_NAME) apply cert-manager
+	cd $(CONFIG_K8S_DIR) && $(carto) --config carto.yaml --context kind-$(PROJ_NAME) apply traefik
 	$(kubectl) --context kind-$(PROJ_NAME) apply -k $(CONFIG_K8S_DIR)/kustomize
 	$(kubectl) --context kind-$(PROJ_NAME) wait --for=condition=Ready clusterissuer/development-issuer --timeout=120s
-	$(SCRIPT_DIR)/hosts.sh add
 
 .PHONY: registry-login
 registry-login:

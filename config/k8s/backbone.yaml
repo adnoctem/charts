@@ -1,0 +1,17 @@
+namespaces:
+  - name: cert-manager
+    labels:
+      adnoctem.co/env: dev
+  - name: traefik
+    labels:
+      adnoctem.co/env: dev
+
+charts:
+  cert-manager:
+    repository: https://charts.jetstack.io
+    version: v1.21.3
+    namespace: cert-manager
+  traefik:
+    repository: https://traefik.github.io/charts
+    version: 42.4.2
+    namespace: traefik

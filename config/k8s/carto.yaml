@@ -1,0 +1,8 @@
+# Make runs Carto from this directory so these paths are checkout-independent.
+backbone: backbone.yaml
+charts-dir: charts
+environment: dev
+
+apply:
+  wait-for-jobs: true
+  timeout: 5m

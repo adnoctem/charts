@@ -60,8 +60,10 @@ The root Makefile provides rendering, generation, linting, packaging and deploym
 a repository-relative directory, for example `CHART=charts/uptime-kuma`; `VALUES=ci/test-values.yaml` is relative
 to that chart. See [Contributing][contributing] for the complete workflow.
 
-The development environment uses kind, Traefik, cert-manager and Kustomize. `make secrets` creates local
-CA material; `make env` creates and bootstraps the cluster and adds `*.charts.internal` hostnames.
+The development environment uses kind, Carto, Traefik, cert-manager and Kustomize. Carto's `config/k8s/backbone.yaml`
+declares the upstream charts and managed namespaces; controller values live under `config/k8s/charts`.
+`make secrets` creates local CA material; `make env` creates and bootstraps the cluster and adds
+`*.charts.internal` hostnames. `make cluster-bootstrap` reapplies infrastructure without changing hostnames.
 The hostname script requires an installed [libsh][libsh] and `LIBSH_DIR` pointing to the directory containing
 `lib.sh`. It confirms host-file edits and uses sudo when necessary. This dependency is for development tooling;
 installing a published chart does not require libsh or this checkout.
@@ -71,6 +73,10 @@ Install and upgrade targets use the active kubeconfig context and namespace unle
 it is not a production cluster configuration. See [Security][security] for its trust boundaries.
 
 ## Verification and Publishing
+
+The [development workflow](../.github/workflows/development.yaml) checks infrastructure changes by bootstrapping
+and reapplying Carto's backbone on kind, including namespace management and issuer readiness. It uses a pinned,
+checksum-verified Carto release and a disposable CA; it does not edit hostnames or publish charts.
 
 The [Testing workflow][testing] runs pre-commit checks, identifies changed charts, validates them with
 chart-testing and Artifact Hub's linter, and installs charts in kind. Chart-testing uses the `ci/*-values.yaml`

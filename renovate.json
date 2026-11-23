@@ -13,6 +13,22 @@
   "customManagers": [
     {
       "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/development\\.yaml$/"],
+      "matchStrings": ["GOPSKIT_VERSION:\\s*(?<currentValue>v[^\\s]+)"],
+      "depNameTemplate": "adnoctem/gopskit",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "jsonata",
+      "fileFormat": "yaml",
+      "managerFilePatterns": ["/^config/k8s/backbone\\.yaml$/"],
+      "matchStrings": [
+        "$each(charts, function($chart, $name) { {\"depName\": $name, \"currentValue\": $chart.version, \"registryUrl\": $chart.repository} })"
+      ],
+      "datasourceTemplate": "helm"
+    },
+    {
+      "customType": "regex",
       "managerFilePatterns": ["/^charts/linkstack/values\\.yaml$/"],
       "matchStrings": [
         "image:\\s+registry:\\s+docker\\.io\\s+repository:\\s+(?<depName>[^\\s]+)\\s+tag:\\s+(?<currentValue>[^\\s]+)\\s+digest:\\s+(?<currentDigest>sha256:[a-f0-9]{64})"
