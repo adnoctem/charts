@@ -80,10 +80,12 @@ checksum-verified Carto release and a disposable CA; it does not edit hostnames 
 
 The [Testing workflow][testing] runs pre-commit checks, identifies changed charts, validates them with
 chart-testing and Artifact Hub's linter, and installs charts in kind. Chart-testing uses the `ci/*-values.yaml`
-fixtures separately. These checks validate the chart deployment; they do not replace upstream application tests
+fixtures separately. Installation testing depends only on change detection, so pre-commit and lint failures do not
+prevent it from running. These checks validate the chart deployment; they do not replace upstream application tests
 or production migration testing. Super-Linter provides additional repository checks.
 
-Successful chart testing on pushes to `main` dispatches the [Release workflow][release]. It can also be started
+Successful quality checks, both linters and installation testing on pushes to `main` dispatch the
+[Release workflow][release]. A failed, cancelled or skipped required job prevents automatic dispatch. It can also be started
 manually. Chart-releaser signs packages, creates GitHub releases and updates the Pages repository index. The
 workflow also pushes packages to `oci://ghcr.io/adnoctem/charts`. Artifact Hub indexes the published repository.
 

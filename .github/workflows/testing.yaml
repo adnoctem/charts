@@ -55,7 +55,6 @@ jobs:
   changes:
     name: Determine if charts have changed
     runs-on: ubuntu-latest
-    needs: [quality]
     permissions:
       contents: read
       packages: read
@@ -131,7 +130,8 @@ jobs:
 
   test:
     name: Test Helm Charts
-    needs: [changes, lint, lint-artifacthub]
+    # Collect installation results even when a separate quality or lint job fails.
+    needs: [changes]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -154,10 +154,6 @@ jobs:
       - name: Set up Chart-Testing
         uses: helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510 # v2.9.0
 
-      - name: Run chart-testing (lint)
-        if: ${{ needs.changes.outputs.changed == 'true' || github.event.inputs.forceTest }}
-        run: ct lint --config config/ct-config.yaml
-
       - name: Run kind to create a Kubernetes cluster
         if: ${{ needs.changes.outputs.changed == 'true' || github.event.inputs.forceTest }}
         uses: helm/kind-action@ea822c7bf1874f08e5a491df991c228edffc3376 # v1.15.2
@@ -172,12 +168,13 @@ jobs:
   dispatch:
     name: Dispatch a release workflow run
     runs-on: ubuntu-latest
-    needs: [test]
+    # Every check must succeed before a push to main can publish charts.
+    needs: [quality, changes, lint, lint-artifacthub, test]
+    if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     permissions:
       contents: write
     steps:
       - name: Dispatch a release workflow run
-        if: ${{ github.event_name == 'push' && always() && !contains(join(needs.*.result, ','), 'failure') }}
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

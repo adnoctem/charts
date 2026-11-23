@@ -127,9 +127,9 @@ Full rules: [Chart Design Principles](CONTRIBUTING.md#-chart-design-principles).
 
 - `.github/workflows/development.yaml` runs on development infrastructure changes. It installs a checksum-verified
   Carto release, creates kind and a disposable CA, then runs `make cluster-bootstrap` twice without hosts-file edits.
-- `.github/workflows/testing.yaml` runs on `charts/**` changes: `pre-commit run --all-files`, then
-  `ct list-changed` → `ct lint` → Artifact Hub `ah lint` (inside `charts/`) → `ct install` on a kind cluster.
-  On a push to `main` it dispatches `release.yaml`.
+- `.github/workflows/testing.yaml` runs on `charts/**` changes. Pre-commit and change detection start independently;
+  `ct lint`, Artifact Hub `ah lint` (inside `charts/`) and `ct install` on kind run after change detection, without
+  gating installation on lint results. Automatic release dispatch on a push to `main` requires every job to succeed.
 - `.github/workflows/release.yaml` runs only via that dispatch: chart-releaser publishes signed GitHub releases and
   the Pages index from `config/cr-config.yaml`, then pushes packages to `oci://ghcr.io/adnoctem/charts`.
 - `.github/workflows/superlint.yaml` runs Super-Linter with several validators intentionally disabled — YAML
