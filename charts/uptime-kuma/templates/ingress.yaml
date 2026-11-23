@@ -19,12 +19,14 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "uptimeKuma.labels" . | nindent 4 }}
-    {{- if (eq .Values.ingress.className "nginx") }}
+  {{- $annotations := deepCopy (.Values.ingress.annotations | default dict) }}
+  {{- if eq .Values.ingress.className "nginx" }}
+    {{- $_ := merge $annotations (dict "nginx.ingress.kubernetes.io/proxy-read-timeout" "3600" "nginx.ingress.kubernetes.io/proxy-send-timeout" "3600") }}
+  {{- end }}
+  {{- with $annotations }}
   annotations:
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    {{- end }}
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.ingress.className }}

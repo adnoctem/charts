@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 2.5.11
 kubeVersion: ">=1.26.0-0"
 name: uptime-kuma
-version: 0.5.1
+version: 0.5.2
 description: Uptime-Kuma is an open-source, self-hosted fancy uptime monitoring tool
 home: https://uptime.kuma.pet/
 icon: https://raw.githubusercontent.com/louislam/uptime-kuma/953058c6a5047c82a58606e442c6e572e215e3ff/public/icon-512x512.png
@@ -46,5 +46,7 @@ annotations:
   org.opencontainers.image.licenses: "MIT"
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
+    - kind: fixed
+      description: render annotations for every ingress class and avoid duplicate nginx timeout keys
     - kind: changed
-      description: upgrade Uptime-Kuma to 2.5.11 with dependency security and embedded MariaDB password-reset fixes
+      description: migrate development ingress fixtures to Traefik

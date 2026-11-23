@@ -1,10 +1,8 @@
 ingress:
   enabled: true
-  className: "nginx"
+  className: "traefik"
   annotations:
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    cert-manager.io/cluster-issuer: mkcert-development-issuer
+    cert-manager.io/cluster-issuer: development-issuer
   hosts:
     - host: uptime-kuma.charts.internal
       paths:
