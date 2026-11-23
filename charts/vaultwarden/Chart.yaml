@@ -5,7 +5,7 @@ apiVersion: v2
 appVersion: 1.37.5
 kubeVersion: ">=1.26.0-0"
 name: vaultwarden
-version: 0.7.0
+version: 0.7.1
 description: Vaultwarden is an open-source, community-supported, Bitwarden-compatible server written in Rust
 home: https://github.com/dani-garcia/vaultwarden
 icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
@@ -46,8 +46,4 @@ annotations:
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade Vaultwarden to 1.37.5 with security fixes and stricter configuration validation
-    - kind: added
-      description: expose remembered two-factor login duration and the Fill Assist rules URL
-    - kind: changed
-      description: document web vault compatibility and refresh experimental client feature flags
+      description: migrate development ingress fixtures to Traefik
