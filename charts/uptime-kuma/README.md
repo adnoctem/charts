@@ -48,6 +48,28 @@ configurable via the Image Parameters.
 
 ## Upgrading
 
+### To 0.6.0 (Uptime-Kuma 2.5.11 -> 2.5.12)
+
+[Uptime-Kuma 2.5.12](https://github.com/louislam/uptime-kuma/releases/tag/2.5.12) isolates JSONata evaluation
+and updates dependencies for security fixes. This is a breaking chart release because JSONata expressions now
+run with a 1000 ms execution limit, a stack limit of 500 and a sequence limit of 10000.
+
+**Migrate application data before replacing the old pod.** The PVC now mounts at the same path as `DATA_DIR`,
+`/app/<uptimeKuma.data.path>` (default `/app/data`). Previously, the chart mounted it at `/data`, leaving the
+application's default database, setup configuration and uploaded files in the ephemeral container layer.
+Before upgrading an affected installation, quiesce writes, make a consistent database backup and preserve the
+remaining application data from the old pod, then restore it onto the PVC. Do not copy only a live SQLite main
+file while WAL writes are active. Without migration, the new mount starts empty and setup appears again.
+The chart cannot recover files already lost when an old pod was replaced. Retain backups for rollback.
+
+Review complex JSON queries in HTTP, Globalping, MongoDB, MQTT and SNMP monitors. Simplify expressions or reduce
+their input if they exceed these limits; queries cannot generate JavaScript code in the sandbox. Ordinary data
+queries, JSONata functions, lambdas and transforms remain supported. These limits are upstream behavior and have
+no Helm override. See the [tagged sandbox implementation](https://github.com/louislam/uptime-kuma/blob/2.5.12/server/jsonata-sandbox.js).
+
+No Helm values are renamed or removed, and this release adds no database migrations relative to 2.5.11.
+Back up persistent application data before upgrading and verify your monitors afterward.
+
 ### To 0.5.1 (Uptime-Kuma 2.5.9 -> 2.5.11)
 
 [Uptime-Kuma 2.5.11](https://github.com/louislam/uptime-kuma/releases/tag/2.5.11) fixes an admin-only remote
@@ -123,7 +145,7 @@ Back up your PVC first.
 | ------------------- | ------------------------------------------------------------------- | ---------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`            |
 | `image.repository`  | The registry repository to pull the image from                      | `louislam/uptime-kuma` |
-| `image.tag`         | The image tag to pull                                               | `2.5.11`               |
+| `image.tag`         | The image tag to pull                                               | `2.5.12`               |
 | `image.digest`      | The image digest to pull                                            | `""`                   |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`         |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                   |

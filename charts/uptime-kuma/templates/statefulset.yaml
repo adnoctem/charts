@@ -65,7 +65,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: {{ include "uptimeKuma.pv.name" . }}
-              mountPath: {{ .Values.uptimeKuma.data.rootPath | default "/data" }}
+              mountPath: {{ include "uptimeKuma.paths.data" . | quote }}
           {{- if .Values.volumeMounts }}
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           {{- end }}
