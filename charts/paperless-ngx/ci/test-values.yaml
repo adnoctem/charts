@@ -6,6 +6,9 @@ paperless:
   classifierMatchThreshold: 0.5
   matchRegexTimeoutSeconds: 0.25
 
+  cron:
+    sessionCleanupTask: "15 3 * * *"
+
   data:
     paths:
       scratchDir: /tmp/paperless-ci
@@ -21,6 +24,8 @@ paperless:
       value: "ci-placeholder-embedding-key"
 
   auth:
+    social:
+      mfaTrustedAmr: []
     autoLoginUsername: ""
     adminUser: "admin"
     adminPassword: "admin-pass"

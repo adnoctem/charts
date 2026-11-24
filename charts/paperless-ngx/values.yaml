@@ -19,7 +19,7 @@
 image:
   registry: ghcr.io
   repository: paperless-ngx/paperless-ngx
-  tag: "3.4.2"
+  tag: "3.5.1"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -207,6 +207,10 @@ paperless:
       ## @param paperless.auth.social.autoSignup [default: false] Attempt to sign up the user using retrieved email, username etc from the third party authentication system
       ##
       autoSignup: false
+      ## @param paperless.auth.social.mfaTrustedAmr OIDC AMR values trusted as MFA; use [] to retain Paperless's own MFA prompt
+      ##
+      mfaTrustedAmr:
+        - mfa
 
   ## Hosting configuration
   ##
@@ -215,7 +219,7 @@ paperless:
     ## ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_CSRF_TRUSTED_ORIGINS
     ##
     trustedOrigins: ""
-    ## @param paperless.hosting.allowedHosts [string] If you're planning on putting Paperless on the open internet, then you really should set this value to the domain name you're using
+    ## @param paperless.hosting.allowedHosts [string] Additional comma-separated allowed hostnames; the PAPERLESS_URL host and localhost are added automatically
     ## ref: https://docs.paperless-ngx.com/configuration/#PAPERLESS_ALLOWED_HOSTS
     ##
     allowedHosts: ""
@@ -280,6 +284,9 @@ paperless:
     ## Defaults to `0 1 * * *`, once per day.
     ##
     emptyTrashTask: "30 0 * *"
+    ## @param paperless.cron.sessionCleanupTask [default: "0 3 * * *"] Schedule for removing expired sessions; use "disable" to disable the task
+    ##
+    sessionCleanupTask: "0 3 * * *"
 
   ## Redis configuration
   ##

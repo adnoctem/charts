@@ -133,6 +133,9 @@ data:
   {{- if ne .Values.paperless.cron.emptyTrashTask "30 0 * *" }}
   EMPTY_TRASH_DELAY: {{ .Values.paperless.cron.emptyTrashTask | quote }}
   {{- end }}
+  {{- if ne .Values.paperless.cron.sessionCleanupTask "0 3 * * *" }}
+  PAPERLESS_SESSION_CLEANUP_TASK_CRON: {{ .Values.paperless.cron.sessionCleanupTask | quote }}
+  {{- end }}
   {{- /*
     Authentication configuration
   */}}
@@ -163,6 +166,8 @@ data:
   {{- if .Values.paperless.auth.social.allowSignups }}
   PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: {{ .Values.paperless.auth.social.allowSignups | quote }}
   {{- end }}
+  {{- /* An empty env string selects upstream's default; a comma parses as an empty list. */}}
+  PAPERLESS_SOCIAL_ACCOUNT_MFA_TRUSTED_AMR: {{ join "," .Values.paperless.auth.social.mfaTrustedAmr | default "," | quote }}
   {{- /*
     Redis configuration
   */}}

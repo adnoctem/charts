@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "3.4.2"
+          "default": "3.5.1"
         },
         "digest": {
           "type": "string",
@@ -291,6 +291,14 @@
                   "type": "boolean",
                   "description": "Attempt to sign up the user using retrieved email, username etc from the third party authentication system",
                   "default": "false"
+                },
+                "mfaTrustedAmr": {
+                  "type": "array",
+                  "description": "OIDC AMR values trusted as MFA; use [] to retain Paperless's own MFA prompt",
+                  "default": ["mfa"],
+                  "items": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -306,7 +314,7 @@
             },
             "allowedHosts": {
               "type": "string",
-              "description": "If you're planning on putting Paperless on the open internet, then you really should set this value to the domain name you're using",
+              "description": "Additional comma-separated allowed hostnames; the PAPERLESS_URL host and localhost are added automatically",
               "default": "\"\""
             },
             "corsAllowedHosts": {
@@ -398,6 +406,11 @@
               "type": "string",
               "description": "Configures the schedule to empty the trash of expired deleted documents",
               "default": "\"0 1 * * *\""
+            },
+            "sessionCleanupTask": {
+              "type": "string",
+              "description": "Schedule for removing expired sessions; use \"disable\" to disable the task",
+              "default": "\"0 3 * * *\""
             }
           }
         },

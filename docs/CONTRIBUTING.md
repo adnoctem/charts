@@ -430,7 +430,10 @@ conversion paths and publish migration instructions that preserve a usable route
 Run `helm dependency update charts/paperless-ngx` before rendering or linting. The `ci/test-values.yaml` fixture
 starts Paperless with PostgreSQL, Redis, Tika and Gotenberg. Empty conversion endpoints let the chart derive
 hostnames from chart-testing's release name; these values accept hostnames, not full URLs. The fixture exercises
-barcode storage, classifier thresholds, AI parameter/credential mapping, a custom scratch directory, ingress and probes.
+barcode storage, classifier thresholds, AI parameter/credential mapping, a custom scratch directory, session cleanup,
+explicitly empty OIDC MFA trust, ingress and probes. Verify that the empty AMR array parses as an empty list in Django;
+an empty environment string selects upstream's default instead. Probes send `Host: localhost`; check that additional
+unlisted hostnames are still rejected when `paperless.domain` is set.
 AI credentials are placeholders and do not enable a provider.
 
 PostgreSQL and Redis use archived `bitnamilegacy/postgresql:16.4.0-debian-12-r14` and

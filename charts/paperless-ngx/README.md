@@ -54,9 +54,45 @@ enabled. [RBAC manifests](https://kubernetes.io/docs/reference/access-authn-auth
 The chart exposes [Paperless-NGX configuration](https://docs.paperless-ngx.com/configuration/) through the `paperless`
 values and uses the official GitHub Container Registry image. Settings without dedicated values can be supplied
 through `extraEnvVars`. In particular, the existing AI enablement, provider, model and endpoint settings remain on
-that interface; this release adds dedicated values for the new embedding credential and extra request parameters.
+that interface; embedding credentials and extra request parameters have dedicated values.
 
 ## Upgrading
+
+### To 0.7.0 (Paperless-ngx 3.4.2 -> 3.5.1)
+
+Review the [3.5.0](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.5.0) and
+[3.5.1](https://github.com/paperless-ngx/paperless-ngx/releases/tag/v3.5.1) release notes. This is a breaking chart
+release because host validation, OIDC MFA defaults and bulk-edit API behavior change. The update also adds manual
+workflows, Markdown notes and fixes for AI streaming and installations with audit logging disabled.
+
+**Back up the database, media and data volumes before upgrading.** Allow queued tasks to finish first. Startup
+applies migrations for tag hierarchy storage, manual workflows and note formatting. Allow migrations to complete;
+rolling back requires restoring matching database and storage backups, not just selecting an older image.
+
+**Review accepted hostnames.** With `paperless.domain` configured, Paperless now accepts that hostname and
+`localhost` by default instead of all hosts. Set `paperless.hosting.allowedHosts` to a comma-separated list of any
+additional hostnames used by proxies or clients. Avoid `*` unless unrestricted host acceptance is intentional.
+The chart's HTTP probes now send `Host: localhost` so Pod-IP health checks work with the stricter defaults.
+
+**Review OIDC MFA trust before upgrading.** The parser defect documented for 0.6.0 is fixed: the upstream default
+now trusts an identity provider's `mfa` AMR assertion and can skip Paperless's own two-factor prompt. The new
+`paperless.auth.social.mfaTrustedAmr` array defaults to `[mfa]`. Set it to `[]` to retain local MFA verification,
+or list only AMR values you trust from your provider. Move any `PAPERLESS_SOCIAL_ACCOUNT_MFA_TRUSTED_AMR`
+override from `extraEnvVars` to this value to avoid duplicate definitions. An empty array is explicitly encoded
+as an empty parsed list; an empty environment string would select upstream's default instead. Validate actual
+SSO and MFA behavior with your identity provider before relying on this trust.
+
+**Bulk-edit API calls now queue work.** Clients must use the returned `task_id` to track completion and failures;
+a successful request no longer means the document changes have finished. Review integrations that immediately
+read or act on edited documents.
+
+**Review OCR argument overrides.** Paperless now ignores the managed `input_file_or_options`, `output_file` and
+`sidecar` keys in OCR user arguments. Remove those overrides from `paperless.ocr.userArgs` or saved application
+configuration and let Paperless manage its input and output files.
+
+The new `paperless.cron.sessionCleanupTask` value schedules expired-session cleanup (default `0 3 * * *`);
+set it to `disable` to turn off that task. Move any existing `PAPERLESS_SESSION_CLEANUP_TASK_CRON` override
+from `extraEnvVars` to this value. Installations older than 3.4.2 must also follow the migration notes below.
 
 ### To 0.6.1 (Paperless-ngx 3.4.1 -> 3.4.2)
 
@@ -228,7 +264,7 @@ relevant to this chart specifically.
 | ------------------- | ------------------------------------------------------------------- | ----------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `ghcr.io`                     |
 | `image.repository`  | The registry repository to pull the image from                      | `paperless-ngx/paperless-ngx` |
-| `image.tag`         | The image tag to pull                                               | `3.4.2`                       |
+| `image.tag`         | The image tag to pull                                               | `3.5.1`                       |
 | `image.digest`      | The image digest to pull                                            | `""`                          |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`                |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                          |
@@ -286,8 +322,9 @@ relevant to this chart specifically.
 | `paperless.auth.social.existingSecret`             | The name of existing secret containing a `accountProviders` key to configure Django AllAuth                                                                                                                   | `""`             |
 | `paperless.auth.social.allowSignups`               | Allow users to signup for a new Paperless-ngx account using any setup third party authentication systems                                                                                                      | `false`          |
 | `paperless.auth.social.autoSignup`                 | Attempt to sign up the user using retrieved email, username etc from the third party authentication system                                                                                                    | `false`          |
+| `paperless.auth.social.mfaTrustedAmr`              | OIDC AMR values trusted as MFA; use [] to retain Paperless's own MFA prompt                                                                                                                                   | `["mfa"]`        |
 | `paperless.hosting.trustedOrigins`                 | A list of trusted origins for unsafe requests (e.g. POST). As of Django 4.0 this is required to access the Django admin via the web                                                                           | `""`             |
-| `paperless.hosting.allowedHosts`                   | If you're planning on putting Paperless on the open internet, then you really should set this value to the domain name you're using                                                                           | `""`             |
+| `paperless.hosting.allowedHosts`                   | Additional comma-separated allowed hostnames; the PAPERLESS_URL host and localhost are added automatically                                                                                                    | `""`             |
 | `paperless.hosting.corsAllowedHosts`               | You need to add your servers to the list of allowed hosts that can do CORS calls. Set this to your public domain name                                                                                         | `""`             |
 | `paperless.hosting.trustedProxies`                 | This may be needed to prevent IP address spoofing if you are using e.g. fail2ban with log entries for failed authorization attempts                                                                           | `""`             |
 | `paperless.hosting.forceScriptName`                | To host paperless under a subpath URL like example.com/paperless you set this value to /paperless. No trailing slash!                                                                                         | `""`             |
@@ -305,6 +342,7 @@ relevant to this chart specifically.
 | `paperless.cron.indexTask`                         | Configures the scheduled search index update frequency. May also be "disabled".                                                                                                                               | `"0 0 * * *"`    |
 | `paperless.cron.sanityTask`                        | Configures the scheduled sanity checker frequency. May also be "disabled".                                                                                                                                    | `"30 0 * *"`     |
 | `paperless.cron.emptyTrashTask`                    | Configures the schedule to empty the trash of expired deleted documents                                                                                                                                       | `"0 1 * * *"`    |
+| `paperless.cron.sessionCleanupTask`                | Schedule for removing expired sessions; use "disable" to disable the task                                                                                                                                     | `"0 3 * * *"`    |
 | `paperless.redis.host`                             | Specify a custom hostname for the Redis instance.                                                                                                                                                             | `""`             |
 | `paperless.redis.port`                             | The port for the Redis instance                                                                                                                                                                               | `6379`           |
 | `paperless.redis.username`                         | The username for the Redis instance                                                                                                                                                                           | `""`             |
