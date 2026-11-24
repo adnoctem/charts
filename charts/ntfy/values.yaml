@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: binwiederhier/ntfy
-  tag: v2.38.0
+  tag: v2.38.1
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -177,7 +177,7 @@ ntfy:
   ## Cache configuration
   ##
   cache:
-    ## @param ntfy.cache.file [default: cache.db] The path where to create the SQLite cache database, beginning at ntfy.data.rootPath (e.g. "cache.db")
+    ## @param ntfy.cache.file [default: cache.db] SQLite cache path, relative to ntfy.data.rootPath unless absolute
     ##
     file: "cache.db"
 
@@ -208,7 +208,7 @@ ntfy:
   ## Auth configuration
   ##
   auth:
-    ## @param ntfy.auth.file [string] The path where to create the SQLite user database (e.g. "auth.db")
+    ## @param ntfy.auth.file [string] SQLite user database path, relative to ntfy.data.rootPath unless absolute
     ##
     file: ""
 
@@ -235,7 +235,7 @@ ntfy:
   ## Attachment configuration
   ##
   attachment:
-    ## @param ntfy.attachment.cacheDir [string] The directory for attached files (e.g. "attachments")
+    ## @param ntfy.attachment.cacheDir [string] Attachment directory, relative to ntfy.data.rootPath unless absolute
     ##
     cacheDir: ""
     ## @param ntfy.attachment.totalSizeLimit [string] The maximum total size of cacheDir (e.g. "5G")
@@ -296,7 +296,7 @@ ntfy:
     ## @param ntfy.web.existingSecret [string] An existing secret with a `privateKey` and `publicKey` a
     ##
     existingSecret: ""
-    ## @param ntfy.web.file [string] is a database file to keep track of browser subscription endpoints (e.g. "/var/cache/ntfy/webpush.db")
+    ## @param ntfy.web.file [string] Web-push database path, relative to ntfy.data.rootPath unless absolute
     ##
     file: ""
     ## @param ntfy.web.emailAddress [string] is the admin email address send to the push provider, (e.g. "sysadmin@example.com")

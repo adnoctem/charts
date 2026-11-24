@@ -107,7 +107,7 @@ template:
         volumeMounts:
           - name: {{ printf "%s-config" (include "ntfy.fullname" .) }}
             mountPath: /etc/ntfy
-            {{- if (or .Values.ntfy.cache.file .Values.ntfy.auth.file .Values.ntfy.attachment.cacheDir) }}
+            {{- if (or .Values.ntfy.cache.file .Values.ntfy.auth.file .Values.ntfy.attachment.cacheDir .Values.ntfy.web.file) }}
           - name: {{ include "ntfy.pv" . }}
             mountPath: {{ .Values.ntfy.data.rootPath }}
             {{- end }}
@@ -162,7 +162,7 @@ template:
       - name: {{ printf "%s-config" (include "ntfy.fullname" .) }}
         configMap:
           name: {{ include "ntfy.fullname" . }}
-        {{- if (or .Values.ntfy.cache.file .Values.ntfy.auth.file .Values.ntfy.attachment.cacheDir)}}
+        {{- if (or .Values.ntfy.cache.file .Values.ntfy.auth.file .Values.ntfy.attachment.cacheDir .Values.ntfy.web.file)}}
       - name: {{ include "ntfy.pv" . }}
         persistentVolumeClaim:
           claimName: {{ default (include "ntfy.pvc" .) .Values.ntfy.data.pvc.existingClaim }}

@@ -82,6 +82,15 @@ Define the PVC name
 {{- printf "%s-pvc" (include "ntfy.fullname" .)}}
 {{- end -}}
 
+{{/* Resolve relative data paths within the persistent data directory. */}}
+{{- define "ntfy.dataPath" -}}
+{{- if isAbs .path -}}
+{{- .path -}}
+{{- else -}}
+{{- printf "%s/%s" .root.Values.ntfy.data.rootPath .path | clean -}}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Define the Secret names
 */}}

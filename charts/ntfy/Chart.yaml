@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 2.38.0
+appVersion: 2.38.1
 kubeVersion: ">=1.26.0-0"
 name: ntfy
-version: 0.7.1
+version: 0.8.0
 description: ntfy lets you send push notifications to your phone or desktop via scripts from any computer, using simple HTTP PUT or POST requests
 home: https://github.com/binwiederhier/ntfy
 icon: https://raw.githubusercontent.com/binwiederhier/ntfy/9d3fc20e583564e40af5afb90233f4714fdfcb4c/web/public/static/images/pwa-512x512.png
@@ -32,7 +32,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: ntfy
-      image: docker.io/binwiederhier/ntfy:v2.38.0
+      image: docker.io/binwiederhier/ntfy:v2.38.1
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -46,5 +46,9 @@ annotations:
   org.opencontainers.image.licenses: "MIT"
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
+    - kind: fixed
+      description: resolve relative data paths under the PVC mount and mount storage for web-push-only databases; migrate existing files before upgrading
     - kind: changed
-      description: migrate development ingress fixtures to Traefik
+      description: upgrade ntfy to 2.38.1 with template denial-of-service hardening and bounded S3 and web-push operations
+    - kind: changed
+      description: restrict template functions and printf formats and enforce web-push subscription limits per IP prefix; see upgrade notes

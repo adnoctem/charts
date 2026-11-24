@@ -74,7 +74,7 @@ data:
       CACHE SETTINGS
     */}}
     {{- if .Values.ntfy.cache.file }}
-    cache-file: {{ .Values.ntfy.cache.file }}
+    cache-file: {{ include "ntfy.dataPath" (dict "root" . "path" .Values.ntfy.cache.file) | quote }}
     {{- end }}
     {{- if .Values.ntfy.cache.duration }}
     cache-duration: {{ .Values.ntfy.cache.duration }}
@@ -92,7 +92,7 @@ data:
       AUTH SETTINGS
     */}}
     {{- if .Values.ntfy.auth.file }}
-    auth-file: {{ .Values.ntfy.auth.file }}
+    auth-file: {{ include "ntfy.dataPath" (dict "root" . "path" .Values.ntfy.auth.file) | quote }}
     {{- end }}
     {{- if .Values.ntfy.auth.defaultAccess }}
     auth-default-access: {{ .Values.ntfy.auth.defaultAccess }}
@@ -107,7 +107,7 @@ data:
       ATTACHMENT SETTINGS
     */}}
     {{- if .Values.ntfy.attachment.cacheDir }}
-    attachment-cache-dir: {{ .Values.ntfy.attachment.cacheDir }}
+    attachment-cache-dir: {{ include "ntfy.dataPath" (dict "root" . "path" .Values.ntfy.attachment.cacheDir) | quote }}
     {{- end }}
     {{- if .Values.ntfy.attachment.totalSizeLimit }}
     attachment-total-size-limit: {{ .Values.ntfy.attachment.totalSizeLimit }}
@@ -143,7 +143,7 @@ data:
       WEB SETTINGS
     */}}
     {{- if .Values.ntfy.web.file }}
-    web-push-file: {{ .Values.ntfy.web.file }}
+    web-push-file: {{ include "ntfy.dataPath" (dict "root" . "path" .Values.ntfy.web.file) | quote }}
     {{- end }}
     {{- if .Values.ntfy.web.emailAddress }}
     web-push-email-address: {{ .Values.ntfy.web.emailAddress }}

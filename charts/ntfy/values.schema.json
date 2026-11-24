@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "v2.38.0"
+          "default": "v2.38.1"
         },
         "digest": {
           "type": "string",
@@ -209,7 +209,7 @@
           "properties": {
             "file": {
               "type": "string",
-              "description": "The path where to create the SQLite cache database, beginning at ntfy.data.rootPath (e.g. \"cache.db\")",
+              "description": "SQLite cache path, relative to ntfy.data.rootPath unless absolute",
               "default": "cache.db"
             },
             "duration": {
@@ -239,7 +239,7 @@
           "properties": {
             "file": {
               "type": "string",
-              "description": "The path where to create the SQLite user database (e.g. \"auth.db\")",
+              "description": "SQLite user database path, relative to ntfy.data.rootPath unless absolute",
               "default": "\"\""
             },
             "defaultAccess": {
@@ -264,7 +264,7 @@
           "properties": {
             "cacheDir": {
               "type": "string",
-              "description": "The directory for attached files (e.g. \"attachments\")",
+              "description": "Attachment directory, relative to ntfy.data.rootPath unless absolute",
               "default": "\"\""
             },
             "totalSizeLimit": {
@@ -359,7 +359,7 @@
             },
             "file": {
               "type": "string",
-              "description": "is a database file to keep track of browser subscription endpoints (e.g. \"/var/cache/ntfy/webpush.db\")",
+              "description": "Web-push database path, relative to ntfy.data.rootPath unless absolute",
               "default": "\"\""
             },
             "emailAddress": {

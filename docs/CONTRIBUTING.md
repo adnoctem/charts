@@ -443,6 +443,18 @@ Fresh installation covers service readiness and initial migrations. Existing dat
 document conversion/OCR, real AI providers, OIDC/MFA, external services, existing Secrets/PVCs and browser
 ingress/TLS require separate integration validation. Keep application regression tests in the upstream project.
 
+### ntfy (`ntfy`)
+
+Run generation, chart lint and `ct install --config config/ct-config.yaml --charts charts/ntfy` for the fixture.
+Check relative and absolute cache/auth/attachment/web-push paths with a custom `ntfy.data.rootPath` for both workload
+kinds. A web-push-only database must still mount the data PVC, including when `ntfy.data.pvc.existingClaim` is set.
+
+For persistence checks, grant a disposable topic permission, publish a cached message and upload an attachment.
+Replace the pod and verify all three survive; readiness alone will not detect databases written outside the PVC.
+When testing upgrades from charts before 0.8.0, use absolute data paths on the PVC or migrate consistent backups
+before replacing the old pod, following the consumer upgrade notes. Verify ordinary publishing and supported
+templates over TLS, rejection of removed template functions, and the fixture's default-deny topic access.
+
 ### Outline (`outline`)
 
 Run `helm dependency update charts/outline` before rendering or linting. The `ci/test-values.yaml` fixture starts

@@ -43,6 +43,38 @@ Parameters.
 
 ## Upgrading
 
+### To 0.8.0 (ntfy 2.38.0 -> 2.38.1)
+
+[ntfy 2.38.1](https://github.com/binwiederhier/ntfy/releases/tag/v2.38.1) hardens message templates against
+denial-of-service attacks and bounds resource use during S3 uploads and web-push deliveries. This is a breaking
+chart release because previously accepted templates and subscription patterns can now be rejected.
+No Helm values are renamed or removed.
+
+**Migrate relative data paths before replacing the old pod.** Relative `ntfy.cache.file`, `ntfy.auth.file`,
+`ntfy.attachment.cacheDir` and `ntfy.web.file` paths now resolve under `ntfy.data.rootPath` (default `/var/lib/ntfy`).
+Previously, ntfy resolved them against the container's working directory, which is `/` in the official image,
+so the default cache and fixture auth database were outside the PVC. Web-push-only configurations now mount the PVC too.
+Absolute paths remain unchanged; ensure any absolute location you configure is backed by persistent storage.
+
+For affected installations, quiesce publishers and other writers, make consistent SQLite backups and preserve
+attachment files from the running old pod, then restore them at the corresponding paths on the PVC before upgrading.
+Include the auth and web-push databases when configured; copying only a live SQLite main file can miss WAL contents.
+The chart does not automatically move files out of the container layer. Without migration, the new paths start empty;
+files already lost when an old pod was replaced cannot be recovered by this change. Keep the original backups for rollback.
+If a custom image pin remains unchanged, restart the workload after upgrading so ntfy reloads the new data paths.
+
+- Remove `html`, `js` and `urlquery` calls from message templates; perform any required escaping in the publisher.
+  `printf` accepts plain directives only: remove explicit argument indexes and `%p`, and pass scalar values rather
+  than lists or dictionaries.
+- Regex patterns are limited to 1024 bytes and 5000 compiled instructions. Simplify larger patterns. Templates also
+  enforce execution deadlines within individual actions and tighter limits on intermediate strings, collections,
+  sequence generation and printed/JSON-encoded values; reduce oversized operations if a template fails.
+- Web-push subscription limits apply to an IP prefix, including IPv6 /64 by default, rather than each address.
+  Review limits for clients sharing a prefix. Delivery timeouts and network failures no longer remove subscriptions.
+
+Back up persistent data before upgrading. This patch adds no database-schema migration relative to 2.38.0.
+An image rollback also restores the security weaknesses addressed by this release.
+
 ### To 0.7.0 (ntfy 2.36.0 -> 2.38.0)
 
 This release includes a message-template denial-of-service fix and changes UnifiedPush subscriber tracking and
@@ -163,7 +195,7 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | ------------------- | ------------------------------------------------------------------- | -------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`          |
 | `image.repository`  | The registry repository to pull the image from                      | `binwiederhier/ntfy` |
-| `image.tag`         | The image tag to pull                                               | `v2.38.0`            |
+| `image.tag`         | The image tag to pull                                               | `v2.38.1`            |
 | `image.digest`      | The image digest to pull                                            | `""`                 |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`       |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                 |
@@ -211,16 +243,16 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | `ntfy.data.pvc.storageClass`                 | The storageClass given to the new PVC                                                                   | `standard`      |
 | `ntfy.data.pvc.reclaimPolicy`                | The resourcePolicy given to the new PVC                                                                 | `Retain`        |
 | `ntfy.data.pvc.existingClaim`                | Provide the name to an existing PVC                                                                     | `""`            |
-| `ntfy.cache.file`                            | The path where to create the SQLite cache database, beginning at ntfy.data.rootPath (e.g. "cache.db")   | `cache.db`      |
+| `ntfy.cache.file`                            | SQLite cache path, relative to ntfy.data.rootPath unless absolute                                       | `cache.db`      |
 | `ntfy.cache.duration`                        | The duration for which messages will be buffered before they are deleted (e.g. "12h")                   | `""`            |
 | `ntfy.cache.startupQueries`                  | SQLite queries to run on database initialization (e.g. to enable WAL mode)                              | `""`            |
 | `ntfy.cache.batchSize`                       | The amount of messages within a single batch (e.g. 32)                                                  | `0`             |
 | `ntfy.cache.batchTimeout`                    | The timeout after which to write the batched messages to the DB (e.g. "0ms")                            | `""`            |
-| `ntfy.auth.file`                             | The path where to create the SQLite user database (e.g. "auth.db")                                      | `""`            |
+| `ntfy.auth.file`                             | SQLite user database path, relative to ntfy.data.rootPath unless absolute                               | `""`            |
 | `ntfy.auth.defaultAccess`                    | The default access level for new users. Can be `deny-all`, `read-only` or `write-only`.                 | `""`            |
 | `ntfy.auth.startupQueries`                   | SQLite queries to run on database initialization (e.g. to enable WAL mode)                              | `""`            |
 | `ntfy.auth.accessCache`                      | Cache ACL/authorization decisions in memory to reduce database load                                     | `false`         |
-| `ntfy.attachment.cacheDir`                   | The directory for attached files (e.g. "attachments")                                                   | `""`            |
+| `ntfy.attachment.cacheDir`                   | Attachment directory, relative to ntfy.data.rootPath unless absolute                                    | `""`            |
 | `ntfy.attachment.totalSizeLimit`             | The maximum total size of cacheDir (e.g. "5G")                                                          | `""`            |
 | `ntfy.attachment.fileSizeLimit`              | The maximum size of a single attachment (e.g. "15M")                                                    | `""`            |
 | `ntfy.attachment.expiryDuration`             | The duration after which uploaded attachments are deleted (e.g. "3h")                                   | `""`            |
@@ -236,7 +268,7 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | `ntfy.web.publicKey`                         | is the generated VAPID public key, (e.g. "AA...")                                                       | `""`            |
 | `ntfy.web.privateKey`                        | is the generated VAPID private key, (e.g. "AA...")                                                      | `""`            |
 | `ntfy.web.existingSecret`                    | An existing secret with a `privateKey` and `publicKey` a                                                | `""`            |
-| `ntfy.web.file`                              | is a database file to keep track of browser subscription endpoints (e.g. "/var/cache/ntfy/webpush.db")  | `""`            |
+| `ntfy.web.file`                              | Web-push database path, relative to ntfy.data.rootPath unless absolute                                  | `""`            |
 | `ntfy.web.emailAddress`                      | is the admin email address send to the push provider, (e.g. "sysadmin@example.com")                     | `""`            |
 | `ntfy.web.startupQueries`                    | SQLite queries to run on database initialization (e.g. to enable WAL mode)                              | `""`            |
 | `ntfy.twilio.accountSID`                     | is the Twilio account SID, (e.g. "AC12345beefbeef67890beefbeef122586")                                  | `""`            |
