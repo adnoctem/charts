@@ -13,5 +13,5 @@ charts:
     namespace: cert-manager
   traefik:
     repository: https://traefik.github.io/charts
-    version: 42.4.2
+    version: 42.4.3
     namespace: traefik
