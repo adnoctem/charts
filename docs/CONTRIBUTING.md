@@ -26,6 +26,8 @@ settings-relative path resolution.
 The [release assets](https://github.com/adnoctem/gopskit/releases) include Linux amd64/arm64 tarballs and SHA-256
 checksums. `make tools-check` reports whether the executable is present; Make does not download or install tools.
 Helm is still required for chart development and packaging.
+Bootstrap also requires [Mike Farah's yq v4](https://github.com/mikefarah/yq) to read the pinned Traefik chart
+repository and version from the backbone. It is included in `make tools-check` and available on the CI runner.
 
 After you have all the necessary tools installed you will want to generate a TLS certificate authority to issue local
 TLS certificates for your applications' Ingress manifests. To this you can run:
@@ -59,6 +61,13 @@ Bootstrap uses Carto to apply [cert-manager](https://cert-manager.io/docs/instal
 [Traefik](https://github.com/traefik/traefik-helm-chart). Each apply reconciles the explicitly declared namespaces and
 waits for release readiness, including Jobs and cert-manager's startup API check. It then applies the local CA Secret
 and waits for the `development-issuer` ClusterIssuer to be ready.
+Before applying Traefik, Make reconciles its CRDs from the exact chart repository and version in the backbone.
+Helm does not update existing CRDs on upgrade. Following the
+[upstream upgrade procedure](https://github.com/traefik/traefik-helm-chart/tree/v43.0.0#upgrading), this uses server-side
+apply with conflict takeover so the pinned schemas replace older definitions in the development cluster. CRD changes
+are outside Helm's atomic rollback; after a failed upgrade, correct the configuration and reapply. This permits an
+existing Traefik 42.4.2 development environment to upgrade to chart 43.0.0 (Traefik 3.8.0) without recreation.
+Gateway API remains disabled and its CRDs are not installed.
 Traefik runs one replica on the `ingress-ready` control-plane node, exposing host ports 80 and 443 through kind's
 existing port mappings. HTTP redirects to HTTPS; cert-manager issues certificates from the CA in `secrets/`.
 Use `ingressClassName: traefik` on development Ingresses. Traefik's Kubernetes CRD provider supports middleware
@@ -93,7 +102,8 @@ a chart's `namespace` field alone never creates one. Removing a declaration does
 
 Carto uses standard Helm release records, so existing Traefik/cert-manager releases with the same names and namespaces
 can be adopted without reinstalling. Reapplying performs a Helm upgrade even when values have not changed. A failed
-Helm operation uses atomic rollback; namespace changes and the separately applied CA/issuer are outside that rollback.
+Helm operation uses atomic rollback; namespace changes, Traefik CRDs and the separately applied CA/issuer are outside
+that rollback.
 `carto render` outputs merged values, not Kubernetes manifests; continue using Helm for manifest rendering.
 
 The [development workflow](../.github/workflows/development.yaml) downloads a pinned Carto release, verifies its

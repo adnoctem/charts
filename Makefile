@@ -74,8 +74,9 @@ kind := kind
 npx := npx
 cfssl := cfssl
 cfssljson := cfssljson
+yq := yq
 
-EXECUTABLES := $(helm) $(carto) $(kind) $(npx) $(cfssl) $(cfssljson) $(kubectl)
+EXECUTABLES := $(helm) $(carto) $(kind) $(npx) $(cfssl) $(cfssljson) $(kubectl) $(yq)
 
 # Packages
 README_GEN_PACKAGE := @bitnami/readme-generator-for-helm
@@ -437,6 +438,18 @@ cluster-bootstrap:
 	$(carto) --config "$(CONFIG_K8S_DIR)/carto.yaml" \
 		--backbone "$(CONFIG_K8S_DIR)/backbone.yaml" --charts-dir "$(CONFIG_K8S_DIR)/charts" \
 		--context kind-$(PROJ_NAME) apply cert-manager
+	# Helm does not upgrade CRDs; reconcile them from the same pin used by Carto.
+	@set -euo pipefail; \
+		repository="$$($(yq) -er '.charts.traefik.repository' "$(CONFIG_K8S_DIR)/backbone.yaml")"; \
+		version="$$($(yq) -er '.charts.traefik.version' "$(CONFIG_K8S_DIR)/backbone.yaml")"; \
+		$(helm) show crds traefik \
+			--repo "$$repository" \
+			--version "$$version" | \
+		$(kubectl) --context kind-$(PROJ_NAME) apply \
+			--server-side \
+			--force-conflicts \
+			--field-manager charts-development \
+			-f -
 	$(carto) --config "$(CONFIG_K8S_DIR)/carto.yaml" \
 		--backbone "$(CONFIG_K8S_DIR)/backbone.yaml" --charts-dir "$(CONFIG_K8S_DIR)/charts" \
 		--context kind-$(PROJ_NAME) apply traefik

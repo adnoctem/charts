@@ -52,7 +52,7 @@ Notes:
 - `install`/`upgrade`/`template` do not pass `--namespace`; the release lands in the active kubeconfig namespace.
 - `make gen` and `make all` need network access: `gen` runs `npx @bitnami/readme-generator-for-helm`, and `all`
   calls `prettier --write` directly, so `prettier` must be on `PATH` (pre-commit uses `bun x prettier` instead).
-- `tools-check` only verifies `helm carto kind npx cfssl cfssljson kubectl`. `make lint` additionally needs
+- `tools-check` only verifies `helm carto kind npx cfssl cfssljson kubectl yq` (Mike Farah's yq v4). `make lint` additionally needs
   `ct`, `markdownlint`, `actionlint`, `shellcheck` and `shfmt`. Pre-commit manages its own hook environments and
   only needs `pre-commit` and `bun` on `PATH` (for the local Prettier hook). `yq` is invoked whenever `CHART` is
   set, even though the computed `CHART_VERSION` is currently unused.
@@ -64,7 +64,9 @@ Notes:
   `scripts/hosts.sh` to be resolvable locally. Use the `traefik` ingress class. Avoid overlapping
   host/path routes — remove the conflicting install or use another hostname.
 - `make cluster-bootstrap` targets `kind-<checkout-directory-basename>-charts`. Carto manages the explicit namespaces
-  in `config/k8s/backbone.yaml` and applies cert-manager then Traefik, waiting for readiness and Jobs. Make applies
+  in `config/k8s/backbone.yaml` and applies cert-manager then Traefik, waiting for readiness and Jobs. Before Traefik,
+  Make uses `yq` to read that same repository/version pin and server-side applies its CRDs with conflict takeover;
+  Helm does not update CRDs, and their changes are outside atomic rollback. Make applies
   the local CA and issuer once and waits for the issuer to be ready. Only `make env` adds hosts entries. Recreate old
   ingress-nginx environments with `make prune` then `make env`; cluster-local data is deleted, but the CA is retained.
 - Make runs Carto from the repository root with explicit `--config`, `--backbone` and `--charts-dir` paths derived
