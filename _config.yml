@@ -1,0 +1,11 @@
+title: Ad Noctem Collective Helm Charts
+description: Open-source Helm charts for self-hosted applications and operators
+url: https://adnoctem.github.io
+baseurl: /charts
+# Development sources belong on main; do not publish the old branch snapshot as guides.
+exclude:
+  - charts
+  - config
+  - docs
+  - scripts
+  - Makefile

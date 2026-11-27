@@ -711,9 +711,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Activepieces Homepage
           url: https://www.activepieces.com/
         - name: Activepieces Documentation
@@ -755,9 +755,9 @@ entries:
       name: MVProwess
     name: activepieces
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/activepieces-0.3.1/activepieces-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.3.1/activepieces-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: integration-delivery
@@ -773,9 +773,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Activepieces Homepage
           url: https://www.activepieces.com/
         - name: Activepieces Documentation
@@ -785,7 +785,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.28.0
     created: "2026-04-05T15:06:29.906597052Z"
@@ -802,7 +802,7 @@ entries:
       integrations
     digest: 5f63aedd1d2ab868b0f6cba11a18ed5ee66e2aba8b2908548280a4d00425eac5
     home: https://www.activepieces.com/
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/3f3537b0377b8c95bfac77ae5cb7779c4698d659/projects/activepieces/icon/color/activepieces-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
     keywords:
     - automation
     - workflow
@@ -811,15 +811,15 @@ entries:
     - n8n
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: activepieces
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/activepieces-0.2.3/activepieces-0.2.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.2.3/activepieces-0.2.3.tgz
     version: 0.2.3
   - annotations:
       artifacthub.io/category: integration-delivery
@@ -829,9 +829,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Activepieces Homepage
           url: https://www.activepieces.com/
         - name: Activepieces Documentation
@@ -841,7 +841,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.28.0
     created: "2024-11-13T22:02:02.022251205Z"
@@ -858,7 +858,7 @@ entries:
       integrations
     digest: 9234b35a1ae0612b664708dcdf033f825d8e89122b279f1ba91d2f610a883240
     home: https://www.activepieces.com/
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/3f3537b0377b8c95bfac77ae5cb7779c4698d659/projects/activepieces/icon/color/activepieces-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
     keywords:
     - automation
     - workflow
@@ -867,15 +867,15 @@ entries:
     - n8n
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: activepieces
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/activepieces-0.2.2/activepieces-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.2.2/activepieces-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: integration-delivery
@@ -885,9 +885,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Activepieces Homepage
           url: https://www.activepieces.com/
         - name: Activepieces Documentation
@@ -897,7 +897,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.28.0
     created: "2024-08-09T17:15:43.701046955Z"
@@ -914,7 +914,7 @@ entries:
       integrations
     digest: 4c8b13ae233f2167e12bb0a1b05e555236828ebe551b49fbdc7138e55373c1ec
     home: https://www.activepieces.com/
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/3f3537b0377b8c95bfac77ae5cb7779c4698d659/projects/activepieces/icon/color/activepieces-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
     keywords:
     - automation
     - workflow
@@ -923,15 +923,15 @@ entries:
     - n8n
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: activepieces
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/activepieces-0.2.1/activepieces-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.2.1/activepieces-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: integration-delivery
@@ -941,9 +941,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Activepieces Homepage
           url: https://www.activepieces.com/
         - name: Activepieces Documentation
@@ -953,7 +953,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.28.0
     created: "2024-06-29T01:40:48.779392748Z"
@@ -970,7 +970,7 @@ entries:
       integrations
     digest: e56a7e8fa12daef71bd5fa88eb479d881abfcd785efeb4c809779431ded2022c
     home: https://www.activepieces.com/
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/3f3537b0377b8c95bfac77ae5cb7779c4698d659/projects/activepieces/icon/color/activepieces-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
     keywords:
     - automation
     - workflow
@@ -979,15 +979,15 @@ entries:
     - n8n
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: activepieces
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/activepieces-0.2.0/activepieces-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.2.0/activepieces-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: integration-delivery
@@ -997,9 +997,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Activepieces Homepage
           url: https://www.activepieces.com/
         - name: Activepieces Documentation
@@ -1009,7 +1009,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.28.0
     created: "2024-06-28T12:15:29.376043245Z"
@@ -1026,7 +1026,7 @@ entries:
       integrations
     digest: 6d5b73a2dc29f78a9cf2834e9d1501b0d3e9170e5819e854d2a1f1b998af3eb9
     home: https://www.activepieces.com/
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/3f3537b0377b8c95bfac77ae5cb7779c4698d659/projects/activepieces/icon/color/activepieces-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/activepieces/icon/color/activepieces-icon-color.png
     keywords:
     - automation
     - workflow
@@ -1035,15 +1035,15 @@ entries:
     - n8n
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: activepieces
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/activepieces-0.1.0/activepieces-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/activepieces-0.1.0/activepieces-0.1.0.tgz
     version: 0.1.0
   cachet:
   - annotations:
@@ -1247,9 +1247,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1292,9 +1292,9 @@ entries:
       name: MVProwess
     name: cachet
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/cachet-0.3.1/cachet-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.3.1/cachet-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1310,9 +1310,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1322,7 +1322,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2026-04-05T15:06:30.060814976Z"
@@ -1349,15 +1349,15 @@ entries:
     - cachet
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.2.3/cachet-0.2.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.2.3/cachet-0.2.3.tgz
     version: 0.2.3
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1374,9 +1374,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1386,7 +1386,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2024-11-13T22:02:02.21117801Z"
@@ -1413,15 +1413,15 @@ entries:
     - cachet
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.2.2/cachet-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.2.2/cachet-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1438,9 +1438,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1450,7 +1450,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2024-08-09T17:15:43.861343328Z"
@@ -1477,15 +1477,15 @@ entries:
     - cachet
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.2.1/cachet-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.2.1/cachet-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1502,9 +1502,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1514,7 +1514,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2024-06-26T19:46:12.281242704Z"
@@ -1541,15 +1541,15 @@ entries:
     - cachet
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.2.0/cachet-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.2.0/cachet-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1562,9 +1562,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1574,7 +1574,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2024-06-26T08:25:14.014824351Z"
@@ -1601,15 +1601,15 @@ entries:
     - cachet
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.1.3/cachet-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.1.3/cachet-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1626,9 +1626,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1638,7 +1638,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2024-06-25T08:12:34.149572488Z"
@@ -1665,15 +1665,15 @@ entries:
     - cachet
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.1.2/cachet-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.1.2/cachet-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1683,7 +1683,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1696,7 +1696,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2024-06-24T10:20:34.26346186Z"
@@ -1727,9 +1727,9 @@ entries:
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.1.1/cachet-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.1.1/cachet-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -1739,7 +1739,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Cachet Homepage
           url: https://cachethq.io/
         - name: Cachet Documentation
@@ -1752,7 +1752,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.3.15
     created: "2024-06-23T22:27:23.620311784Z"
@@ -1783,9 +1783,9 @@ entries:
       name: FMJdev
     name: cachet
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/cachet-0.1.0/cachet-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/cachet-0.1.0/cachet-0.1.0.tgz
     version: 0.1.0
   glance:
   - annotations:
@@ -2118,9 +2118,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: GoBackup Documentation
           url: https://gobackup.github.io/
         - name: GoBackup GitHub Repository
@@ -2154,9 +2154,9 @@ entries:
       name: MVProwess
     name: gobackup
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/gobackup-0.3.1/gobackup-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.3.1/gobackup-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: storage
@@ -2175,9 +2175,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: GoBackup Documentation
           url: https://gobackup.github.io/
         - name: GoBackup GitHub Repository
@@ -2187,7 +2187,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.2
     created: "2024-11-13T22:02:02.365852912Z"
@@ -2205,15 +2205,15 @@ entries:
     - s3
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: gobackup
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gobackup-0.2.2/gobackup-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.2.2/gobackup-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: storage
@@ -2232,9 +2232,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: GoBackup Documentation
           url: https://gobackup.github.io/
         - name: GoBackup GitHub Repository
@@ -2244,7 +2244,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.2
     created: "2024-08-09T17:15:43.981917962Z"
@@ -2262,15 +2262,15 @@ entries:
     - s3
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gobackup
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gobackup-0.2.1/gobackup-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.2.1/gobackup-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: storage
@@ -2289,9 +2289,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: GoBackup Documentation
           url: https://gobackup.github.io/
         - name: GoBackup GitHub Repository
@@ -2301,7 +2301,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.2
     created: "2024-06-29T03:35:50.139948443Z"
@@ -2319,15 +2319,15 @@ entries:
     - s3
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gobackup
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gobackup-0.2.0/gobackup-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.2.0/gobackup-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: storage
@@ -2352,9 +2352,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: GoBackup Documentation
           url: https://gobackup.github.io/
         - name: GoBackup GitHub Repository
@@ -2364,7 +2364,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.2
     created: "2024-06-28T12:15:29.47875357Z"
@@ -2382,15 +2382,15 @@ entries:
     - s3
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gobackup
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gobackup-0.1.1/gobackup-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.1.1/gobackup-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: storage
@@ -2415,9 +2415,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: GoBackup Documentation
           url: https://gobackup.github.io/
         - name: GoBackup GitHub Repository
@@ -2427,7 +2427,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.2
     created: "2024-06-27T22:51:52.928350054Z"
@@ -2445,15 +2445,15 @@ entries:
     - s3
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gobackup
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gobackup-0.1.0/gobackup-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.1.0/gobackup-0.1.0.tgz
     version: 0.1.0
   - annotations:
       artifacthub.io/category: storage
@@ -2463,9 +2463,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: GoBackup Documentation
           url: https://gobackup.github.io/
         - name: GoBackup GitHub Repository
@@ -2475,7 +2475,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.2
     created: "2024-06-26T23:05:06.643579822Z"
@@ -2493,15 +2493,15 @@ entries:
     - s3
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gobackup
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gobackup-0.0.0/gobackup-0.0.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/gobackup-0.0.0/gobackup-0.0.0.tgz
     version: 0.0.0
   gotenberg:
   - annotations:
@@ -2835,9 +2835,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -2870,9 +2870,9 @@ entries:
       name: MVProwess
     name: gotenberg
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/gotenberg-0.3.1/gotenberg-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.3.1/gotenberg-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -2889,9 +2889,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -2901,7 +2901,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 8.7.0
     created: "2024-11-13T22:02:02.544878113Z"
@@ -2918,15 +2918,15 @@ entries:
     - markdown
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: gotenberg
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gotenberg-0.2.2/gotenberg-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.2.2/gotenberg-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -2943,9 +2943,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -2955,7 +2955,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 8.7.0
     created: "2024-08-09T17:15:44.10236959Z"
@@ -2972,15 +2972,15 @@ entries:
     - markdown
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gotenberg
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gotenberg-0.2.1/gotenberg-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.2.1/gotenberg-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -2997,9 +2997,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -3009,7 +3009,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 8.7.0
     created: "2024-06-26T19:46:12.420498054Z"
@@ -3026,15 +3026,15 @@ entries:
     - markdown
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gotenberg
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gotenberg-0.2.0/gotenberg-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.2.0/gotenberg-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -3047,9 +3047,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -3059,7 +3059,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 8.7.0
     created: "2024-06-26T08:25:14.134407432Z"
@@ -3076,15 +3076,15 @@ entries:
     - markdown
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gotenberg
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gotenberg-0.1.3/gotenberg-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.1.3/gotenberg-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -3101,9 +3101,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -3113,7 +3113,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 8.7.0
     created: "2024-06-25T08:12:34.29497249Z"
@@ -3130,15 +3130,15 @@ entries:
     - markdown
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: gotenberg
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gotenberg-0.1.2/gotenberg-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.1.2/gotenberg-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -3148,7 +3148,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -3161,7 +3161,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 8.7.0
     created: "2024-06-24T10:20:34.379127112Z"
@@ -3182,9 +3182,9 @@ entries:
       name: FMJdev
     name: gotenberg
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gotenberg-0.1.1/gotenberg-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.1.1/gotenberg-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -3194,7 +3194,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Gotenberg Homepage
           url: https://gotenberg.dev/
         - name: Gotenberg Documentation
@@ -3207,7 +3207,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 8.7.0
     created: "2024-06-23T22:27:23.721803411Z"
@@ -3228,9 +3228,9 @@ entries:
       name: FMJdev
     name: gotenberg
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/gotenberg-0.1.0/gotenberg-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/gotenberg-0.1.0/gotenberg-0.1.0.tgz
     version: 0.1.0
   keycloak-operator:
   - annotations:
@@ -3538,9 +3538,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Keycloak GitHub Repository
           url: https://github.com/keycloak/keycloak
         - name: Keycloak Documentation
@@ -3577,9 +3577,9 @@ entries:
       name: MVProwess
     name: keycloak-operator
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/keycloak-operator-0.2.1/keycloak-operator-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/keycloak-operator-0.2.1/keycloak-operator-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: security
@@ -3596,9 +3596,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Keycloak GitHub Repository
           url: https://github.com/keycloak/keycloak
         - name: Keycloak Documentation
@@ -3608,7 +3608,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 26.0.6
     created: "2024-11-26T07:05:53.037708844Z"
@@ -3629,15 +3629,15 @@ entries:
     - keycloak
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: keycloak-operator
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/keycloak-operator-0.1.2/keycloak-operator-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/keycloak-operator-0.1.2/keycloak-operator-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: security
@@ -3647,9 +3647,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Keycloak GitHub Repository
           url: https://github.com/keycloak/keycloak
         - name: Keycloak Documentation
@@ -3659,7 +3659,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 25.0.2
     created: "2024-11-13T22:02:02.721805104Z"
@@ -3680,15 +3680,15 @@ entries:
     - keycloak
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: keycloak-operator
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/keycloak-operator-0.1.1/keycloak-operator-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/keycloak-operator-0.1.1/keycloak-operator-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: security
@@ -3698,9 +3698,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Keycloak GitHub Repository
           url: https://github.com/keycloak/keycloak
         - name: Keycloak Documentation
@@ -3710,7 +3710,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 25.0.2
     created: "2024-08-09T17:15:44.24010082Z"
@@ -3731,15 +3731,15 @@ entries:
     - keycloak
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: keycloak-operator
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/keycloak-operator-0.1.0/keycloak-operator-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/keycloak-operator-0.1.0/keycloak-operator-0.1.0.tgz
     version: 0.1.0
   kubenav:
   - annotations:
@@ -3852,9 +3852,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Kubenav Homepage
           url: https://kubenav.io/
       artifacthub.io/prerelease: "false"
@@ -3885,18 +3885,18 @@ entries:
       name: MVProwess
     name: kubenav
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/kubenav-0.2.1/kubenav-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/kubenav-0.2.1/kubenav-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: monitoring-logging
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Kubenav Homepage
           url: https://kubenav.io/
       artifacthub.io/prerelease: "false"
@@ -3904,7 +3904,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     created: "2024-11-13T22:02:02.912053215Z"
     description: 'kubenav is the navigator for your Kubernetes clusters in your pocket:
@@ -3921,24 +3921,24 @@ entries:
     - rbac
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: kubenav
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/kubenav-0.1.2/kubenav-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/kubenav-0.1.2/kubenav-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: monitoring-logging
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Kubenav Homepage
           url: https://kubenav.io/
       artifacthub.io/prerelease: "false"
@@ -3946,7 +3946,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     created: "2024-08-09T17:15:44.39328349Z"
     description: 'kubenav is the navigator for your Kubernetes clusters in your pocket:
@@ -3963,24 +3963,24 @@ entries:
     - rbac
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: kubenav
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/kubenav-0.1.1/kubenav-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/kubenav-0.1.1/kubenav-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: monitoring-logging
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Kubenav Homepage
           url: https://kubenav.io/
       artifacthub.io/prerelease: "false"
@@ -3988,7 +3988,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     created: "2024-06-26T10:31:22.74908482Z"
     description: 'kubenav is the navigator for your Kubernetes clusters in your pocket:
@@ -4005,15 +4005,15 @@ entries:
     - rbac
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: kubenav
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/kubenav-0.1.0/kubenav-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/kubenav-0.1.0/kubenav-0.1.0.tgz
     version: 0.1.0
   lhci:
   - annotations:
@@ -4376,9 +4376,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4413,9 +4413,9 @@ entries:
       name: MVProwess
     name: linkstack
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/linkstack-0.3.1/linkstack-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.3.1/linkstack-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: storage
@@ -4432,9 +4432,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4444,7 +4444,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 4.8.0
     created: "2024-11-13T22:02:03.061745476Z"
@@ -4463,15 +4463,15 @@ entries:
     - linkstack
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: linkstack
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkstack-0.2.2/linkstack-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.2.2/linkstack-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: storage
@@ -4488,9 +4488,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4500,7 +4500,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 4.8.0
     created: "2024-08-09T17:15:44.588623914Z"
@@ -4519,15 +4519,15 @@ entries:
     - linkstack
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkstack
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkstack-0.2.1/linkstack-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.2.1/linkstack-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: storage
@@ -4544,9 +4544,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4556,7 +4556,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 4.8.0
     created: "2024-06-26T19:46:12.738686162Z"
@@ -4575,15 +4575,15 @@ entries:
     - linkstack
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkstack
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkstack-0.2.0/linkstack-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.2.0/linkstack-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: storage
@@ -4596,9 +4596,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4608,7 +4608,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 4.8.0
     created: "2024-06-26T08:25:14.248523027Z"
@@ -4627,15 +4627,15 @@ entries:
     - linkstack
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkstack
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkstack-0.1.3/linkstack-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.1.3/linkstack-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: storage
@@ -4652,9 +4652,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4664,7 +4664,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 4.8.0
     created: "2024-06-25T08:12:34.412152601Z"
@@ -4683,15 +4683,15 @@ entries:
     - linkstack
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkstack
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkstack-0.1.2/linkstack-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.1.2/linkstack-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: storage
@@ -4701,7 +4701,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4714,7 +4714,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 4.8.0
     created: "2024-06-24T10:20:34.483386322Z"
@@ -4737,9 +4737,9 @@ entries:
       name: FMJdev
     name: linkstack
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkstack-0.1.1/linkstack-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.1.1/linkstack-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: storage
@@ -4749,7 +4749,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Linkstack GitHub Repository
           url: https://github.com/LinkStackOrg/LinkStack
         - name: Linkstack Documentation
@@ -4762,7 +4762,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 4.8.0
     created: "2024-06-23T22:27:23.811708059Z"
@@ -4785,9 +4785,9 @@ entries:
       name: FMJdev
     name: linkstack
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkstack-0.1.0/linkstack-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkstack-0.1.0/linkstack-0.1.0.tgz
     version: 0.1.0
   linkwarden:
   - annotations:
@@ -5129,9 +5129,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5170,9 +5170,9 @@ entries:
       name: MVProwess
     name: linkwarden
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/linkwarden-0.4.1/linkwarden-0.4.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.4.1/linkwarden-0.4.1.tgz
     version: 0.4.1
   - annotations:
       artifacthub.io/category: storage
@@ -5181,42 +5181,42 @@ entries:
           description: add missing environment variable to disable registration by @fty4
           links:
             - name: PR #26
-              url: https://github.com/fmjstudios/helm/pull/26
+              url: https://github.com/adnoctem/charts/pull/26
             - name: Author
               url: https://github.com/fty4
         - kind: fixed
           description: SSO auth issuer didn't resolve by @helionmusic
           links:
             - name: PR #33
-              url: https://github.com/fmjstudios/helm/pull/33
+              url: https://github.com/adnoctem/charts/pull/33
             - name: Author
               url: https://github.com/helionmusic
         - kind: fixed
           description: SSO auth existingSecret didn't prevent chart secret from being created by @helionmusic
           links:
             - name: PR #34
-              url: https://github.com/fmjstudios/helm/pull/34
+              url: https://github.com/adnoctem/charts/pull/34
             - name: Author
               url: https://github.com/helionmusic
         - kind: added
           description: add capability to specify an existing PV for the PVC to bind to (or to create) by @elbandi
           links:
             - name: PR #39
-              url: https://github.com/fmjstudios/helm/pull/39
+              url: https://github.com/adnoctem/charts/pull/39
             - name: Author
               url: https://github.com/elbandi
         - kind: fixed
           description: swap DATABASE_URL secret name order to allow existingSecret to work by @elbandi
           links:
             - name: PR #40
-              url: https://github.com/fmjstudios/helm/pull/40
+              url: https://github.com/adnoctem/charts/pull/40
             - name: Author
               url: https://github.com/elbandi
         - kind: fixed
           description: update dataPath to a relative path by @elbandi
           links:
             - name: PR #41
-              url: https://github.com/fmjstudios/helm/pull/41
+              url: https://github.com/adnoctem/charts/pull/41
             - name: Author
               url: https://github.com/elbandi
       artifacthub.io/images: |
@@ -5225,9 +5225,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5237,7 +5237,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2026-04-05T20:41:41.602192618Z"
@@ -5260,15 +5260,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.3.6/linkwarden-0.3.6.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.3.6/linkwarden-0.3.6.tgz
     version: 0.3.6
   - annotations:
       artifacthub.io/category: storage
@@ -5277,21 +5277,21 @@ entries:
           description: add missing environment variable to disable registration by @fty4
           links:
             - name: PR #26
-              url: https://github.com/fmjstudios/helm/pull/26
+              url: https://github.com/adnoctem/charts/pull/26
             - name: Author
               url: https://github.com/fty4
         - kind: fixed
           description: SSO auth issuer didn't resolve by @helionmusic
           links:
             - name: PR #33
-              url: https://github.com/fmjstudios/helm/pull/33
+              url: https://github.com/adnoctem/charts/pull/33
             - name: Author
               url: https://github.com/helionmusic
         - kind: fixed
           description: SSO auth existingSecret didn't prevent chart secret from being created by @helionmusic
           links:
             - name: PR #34
-              url: https://github.com/fmjstudios/helm/pull/34
+              url: https://github.com/adnoctem/charts/pull/34
             - name: Author
               url: https://github.com/helionmusic
       artifacthub.io/images: |
@@ -5300,9 +5300,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5312,7 +5312,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2026-04-05T18:12:16.882526222Z"
@@ -5335,15 +5335,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.3.5/linkwarden-0.3.5.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.3.5/linkwarden-0.3.5.tgz
     version: 0.3.5
   - annotations:
       artifacthub.io/category: storage
@@ -5359,9 +5359,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5371,7 +5371,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2026-04-05T15:06:30.579424992Z"
@@ -5394,15 +5394,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.3.4/linkwarden-0.3.4.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.3.4/linkwarden-0.3.4.tgz
     version: 0.3.4
   - annotations:
       artifacthub.io/category: storage
@@ -5415,9 +5415,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5427,7 +5427,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-11-13T22:02:03.271647343Z"
@@ -5450,15 +5450,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.3.3/linkwarden-0.3.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.3.3/linkwarden-0.3.3.tgz
     version: 0.3.3
   - annotations:
       artifacthub.io/category: storage
@@ -5471,9 +5471,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5483,7 +5483,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-08-18T20:27:39.853169279Z"
@@ -5506,15 +5506,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.3.2/linkwarden-0.3.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.3.2/linkwarden-0.3.2.tgz
     version: 0.3.2
   - annotations:
       artifacthub.io/category: storage
@@ -5527,9 +5527,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5539,7 +5539,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-08-09T17:15:44.740443538Z"
@@ -5562,15 +5562,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.3.1/linkwarden-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.3.1/linkwarden-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: storage
@@ -5583,9 +5583,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5595,7 +5595,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-08-09T10:10:18.324358654Z"
@@ -5618,15 +5618,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.3.0/linkwarden-0.3.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.3.0/linkwarden-0.3.0.tgz
     version: 0.3.0
   - annotations:
       artifacthub.io/category: storage
@@ -5641,9 +5641,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5653,7 +5653,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-08-09T09:40:32.541180458Z"
@@ -5676,15 +5676,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.2.1/linkwarden-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.2.1/linkwarden-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: storage
@@ -5701,9 +5701,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5713,7 +5713,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-06-26T19:46:12.887178798Z"
@@ -5736,15 +5736,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.2.0/linkwarden-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.2.0/linkwarden-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: storage
@@ -5757,9 +5757,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5769,7 +5769,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-06-26T08:25:14.375107301Z"
@@ -5792,15 +5792,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.1.3/linkwarden-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.1.3/linkwarden-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: storage
@@ -5817,9 +5817,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5829,7 +5829,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-06-25T08:12:34.561475273Z"
@@ -5852,15 +5852,15 @@ entries:
     - archivebox
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.1.2/linkwarden-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.1.2/linkwarden-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: storage
@@ -5870,7 +5870,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5883,7 +5883,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-06-24T10:20:34.612532197Z"
@@ -5910,9 +5910,9 @@ entries:
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.1.1/linkwarden-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.1.1/linkwarden-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: storage
@@ -5922,7 +5922,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Linkwarden Homepage
           url: https://linkwarden.app/
         - name: Linkwarden Documentation
@@ -5935,7 +5935,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.5.3
     created: "2024-06-23T22:27:23.934600675Z"
@@ -5962,9 +5962,9 @@ entries:
       name: FMJdev
     name: linkwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/linkwarden-0.1.0/linkwarden-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/linkwarden-0.1.0/linkwarden-0.1.0.tgz
     version: 0.1.0
   ntfy:
   - annotations:
@@ -6355,9 +6355,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6391,9 +6391,9 @@ entries:
       name: MVProwess
     name: ntfy
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/ntfy-0.3.1/ntfy-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.3.1/ntfy-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -6410,9 +6410,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6422,7 +6422,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.0
     created: "2024-11-13T22:02:03.494094244Z"
@@ -6440,15 +6440,15 @@ entries:
     - ntfy
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: ntfy
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/ntfy-0.2.2/ntfy-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.2.2/ntfy-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -6465,9 +6465,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6477,7 +6477,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.0
     created: "2024-08-09T17:15:44.916037997Z"
@@ -6495,15 +6495,15 @@ entries:
     - ntfy
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: ntfy
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/ntfy-0.2.1/ntfy-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.2.1/ntfy-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -6520,9 +6520,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6532,7 +6532,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.0
     created: "2024-06-26T19:46:13.043317738Z"
@@ -6550,15 +6550,15 @@ entries:
     - ntfy
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: ntfy
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/ntfy-0.2.0/ntfy-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.2.0/ntfy-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -6571,9 +6571,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6583,7 +6583,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.0
     created: "2024-06-26T08:25:14.507537353Z"
@@ -6601,15 +6601,15 @@ entries:
     - ntfy
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: ntfy
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/ntfy-0.1.3/ntfy-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.1.3/ntfy-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -6626,9 +6626,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6638,7 +6638,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.0
     created: "2024-06-25T08:37:54.12015165Z"
@@ -6656,15 +6656,15 @@ entries:
     - ntfy
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: ntfy
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/ntfy-0.1.2/ntfy-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.1.2/ntfy-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -6674,7 +6674,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6687,7 +6687,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.0
     created: "2024-06-24T10:20:34.721418302Z"
@@ -6709,9 +6709,9 @@ entries:
       name: FMJdev
     name: ntfy
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/ntfy-0.1.1/ntfy-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.1.1/ntfy-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: streaming-messaging
@@ -6721,7 +6721,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: ntfy GitHub Repository
           url: https://github.com/binwiederhier/ntfy
         - name: ntfy Documentation
@@ -6734,7 +6734,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.11.0
     created: "2024-06-23T22:27:24.057729808Z"
@@ -6756,9 +6756,9 @@ entries:
       name: FMJdev
     name: ntfy
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/ntfy-0.1.0/ntfy-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/ntfy-0.1.0/ntfy-0.1.0.tgz
     version: 0.1.0
   outline:
   - annotations:
@@ -7875,9 +7875,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -7928,9 +7928,9 @@ entries:
       name: MVProwess
     name: paperless-ngx
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/paperless-ngx-0.3.1/paperless-ngx-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.3.1/paperless-ngx-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: storage
@@ -7946,9 +7946,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -7958,7 +7958,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2026-04-05T15:06:30.877718357Z"
@@ -7983,7 +7983,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 1566428812f2a2f18166608c2f6a2e0c1e00f2e90e6376cdb665928c46752187
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -7993,15 +7993,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.8/paperless-ngx-0.2.8.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.8/paperless-ngx-0.2.8.tgz
     version: 0.2.8
   - annotations:
       artifacthub.io/category: storage
@@ -8014,9 +8014,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8026,7 +8026,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-11-14T22:48:21.34441594Z"
@@ -8051,7 +8051,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 875f336fad8aafc4f01ea51824eaa2557f0d4128f9c02089882ebecba6174151
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8061,15 +8061,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.7/paperless-ngx-0.2.7.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.7/paperless-ngx-0.2.7.tgz
     version: 0.2.7
   - annotations:
       artifacthub.io/category: storage
@@ -8082,9 +8082,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8094,7 +8094,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-11-14T09:00:49.539352713Z"
@@ -8119,7 +8119,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 7a0939a9360146cd48f9dd68ed0076d87ea9d38f78cb6813fc764c1d56f35b1b
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8129,15 +8129,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.6/paperless-ngx-0.2.6.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.6/paperless-ngx-0.2.6.tgz
     version: 0.2.6
   - annotations:
       artifacthub.io/category: storage
@@ -8154,9 +8154,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8166,7 +8166,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-11-13T22:02:03.669709943Z"
@@ -8191,7 +8191,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 49a441a62b69b53b1992addd507d63abcae169b41fbad2a78be5b5577eb3d8a5
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8201,15 +8201,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.5/paperless-ngx-0.2.5.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.5/paperless-ngx-0.2.5.tgz
     version: 0.2.5
   - annotations:
       artifacthub.io/category: storage
@@ -8226,9 +8226,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8238,7 +8238,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-11-12T21:05:27.533754668Z"
@@ -8263,7 +8263,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: b76435bd18c2790c9ab9e66720c1a29364fb4b8e59b25cba75ace0a9c4106191
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8273,15 +8273,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.4/paperless-ngx-0.2.4.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.4/paperless-ngx-0.2.4.tgz
     version: 0.2.4
   - annotations:
       artifacthub.io/category: storage
@@ -8298,9 +8298,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8310,7 +8310,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-08-18T21:41:10.968100547Z"
@@ -8335,7 +8335,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: b401dab9b4da2744b46c650d4e711fe5afd72179ca489e9baa5c67a6cf93ca84
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8345,15 +8345,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.3/paperless-ngx-0.2.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.3/paperless-ngx-0.2.3.tgz
     version: 0.2.3
   - annotations:
       artifacthub.io/category: storage
@@ -8370,9 +8370,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8382,7 +8382,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-08-09T17:15:45.078495652Z"
@@ -8407,7 +8407,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 912121c4a646952f5b1c9416ffd7feb4fe9b9565c7f75582ec725e11714a76df
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8417,15 +8417,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.2/paperless-ngx-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.2/paperless-ngx-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: storage
@@ -8442,9 +8442,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8454,7 +8454,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-08-09T10:10:18.494399845Z"
@@ -8479,7 +8479,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 7eecd6373ab1863b3aa374a761798527a66fdea1da8cef0cd418545739dd97e9
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8489,15 +8489,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.1/paperless-ngx-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.1/paperless-ngx-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: storage
@@ -8514,9 +8514,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8526,7 +8526,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-06-26T19:46:13.210442403Z"
@@ -8551,7 +8551,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 7d4f96dc839575cdbbdb9a7d3480f0a68397e5c71013fe10ecd7cd1c3898951e
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8561,15 +8561,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.2.0/paperless-ngx-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.2.0/paperless-ngx-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: storage
@@ -8582,9 +8582,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8594,7 +8594,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-06-26T08:25:14.654856426Z"
@@ -8619,7 +8619,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: b178e4c93c9809e1c605b53ec3f88a959a678af595983ed6e696c59e701452ab
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8629,15 +8629,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.1.3/paperless-ngx-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.1.3/paperless-ngx-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: storage
@@ -8654,9 +8654,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8666,7 +8666,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-06-25T08:12:34.857922822Z"
@@ -8691,7 +8691,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: c7c9a589ba728c8d0c2a782cb3f1c9992987d98bac8f85216fd46e0a40adbfd4
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8701,15 +8701,15 @@ entries:
     - paperless
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.1.2/paperless-ngx-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.1.2/paperless-ngx-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: storage
@@ -8719,7 +8719,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8732,7 +8732,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-06-24T10:20:34.925654391Z"
@@ -8757,7 +8757,7 @@ entries:
       - scan, index and archive all your physical documents
     digest: 360c076158f358bc97b4e71f3d04d6f95d9dad10a38695647d7ef55314845ff9
     home: https://github.com/paperless-ngx/paperless-ngx
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/76af35c64fd93c12e851925b0d3801e89978f05a/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/paperless-ngx/icon/color/paperless-ngx-icon-color.png
     keywords:
     - documents
     - archival
@@ -8771,9 +8771,9 @@ entries:
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.1.1/paperless-ngx-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.1.1/paperless-ngx-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: storage
@@ -8783,7 +8783,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Paperless-NGX GitHub Repository
           url: https://github.com/paperless-ngx/paperless-ngx
         - name: Paperless-NGX Documentation
@@ -8796,7 +8796,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 2.10.1
     created: "2024-06-23T22:27:24.186486676Z"
@@ -8835,9 +8835,9 @@ entries:
       name: FMJdev
     name: paperless-ngx
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/paperless-ngx-0.1.0/paperless-ngx-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/paperless-ngx-0.1.0/paperless-ngx-0.1.0.tgz
     version: 0.1.0
   popeye:
   - annotations:
@@ -8965,9 +8965,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/derailed/popeye
         - name: ntfy Documentation
@@ -9001,9 +9001,9 @@ entries:
       name: MVProwess
     name: popeye
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/popeye-0.2.1/popeye-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/popeye-0.2.1/popeye-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: security
@@ -9013,9 +9013,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/derailed/popeye
         - name: ntfy Documentation
@@ -9025,7 +9025,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.21.3
     created: "2024-11-13T22:02:03.830761753Z"
@@ -9043,15 +9043,15 @@ entries:
     - popeye
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: popeye
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/popeye-0.1.2/popeye-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/popeye-0.1.2/popeye-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: security
@@ -9061,9 +9061,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/derailed/popeye
         - name: ntfy Documentation
@@ -9073,7 +9073,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.21.3
     created: "2024-08-09T17:15:45.194720167Z"
@@ -9091,15 +9091,15 @@ entries:
     - popeye
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: popeye
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/popeye-0.1.1/popeye-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/popeye-0.1.1/popeye-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: security
@@ -9109,9 +9109,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: ntfy GitHub Repository
           url: https://github.com/derailed/popeye
         - name: ntfy Documentation
@@ -9121,7 +9121,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 0.21.3
     created: "2024-07-15T05:30:01.318627033Z"
@@ -9139,15 +9139,15 @@ entries:
     - popeye
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: popeye
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/popeye-0.1.0/popeye-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/popeye-0.1.0/popeye-0.1.0.tgz
     version: 0.1.0
   uptime-kuma:
   - annotations:
@@ -9583,9 +9583,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9619,9 +9619,9 @@ entries:
       name: MVProwess
     name: uptime-kuma
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/uptime-kuma-0.3.1/uptime-kuma-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.3.1/uptime-kuma-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -9638,9 +9638,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9650,7 +9650,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.23.13
     created: "2024-11-13T22:02:04.006754423Z"
@@ -9668,15 +9668,15 @@ entries:
     - uptime-robot
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: uptime-kuma
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.2.2/uptime-kuma-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.2.2/uptime-kuma-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -9693,9 +9693,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9705,7 +9705,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.23.13
     created: "2024-08-09T17:15:45.346347269Z"
@@ -9723,15 +9723,15 @@ entries:
     - uptime-robot
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: uptime-kuma
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.2.1/uptime-kuma-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.2.1/uptime-kuma-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -9748,9 +9748,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9760,7 +9760,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.23.13
     created: "2024-06-26T19:46:13.36187008Z"
@@ -9778,15 +9778,15 @@ entries:
     - uptime-robot
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: uptime-kuma
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.2.0/uptime-kuma-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.2.0/uptime-kuma-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -9799,9 +9799,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9811,7 +9811,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.23.13
     created: "2024-06-26T08:25:14.778661624Z"
@@ -9829,15 +9829,15 @@ entries:
     - uptime-robot
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: uptime-kuma
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.1.3/uptime-kuma-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.1.3/uptime-kuma-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -9854,9 +9854,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9866,7 +9866,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.23.13
     created: "2024-06-25T08:12:34.967188492Z"
@@ -9884,15 +9884,15 @@ entries:
     - uptime-robot
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: uptime-kuma
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.1.2/uptime-kuma-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.1.2/uptime-kuma-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -9902,7 +9902,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9915,7 +9915,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.23.13
     created: "2024-06-24T10:20:35.023609345Z"
@@ -9937,9 +9937,9 @@ entries:
       name: FMJdev
     name: uptime-kuma
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.1.1/uptime-kuma-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.1.1/uptime-kuma-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: monitoring-logging
@@ -9949,7 +9949,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Uptime-Kuma Homepage
           url: https://uptime.kuma.pet/
         - name: Uptime-Kuma Documentation
@@ -9962,7 +9962,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.23.13
     created: "2024-06-23T22:27:24.298599376Z"
@@ -9984,9 +9984,9 @@ entries:
       name: FMJdev
     name: uptime-kuma
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/uptime-kuma-0.1.0/uptime-kuma-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/uptime-kuma-0.1.0/uptime-kuma-0.1.0.tgz
     version: 0.1.0
   vaultwarden:
   - annotations:
@@ -10444,9 +10444,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/adnoctem/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/adnoctem/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10479,9 +10479,9 @@ entries:
       name: MVProwess
     name: vaultwarden
     sources:
-    - https://github.com/adnoctem/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/adnoctem/helm/releases/download/vaultwarden-0.3.1/vaultwarden-0.3.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.3.1/vaultwarden-0.3.1.tgz
     version: 0.3.1
   - annotations:
       artifacthub.io/category: security
@@ -10498,9 +10498,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10510,7 +10510,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-11-13T22:02:04.195895476Z"
@@ -10518,7 +10518,7 @@ entries:
       server written in Rust
     digest: 770590f1eaf665bd6efc59cc303f3500f76149a1825facf12b6df0ac02aed2f1
     home: https://github.com/dani-garcia/vaultwarden
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/2fd182517d56ffeee59f82ec75b651e92344d151/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
     keywords:
     - passwords
     - password-manager
@@ -10527,15 +10527,15 @@ entries:
     - vaultwarden
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: fmjstudios
+    - email: info@adnoctem.co
+      name: adnoctem
     - email: info@fmj.dev
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.2.3/vaultwarden-0.2.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.2.3/vaultwarden-0.2.3.tgz
     version: 0.2.3
   - annotations:
       artifacthub.io/category: security
@@ -10552,9 +10552,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10564,7 +10564,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-08-09T17:15:45.598075425Z"
@@ -10572,7 +10572,7 @@ entries:
       server written in Rust
     digest: 7a3eb3b38e8c6d4b3b6fa39aaed20f6efa4d4c0e9f60966f3fe17c260cd4349a
     home: https://github.com/dani-garcia/vaultwarden
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/2fd182517d56ffeee59f82ec75b651e92344d151/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
     keywords:
     - passwords
     - password-manager
@@ -10581,15 +10581,15 @@ entries:
     - vaultwarden
     kubeVersion: '>=1.26.0-0'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.2.2/vaultwarden-0.2.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.2.2/vaultwarden-0.2.2.tgz
     version: 0.2.2
   - annotations:
       artifacthub.io/category: security
@@ -10606,9 +10606,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10618,7 +10618,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-08-08T23:13:19.6357282Z"
@@ -10626,7 +10626,7 @@ entries:
       server written in Rust
     digest: 1d1a3d44eedd1305327014dd88322db6f4a8478451fcd0a1f725811e44345205
     home: https://github.com/dani-garcia/vaultwarden
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/2fd182517d56ffeee59f82ec75b651e92344d151/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
     keywords:
     - passwords
     - password-manager
@@ -10635,15 +10635,15 @@ entries:
     - vaultwarden
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.2.1/vaultwarden-0.2.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.2.1/vaultwarden-0.2.1.tgz
     version: 0.2.1
   - annotations:
       artifacthub.io/category: security
@@ -10660,9 +10660,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10672,7 +10672,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-06-26T19:46:13.507643119Z"
@@ -10680,7 +10680,7 @@ entries:
       server written in Rust
     digest: 3298a9d3ece4fd0fd9248cd093ce645049a6dffdb79ca6bf394d2e6a0b5b0e64
     home: https://github.com/dani-garcia/vaultwarden
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/2fd182517d56ffeee59f82ec75b651e92344d151/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
     keywords:
     - passwords
     - password-manager
@@ -10689,15 +10689,15 @@ entries:
     - vaultwarden
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.2.0/vaultwarden-0.2.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.2.0/vaultwarden-0.2.0.tgz
     version: 0.2.0
   - annotations:
       artifacthub.io/category: security
@@ -10710,9 +10710,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10722,7 +10722,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-06-26T08:25:14.87499562Z"
@@ -10730,7 +10730,7 @@ entries:
       server written in Rust
     digest: 897355a7db89217e7233226e17208cc497d5f1d5e30c149b3826f83d19820fbf
     home: https://github.com/dani-garcia/vaultwarden
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/2fd182517d56ffeee59f82ec75b651e92344d151/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
     keywords:
     - passwords
     - password-manager
@@ -10739,15 +10739,15 @@ entries:
     - vaultwarden
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.3/vaultwarden-0.1.3.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.1.3/vaultwarden-0.1.3.tgz
     version: 0.1.3
   - annotations:
       artifacthub.io/category: security
@@ -10764,9 +10764,9 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Support
-          url: https://github.com/fmjstudios/helm/issues
+          url: https://github.com/adnoctem/charts/issues
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10776,7 +10776,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-06-25T08:37:54.307785245Z"
@@ -10784,7 +10784,7 @@ entries:
       server written in Rust
     digest: baabd977481970e7635adfc6b02019e9e3297a856de6e9c2052783e7262a0c39
     home: https://github.com/dani-garcia/vaultwarden
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/2fd182517d56ffeee59f82ec75b651e92344d151/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
     keywords:
     - passwords
     - password-manager
@@ -10793,15 +10793,15 @@ entries:
     - vaultwarden
     kubeVersion: '>=1.26'
     maintainers:
-    - email: info@fmj.studio
-      name: FMJ Studios Helm Authors
+    - email: info@adnoctem.co
+      name: Ad Noctem Collective Helm Authors
     - email: info@fmj.dev
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.2/vaultwarden-0.1.2.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.1.2/vaultwarden-0.1.2.tgz
     version: 0.1.2
   - annotations:
       artifacthub.io/category: security
@@ -10811,7 +10811,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10824,7 +10824,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-06-24T10:20:35.146777769Z"
@@ -10832,7 +10832,7 @@ entries:
       server written in Rust
     digest: 5577c6c3c35c0a6cb111c6ea950cba84c520394e6ba6772c3b9df26d171bb8de
     home: https://github.com/dani-garcia/vaultwarden
-    icon: https://raw.githubusercontent.com/fmjstudios/artwork/2fd182517d56ffeee59f82ec75b651e92344d151/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
+    icon: https://raw.githubusercontent.com/adnoctem/artwork/425046029eaed451f5ced22ddc650059dff11878/projects/vaultwarden/icon/black/vaultwarden-icon-black.png
     keywords:
     - passwords
     - password-manager
@@ -10845,9 +10845,9 @@ entries:
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.1/vaultwarden-0.1.1.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.1.1/vaultwarden-0.1.1.tgz
     version: 0.1.1
   - annotations:
       artifacthub.io/category: security
@@ -10857,7 +10857,7 @@ entries:
       artifacthub.io/license: MIT
       artifacthub.io/links: |
         - name: Source
-          url: https://github.com/fmjstudios/helm
+          url: https://github.com/adnoctem/charts
         - name: Vaultwarden GitHub Repository
           url: https://github.com/dani-garcia/vaultwarden
         - name: Vaultwarden Documentation
@@ -10870,7 +10870,7 @@ entries:
         fingerprint: 654213659810F05D16A7EDECB6C4D653E669D643
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/654213659810F05D16A7EDECB6C4D653E669D643
       org.opencontainers.image.licenses: MIT
-      org.opencontainers.image.vendor: FMJ Studios
+      org.opencontainers.image.vendor: Ad Noctem Collective
     apiVersion: v2
     appVersion: 1.30.5
     created: "2024-06-23T22:27:24.39496038Z"
@@ -10891,8 +10891,8 @@ entries:
       name: FMJdev
     name: vaultwarden
     sources:
-    - https://github.com/fmjstudios/helm
+    - https://github.com/adnoctem/charts
     urls:
-    - https://github.com/fmjstudios/helm/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
+    - https://github.com/adnoctem/charts/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
 generated: "2026-11-23T22:58:39.552217396Z"
