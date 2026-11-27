@@ -1,0 +1,82 @@
+exclude: (.*.mod|.*.sum|.*.lock|.*.?bazel.*)
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+        exclude: (^charts/.*/templates/|^charts/.*/crds/)
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.50.1
+    hooks:
+      - id: markdownlint
+        exclude: ^CHANGELOG\.md$
+        args:
+          - "-c"
+          - ".github/linters/.markdown-lint.yml"
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.33.1
+    hooks:
+      # Run the linter.
+      - id: zizmor
+        args:
+          - "-c"
+          - ".github/linters/zizmor.yaml"
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.52.2
+    hooks:
+      - id: typos
+        # pre-commit passes staged files to `typos` as explicit CLI arguments, which bypasses the
+        # ignore-glob-based `[files] extend-exclude` in .typos.toml (that only prunes directory
+        # walking, not explicit paths) - vendored upstream CRDs must be excluded here instead.
+        exclude: (.*\.yaml|^CHANGELOG.md$|charts/[^/]+/crds/.*\.yml$)
+        args:
+          - "--config"
+          - ".github/linters/.typos.toml"
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+        name: "Scan for potentially leaked secret values using 'gitleaks'"
+
+  # Shell sources
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1-1
+    hooks:
+      - id: shellcheck
+        name: "Lint Shell files with 'shellcheck'"
+        args: ["-x"]
+
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.14.1-1
+    hooks:
+      - id: shfmt
+        name: "Format Shell files with 'shfmt'"
+
+  # Local hooks
+  - repo: local
+    hooks:
+      - id: prettier-format
+        name: Prettier format
+        entry: bun x prettier --write
+        language: system
+        files: \.(md|json)$
+        # Without this, pre-commit can batch matched files across several
+        # parallel invocations; concurrent 'bun x' processes then race to
+        # resolve/install the same 'prettier' package into a cold cache,
+        # which fails with "could not determine executable to run for
+        # package prettier" on the losing side.
+        require_serial: true

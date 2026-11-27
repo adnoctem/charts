@@ -1,0 +1,63 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests",
+    "customManagers:helmChartYamlAppVersions",
+    ":enablePreCommit"
+  ],
+  "assignees": ["MVProwess"],
+  "kubernetes": {
+    "managerFilePatterns": ["/^config/k8s/cluster/kind-config\\.yaml$/"]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/testing\\.yaml$/"],
+      "matchStrings": ["AH_VERSION:\\s*(?<currentValue>v[^\\s]+)"],
+      "depNameTemplate": "artifacthub/hub",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/development\\.yaml$/"],
+      "matchStrings": ["GOPSKIT_VERSION:\\s*(?<currentValue>v[^\\s]+)"],
+      "depNameTemplate": "adnoctem/gopskit",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "jsonata",
+      "fileFormat": "yaml",
+      "managerFilePatterns": ["/^config/k8s/backbone\\.yaml$/"],
+      "matchStrings": [
+        "$each(charts, function($chart, $name) { {\"depName\": $name, \"currentValue\": $chart.version, \"registryUrl\": $chart.repository} })"
+      ],
+      "datasourceTemplate": "helm"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^charts/linkstack/values\\.yaml$/"],
+      "matchStrings": [
+        "image:\\s+registry:\\s+docker\\.io\\s+repository:\\s+(?<depName>[^\\s]+)\\s+tag:\\s+(?<currentValue>[^\\s]+)\\s+digest:\\s+(?<currentDigest>sha256:[a-f0-9]{64})"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Keep development Kubernetes on the controller-compatible minor; review controller support before changing this range",
+      "matchManagers": ["kubernetes"],
+      "matchFileNames": ["config/k8s/cluster/kind-config.yaml"],
+      "matchPackageNames": ["kindest/node"],
+      "allowedVersions": "~1.36.0"
+    },
+    {
+      "description": "Track LinkStack through its separate digest field instead of the tag-only Helm values extractor",
+      "matchManagers": ["helm-values"],
+      "matchFileNames": ["charts/linkstack/values.yaml"],
+      "matchPackageNames": ["docker.io/linkstackorg/linkstack"],
+      "enabled": false
+    }
+  ]
+}

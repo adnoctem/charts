@@ -1,0 +1,13 @@
+title = "gitleaks config"
+
+[extend]
+# useDefault will extend the base configuration with the default gitleaks config:
+# https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml
+useDefault = true
+
+# do not check any (prefix-)values.yaml files since they'll almost certainly be false positives
+[allowlist]
+description = "global ignore"
+paths = [
+    '''\w*-?values.yaml'''
+]

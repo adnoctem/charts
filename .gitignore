@@ -1,41 +1,68 @@
-#######################################
-# EDITORS
-#######################################
+# .gitignore - Helm Charts
+
+###> general/ai ###
+
+# personal harness settings
+.claude/
+.codex/
+.agents/
+.openaxis/
+.omc/
+.omx/
+
+# assistants and IDEs
+.cursor/
+.windsurf/
+.cline/
+.roo/
+.aide/
+.cody/
+.continue/
+
+# local integrations
+.ollama/
+.openwebui/
+.crewai/
+.autogen/
+###>
+
+###> general/editors ###
 
 # IntelliJ IDEA
-.idea/*
-!.idea/dataSources.xml
-
-# JetBrains Fleet
-.fleet/*
+.idea/
 
 # VS Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
+###>
 
-# Secret files
-secrets
+###> general/secret ###
 
-#######################################
-# MISCELLANEOUS
-#######################################
+# secrets
+secrets/
+
+# Vault data
+data/
+###>
+
+###> source/helm-charts ###
 
 # Helm Subcharts
 *.tgz
+Chart.lock
+###>
 
-# Distribution folder
-dist/*
-build/*
+###> source/tests ###
 
 # Tests
 *.test
 
-# Vault data
-data/*
-!data/.gitkeep
-
 # Coverage tool output
 *.out
+###>
+
+###> source/temp ###
+
+# distribution
+dist/*
+build/*
+###>

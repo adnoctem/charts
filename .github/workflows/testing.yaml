@@ -1,7 +1,13 @@
-name: 'Testing'
+name: "Testing"
 
 on:
   workflow_dispatch:
+    inputs:
+      forceTest:
+        default: true
+        description: Force the running of tests
+        required: true
+        type: boolean
   push:
     branches:
       - main
@@ -13,94 +19,196 @@ on:
     paths:
       - charts/**
 
+permissions: {}
+
 defaults:
   run:
     shell: bash
 
+concurrency:
+  group: "${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  # Safe to cancel: unlike release.yaml, nothing here signs or publishes
+  # anything, so a superseded run can be dropped without leaving state behind.
+  cancel-in-progress: true
+
 jobs:
-  lint:
-    name: Lint Helm Charts
+  quality:
+    name: Verify code quality a final time with 'pre-commit'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           fetch-depth: 0
 
-      - name: Set up Helm
-        uses: azure/setup-helm@v4.2.0
-        with:
-          version: v3.15.1
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
         with:
-          python-version: '3.x'
-          check-latest: true
+          extra_args: --all-files
+
+  changes:
+    name: Determine if charts have changed
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    outputs:
+      changed: ${{ steps.check_change.outputs.changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - name: Set up Chart-Testing
-        uses: helm/chart-testing-action@v2.6.1
+        uses: helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510 # v2.9.0
 
-      - name: Run chart-testing (list-changed)
-        id: ct-list-changed
+      - name: Check changes
+        id: check_change
         run: |
-          changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
+          changed=$(ct list-changed --config config/ct-config.yaml)
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+  lint:
+    name: Lint Helm Charts
+    needs: [changes]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5.1.0
+        with:
+          version: v3.22.1
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.x"
+          check-latest: true
+
+      - name: Set up Chart-Testing
+        uses: helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510 # v2.9.0
+
       - name: Run chart-testing (lint)
-        if: steps.ct-list-changed.outputs.changed == 'true'
+        if: ${{ needs.changes.outputs.changed == 'true' || github.event.inputs.forceTest }}
         run: |
           ct lint --config config/ct-config.yaml
 
   lint-artifacthub:
     name: Lint Helm Charts with ArtifactHub Linter
+    needs: [changes]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: sh
-    container:
-      image: public.ecr.aws/artifacthub/ah:v1.14.0
-      options: --user 1001
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Artifact Hub CLI
+        env:
+          AH_VERSION: v1.24.0
+        run: |
+          install_dir=$(mktemp -d "$RUNNER_TEMP/ah.XXXXXX")
+          cd "$install_dir"
+          version="${AH_VERSION#v}"
+          archive="ah_${version}_linux_amd64.tar.gz"
+          checksums="ah_${version}_checksums.txt"
+          base="https://github.com/artifacthub/hub/releases/download/$AH_VERSION"
+          for asset in "$archive" "$checksums"; do
+            curl -fL \
+              --retry 3 \
+              --retry-all-errors \
+              --connect-timeout 15 \
+              --max-time 120 \
+              --output "$asset" \
+              "$base/$asset"
+          done
+          sha256sum \
+            --check \
+            --ignore-missing "$checksums"
+          tar -xzf "$archive" ah
+          echo "$install_dir" >> "$GITHUB_PATH"
+
       - name: Run ah lint
         working-directory: charts
         run: ah lint
 
   test:
     name: Test Helm Charts
-    needs: ['lint', 'lint-artifacthub']
+    # Collect installation results even when a separate quality or lint job fails.
+    needs: [changes]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v4.2.0
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5.1.0
         with:
-          version: v3.15.1
+          version: v3.22.1
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
-          python-version: '3.x'
+          python-version: "3.x"
           check-latest: true
 
       - name: Set up Chart-Testing
-        uses: helm/chart-testing-action@v2.6.1
+        uses: helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510 # v2.9.0
 
       - name: Run kind to create a Kubernetes cluster
-        if: steps.ct-list-changed.outputs.changed == 'true'
-        uses: helm/kind-action@v1
+        if: ${{ needs.changes.outputs.changed == 'true' || github.event.inputs.forceTest }}
+        uses: helm/kind-action@ea822c7bf1874f08e5a491df991c228edffc3376 # v1.15.2
         with:
           config: config/k8s/cluster/kind-config.yaml
 
       - name: Run chart-testing (install)
-        if: steps.ct-list-changed.outputs.changed == 'true'
+        if: ${{ needs.changes.outputs.changed == 'true' || github.event.inputs.forceTest }}
         run: |
           ct install --config config/ct-config.yaml
+
+  dispatch:
+    name: Dispatch a release workflow run
+    runs-on: ubuntu-latest
+    # Every check must succeed before a push to main can publish charts.
+    needs: [quality, changes, lint, lint-artifacthub, test]
+    if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    permissions:
+      contents: write
+    steps:
+      - name: Dispatch a release workflow run
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const payload = {
+              run_id: "${{ github.run_id }}",
+              sha: "${{ github.sha }}"
+            }
+
+            console.log("Sending event payload", JSON.stringify(payload, null, 2));
+
+            const { owner, repo } = context.repo;
+            await github.rest.repos.createDispatchEvent({
+              owner,
+              repo,
+              event_type: 'release',
+              client_payload: payload
+            });

@@ -13,6 +13,7 @@
   "modifiers": {
     "array": "array",
     "object": "object",
+    "number": "number",
     "string": "string",
     "nullable": "nullable",
     "default": "default"
