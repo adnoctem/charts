@@ -28,6 +28,7 @@ template:
         {{- toYaml .Values.podLabels | nindent 8 }}
         {{- end }}
   spec:
+    terminationGracePeriodSeconds: {{ include "activepieces.terminationGracePeriodSeconds" . }}
       {{- if .Values.image.pullSecrets }}
     imagePullSecrets:
         {{- toYaml .Values.image.pullSecrets | nindent 8 }}

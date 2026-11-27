@@ -60,7 +60,7 @@ activepieces:
 
   sandbox:
     executionMode: UNSANDBOXED
-    flowTimeoutSeconds: false
+    flowTimeoutSeconds: 60
     propagatedEnvVars: ""
 
   auditLogRetentionDays: "90"
@@ -92,6 +92,13 @@ ingress:
 postgresql:
   enabled: true
   fullnameOverride: activepieces-postgresql
+  primary:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi
   image:
     repository: bitnamilegacy/postgresql
     tag: 16.4.0-debian-12-r14

@@ -138,3 +138,36 @@ Define storage paths
 {{- define "activepieces.data.path" }}
 {{- trimSuffix "/" (printf "%s/%s" (trimSuffix "/" .Values.activepieces.data.rootPath) (trimSuffix "/" .Values.activepieces.configPath)) }}
 {{- end }}
+
+{{/*
+Allow worker intake to stop (5s), flows to finish (timeout + 90s), and teardown (10s).
+*/}}
+{{- define "activepieces.terminationGracePeriodSeconds" -}}
+{{- $timeout := .Values.activepieces.sandbox.flowTimeoutSeconds -}}
+{{- $grace := .Values.terminationGracePeriodSeconds -}}
+{{- if or (not (regexMatch "^[0-9]+$" (toString $timeout))) (le (int64 $timeout) 0) -}}
+{{- fail "activepieces.sandbox.flowTimeoutSeconds must be a positive whole number" -}}
+{{- end -}}
+{{- if not (regexMatch "^[0-9]+$" (toString $grace)) -}}
+{{- fail "terminationGracePeriodSeconds must be a nonnegative whole number (0 means automatic)" -}}
+{{- end -}}
+{{- if eq (int64 $grace) 0 -}}
+{{- add $timeout 105 -}}
+{{- else -}}
+{{- $grace -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Explicit values take precedence; otherwise preserve generated credentials on connected upgrades.
+Offline renderers must supply stable values or an existing Secret.
+*/}}
+{{- define "activepieces.secretValue" -}}
+{{- if .value -}}
+{{- .value | b64enc -}}
+{{- else -}}
+{{- $secret := lookup "v1" "Secret" .root.Release.Namespace .name -}}
+{{- $data := ($secret | default dict).data | default dict -}}
+{{- get $data .key | default (randAlphaNum 32 | b64enc) -}}
+{{- end -}}
+{{- end -}}

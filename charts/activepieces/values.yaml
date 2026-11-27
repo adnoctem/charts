@@ -19,7 +19,7 @@
 image:
   registry: docker.io
   repository: activepieces/activepieces
-  tag: 0.93.0
+  tag: 0.94.0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -225,10 +225,10 @@ activepieces:
   ## Encryption configuration
   ##
   encryption:
-    ## @param activepieces.encryption.connection The encryption key used for connections
+    ## @param activepieces.encryption.connection Connection encryption key; when empty, reuse the live Secret or generate a key on first install
     ##
     connection: ""
-    ## @param activepieces.encryption.jwt Encryption key used for generating JWT tokens
+    ## @param activepieces.encryption.jwt JWT signing key; when empty, reuse the live Secret or generate a key on first install
     ##
     jwt: ""
     ## @param activepieces.encryption.existingSecret The name of an existing Secret containing a `connection` and `jwt` key, from which the encryption keys will be sourced
@@ -242,10 +242,9 @@ activepieces:
     ## `SANDBOX_CODE_ONLY` or `SANDBOX_CODE_AND_PROCESS` - `SANDBOXED` was renamed to `SANDBOX_PROCESS` in Activepieces 0.71.0
     ##
     executionMode: UNSANDBOXED
-    ## @param activepieces.sandbox.flowTimeoutSeconds Maximum allowed runtime for a flow, in seconds - rendered as
-    ## `AP_FLOW_TIMEOUT_SECONDS` as of Activepieces 0.30.0, replacing the removed `AP_SANDBOX_RUN_TIME_SECONDS`
+    ## @param activepieces.sandbox.flowTimeoutSeconds Maximum flow runtime in positive whole seconds; also determines the automatic pod shutdown grace period
     ##
-    flowTimeoutSeconds: false
+    flowTimeoutSeconds: 600
     ## @param activepieces.sandbox.propagatedEnvVars Environment variables that will be propagated to the sandboxed code.
     ## If you are using it for pieces, we strongly suggests keeping everything in the authentication object to make sure it works across AP instances
     ##
@@ -560,6 +559,10 @@ podDisruptionBudget:
 
 ## @section Pod settings
 ##
+
+## @param terminationGracePeriodSeconds Pod shutdown grace period in whole seconds; 0 derives flowTimeoutSeconds plus 105 (705 by default)
+##
+terminationGracePeriodSeconds: 0
 
 ## Activepieces resource settings
 ## ref: https://kubernetes.io/docs/user-guide/compute-resources/

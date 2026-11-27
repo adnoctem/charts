@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "0.93.0"
+          "default": "0.94.0"
         },
         "digest": {
           "type": "string",
@@ -306,12 +306,12 @@
           "properties": {
             "connection": {
               "type": "string",
-              "description": "The encryption key used for connections",
+              "description": "Connection encryption key; when empty, reuse the live Secret or generate a key on first install",
               "default": ""
             },
             "jwt": {
               "type": "string",
-              "description": "Encryption key used for generating JWT tokens",
+              "description": "JWT signing key; when empty, reuse the live Secret or generate a key on first install",
               "default": ""
             },
             "existingSecret": {
@@ -330,9 +330,9 @@
               "default": "UNSANDBOXED"
             },
             "flowTimeoutSeconds": {
-              "type": "boolean",
-              "description": "Maximum allowed runtime for a flow, in seconds - rendered as",
-              "default": false
+              "type": "number",
+              "description": "Maximum flow runtime in positive whole seconds; also determines the automatic pod shutdown grace period",
+              "default": 600
             },
             "propagatedEnvVars": {
               "type": "string",
@@ -734,6 +734,11 @@
           "default": "1"
         }
       }
+    },
+    "terminationGracePeriodSeconds": {
+      "type": "number",
+      "description": "Pod shutdown grace period in whole seconds; 0 derives flowTimeoutSeconds plus 105 (705 by default)",
+      "default": 0
     },
     "resources": {
       "type": "object",

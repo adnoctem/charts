@@ -394,6 +394,13 @@ Run `helm dependency update charts/activepieces` before rendering or linting. Th
 uses PostgreSQL and Redis with fixed subchart names matching the app's connection settings, independent of the
 release name. It exercises the background migration URL using the same local database role (no statement timeout),
 audit retention with cleanup paused, code-prewarm exclusion, ingress, persistence and startup/readiness probes.
+The fixture's 60-second flow timeout derives a 165-second pod termination grace period. Check the default (705),
+custom flow timeouts and explicit grace overrides for both workload kinds, including invalid fractional/negative values.
+For upgrade checks, compare encryption/JWT Secret data and verify previously encrypted content remains readable;
+chart-managed credentials use live Secret lookup only during connected Helm operations. Test explicit values and
+existing-Secret references separately. Allow time for draining plus replacement startup when testing shutdown.
+The fixture gives PostgreSQL a 1 GiB memory limit: the subchart's small default can be OOM-killed while importing
+the official piece metadata catalog. Check database restarts after startup, not just the app's first ready probe.
 Cache prewarming is not enabled by the fixture. Database credentials are development-only.
 
 The fixture pins archived `bitnamilegacy/postgresql:16.4.0-debian-12-r14` and

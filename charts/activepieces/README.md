@@ -70,6 +70,54 @@ and `AP_API_KEY`, remain available through `extraEnvVars`; this release does not
 
 ## Upgrading
 
+### To 0.9.0 (Activepieces 0.93.0 -> 0.94.0)
+
+Review the [0.94.0 release notes](https://github.com/activepieces/activepieces/releases/tag/0.94.0).
+This is a breaking chart release: it changes shutdown timing, makes the flow timeout numeric and corrects credential
+handling, alongside upstream code-step and database changes. Back up PostgreSQL and persistent data, preserve the
+live encryption/JWT Secrets, and let active work finish before upgrading.
+
+**Database migrations clear AI usage records.** Upstream truncates `ai_usage_5m`, `ai_usage_daily`,
+`ai_usage_copy_cursor` and `ai_usage_run` to remove usage incorrectly copied from shared customers. Export any records
+you need before upgrading; this migration has no reverse operation. Other migrations add the chat-memory import
+notification timestamp and a custom-pieces platform-plan flag. Wait for startup/background migrations to finish.
+Rollback requires restoring matching database, storage and Secret backups, not just the old image.
+
+**Workers now drain running flows during shutdown.** The pod grace period defaults to
+`activepieces.sandbox.flowTimeoutSeconds + 105`: 705 seconds with the default 600-second flow timeout. The extra time
+covers stopping job intake, finishing jobs and teardown. `activepieces.sandbox.flowTimeoutSeconds` now accepts a
+positive whole number; replace the old `false` value with `600` to retain the upstream default. Set
+`terminationGracePeriodSeconds` to a positive whole number to override the derived budget, or leave it at `0` for
+automatic calculation. This applies to both Deployment and StatefulSet workloads.
+
+If `AP_FLOW_TIMEOUT_SECONDS` is supplied through `extraEnvVars` or a Secret, move it to the dedicated value, or set
+the grace period explicitly to match the effective runtime timeout plus 105 seconds. A shorter grace period can
+still interrupt flows. Allow enough Helm/controller upgrade time for the old pod's drain plus startup and migrations;
+the usual five-minute Helm timeout can be shorter than the default drain budget. An old pod retains its previous
+grace period during this first upgrade, so drain existing work before replacing it.
+
+**Preserve the actual live encryption keys before upgrading.** Earlier chart versions ignored supplied
+`activepieces.encryption.connection`, `.jwt` and `activepieces.queue.password` values because their fallback logic
+always generated new credentials. This chart now honors explicit values first; when empty, a connected Helm upgrade
+reuses the corresponding live Secret key, generating a value only when none exists. If your saved values differ from
+the live Secret, adopting them would rotate credentials: reconcile them with the live values first. Changing a
+connection encryption key makes existing credentials unreadable; changing the JWT key invalidates sessions.
+
+For GitOps/offline rendering, supply stable values or use `activepieces.encryption.existingSecret` and
+`activepieces.queue.existingSecret`: `helm template` cannot look up the live Secret and generates new values when
+these are omitted. A chart-managed Secret being moved to external management must remain present with its current
+data; arrange its ownership separately before changing the reference. This fix cannot recover keys lost during an
+earlier upgrade. Never commit live credentials to a values file.
+
+**Editing a legacy-runtime code step switches it to Deno.** New and edited code steps always use Deno; an existing
+step previously reverted to the legacy runtime retains it only until edited. Review the Deno restrictions in the
+0.8.0 notes and validate representative flows before resuming automation.
+
+The release also adds batch processing and changes several pieces' triggers, outputs and agent tools. Review the
+[tagged piece migration notes](https://github.com/activepieces/activepieces/blob/0.94.0/docs/install/reference/breaking-changes-unreleased.mdx)
+before upgrading piece versions; despite that filename, the 0.94.0 release notes identify these changes as relevant
+to this release. Pay particular attention to Google Sheets, Gmail, HubSpot, Postgres and RSS polling flows.
+
 ### To 0.8.0 (Activepieces 0.92.3 -> 0.93.0)
 
 Back up the database and persistent data, preserve the existing encryption/JWT Secrets, and allow startup and
@@ -328,7 +376,7 @@ useful either:
 | ------------------- | ------------------------------------------------------------------- | --------------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`                 |
 | `image.repository`  | The registry repository to pull the image from                      | `activepieces/activepieces` |
-| `image.tag`         | The image tag to pull                                               | `0.93.0`                    |
+| `image.tag`         | The image tag to pull                                               | `0.94.0`                    |
 | `image.digest`      | The image digest to pull                                            | `""`                        |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`              |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                        |
@@ -389,11 +437,11 @@ useful either:
 | `activepieces.copilot.openAI.endpoint`                     | Deprecated and no longer rendered - see the note above                                                                                                                                      | `""`                                           |
 | `activepieces.copilot.openAI.apiVersion`                   | Deprecated and no longer rendered - see the note above                                                                                                                                      | `""`                                           |
 | `activepieces.copilot.openAI.existingSecret`               | The name of an existing Secret containing an `apiKey` key, for `AP_OPENAI_API_KEY` - see the note above                                                                                     | `""`                                           |
-| `activepieces.encryption.connection`                       | The encryption key used for connections                                                                                                                                                     | `""`                                           |
-| `activepieces.encryption.jwt`                              | Encryption key used for generating JWT tokens                                                                                                                                               | `""`                                           |
+| `activepieces.encryption.connection`                       | Connection encryption key; when empty, reuse the live Secret or generate a key on first install                                                                                             | `""`                                           |
+| `activepieces.encryption.jwt`                              | JWT signing key; when empty, reuse the live Secret or generate a key on first install                                                                                                       | `""`                                           |
 | `activepieces.encryption.existingSecret`                   | The name of an existing Secret containing a `connection` and `jwt` key, from which the encryption keys will be sourced                                                                      | `""`                                           |
 | `activepieces.sandbox.executionMode`                       | Define the execution mode. Valid values are `UNSANDBOXED`, `SANDBOX_PROCESS`,                                                                                                               | `UNSANDBOXED`                                  |
-| `activepieces.sandbox.flowTimeoutSeconds`                  | Maximum allowed runtime for a flow, in seconds - rendered as                                                                                                                                | `false`                                        |
+| `activepieces.sandbox.flowTimeoutSeconds`                  | Maximum flow runtime in positive whole seconds; also determines the automatic pod shutdown grace period                                                                                     | `600`                                          |
 | `activepieces.sandbox.propagatedEnvVars`                   | Environment variables that will be propagated to the sandboxed code.                                                                                                                        | `""`                                           |
 | `activepieces.dataRetentionDays`                           | Days to retain execution data and run logs, excluding audit events; empty uses upstream's 30 days. Set at least one day greater than pausedFlowTimeoutDays to avoid cleanup racing a resume | `""`                                           |
 | `activepieces.auditLogRetentionDays`                       | Global audit retention ceiling as a string of whole days from 30 to 3650; empty imposes no ceiling. Platform admins may choose shorter periods                                              | `""`                                           |
@@ -518,20 +566,21 @@ useful either:
 
 ### Pod settings
 
-| Name                | Description                                                                                   | Value |
-| ------------------- | --------------------------------------------------------------------------------------------- | ----- |
-| `resources`         | The resource limits/requests for the Activepieces pod                                         | `{}`  |
-| `extraEnvVars`      | Extra environment variables for the Activepieces pod - use this for any of Activepieces' many | `[]`  |
-| `volumes`           | Define volumes for the Activepieces pod                                                       | `[]`  |
-| `volumeMounts`      | Define volumeMounts for the Activepieces pod                                                  | `[]`  |
-| `initContainers`    | Define initContainers for the main Activepieces server                                        | `[]`  |
-| `nodeSelector`      | Node labels for pod assignment                                                                | `{}`  |
-| `tolerations`       | Tolerations for pod assignment                                                                | `[]`  |
-| `affinity`          | Affinity for pod assignment                                                                   | `{}`  |
-| `strategy`          | Specify a deployment strategy for the Activepieces pod                                        | `{}`  |
-| `podAnnotations`    | Extra annotations for the Activepieces pod                                                    | `{}`  |
-| `podLabels`         | Extra labels for the Activepieces pod                                                         | `{}`  |
-| `priorityClassName` | The name of an existing PriorityClass                                                         | `""`  |
+| Name                            | Description                                                                                        | Value |
+| ------------------------------- | -------------------------------------------------------------------------------------------------- | ----- |
+| `terminationGracePeriodSeconds` | Pod shutdown grace period in whole seconds; 0 derives flowTimeoutSeconds plus 105 (705 by default) | `0`   |
+| `resources`                     | The resource limits/requests for the Activepieces pod                                              | `{}`  |
+| `extraEnvVars`                  | Extra environment variables for the Activepieces pod - use this for any of Activepieces' many      | `[]`  |
+| `volumes`                       | Define volumes for the Activepieces pod                                                            | `[]`  |
+| `volumeMounts`                  | Define volumeMounts for the Activepieces pod                                                       | `[]`  |
+| `initContainers`                | Define initContainers for the main Activepieces server                                             | `[]`  |
+| `nodeSelector`                  | Node labels for pod assignment                                                                     | `{}`  |
+| `tolerations`                   | Tolerations for pod assignment                                                                     | `[]`  |
+| `affinity`                      | Affinity for pod assignment                                                                        | `{}`  |
+| `strategy`                      | Specify a deployment strategy for the Activepieces pod                                             | `{}`  |
+| `podAnnotations`                | Extra annotations for the Activepieces pod                                                         | `{}`  |
+| `podLabels`                     | Extra labels for the Activepieces pod                                                              | `{}`  |
+| `priorityClassName`             | The name of an existing PriorityClass                                                              | `""`  |
 
 ### Security context settings
 
