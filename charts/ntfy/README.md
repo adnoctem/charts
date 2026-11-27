@@ -43,6 +43,31 @@ Parameters.
 
 ## Upgrading
 
+### To 0.9.0 (ntfy 2.38.1 -> 2.38.2)
+
+[ntfy 2.38.2](https://github.com/binwiederhier/ntfy/releases/tag/v2.38.2) fixes SMTP memory exhaustion,
+topic-reservation authorization gaps and forwarded-IP spoofing that could bypass rate limits. This is a breaking
+chart release because previously accepted SMTP input and reservation requests can now be rejected.
+No Helm values are renamed or removed, and this release adds no database-schema migrations relative to 2.38.1.
+
+- **Incoming email must use SMTP-standard CRLF line endings.** Update custom publishers that send bare LF lines;
+  standard SMTP clients already supply CRLF. Published message bodies have their line endings normalized to LF.
+- **A user tier with a reservation limit of zero now prevents reservations**, instead of treating zero as unlimited.
+  Assign an appropriate positive limit to tiers whose users should reserve topics. Wildcard access entries containing
+  underscores, such as `mytopic_*`, now correctly prevent users from reserving covered topics. Review existing
+  reservations and access rules; this update fixes reservation creation checks, not a cleanup of previously granted access.
+- **Proxy client-IP detection considers every forwarded-header line.** When `ntfy.behindProxy` is enabled, ntfy
+  combines all occurrences of `ntfy.proxyForwardedHeader` (upstream default: `X-Forwarded-For`) before selecting the
+  rightmost untrusted address. Check `ntfy.proxyTrustedHosts` against your proxy chain and verify that clients retain
+  distinct rate-limit identities. Proxies must supply trustworthy forwarding headers and prevent direct bypass access;
+  this fix does not make client-supplied headers trustworthy on their own.
+
+The web app's configuration hash now covers only the build and browser-visible settings, avoiding unnecessary refreshes
+across cluster nodes and excluding private database/S3 URLs. Firebase failure logs include more diagnostic information.
+
+Back up persistent data before upgrading. An image rollback also restores the security weaknesses fixed here.
+Installations older than chart 0.8.0 must first follow its data-path migration guidance below.
+
 ### To 0.8.0 (ntfy 2.38.0 -> 2.38.1)
 
 [ntfy 2.38.1](https://github.com/binwiederhier/ntfy/releases/tag/v2.38.1) hardens message templates against
@@ -195,7 +220,7 @@ clustering is not functional in 2.29.0; setting `experimental-cluster-listen` pr
 | ------------------- | ------------------------------------------------------------------- | -------------------- |
 | `image.registry`    | The Docker registry to pull the image from                          | `docker.io`          |
 | `image.repository`  | The registry repository to pull the image from                      | `binwiederhier/ntfy` |
-| `image.tag`         | The image tag to pull                                               | `v2.38.1`            |
+| `image.tag`         | The image tag to pull                                               | `v2.38.2`            |
 | `image.digest`      | The image digest to pull                                            | `""`                 |
 | `image.pullPolicy`  | The Kubernetes image pull policy                                    | `IfNotPresent`       |
 | `image.pullSecrets` | A list of secrets to use for pulling images from private registries | `[]`                 |

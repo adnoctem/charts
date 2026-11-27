@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 apiVersion: v2
-appVersion: 2.38.1
+appVersion: 2.38.2
 kubeVersion: ">=1.26.0-0"
 name: ntfy
-version: 0.8.0
+version: 0.9.0
 description: ntfy lets you send push notifications to your phone or desktop via scripts from any computer, using simple HTTP PUT or POST requests
 home: https://github.com/binwiederhier/ntfy
 icon: https://raw.githubusercontent.com/binwiederhier/ntfy/9d3fc20e583564e40af5afb90233f4714fdfcb4c/web/public/static/images/pwa-512x512.png
@@ -32,7 +32,7 @@ annotations:
   artifacthub.io/prerelease: "false"
   artifacthub.io/images: |
     - name: ntfy
-      image: docker.io/binwiederhier/ntfy:v2.38.1
+      image: docker.io/binwiederhier/ntfy:v2.38.2
   artifacthub.io/links: |
     - name: Source
       url: https://github.com/adnoctem/charts
@@ -46,9 +46,9 @@ annotations:
   org.opencontainers.image.licenses: "MIT"
   # ref: https://artifacthub.io/docs/topics/annotations/helm/
   artifacthub.io/changes: |
+    - kind: changed
+      description: upgrade ntfy to 2.38.2 with SMTP memory-exhaustion, topic-reservation and forwarded-IP security fixes
+    - kind: changed
+      description: require SMTP CRLF line endings and enforce zero reservation limits and wildcard topic restrictions; see upgrade notes
     - kind: fixed
-      description: resolve relative data paths under the PVC mount and mount storage for web-push-only databases; migrate existing files before upgrading
-    - kind: changed
-      description: upgrade ntfy to 2.38.1 with template denial-of-service hardening and bounded S3 and web-push operations
-    - kind: changed
-      description: restrict template functions and printf formats and enforce web-push subscription limits per IP prefix; see upgrade notes
+      description: stabilize the web app configuration hash and exclude private database and S3 URLs from its input

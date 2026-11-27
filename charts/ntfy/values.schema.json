@@ -18,7 +18,7 @@
         "tag": {
           "type": "string",
           "description": "The image tag to pull",
-          "default": "v2.38.1"
+          "default": "v2.38.2"
         },
         "digest": {
           "type": "string",
