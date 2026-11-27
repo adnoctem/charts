@@ -112,17 +112,36 @@ jobs:
     name: Lint Helm Charts with ArtifactHub Linter
     needs: [changes]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: sh
-    container:
-      image: public.ecr.aws/artifacthub/ah:v1.24.0
-      options: --user 1001
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+
+      - name: Set up Artifact Hub CLI
+        env:
+          AH_VERSION: v1.24.0
+        run: |
+          install_dir=$(mktemp -d "$RUNNER_TEMP/ah.XXXXXX")
+          cd "$install_dir"
+          version="${AH_VERSION#v}"
+          archive="ah_${version}_linux_amd64.tar.gz"
+          checksums="ah_${version}_checksums.txt"
+          base="https://github.com/artifacthub/hub/releases/download/$AH_VERSION"
+          for asset in "$archive" "$checksums"; do
+            curl -fL \
+              --retry 3 \
+              --retry-all-errors \
+              --connect-timeout 15 \
+              --max-time 120 \
+              --output "$asset" \
+              "$base/$asset"
+          done
+          sha256sum \
+            --check \
+            --ignore-missing "$checksums"
+          tar -xzf "$archive" ah
+          echo "$install_dir" >> "$GITHUB_PATH"
 
       - name: Run ah lint
         working-directory: charts

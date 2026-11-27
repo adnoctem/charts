@@ -13,6 +13,13 @@
   "customManagers": [
     {
       "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/testing\\.yaml$/"],
+      "matchStrings": ["AH_VERSION:\\s*(?<currentValue>v[^\\s]+)"],
+      "depNameTemplate": "artifacthub/hub",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
       "managerFilePatterns": ["/^\\.github/workflows/development\\.yaml$/"],
       "matchStrings": ["GOPSKIT_VERSION:\\s*(?<currentValue>v[^\\s]+)"],
       "depNameTemplate": "adnoctem/gopskit",
